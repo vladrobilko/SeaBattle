@@ -6,11 +6,7 @@ using System.Threading.Tasks;
 using SeaBattle;
 
 namespace ConsoleSeaBattle
-{
-    interface IInterface
-    {
-        int[][] Qwe { get; set; }
-    }
+{  
     class Program
     {
 
@@ -42,19 +38,7 @@ namespace ConsoleSeaBattle
             //интерфейс преобразования квадрата в string, интерфейс выстрела(действия после выстрела х - попал,` - промах) 
             //нужен классИгрока(10х10) методы - преобразование в строку
             //классПротивника(10) методы - преобразование в строку
-            var a = new GameArea10x10();            
-            int[][] b = a.FillGameArea();
 
-            for (int i = 0; i < 10; i++)
-            {
-                for (int j = 0; j < 10; j++)
-                {
-                    Console.Write(b[i][j].ToString()); 
-                }
-                Console.WriteLine();
-            }            
-            Console.WriteLine("");
-            Console.ReadLine();
 
         }
     }
