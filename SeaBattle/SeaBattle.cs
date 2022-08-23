@@ -78,25 +78,25 @@ namespace SeaBattle
                     if (ship.IsUp)
                     {
                         cells[posY, posX].Condition = '#';
-                        
+                        FillShipAround(ship);
                         for (int i = 0; i < shipLength; i++)
                         {
                             cells[posY--, posX].Condition = '#';
                             //тут сразу заполним клетки(наверное метод)
                         }
-                        FillShipAround(ship);
+                        
                         break;
                     }
 
                     if (ship.IsRight)
                     {
                         cells[posY, posX].Condition = '#';
-                        
+                        FillShipAround(ship);
                         for (int i = 0; i < shipLength; i++)
                         {
                             cells[posY, posX++].Condition = '#';                           
                         }
-                        FillShipAround(ship);
+                        
                         break;
                     }
                 }
@@ -107,11 +107,8 @@ namespace SeaBattle
         {
             int y = ship.cell.PosY;
             int x = ship.cell.PosX;
-            if (x == 0 || y == 9 || y == 0 || x + ship.length == 9)
-            {
-                return false;
-            }
-            if (x + ship.length < 10)
+
+            if ((x + ship.length < 10) && !(x == 0 || y == 9 || y == 0) && rnd.Next(2) == 1)
             {
                 for (int i = 0; i < ship.length; i++)
                 {
@@ -125,11 +122,7 @@ namespace SeaBattle
                 return true;
             }
 
-            if (x == 0 || y == 9 || x == 9 || y - ship.length == 0)
-            {
-                return false;
-            }
-            if (y - ship.length > 0)
+            if ((y - ship.length > 0) && !(x == 0 || y == 9 || x == 9))
             {
                 for (int i = 0; i < ship.length; i++)
                 {
@@ -146,64 +139,46 @@ namespace SeaBattle
             return false;
         }
 
-
-        //тут добавить на заполнение вокруг корбаля области(учесть аут оф рендж)((сдлеать это методом))(((у нас есть
-        //объект корбаль, с длинной и первым элементом мы его проверим на то в какую он сторону и исходя этого заполним
-        //клетки вокруг что корабль рядом и будем и сключать для каждого свое
-        //так же если клетка уже имеет статус то ее пропускаем
-        
         //сделать метод для проверки всего массива и выставления isBusy если что то занято, или присуждать это после того как сразу бдут корабль
 
         public void FillShipAround(Ship ship)//делаем для общего случая в котором нету исключений()
         {
             if (ship.IsUp)
-            {                
+            {
                 int rightPosX = ship.cell.PosX + 1;
                 int leftPosX = ship.cell.PosX - 1;
                 int posY = ship.cell.PosY + 1;
                 cells[posY, rightPosX].Condition = '-';
                 cells[posY, leftPosX].Condition = '-';
                 cells[posY, ship.cell.PosX].Condition = '-';
-                cells[posY, ship.cell.PosX + ship.length + 1].Condition = '-';
+                cells[posY - (ship.length + 1), ship.cell.PosX].Condition = '-';
 
                 for (int i = 0; i < ship.length + 1; i++)
                 {
                     posY--;
                     cells[posY, rightPosX].Condition = '-';
                     cells[posY, leftPosX].Condition = '-';
-                }                            
+                }
             }
-
-            int upPosY = ship.cell.PosY - 1;
-            int downPosY = ship.cell.PosY + 1;
-            int posX = ship.cell.PosX - 1;
-            cells[upPosY, posX].Condition = '-';
-            cells[downPosY, posX].Condition = '-';
-            cells[ship.cell.PosY, posX].Condition = '-';
-            cells[ship.cell.PosY , posX + ship.length+1].Condition = '-';
-
-            for (int i = 0; i < ship.length + 1; i++)
+            else if (ship.IsRight)
             {
-                posX++;
+                int upPosY = ship.cell.PosY - 1;
+                int downPosY = ship.cell.PosY + 1;
+                int posX = ship.cell.PosX - 1;
                 cells[upPosY, posX].Condition = '-';
                 cells[downPosY, posX].Condition = '-';
-            }            
-        }
+                cells[ship.cell.PosY, posX].Condition = '-';
+                cells[ship.cell.PosY, posX + ship.length + 1].Condition = '-';
 
-        public Cell Exception(Cell cell)//или сделать на аут оф рендж прото метод без трай кетч
-        {
-            try
-            {
-
+                for (int i = 0; i < ship.length + 1; i++)
+                {
+                    posX++;
+                    cells[upPosY, posX].Condition = '-';
+                    cells[downPosY, posX].Condition = '-';
+                }
             }
-            catch (Exception)
-            {
-                return null;
-            }
-            return null;
-        }
-
-    }//делать 2 корабля 
+        } 
+    }
 
     public class Ship
     {
