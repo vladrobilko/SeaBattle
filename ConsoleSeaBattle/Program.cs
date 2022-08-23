@@ -39,7 +39,27 @@ namespace ConsoleSeaBattle
             //нужен классИгрока(10х10) методы - преобразование в строку
             //классПротивника(10) методы - преобразование в строку
 
+            var gameField = new PlayArea(10,10);
 
+            gameField.FillShipsRandomly(1, 4);
+            gameField.FillShipsRandomly(2, 3);
+            gameField.FillShipsRandomly(3, 2);  
+           // gameField.FillShipsRandomly(4, 1);
+
+
+
+
+            for (int i = 0; i < gameField.cells.GetLength(0); i++)
+            {
+                for (int j = 0; j < gameField.cells.GetLength(1); j++)
+                {
+                    Console.Write(gameField.cells[i,j].Condition + "|");
+                }
+                Console.WriteLine();
+            }
+           
+            Console.WriteLine();
+            Console.WriteLine();
         }
     }
 }
