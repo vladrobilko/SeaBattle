@@ -22,7 +22,7 @@ namespace SeaBattle
 
         public GameAction(CreatorPlayArea player, CreatorPlayArea bot)
         {
-            this.player = player;
+            this.player = player;            
             this.easyBot = bot;
         }
 
