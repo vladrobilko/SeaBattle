@@ -8,8 +8,8 @@ namespace SeaBattle
 {
     public class GameAction
     {
-        CreatorPlayArea player;
-        CreatorPlayArea easyBot;
+        PlayArea player;
+        PlayArea easyBot;
 
         static Random rnd = new Random();
 
@@ -20,7 +20,7 @@ namespace SeaBattle
 
         public bool EasyBotMove { get; set; }
 
-        public GameAction(CreatorPlayArea player, CreatorPlayArea bot)
+        public GameAction(PlayArea player, PlayArea bot)
         {
             this.player = player;            
             this.easyBot = bot;
@@ -28,16 +28,16 @@ namespace SeaBattle
 
         public void Shoot(int y, int x)
         {
-            if (PlayerMove && easyBot.cells[y, x].Condition == '#' && !easyBot.cells[y, x].IsShooting)
+            if (PlayerMove && easyBot.cells[y, x].ConditionType == ConditionType.BusyShip && !easyBot.cells[y, x].HasShooted)
             {
-                easyBot.cells[y, x].Condition = 'x';
-                easyBot.cells[y, x].IsShooting = true;
+                easyBot.cells[y, x].ConditionType = ConditionType.HasShooted;
+                easyBot.cells[y, x].HasShooted = true;
                 return;
             }
-            else if (PlayerMove && !easyBot.cells[y, x].IsShooting)
+            else if (PlayerMove && !easyBot.cells[y, x].HasShooted)
             {
-                easyBot.cells[y, x].Condition = '*';
-                easyBot.cells[y, x].IsShooting = true;
+                easyBot.cells[y, x].ConditionType = ConditionType.HasMiss;
+                easyBot.cells[y, x].HasShooted = true;
                 EasyBotMove = true;
                 return;
             }
@@ -46,34 +46,34 @@ namespace SeaBattle
             {
                 int rndY = rnd.Next(10);
                 int rndX = rnd.Next(10);
-                while (player.cells[rndY, rndX].IsShooting)
+                while (player.cells[rndY, rndX].HasShooted)
                 {
                     rndY = rnd.Next(10);
                     rndX = rnd.Next(10);
                 }
-                if (player.cells[rndY, rndX].Condition == '#')
+                if (player.cells[rndY, rndX].ConditionType == ConditionType.BusyShip)
                 {
-                    player.cells[rndY, rndX].Condition = 'x';
-                    player.cells[rndY, rndX].IsShooting = true;
+                    player.cells[rndY, rndX].ConditionType = ConditionType.HasShooted;
+                    player.cells[rndY, rndX].HasShooted = true;
                     return;
                 }
                 else
                 {
-                    player.cells[rndY, rndX].Condition = '*';
-                    player.cells[rndY, rndX].IsShooting = true;
+                    player.cells[rndY, rndX].ConditionType = ConditionType.HasMiss;
+                    player.cells[rndY, rndX].HasShooted = true;
                     EasyBotMove = false;
                     return;
                 }
             }
         }
 
-        public bool IsLose(CreatorPlayArea playArea)
+        public bool IsLose(PlayArea playArea)
         {
             for (int i = 0; i < playArea.cells.GetLength(0); i++)
             {
                 for (int j = 0; j < playArea.cells.GetLength(1); j++)
                 {
-                    if (playArea.cells[i, j].Condition == '#')
+                    if (playArea.cells[i, j].ConditionType == ConditionType.BusyShip)
                     {
                         return false;
                     }

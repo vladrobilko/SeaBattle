@@ -9,7 +9,7 @@ namespace ConsoleSeaBattle
 {
     class Program
     {
-        static void FillConsole(CreatorPlayArea player, CreatorPlayArea bot)
+        static void FillConsole(PlayArea player, PlayArea bot)
         {
             Console.Write("  ");
             for (int i = 0; i < player.cells.GetLength(0); i++)
@@ -28,80 +28,76 @@ namespace ConsoleSeaBattle
                 Console.Write(i + "|");
                 for (int j = 0; j < player.cells.GetLength(1); j++)
                 {
-                    if (player.cells[i, j].Condition == '-')
+                    if (player.cells[i, j].ConditionType == ConditionType.BusyShipNearby)
                     {
                         Console.Write(' ' + "|");
                         continue;
                     }
-                    Console.Write(player.cells[i, j].Condition + "|");
+                    Console.Write(player.cells[i, j].ConditionTypeToString() + "|");
                 }
                 Console.Write("|" + i + "|");
                 for (int k = 0; k < player.cells.GetLength(1); k++)
                 {
-                    if ((bot.cells[i, k].Condition == '-' || bot.cells[i, k].Condition == '#'))
+                    if ((bot.cells[i, k].ConditionType == ConditionType.BusyShipNearby || bot.cells[i, k].ConditionType == ConditionType.BusyShip))
                     {
                         Console.Write(' ' + "|");
                         continue;
                     }
-                    Console.Write(bot.cells[i, k].Condition + "|");
+                    Console.Write(bot.cells[i, k].ConditionTypeToString() + "|");
                 }
                 Console.WriteLine();
             }
         }
+
         static void Main(string[] args)
         {
             while (true)
             {
-                try
-                {//программа стопится из-за заполнения 
-                    var player = new CreatorPlayArea(10, 10);
-                    player.FillShipsRandomly(1, 4);
-                    player.FillShipsRandomly(2, 3);
-                    player.FillShipsRandomly(3, 2);
-                    player.FillShipsRandomly(4, 1);
-                  
-                    var bot = new CreatorPlayArea(10, 10);
-                    bot.FillShipsRandomly(1, 4);
-                    bot.FillShipsRandomly(2, 3);
-                    bot.FillShipsRandomly(3, 2);
-                    bot.FillShipsRandomly(4, 1);
-                    if (!player.IsCellsBusy(20) || !bot.IsCellsBusy(20))
-                    {                        
-                        continue;
-                    }
+                var player = new PlayArea(10, 10);
+                player.FillShipsRandomly(1, 4);
+                player.FillShipsRandomly(2, 3);
+                player.FillShipsRandomly(3, 2);
+                player.FillShipLenghtOneRandomly(4);
 
-                    var gameAction = new GameAction(player, bot);
-                    while (!gameAction.IsLose(player) && !gameAction.IsLose(bot))
-                    {
-                        FillConsole(player, bot);
-                        while (gameAction.PlayerMove)
-                        {
-                            try
-                            {
-                                Console.WriteLine("Enter the coordinate. The first is vertical the second is horizontal.");
-                                gameAction.Shoot(int.Parse(Console.ReadLine()), int.Parse(Console.ReadLine()));
-                            }
-                            catch (Exception)
-                            {
-                                continue;
-                            }
-                        }
-                        gameAction.Shoot(0, 0);
-                        Console.Clear();
-                    }
+                var bot = new PlayArea(10, 10);
+                bot.FillShipsRandomly(1, 4);
+                bot.FillShipsRandomly(2, 3);
+                bot.FillShipsRandomly(3, 2);
+                bot.FillShipLenghtOneRandomly(4);
 
-                    FillConsole(player, bot);
-                    if (gameAction.IsLose(player))
-                    {
-                        Console.WriteLine("Bot Win!!!");
-                    }
-                    Console.WriteLine("Player Win!!!");
-                    Console.ReadLine();
-                }
-                catch (Exception)
-                {                    
+                if (!player.IsCellsBusy(20) || !bot.IsCellsBusy(20))//эта заглушка нужна, для случая плохого рандома(когда корабли выставлены так что не посавить)
+
+                {
                     continue;
                 }
+
+                var gameAction = new GameAction(player, bot);
+                while (!gameAction.IsLose(player) && !gameAction.IsLose(bot))
+                {
+                    FillConsole(player, bot);
+                    while (gameAction.PlayerMove)
+                    {
+                        try
+                        {
+                            Console.WriteLine("Enter the coordinate. The first is vertical the second is horizontal.");
+                            gameAction.Shoot(int.Parse(Console.ReadLine()), int.Parse(Console.ReadLine()));
+                        }
+                        catch (Exception)
+                        {
+                            continue;
+                        }
+                    }
+                    gameAction.Shoot(0, 0);
+                    Console.Clear();
+                }
+
+                FillConsole(player, bot);
+                if (gameAction.IsLose(player))
+                {
+                    Console.WriteLine("Bot Win!!!");
+                }
+                Console.WriteLine("Player Win!!!");
+                Console.ReadLine();
             }
         }
     }
