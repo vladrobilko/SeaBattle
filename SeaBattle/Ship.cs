@@ -8,18 +8,14 @@ namespace SeaBattle
 {
     public class Ship
     {
-        public int Lenght { get; set; }
+        public int Length { get; set; }
 
         public Cell Cell { get; set; }
-
-        public bool IsRight { get; set; }
-
-        public bool IsUp { get; set; }
 
         public Ship(Cell cell, int length)
         {
             this.Cell = cell;
-            this.Lenght = length;
+            this.Length = length;
         }
     }
 }

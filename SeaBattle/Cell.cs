@@ -9,35 +9,34 @@ namespace SeaBattle
     public enum ConditionType
     {
         Empty,
-        BusyShip,
-        BusyShipNearby,
+        BusyDeck,
+        BusyDeckNearby,
         HasShooted,
         HasMiss
     }
 
-    public class Cell
-    {
-        
-        public int PosY { get; set; }//переиминовать координатой и создать класс
 
-        public int PosX { get; set; }
+    /*public class Position
+    {
+        public int CoordinateY { get; set; }
+
+        public int CoordinateX { get; set; }
+    }*/
+
+    public class Cell
+    {        
+        public int CoordinateY { get; set; }
+
+        public int CoordinateX { get; set; }
 
         public ConditionType ConditionType { get; set; } = ConditionType.Empty;
 
-        public bool IsBusy
-        {
-            get
-            {
-                return ConditionType != ConditionType.Empty;
-            }
-        }
-
         public bool HasShooted { get; set; }
 
-        public Cell(int posY, int posX)
+        public Cell(int coordinateY, int coordinateX)
         {
-            PosY = posY;
-            PosX = posX;
+            CoordinateY = coordinateY;
+            CoordinateX = coordinateX;
         }
 
         public string ConditionTypeToString()
@@ -48,10 +47,10 @@ namespace SeaBattle
                 case ConditionType.Empty:
                     cellCondition = " ";
                     break;
-                case ConditionType.BusyShip:
+                case ConditionType.BusyDeck:
                     cellCondition = "#";
                     break;
-                case ConditionType.BusyShipNearby:
+                case ConditionType.BusyDeckNearby:
                     cellCondition = "-";
                     break;
                 case ConditionType.HasShooted:

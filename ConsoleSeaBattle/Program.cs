@@ -28,7 +28,7 @@ namespace ConsoleSeaBattle
                 Console.Write(i + "|");
                 for (int j = 0; j < player.cells.GetLength(1); j++)
                 {
-                    if (player.cells[i, j].ConditionType == ConditionType.BusyShipNearby)
+                    if (player.cells[i, j].ConditionType == ConditionType.BusyDeckNearby)
                     {
                         Console.Write(' ' + "|");
                         continue;
@@ -38,7 +38,7 @@ namespace ConsoleSeaBattle
                 Console.Write("|" + i + "|");
                 for (int k = 0; k < player.cells.GetLength(1); k++)
                 {
-                    if ((bot.cells[i, k].ConditionType == ConditionType.BusyShipNearby || bot.cells[i, k].ConditionType == ConditionType.BusyShip))
+                    if ((bot.cells[i, k].ConditionType == ConditionType.BusyDeckNearby || bot.cells[i, k].ConditionType == ConditionType.BusyDeck))
                     {
                         Console.Write(' ' + "|");
                         continue;
@@ -64,12 +64,6 @@ namespace ConsoleSeaBattle
                 bot.FillShipsRandomly(2, 3);
                 bot.FillShipsRandomly(3, 2);
                 bot.FillShipLenghtOneRandomly(4);
-
-                if (!player.IsCellsBusy(20) || !bot.IsCellsBusy(20))//эта заглушка нужна, для случая плохого рандома(когда корабли выставлены так что не посавить)
-
-                {
-                    continue;
-                }
 
                 var gameAction = new GameAction(player, bot);
                 while (!gameAction.IsLose(player) && !gameAction.IsLose(bot))

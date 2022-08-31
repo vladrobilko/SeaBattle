@@ -28,7 +28,7 @@ namespace SeaBattle
 
         public void Shoot(int y, int x)
         {
-            if (PlayerMove && easyBot.cells[y, x].ConditionType == ConditionType.BusyShip && !easyBot.cells[y, x].HasShooted)
+            if (PlayerMove && easyBot.cells[y, x].ConditionType == ConditionType.BusyDeck && !easyBot.cells[y, x].HasShooted)
             {
                 easyBot.cells[y, x].ConditionType = ConditionType.HasShooted;
                 easyBot.cells[y, x].HasShooted = true;
@@ -51,7 +51,7 @@ namespace SeaBattle
                     rndY = rnd.Next(10);
                     rndX = rnd.Next(10);
                 }
-                if (player.cells[rndY, rndX].ConditionType == ConditionType.BusyShip)
+                if (player.cells[rndY, rndX].ConditionType == ConditionType.BusyDeck)
                 {
                     player.cells[rndY, rndX].ConditionType = ConditionType.HasShooted;
                     player.cells[rndY, rndX].HasShooted = true;
@@ -73,7 +73,7 @@ namespace SeaBattle
             {
                 for (int j = 0; j < playArea.cells.GetLength(1); j++)
                 {
-                    if (playArea.cells[i, j].ConditionType == ConditionType.BusyShip)
+                    if (playArea.cells[i, j].ConditionType == ConditionType.BusyDeck)
                     {
                         return false;
                     }
