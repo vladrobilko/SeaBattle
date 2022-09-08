@@ -6,80 +6,91 @@ using System.Threading.Tasks;
 
 namespace SeaBattle
 {
-    public class GameAction
+    public interface IShoot
     {
-        PlayArea player;
-        PlayArea easyBot;
+        PlayArea Shoot(PlayArea playAreaEnemy, int y, int x);
+    }
 
-        static Random rnd = new Random();
+    public class Player : IShoot
+    {
+        private PlayArea playArea;
 
-        public bool PlayerMove
+        public bool IsLose
         {
-            get { return !EasyBotMove; }
-        }
-
-        public bool EasyBotMove { get; set; }
-
-        public GameAction(PlayArea player, PlayArea bot)
-        {
-            this.player = player;            
-            this.easyBot = bot;
-        }
-
-        public void Shoot(int y, int x)
-        {
-            if (PlayerMove && easyBot.cells[y, x].ConditionType == ConditionType.BusyDeck && !easyBot.cells[y, x].HasShooted)
+            get
             {
-                easyBot.cells[y, x].ConditionType = ConditionType.HasShooted;
-                easyBot.cells[y, x].HasShooted = true;
-                return;
-            }
-            else if (PlayerMove && !easyBot.cells[y, x].HasShooted)
-            {
-                easyBot.cells[y, x].ConditionType = ConditionType.HasMiss;
-                easyBot.cells[y, x].HasShooted = true;
-                EasyBotMove = true;
-                return;
-            }
-
-            if (EasyBotMove)
-            {
-                int rndY = rnd.Next(10);
-                int rndX = rnd.Next(10);
-                while (player.cells[rndY, rndX].HasShooted)
+                for (int i = 0; i < playArea.cells.GetLength(0); i++)
                 {
-                    rndY = rnd.Next(10);
-                    rndX = rnd.Next(10);
-                }
-                if (player.cells[rndY, rndX].ConditionType == ConditionType.BusyDeck)
-                {
-                    player.cells[rndY, rndX].ConditionType = ConditionType.HasShooted;
-                    player.cells[rndY, rndX].HasShooted = true;
-                    return;
-                }
-                else
-                {
-                    player.cells[rndY, rndX].ConditionType = ConditionType.HasMiss;
-                    player.cells[rndY, rndX].HasShooted = true;
-                    EasyBotMove = false;
-                    return;
-                }
-            }
-        }
-
-        public bool IsLose(PlayArea playArea)
-        {
-            for (int i = 0; i < playArea.cells.GetLength(0); i++)
-            {
-                for (int j = 0; j < playArea.cells.GetLength(1); j++)
-                {
-                    if (playArea.cells[i, j].ConditionType == ConditionType.BusyDeck)
+                    for (int j = 0; j < playArea.cells.GetLength(1); j++)
                     {
-                        return false;
+                        if (playArea.cells[i, j].ConditionType == ConditionType.BusyDeck)
+                        {
+                            return false;
+                        }
                     }
                 }
+                return true;
             }
-            return true;
+        }
+
+        public Player(PlayArea playArea)
+        {
+            this.playArea = playArea;
+        }
+
+        public PlayArea Shoot(PlayArea playAreaEnemy, int y, int x)
+        {
+            if (playAreaEnemy.cells[y, x].ConditionType == ConditionType.BusyDeck && !playAreaEnemy.cells[y, x].HasShooted)
+            {
+                playAreaEnemy.cells[y, x].ConditionType = ConditionType.HasShooted;
+                playAreaEnemy.cells[y, x].HasShooted = true;
+                return playAreaEnemy;
+            }
+            else if (!playAreaEnemy.cells[y, x].HasShooted)
+            {
+                playAreaEnemy.cells[y, x].ConditionType = ConditionType.HasMiss;
+                playAreaEnemy.cells[y, x].HasShooted = true;
+                return playAreaEnemy;
+            }
+            return playAreaEnemy;//в данном случае выстрела не будет, тогда проверять это в Program, если равны PlayArea то делать заново
         }
     }
+
+
+    public class Game
+    {
+        Player player1;
+        Player player2;
+
+        private bool _gameOver;
+
+        public bool GameOver
+        {
+            get { return player1.IsLose && player2.IsLose; }
+        }
+
+
+        public Game(Player player1, Player player2)
+        {
+            this.player1 = player1;
+            this.player2 = player2;
+        }
+
+        public void PlayGame(IShoot shoot)
+        {
+
+        }
+    }
+
+
+      // Делать класс Player класс Bot у них Интерфейсы IShoot поля PlayArea
+     //Класс SeaBattleGame - в нем конструктор который примет двух игроков с игровыми аренами, и реализация выстрелов
+    //методы SeaBattleGame - bool GameOver(), void Game(), bool IsShipKilled
+
+
+
+
+
+
+
 }
