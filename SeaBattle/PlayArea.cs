@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System;
@@ -12,18 +11,14 @@ namespace SeaBattle
 
         public int Width { get; set; }
 
-        public Cell[,] cells;//нужно это поле сдлеать приват, но оно много где используется
+        public Cell[,] Cells { get; set; }        
 
-        public PlayArea(int height, int width, List<IShipsFiller> fillShips)
+        public PlayArea(int height = 10, int width = 10)
         {
             this.Height = height;
             this.Width = width;
-            this.cells = new Cell[height, width];
-            FillArrayWithCell(height, width);
-            foreach (var item in fillShips)
-            {
-                item.FillShips(cells);
-            }            
+            this.Cells = new Cell[height, width];
+            FillArrayWithCell(height, width);            
         }
 
         private void FillArrayWithCell(int height, int width)
@@ -32,12 +27,13 @@ namespace SeaBattle
             {
                 for (int j = 0; j < width; j++)
                 {
-                    cells[i, j] = new Cell();
+                    Cells[i, j] = new Cell();
                 }
             }
         }
-
     }
+
+
 
 
 }

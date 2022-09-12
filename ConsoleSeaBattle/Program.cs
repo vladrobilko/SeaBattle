@@ -11,64 +11,65 @@ namespace ConsoleSeaBattle
     {
         static void Main(string[] args)
         {
-            while (true)
-            {
-                List<IShipsFiller> fillShips1 = new List<IShipsFiller>();
-                fillShips1.Add(new RandomShipsFiller(1, 4));
-                fillShips1.Add(new RandomShipsFiller(2, 3));
-                fillShips1.Add(new RandomShipsFiller(3, 2));
-                fillShips1.Add(new ShipLenghtOneFiller(4));
+            SeaBattleGame seaBattle = new SeaBattleGame(new ConsolePlayer(new Filler()), new BotPlayer(new Filler()));
+            seaBattle.Start();
+            //player.Move = true;
+            //while (!player.IsLose && !bot.IsLose)
+            //{
+            //    FillConsole(playAreaForPlayer, playAreaForBot);
+            //    if (player.Move)
+            //    {
+            //        int coordinateY = int.Parse(Console.ReadLine());
+            //        int coordinateX = int.Parse(Console.ReadLine());
+            //        player.Shoot(playAreaForBot, coordinateY, coordinateX);
+            //        if (playAreaForBot.Cells[coordinateY, coordinateX].ConditionType == ConditionType.BusyDeck)
+            //        {
+            //            Console.WriteLine();
+            //        }                                              
+            //    }
+            //    Console.Clear();
+            //}
 
-                var playArea1 = new PlayArea(10, 10, fillShips1);
 
-                List<IShipsFiller> fillShips2 = new List<IShipsFiller>();
-                fillShips2.Add(new RandomShipsFiller(1, 4));
-                fillShips2.Add(new RandomShipsFiller(2, 3));
-                fillShips2.Add(new RandomShipsFiller(3, 2));
-                fillShips2.Add(new ShipLenghtOneFiller(4));
+            ////var gameAction = new GameAction(playArea1, playArea2);
+            ////while (true)
+            ////{
+            ////    while (gameAction.PlayerMove)
+            ////    {
+            ////        try
+            ////        {
+            ////            Console.WriteLine("Enter the coordinate. The first is vertical the second is horizontal.");
+            ////            gameAction.Shoot(int.Parse(Console.ReadLine()), int.Parse(Console.ReadLine()));
+            ////        }
+            ////        catch (Exception)
+            ////        {
+            ////            continue;
+            ////        }
+            ////    }
+            ////    gameAction.Shoot(0, 0);//0 0 - потому что ход бота    
+            ////}
 
-                var playArea2 = new PlayArea(10, 10, fillShips2);
+            //FillConsole(playAreaForPlayer, playAreaForBot);
+            //if (player.IsLose)
+            //{
+            //    Console.WriteLine("Bot Win!!!");
+            //}
+            //Console.WriteLine("Player Win!!!");
+            //Console.ReadLine();
 
-                //var gameAction = new GameAction(playArea1, playArea2);
-                //while (true)
-                //{
-                //    FillConsole(playArea1, playArea2);
-                //    while (gameAction.PlayerMove)
-                //    {
-                //        try
-                //        {
-                //            Console.WriteLine("Enter the coordinate. The first is vertical the second is horizontal.");
-                //            gameAction.Shoot(int.Parse(Console.ReadLine()), int.Parse(Console.ReadLine()));
-                //        }
-                //        catch (Exception)
-                //        {
-                //            continue;
-                //        }
-                //    }
-                //    gameAction.Shoot(0, 0);//0 0 - потому что ход бота
-                //    Console.Clear();
-                //}
-
-                FillConsole(playArea1, playArea2);
-                if (true)
-                {
-                    Console.WriteLine("Bot Win!!!");
-                }
-                Console.WriteLine("Player Win!!!");
-                Console.ReadLine();
-            }
 
         }
+
         static void FillConsole(PlayArea player, PlayArea bot)
         {
-            FillFirstLineWithSignatures(player.cells.GetLength(0));
-            Console.SetCursorPosition(0,1);
-            for (int i = 0; i < player.cells.GetLength(0); i++)
+            FillFirstLineWithSignatures(player.Cells.GetLength(0));
+            Console.SetCursorPosition(0, 1);
+            for (int i = 0; i < player.Cells.GetLength(0); i++)
             {
                 Console.Write(i + "|");
                 FillPlayerWithVisibleShips(player, i);
                 Console.Write("|" + i + "|");
-                FillBotWithInvisibleShips(bot, i);
+                FillEnemyWithInvisibleShips(bot, i);
                 Console.SetCursorPosition(0, i + 2);
             }
         }
@@ -87,27 +88,27 @@ namespace ConsoleSeaBattle
 
         static void FillPlayerWithVisibleShips(PlayArea playerOne, int lineNumber)
         {
-            for (int i = 0;i < playerOne.cells.GetLength(1); i++)
+            for (int i = 0; i < playerOne.Cells.GetLength(1); i++)
             {
-                if (playerOne.cells[lineNumber, i].ConditionType == ConditionType.BusyDeckNearby)
+                if (playerOne.Cells[lineNumber, i].State == CellState.BusyDeckNearby)
                 {
                     Console.Write(' ' + "|");
                     continue;
                 }
-                Console.Write(playerOne.cells[lineNumber, i].ConditionTypeToString() + "|");
+                Console.Write(new CellStateToString(playerOne.Cells[lineNumber, i]) + "|");
             }
         }
 
-        static void FillBotWithInvisibleShips(PlayArea bot, int lineNumber)
+        static void FillEnemyWithInvisibleShips(PlayArea bot, int lineNumber)
         {
-            for (int k = 0; k < bot.cells.GetLength(1); k++)
+            for (int k = 0; k < bot.Cells.GetLength(1); k++)
             {
-                if ((bot.cells[lineNumber, k].ConditionType == ConditionType.BusyDeckNearby || bot.cells[lineNumber, k].ConditionType == ConditionType.BusyDeck))
+                if ((bot.Cells[lineNumber, k].State == CellState.BusyDeckNearby || bot.Cells[lineNumber, k].State == CellState.BusyDeck))
                 {
                     Console.Write(' ' + "|");
                     continue;
                 }
-                Console.Write(bot.cells[lineNumber, k].ConditionTypeToString() + "|");
+                Console.Write(new CellStateToString(bot.Cells[lineNumber, k]) + "|");
             }
         }
     }

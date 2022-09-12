@@ -42,16 +42,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cell.cs" />
-    <Compile Include="ConditionType.cs" />
+    <Compile Include="CellState.cs" />
     <Compile Include="IShipsFiller.cs" />
     <Compile Include="PlayArea.cs" />
-    <Compile Include="GameAction.cs" />
+    <Compile Include="ConsolePlayer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RandomShipsFiller.cs" />
-    <Compile Include="ShipLenghtOneFiller.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="All.cd" />
+    <Compile Include="RandomShipsFillerWithoutBorders.cs" />
+    <Compile Include="Filler.cs" />
+    <Compile Include="SeaBattleGame.cs" />
+    <Compile Include="ShipLenghtOneFillerOnlyBorders.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

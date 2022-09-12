@@ -8,32 +8,9 @@ namespace SeaBattle
 {
     public class Cell
     {
-        public ConditionType ConditionType { get; set; } = ConditionType.Empty;
+        public CellState State { get; set; } = CellState.Empty;
 
-        public bool HasShooted { get; set; }
-        
-        public string ConditionTypeToString()
-        {
-            string cellCondition = " ";
-            switch (ConditionType)
-            {
-                case ConditionType.Empty:
-                    cellCondition = " ";
-                    break;
-                case ConditionType.BusyDeck:
-                    cellCondition = "#";
-                    break;
-                case ConditionType.BusyDeckNearby:
-                    cellCondition = "-";
-                    break;
-                case ConditionType.HasShooted:
-                    cellCondition = "x";
-                    break;
-                case ConditionType.HasMiss:
-                    cellCondition = "*";
-                    break;               
-            }
-            return cellCondition;
-        }
+        //public bool HasShooted { get; set; }если так хочется флажек поле должно быть вычисляемым, иначе ты хранишь теже данные дваждыЕсли они разные то вопрос  к неймингу
+                
     }
 }
