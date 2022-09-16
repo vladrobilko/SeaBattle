@@ -2,39 +2,35 @@
 
 namespace SeaBattle
 {
-    public class RandomShipsFillerWithoutBorders //интефейс здесь убрать и сделать Filler общий и ему интерфейс и этот интерфейс уже 
-        //игроку передавать, в общем филлере список создаваемых кораблей или что то типо того
+    public class RandomShipsFillerWithoutBorders
     {
         static Random rnd = new Random();
 
-        public static Cell[,] FillShipsWithoutInterface(Cell[,] cells, int shipCount, int shipLength)
+        public static Cell[,] FillShip(Cell[,] cells, Ship ship)
         {
-            while (shipCount > 0)
+            while (ship._decks.Count != ship.Length)
             {
                 int y = rnd.Next(10);
                 int x = rnd.Next(10);
-                if (CanFillShipUp(cells, shipLength, y, x) && rnd.Next(2) == 0)
+                if (CanFillShipUp(cells, ship.Length, y, x) && rnd.Next(2) == 0)
                 {
-                    FillShipUp(cells, shipLength, y, x);
-                    shipCount--;
-                    continue;
+                    FillShipUp(cells, ship, y, x);
                 }
-                if (CanFillShipRight(cells, shipLength, y, x) && rnd.Next(2) == 1)
+                if (CanFillShipRight(cells, ship.Length, y, x) && rnd.Next(2) == 1)
                 {
-                    FillShipRight(cells, shipLength, y, x);
-                    shipCount--;
-                    continue;
+                    FillShipRight(cells, ship, y, x);
                 }
             }
             return cells;
         }
 
-        private static void FillShipRight(Cell[,] cells, int shipLength, int y, int x)
+        private static void FillShipRight(Cell[,] cells, Ship ship, int y, int x)
         {
-            FillAroundShipRight(cells, shipLength, y, x);
-            for (int i = 0; i < shipLength; i++)
+            FillAroundShipRight(cells, ship.Length, y, x);
+            for (int i = 0; i < ship.Length; i++)
             {
-                cells[y, x + i].State = CellState.BusyDeck;                
+                cells[y, x + i].State = CellState.BusyDeck;
+                ship.PutDeck(y, x);
             }
         }
 
@@ -46,7 +42,7 @@ namespace SeaBattle
                 if ((cells[y, x + i].State != CellState.Empty))
                 {
                     return false;
-                }                
+                }
             }
             return true;
         }
@@ -62,7 +58,6 @@ namespace SeaBattle
             {
                 cells[upPosY, posX].State = CellState.BusyDeckNearby;
                 cells[downPosY, posX + i].State = CellState.BusyDeckNearby;
-                ////posX++; i каждый цикл уже увеличивается на 1 может как нить ее заюзать? cells[downPosY, posX + i]
             }
         }
 
@@ -72,7 +67,7 @@ namespace SeaBattle
             x--;
             for (int i = 0; i < shipLength + 2; i++)
             {
-                if (IsCellUpAndDownBusyDeck(cells, y, x + i)) return false;                
+                if (IsCellUpAndDownBusyDeck(cells, y, x + i)) return false;
             }
             return true;
         }
@@ -89,12 +84,13 @@ namespace SeaBattle
                 cells[y, x + shipLength].State == CellState.BusyDeck;
         }
 
-        private static void FillShipUp(Cell[,] cells, int shipLength, int y, int x)
+        private static void FillShipUp(Cell[,] cells, Ship ship, int y, int x)
         {
-            FillAroundShipUp(cells, shipLength, y, x);
-            for (int i = 0; i < shipLength; i++)
+            FillAroundShipUp(cells, ship.Length, y, x);
+            for (int i = 0; i < ship.Length; i++)
             {
-                cells[y - i, x].State = CellState.BusyDeck;                
+                cells[y - i, x].State = CellState.BusyDeck;
+                ship.PutDeck(y, x);
             }
         }
 
@@ -106,7 +102,7 @@ namespace SeaBattle
                 if (cells[y - i, x].State != CellState.Empty)
                 {
                     return false;
-                }                
+                }
             }
             return true;
         }
@@ -132,7 +128,7 @@ namespace SeaBattle
             y++;
             for (int i = 0; i > shipLength + 2; i++)
             {
-                if (IsCellRightAndLeftBusyDeck(cells, y - i, x)) return false;                
+                if (IsCellRightAndLeftBusyDeck(cells, y - i, x)) return false;
             }
             return true;
         }

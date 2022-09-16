@@ -18,7 +18,7 @@ namespace SeaBattle
             this.Height = height;
             this.Width = width;
             this.Cells = new Cell[height, width];
-            FillArrayWithCell(height, width);            
+            FillArrayWithCell(height, width);
         }
 
         private void FillArrayWithCell(int height, int width)
@@ -27,7 +27,7 @@ namespace SeaBattle
             {
                 for (int j = 0; j < width; j++)
                 {
-                    Cells[i, j] = new Cell();
+                    Cells[i, j] = new Cell(i, j);
                 }
             }
         }

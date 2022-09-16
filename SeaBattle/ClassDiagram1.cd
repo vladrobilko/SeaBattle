@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="SeaBattle.EasyBotPlayer" BaseTypeListCollapsed="true">
+    <Position X="12.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAGAAAAQAAADAAAAAAAAATAAAAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>EasyBotPlayer.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SeaBattle.Cell">
+    <Position X="4.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Cell.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SeaBattle.PlayArea">
+    <Position X="6" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAIAAEAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>PlayArea.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SeaBattle.Point">
+    <Position X="2.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYAA=</HashCode>
+      <FileName>Point.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SeaBattle.RandomFiller" BaseTypeListCollapsed="true">
+    <Position X="10.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAIAA=</HashCode>
+      <FileName>RandomFiller.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SeaBattle.RandomShipsFillerWithoutBorders" Collapsed="true">
+    <Position X="7.75" Y="2.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>CQEEABEAAIAAAAAAIAAAAAgAABAgAAAAAAACCAAAEBA=</HashCode>
+      <FileName>RandomShipsFillerWithoutBorders.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SeaBattle.SeaBattleGame">
+    <Position X="10.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>wAAEAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SeaBattleGame.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SeaBattle.ShipLenghtOneFillerOnlyBorders" Collapsed="true">
+    <Position X="7.75" Y="3.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAgAAAgAAAAAAAAAAAAABAAAAAAAACQEAAACg=</HashCode>
+      <FileName>ShipLenghtOneFillerOnlyBorders.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SeaBattle.ShootResult">
+    <Position X="8.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAQAAAABCAAAAAAAAAAQ=</HashCode>
+      <FileName>ShootResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="SeaBattle.IPlayer">
+    <Position X="14" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAACAAAAAAAAAQAAAAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>IPlayer.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SeaBattle.IShipsFiller">
+    <Position X="7.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>IShipsFiller.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="SeaBattle.CellState">
+    <Position X="0.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEAAAgAAAIAAAAAAAAAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>CellState.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="SeaBattle.ShootResultType">
+    <Position X="6.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAgAAAAEAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ShootResultType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

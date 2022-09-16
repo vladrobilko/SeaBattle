@@ -2,20 +2,24 @@
 
 namespace SeaBattle
 {
-    public class Filler : IShipsFiller
+    public class RandomFiller : IShipsFiller
     {
-        public Cell[,] FillShips(Cell[,] cells)
+        public Cell[,] FillShips(Cell[,] cells, List<Ship> ships)
         {
-            RandomShipsFillerWithoutBorders.FillShipsWithoutInterface(cells, 1, 4);
-            RandomShipsFillerWithoutBorders.FillShipsWithoutInterface(cells, 2, 3);
-            RandomShipsFillerWithoutBorders.FillShipsWithoutInterface(cells, 3, 2);
-            ShipLenghtOneFillerOnlyBorders.FillShipsWithoutInterface(cells, 4, 1);
+            for (int i = 0; i < ships.Count; i++)
+            {
+                if (ships[i].Length == 1)
+                {
+                    ShipLenghtOneFillerOnlyBorders.FillShips(cells, ships[i], 1);
+                }
+                RandomShipsFillerWithoutBorders.FillShip(cells, ships[i]);
+            }
             return cells;
         }
 
-        public static PlayArea Fill124eqweqwwrwrwrqwrwerwer(PlayArea playArea)
+        void Comments()
         {
-           
+
             // не понимаю нафига нам создовать набор одинаковых заполнителей для разных кораблей
             // мы врядли будем раставлять одни корабли одним смособом например рандомно, а другие вручную
             // ну и ваще игрок должен раставлять свои корабли с помощью растановщика
@@ -31,12 +35,7 @@ namespace SeaBattle
             //{
             //item.FillShips(playArea.Cells);уже не работает
             //}
-            return playArea;
+
         }
     }
 }
-
-
-
-
-

@@ -4,36 +4,39 @@ namespace SeaBattle
 {
     public class ShipLenghtOneFillerOnlyBorders
     {
-        public static Cell[,] FillShipsWithoutInterface(Cell[,] cells, int shipCount, int shipLenght)
+
+        public static Cell[,] FillShips(Cell[,] cells, Ship ship, int shipCount)
         {
             int firstCoordinate = 1;
             while (shipCount > 0 && firstCoordinate < 10)
             {
                 if (CanFillUpHorizontalLine(cells, firstCoordinate) && shipCount > 0)
                 {
-                    FillUpHorizontalLine(cells, firstCoordinate); shipCount--;
+                    FillUpHorizontalLine(cells, ship, firstCoordinate); shipCount--;
                 }
                 if (CanFillDownHorizontallLine(cells, firstCoordinate) && shipCount > 0)
                 {
-                    FillDownHorizontallLine(cells, firstCoordinate); shipCount--;
+                    FillDownHorizontallLine(cells, ship, firstCoordinate); shipCount--;
                 }
                 if (CanFillLeftVerticalLine(cells, firstCoordinate) && shipCount > 0)
                 {
-                    FillLeftVerticalLine(cells, firstCoordinate); shipCount--;
+                    FillLeftVerticalLine(cells, ship, firstCoordinate); shipCount--;
                 }
                 if (CanFillRightVerticalLine(cells, firstCoordinate) && shipCount > 0)
                 {
-                    FillRightVerticalLine(cells, firstCoordinate); shipCount--;
+                    FillRightVerticalLine(cells, ship, firstCoordinate); shipCount--;
                 }
                 firstCoordinate++;
             }
             return cells;
-        }        
+        }
 
-        private static void FillUpHorizontalLine(Cell[,] cells, int countCoordinateX)
+        private static void FillUpHorizontalLine(Cell[,] cells, Ship ship, int countCoordinateX)
         {
+            
             cells[0, countCoordinateX + 1].State = CellState.BusyDeckNearby;
             cells[0, countCoordinateX].State = CellState.BusyDeck;
+            ship.PutDeck(0, countCoordinateX);
         }
 
         private static bool CanFillUpHorizontalLine(Cell[,] cells, int countCoordinateX)
@@ -44,25 +47,26 @@ namespace SeaBattle
                    (cells[1, countCoordinateX + 1].State != CellState.BusyDeck);
         }
 
-        private static void FillDownHorizontallLine(Cell[,] cells, int countCoordinateX)
+        private static void FillDownHorizontallLine(Cell[,] cells, Ship ship, int countCoordinateX)
         {
-            ////вроде визде написан код что бы размер поля можно было зачетать любым а тут хардкор на конкретые цифры - ((cells.Length - 1)) было 9
-            cells[cells.Length - 1, countCoordinateX + 1].State = CellState.BusyDeckNearby;
-            cells[cells.Length - 1, countCoordinateX].State = CellState.BusyDeck;            
+            cells[cells.GetLength(0) - 1, countCoordinateX + 1].State = CellState.BusyDeckNearby;
+            cells[cells.GetLength(0) - 1, countCoordinateX].State = CellState.BusyDeck;
+            ship.PutDeck(cells.GetLength(0) - 1, countCoordinateX);
         }
 
         private static bool CanFillDownHorizontallLine(Cell[,] cells, int countCoordinateX)
         {
-            return (cells[cells.Length - 1, countCoordinateX].State == CellState.Empty) &&
-                   (cells[cells.Length - 2, countCoordinateX - 1].State != CellState.BusyDeck) &&
-                   (cells[cells.Length - 2, countCoordinateX].State != CellState.BusyDeck) &&
-                   (cells[cells.Length - 2, countCoordinateX + 1].State != CellState.BusyDeck);
+            return (cells[cells.GetLength(0) - 1, countCoordinateX].State == CellState.Empty) &&
+                   (cells[cells.GetLength(0) - 2, countCoordinateX - 1].State != CellState.BusyDeck) &&
+                   (cells[cells.GetLength(0) - 2, countCoordinateX].State != CellState.BusyDeck) &&
+                   (cells[cells.GetLength(0) - 2, countCoordinateX + 1].State != CellState.BusyDeck);
         }
 
-        private static void FillLeftVerticalLine(Cell[,] cells, int countCoordinateY)
+        private static void FillLeftVerticalLine(Cell[,] cells,Ship ship, int countCoordinateY)
         {
             cells[countCoordinateY - 1, 0].State = CellState.BusyDeckNearby;
             cells[countCoordinateY, 0].State = CellState.BusyDeck;
+            ship.PutDeck(countCoordinateY, 0);
         }
 
         private static bool CanFillLeftVerticalLine(Cell[,] cells, int countCoordinateY)
@@ -73,18 +77,19 @@ namespace SeaBattle
                 (cells[countCoordinateY, 1].State != CellState.BusyDeck);
         }
 
-        private static void FillRightVerticalLine(Cell[,] cells, int countCoordinateY)
+        private static void FillRightVerticalLine(Cell[,] cells,Ship ship, int countCoordinateY)
         {
-            cells[countCoordinateY + 1, cells.Length - 1].State = CellState.BusyDeckNearby;
-            cells[countCoordinateY, cells.Length - 1].State = CellState.BusyDeck;
+            cells[countCoordinateY + 1, cells.GetLength(0) - 1].State = CellState.BusyDeckNearby;
+            cells[countCoordinateY, cells.GetLength(0) - 1].State = CellState.BusyDeck;
+            ship.PutDeck(countCoordinateY, cells.GetLength(0) - 1);
         }
 
         private static bool CanFillRightVerticalLine(Cell[,] cells, int countCoordinateY)
         {
-            return (cells[countCoordinateY, cells.Length - 1].State == CellState.Empty) &&
-                (cells[countCoordinateY - 1, cells.Length - 2].State != CellState.BusyDeck) &&
-                (cells[countCoordinateY + 1, cells.Length - 2].State != CellState.BusyDeck) &&
-                (cells[countCoordinateY, cells.Length - 2].State != CellState.BusyDeck);
+            return (cells[countCoordinateY, cells.GetLength(0) - 1].State == CellState.Empty) &&
+                (cells[countCoordinateY - 1, cells.GetLength(0) - 2].State != CellState.BusyDeck) &&
+                (cells[countCoordinateY + 1, cells.GetLength(0) - 2].State != CellState.BusyDeck) &&
+                (cells[countCoordinateY, cells.GetLength(0) - 2].State != CellState.BusyDeck);
         }
     }
 }
