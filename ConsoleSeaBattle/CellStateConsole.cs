@@ -7,7 +7,7 @@ using SeaBattle;
 
 namespace ConsoleSeaBattle
 {
-    public class ConsoleCellState
+    public class CellStateConsole
     {
         public static string ToString(Cell cell)
         {
@@ -19,8 +19,12 @@ namespace ConsoleSeaBattle
                     return "#";
                 case CellState.BusyDeckNearby:
                     return "-";
+                case CellState.HasMiss:
+                    return "*";
+                case CellState.HasHit:
+                    return "x";
                 default: return " ";
-            }            
+            }
         }
     }
 }

@@ -43,9 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConsoleCellState.cs" />
+    <Compile Include="CellStateConsole.cs" />
     <Compile Include="ConsoleFillerForGame.cs" />
-    <Compile Include="ConsolePlayer.cs" />
+    <Compile Include="SeaBattleGameConsole.cs" />
+    <Compile Include="PlayerConsole.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

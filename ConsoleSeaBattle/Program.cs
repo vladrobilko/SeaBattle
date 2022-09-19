@@ -10,11 +10,22 @@ namespace ConsoleSeaBattle
     partial class Program
     {
         static void Main(string[] args)
-        {
-            var player = new ConsolePlayer(new RandomFiller());
-            var bot = new EasyBotPlayer(new RandomFiller());
-            SeaBattleGame seaBattlePlayerVsBot = new SeaBattleGame(player, bot); 
-            Console.WriteLine(seaBattlePlayerVsBot.Start());
+        {           
+            var PlayerVsBot = new SeaBattleGameConsole(new PlayerConsole(new FillerRandom()),new PlayerEasyBot(new FillerRandom()));
+            
+            Console.WriteLine(PlayerVsBot.Start());
+
+            // проблемы - не заполняется кораблями единичными
+
+
+
+            //var player = new PlayerConsole(new FillerRandom());
+            //var bot = new PlayerEasyBot(new FillerRandom());
+            //SeaBattleGame seaBattlePlayerVsBot = new SeaBattleGame(player, bot);
+            //Console.WriteLine(seaBattlePlayerVsBot.Start());
+
+
+
             //ConsoleFillerForGame.FillConsole(player, bot);
 
             //seaBattlePlayerVsBot.OnPlayerHit += OnPlayerHit1;

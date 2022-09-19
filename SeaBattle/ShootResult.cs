@@ -2,11 +2,11 @@
 
 namespace SeaBattle
 {    
-    public class ShootResult
+    public class ShootResult// работает не верно
     {
         public static ShootResultType Result(List<Ship> shipsTarget, Point pointShoot)
         {
-            Ship ship = SearchShip(shipsTarget, pointShoot);
+            var ship = SearchShip(shipsTarget, pointShoot);
             if (ship == null)
             {
                 return ShootResultType.Miss;
@@ -18,6 +18,7 @@ namespace SeaBattle
                 {
                     return ShootResultType.GameOver;
                 }
+
                 return ShootResultType.Kill;
             }
             else if (!IsShipDead(ship))
@@ -33,7 +34,7 @@ namespace SeaBattle
             {
                 foreach (var deck in ship._decks)
                 {
-                    if (deck.Point.Y == point.Y && deck.Point.X == point.X)//тут null вылетает 
+                    if (deck != null && deck.Point.Y == point.Y && deck.Point.X == point.X)
                     {
                         return ship;
                     }
@@ -46,9 +47,9 @@ namespace SeaBattle
         {
             for (int i = 0; i < ship.Length; i++)
             {
-                if (ship._decks[i].Point.Y == point.Y && ship._decks[i].Point.X == point.X)
+                if (ship._decks[i] != null && ship._decks[i].Point.Y == point.Y && ship._decks[i].Point.X == point.X)
                 {
-                    ship._decks[i] = null;
+                    ship._decks[i] = null;                    
                 }
             }
             return ship;

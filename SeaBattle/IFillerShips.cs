@@ -2,7 +2,7 @@
 
 namespace SeaBattle
 {
-    public interface IShipsFiller
+    public interface IFillerShips
     {        
         Cell[,] FillShips(Cell[,] cells, List<Ship> ships);
     }

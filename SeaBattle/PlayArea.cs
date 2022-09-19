@@ -21,6 +21,13 @@ namespace SeaBattle
             FillArrayWithCell(height, width);
         }
 
+        public PlayArea(PlayArea playArea)
+        {
+            Height = playArea.Height;
+            Width = playArea.Width;
+            Cells = playArea.Cells;
+        }
+
         private void FillArrayWithCell(int height, int width)
         {
             for (int i = 0; i < height; i++)

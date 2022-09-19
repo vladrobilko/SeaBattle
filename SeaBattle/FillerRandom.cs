@@ -2,17 +2,21 @@
 
 namespace SeaBattle
 {
-    public class RandomFiller : IShipsFiller
+    public class FillerRandom : IFillerShips
     {
         public Cell[,] FillShips(Cell[,] cells, List<Ship> ships)
         {
+
             for (int i = 0; i < ships.Count; i++)
             {
                 if (ships[i].Length == 1)
                 {
-                    ShipLenghtOneFillerOnlyBorders.FillShips(cells, ships[i], 1);
+                    FillerShipLenghtOneOnlyBorders.FillShips(cells, ships[i], 1);
                 }
-                RandomShipsFillerWithoutBorders.FillShip(cells, ships[i]);
+                else
+                {
+                    FillerRandomShipsWithoutBorders.FillShip(cells, ships[i]);
+                }                
             }
             return cells;
         }

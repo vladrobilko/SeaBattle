@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace SeaBattle
 {
-    public class EasyBotPlayer : IPlayer
+    public class PlayerEasyBot : IPlayer
     {
         public string Name { get; } = "Easy bot";
 
-        IShipsFiller _filler;
+        IFillerShips _filler;
 
         PlayArea _playArea;
 
@@ -20,12 +20,12 @@ namespace SeaBattle
 
         static Random rnd = new Random();
 
-        public EasyBotPlayer(IShipsFiller filler)
+        public PlayerEasyBot(IFillerShips filler)
         {
             _playArea = new PlayArea();
             _playAreaEnemyForInformation = new PlayArea();
             _filler = filler;
-            _ships = CreatorShips.CreatShips(1, 2, 3, 4);
+            _ships = ShipsCreator.CreatShips(1, 2, 3, 4);
         }
 
         public void FillShips()
@@ -46,13 +46,23 @@ namespace SeaBattle
         }
 
         public ShootResultType OnShoot(Point target)
-        {            
-            return ShootResult.Result(_ships, target);
+        {
+            ShootResultType shootResultType = ShootResult.Result(_ships, target);
+            _playArea.Cells[target.Y, target.X].State = CellState.HasShooted;            
+            if (shootResultType == ShootResultType.Miss)
+            {
+                _playArea.Cells[target.Y, target.X].State = CellState.HasMiss;
+            }
+            else if (shootResultType == ShootResultType.Hit || shootResultType == ShootResultType.Kill)
+            {
+                _playArea.Cells[target.Y, target.X].State = CellState.HasHit;
+            }
+            return shootResultType;
         }
 
         public PlayArea GetPlayArea()
-        {
-            return _playArea;
+        {           
+            return new PlayArea(_playArea);
         }
     }
 

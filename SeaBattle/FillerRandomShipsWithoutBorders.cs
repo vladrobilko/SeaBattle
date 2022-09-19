@@ -2,7 +2,7 @@
 
 namespace SeaBattle
 {
-    public class RandomShipsFillerWithoutBorders
+    public class FillerRandomShipsWithoutBorders
     {
         static Random rnd = new Random();
 
@@ -30,7 +30,7 @@ namespace SeaBattle
             for (int i = 0; i < ship.Length; i++)
             {
                 cells[y, x + i].State = CellState.BusyDeck;
-                ship.PutDeck(y, x);
+                ship.PutDeck(y, x + i);
             }
         }
 
@@ -90,7 +90,7 @@ namespace SeaBattle
             for (int i = 0; i < ship.Length; i++)
             {
                 cells[y - i, x].State = CellState.BusyDeck;
-                ship.PutDeck(y, x);
+                ship.PutDeck(y - i, x);
             }
         }
 

@@ -7,11 +7,11 @@ using SeaBattle;
 
 namespace ConsoleSeaBattle
 {
-    public class ConsolePlayer : IPlayer
+    public class PlayerConsole : IPlayer
     {
         public string Name { get; }
 
-        private IShipsFiller _filler;
+        private IFillerShips _filler;
 
         PlayArea _playArea;
 
@@ -19,14 +19,15 @@ namespace ConsoleSeaBattle
 
         List<Ship> _ships;
 
-        public ConsolePlayer(IShipsFiller filler)
+        public PlayerConsole(IFillerShips filler)
         {
             _playArea = new PlayArea();
             _playAreaEnemyForInformation = new PlayArea();
             _filler = filler;
-            _ships = CreatorShips.CreatShips(1, 2, 3, 4);
+            _ships = ShipsCreator.CreatShips(1, 2, 3, 4);
             Console.WriteLine("Enter your name");
             Name = Console.ReadLine();
+            Console.Clear();
         }
 
         public void FillShips()
@@ -57,13 +58,23 @@ namespace ConsoleSeaBattle
         }
 
         public ShootResultType OnShoot(Point target)
-        {            
-            return ShootResult.Result(_ships, target);
+        {
+            ShootResultType shootResultType = ShootResult.Result(_ships, target);
+            _playArea.Cells[target.Y, target.X].State = CellState.HasShooted;
+            if (shootResultType == ShootResultType.Miss)
+            {
+                _playArea.Cells[target.Y, target.X].State = CellState.HasMiss;
+            }
+            else if (shootResultType == ShootResultType.Hit || shootResultType == ShootResultType.Kill)
+            {
+                _playArea.Cells[target.Y, target.X].State = CellState.HasHit;
+            }
+            return shootResultType;
         }
 
         public PlayArea GetPlayArea()
         {
-            return _playArea;
+            return new PlayArea(_playArea);
         }
     }
 

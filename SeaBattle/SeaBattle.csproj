@@ -43,23 +43,20 @@
   <ItemGroup>
     <Compile Include="Cell.cs" />
     <Compile Include="CellState.cs" />
-    <Compile Include="CreatorShips.cs" />
+    <Compile Include="ShipsCreator.cs" />
     <Compile Include="IPlayer.cs" />
-    <Compile Include="IShipsFiller.cs" />
+    <Compile Include="IFillerShips.cs" />
     <Compile Include="PlayArea.cs" />
-    <Compile Include="EasyBotPlayer.cs" />
+    <Compile Include="PlayerEasyBot.cs" />
     <Compile Include="Point.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RandomShipsFillerWithoutBorders.cs" />
-    <Compile Include="RandomFiller.cs" />
+    <Compile Include="FillerRandomShipsWithoutBorders.cs" />
+    <Compile Include="FillerRandom.cs" />
     <Compile Include="SeaBattleGame.cs" />
     <Compile Include="Ship.cs" />
-    <Compile Include="ShipLenghtOneFillerOnlyBorders.cs" />
+    <Compile Include="FillerShipLenghtOneOnlyBorders.cs" />
     <Compile Include="ShootResult.cs" />
     <Compile Include="ShootResultType.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

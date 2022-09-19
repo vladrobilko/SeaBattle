@@ -12,9 +12,7 @@ namespace SeaBattle
 
         IPlayer player1;
 
-        IPlayer player2;
-
-        static Random rnd = new Random();
+        IPlayer player2;        
 
         public SeaBattleGame(IPlayer player1, IPlayer player2)
         {
@@ -33,8 +31,8 @@ namespace SeaBattle
             {
                 if (player1Turn)
                 {                    
-                    Point target = player1.GetNextShootTarget();                    
-                    ShootResultType result = player2.OnShoot(target);
+                    var target = player1.GetNextShootTarget();                    
+                    var result = player2.OnShoot(target);
                     gameOver = (result == ShootResultType.GameOver);
                     //onPlayerHit.Invoke(); //or onPlayerHit();
                     //if(onPlayerHit != null) onPlayerHit("palyer1");// || onPlayerHit?.Invoke();
@@ -44,10 +42,19 @@ namespace SeaBattle
                 }
                 else
                 {
-                    Point target = player2.GetNextShootTarget();
-                    ShootResultType result = player1.OnShoot(target);
+                    var target = player2.GetNextShootTarget();
+                    var result = player1.OnShoot(target);
                     gameOver = (result == ShootResultType.GameOver);
-                    // winner set
+                    //player1Turn = (result == ShootResultType.Kill) || (result == ShootResultType.Hit); - почему то это не работает
+                    if (result == ShootResultType.Kill || result == ShootResultType.Hit)
+                    {
+                        player1Turn = false;
+
+                    }
+                    else
+                    {
+                        player1Turn = true;
+                    }                    
                     player1Turn = !(result == ShootResultType.Kill) || !(result == ShootResultType.Hit);
                 }
             }

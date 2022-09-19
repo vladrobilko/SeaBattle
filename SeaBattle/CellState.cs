@@ -5,6 +5,8 @@
         Empty,
         BusyDeck,
         BusyDeckNearby,
-        HasShooted
+        HasShooted,
+        HasMiss,
+        HasHit
     }
 }
