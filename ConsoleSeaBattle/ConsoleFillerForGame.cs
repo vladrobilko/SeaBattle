@@ -10,6 +10,7 @@ namespace ConsoleSeaBattle
         public static void FillConsole(IPlayer player, IPlayer enemy)
         {
             Console.Clear();
+            Console.ForegroundColor = ConsoleColor.DarkBlue;
             FillFirstLineWithSignatures(player.GetPlayArea().Cells.GetLength(0));
             Console.SetCursorPosition(0, 1);
             for (int i = 0; i < player.GetPlayArea().Cells.GetLength(0); i++)
@@ -20,6 +21,7 @@ namespace ConsoleSeaBattle
                 FillEnemyWithInvisibleShips(enemy, i);
                 Console.SetCursorPosition(0, i + 2);
             }
+            Console.ResetColor();
         }
 
         private static void FillFirstLineWithSignatures(int lenght)

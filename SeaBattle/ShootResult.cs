@@ -2,7 +2,7 @@
 
 namespace SeaBattle
 {    
-    public class ShootResult// работает не верно
+    public class ShootResult
     {
         public static ShootResultType Result(List<Ship> shipsTarget, Point pointShoot)
         {

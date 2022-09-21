@@ -25,9 +25,11 @@ namespace ConsoleSeaBattle
             _playAreaEnemyForInformation = new PlayArea();
             _filler = filler;
             _ships = ShipsCreator.CreatShips(1, 2, 3, 4);
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Enter your name");
             Name = Console.ReadLine();
             Console.Clear();
+            Console.ResetColor();
         }
 
         public void FillShips()
@@ -46,8 +48,12 @@ namespace ConsoleSeaBattle
                 if (_playAreaEnemyForInformation.Cells[Y,X].State == CellState.HasShooted)
                 {
                     Console.WriteLine("You have already shot here. Please enter again.");
-                    GetNextShootTarget();
-                }
+                    Console.WriteLine("Enter the vertical coordinate.");
+                    Y = int.Parse(Console.ReadLine());
+                    Console.WriteLine("Enter the horizontal coordinate.");
+                    X = int.Parse(Console.ReadLine());
+                }                
+                _playAreaEnemyForInformation.Cells[Y, X].State = CellState.HasShooted;
                 return new Point(Y, X);
             }
             catch (Exception)

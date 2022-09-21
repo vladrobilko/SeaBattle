@@ -1,12 +1,12 @@
 ﻿namespace SeaBattle
 {
-    public interface IPlayer// наверное еще нужен метод принятия выстрела 
+    public interface IPlayer
     {
-        string Name { get;}
+        string Name { get; }
 
         void FillShips();
 
-        Point GetNextShootTarget();//(PlayArea area)
+        Point GetNextShootTarget();
 
         ShootResultType OnShoot(Point target);
 

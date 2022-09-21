@@ -2,13 +2,14 @@
 
 namespace SeaBattle
 {
-    //public delegate void OnPlayerHit(string playerName);
+    public delegate void OnPlayerHit(bool Player1Turn);
 
-    public class SeaBattleGame
+    public class SeaBattleGame//делать тут через делегаты чтобы могло работать в любом месте так же и как в SeaBattle
     {
         //public event OnPlayerHit OnPlayerHit;
-
-        //public OnPlayerHit onPlayerHit2;
+        
+        //public event OnPlayerHit onPlayerHit2;
+        
 
         IPlayer player1;
 
@@ -24,7 +25,7 @@ namespace SeaBattle
         {
             player1.FillShips();
             player2.FillShips();
-
+            
             var gameOver = false;
             var player1Turn = true;
             while (!gameOver)
@@ -33,7 +34,7 @@ namespace SeaBattle
                 {                    
                     var target = player1.GetNextShootTarget();                    
                     var result = player2.OnShoot(target);
-                    gameOver = (result == ShootResultType.GameOver);
+                    gameOver = (result == ShootResultType.GameOver);                    
                     //onPlayerHit.Invoke(); //or onPlayerHit();
                     //if(onPlayerHit != null) onPlayerHit("palyer1");// || onPlayerHit?.Invoke();
                     // winner set
@@ -45,17 +46,7 @@ namespace SeaBattle
                     var target = player2.GetNextShootTarget();
                     var result = player1.OnShoot(target);
                     gameOver = (result == ShootResultType.GameOver);
-                    //player1Turn = (result == ShootResultType.Kill) || (result == ShootResultType.Hit); - почему то это не работает
-                    if (result == ShootResultType.Kill || result == ShootResultType.Hit)
-                    {
-                        player1Turn = false;
-
-                    }
-                    else
-                    {
-                        player1Turn = true;
-                    }                    
-                    player1Turn = !(result == ShootResultType.Kill) || !(result == ShootResultType.Hit);
+                    player1Turn = result != ShootResultType.Kill && result != ShootResultType.Hit;
                 }
             }
             if (player1Turn)
@@ -64,8 +55,5 @@ namespace SeaBattle
             }
             return $"The winner is {player2.Name}";
         }
-
-
-
     }
 }

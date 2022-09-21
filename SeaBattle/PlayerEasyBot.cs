@@ -40,6 +40,7 @@ namespace SeaBattle
             while (_playAreaEnemyForInformation.Cells[Y, X].State != CellState.HasShooted)
             {
                 _playAreaEnemyForInformation.Cells[Y, X].State = CellState.HasShooted;
+                
                 return new Point(Y, X);
             }
             return GetNextShootTarget();
@@ -48,7 +49,7 @@ namespace SeaBattle
         public ShootResultType OnShoot(Point target)
         {
             ShootResultType shootResultType = ShootResult.Result(_ships, target);
-            _playArea.Cells[target.Y, target.X].State = CellState.HasShooted;            
+            _playArea.Cells[target.Y, target.X].State = CellState.HasShooted;
             if (shootResultType == ShootResultType.Miss)
             {
                 _playArea.Cells[target.Y, target.X].State = CellState.HasMiss;

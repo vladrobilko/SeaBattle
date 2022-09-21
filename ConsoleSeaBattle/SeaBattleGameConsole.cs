@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleSeaBattle
 {
-    internal class SeaBattleGameConsole
+    internal class SeaBattleGameConsole//ивент ставить в конструктор класса, чтобы получал строку
     {
  
         IPlayer player1;
@@ -36,34 +36,14 @@ namespace ConsoleSeaBattle
                     ShootResultType result = player2.OnShoot(target);
                     gameOver = (result == ShootResultType.GameOver);
                     player1Turn = (result == ShootResultType.Kill) || (result == ShootResultType.Hit);
-                    if (result == ShootResultType.Kill)
-                    {
-                        //заполнить корабль вокруг                        
-                        ConsoleFillerForGame.FillConsole(player1, player2);
-                        Console.WriteLine("The ship is dead, press enter");
-                        Console.ReadLine();
-                    }
-                    if (result == ShootResultType.Hit)
-                    {                        
-                        ConsoleFillerForGame.FillConsole(player1, player2); 
-                        Console.WriteLine("it's a hit! Press enter");
-                        Console.ReadLine();
-                    }                    
+                    GetConsoleInfoAfterKillOrHitShip(result);
                 }
                 else
                 {
                     Point target = player2.GetNextShootTarget();
                     ShootResultType result = player1.OnShoot(target);
                     gameOver = (result == ShootResultType.GameOver);
-                    if (result == ShootResultType.Kill || result == ShootResultType.Hit)
-                    {
-                        player1Turn = false;
-
-                    }
-                    else
-                    {
-                        player1Turn = true;
-                    }                    
+                    player1Turn = result != ShootResultType.Kill && result != ShootResultType.Hit;
                 }
             }            
             if (player1Turn)
@@ -73,7 +53,27 @@ namespace ConsoleSeaBattle
             return $"The winner is {player1.Name}";
         }
 
-
-
+        private void GetConsoleInfoAfterKillOrHitShip(ShootResultType shootResultType)
+        {
+            if (shootResultType == ShootResultType.Kill)
+            {
+                ConsoleFillerForGame.FillConsole(player1, player2);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("The ship is dead, press enter");
+                Console.ReadLine();
+                Console.ResetColor();
+                return;
+            }
+            else if (shootResultType == ShootResultType.Hit)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                ConsoleFillerForGame.FillConsole(player1, player2);
+                Console.WriteLine("It's a hit! Press enter");
+                Console.ReadLine();
+                Console.ResetColor();
+                return;
+            }
+        }
     }
+
 }
