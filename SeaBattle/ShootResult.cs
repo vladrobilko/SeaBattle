@@ -5,27 +5,17 @@ namespace SeaBattle
     public class ShootResult
     {
         public static ShootResultType Result(List<Ship> shipsTarget, Point pointShoot)
-        {
+        {            
             var ship = SearchShip(shipsTarget, pointShoot);
-            if (ship == null)
+            var shootResultType = ship == null ? ShootResultType.Miss : ShootResultType.Hit;
+            if (shootResultType == ShootResultType.Hit)
             {
-                return ShootResultType.Miss;
+                KillDeck(ship, pointShoot);
+                shootResultType = IsShipDead(ship) && IsAllShipsDead(shipsTarget) ? ShootResultType.GameOver : ShootResultType.Hit;
+                if (IsShipDead(ship))
+                    shootResultType = ShootResultType.Kill;
             }
-            KillDeck(ship, pointShoot);
-            if (IsShipDead(ship))
-            {
-                if (IsAllShipsDead(shipsTarget))
-                {
-                    return ShootResultType.GameOver;
-                }
-
-                return ShootResultType.Kill;
-            }
-            else if (!IsShipDead(ship))
-            {
-                return ShootResultType.Hit;
-            }
-            return ShootResultType.Miss;
+            return shootResultType;
         }
 
         private static Ship SearchShip(List<Ship> ships, Point point)
