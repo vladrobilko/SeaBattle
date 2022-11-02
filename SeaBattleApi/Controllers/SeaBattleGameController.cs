@@ -23,9 +23,9 @@ namespace SeaBattleApi.Controllers
         }
 
         [HttpPost("[action]")]
-        public IActionResult SetPlayerName([FromBody] Player player)
+        public IActionResult SetPlayerName([FromBody] PlayerClient player)
         {
-            Player player1 = new Player();
+            PlayerClient player1 = new PlayerClient();
             player1.Name = player.Name;
             if (player1.Name == null || player.Name == null)
             {

@@ -5,7 +5,7 @@ namespace SeaBattleApi.Services
     public class SeaBattleGameService : ISeaBattleGameService
     {
         private string NameGame = "Sea battle";
-        Player Player { get; set; }
+        PlayerClient Player { get; set; }
 
         public string GetGameName()
         {
