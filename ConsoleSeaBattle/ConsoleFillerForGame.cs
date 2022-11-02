@@ -10,7 +10,7 @@ namespace ConsoleSeaBattle
         public static void FillConsole(IPlayer player, IPlayer enemy)
         {
             Console.Clear();
-            Console.ForegroundColor = ConsoleColor.DarkBlue;
+            Console.ForegroundColor = ConsoleColor.Yellow;
             FillFirstLineWithSignatures(player.GetPlayArea().Cells.GetLength(0));
             Console.SetCursorPosition(0, 1);
             for (int i = 0; i < player.GetPlayArea().Cells.GetLength(0); i++)
@@ -58,6 +58,7 @@ namespace ConsoleSeaBattle
                     Console.Write(' ' + "|");
                     continue;
                 }
+                //enemy.GetPlayArea().Cells[lineNumber, k].ToString2();
                 Console.Write(CellStateConsole.ToString(enemy.GetPlayArea().Cells[lineNumber, k]) + "|");
             }
         }

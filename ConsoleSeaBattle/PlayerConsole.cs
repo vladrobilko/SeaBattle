@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SeaBattle;
 
 namespace ConsoleSeaBattle
@@ -24,7 +21,8 @@ namespace ConsoleSeaBattle
             _playArea = new PlayArea();
             _playAreaEnemyForInformation = new PlayArea();
             _filler = filler;
-            _ships = ShipsCreator.CreatShips(1, 2, 3, 4);
+            _ships = ShipsCreator.CreatShips(new List<ShipConfige>()
+            { new ShipConfige(1,4), new ShipConfige(2, 3), new ShipConfige(3, 2), new ShipConfige(4, 1) });
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Enter your name");
             Name = Console.ReadLine();
@@ -65,7 +63,7 @@ namespace ConsoleSeaBattle
 
         public ShootResultType OnShoot(Point target)
         {
-            ShootResultType shootResultType = ShootResult.Result(_ships, target);
+            ShootResultType shootResultType = Shooter.Result(_ships, target);
             _playArea.Cells[target.Y, target.X].State = CellState.HasShooted;
             if (shootResultType == ShootResultType.Miss)
             {

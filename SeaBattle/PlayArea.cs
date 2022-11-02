@@ -1,9 +1,4 @@
-﻿using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System;
-
-namespace SeaBattle
+﻿namespace SeaBattle
 {
     public class PlayArea
     {

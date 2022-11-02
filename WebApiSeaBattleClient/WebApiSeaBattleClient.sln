@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32922.545
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiSeaBattleClient", "WebApiSeaBattleClient\WebApiSeaBattleClient.csproj", "{3EF6895A-CA37-4627-8C73-E7C13C1BD9FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeaBattle", "..\SeaBattle\SeaBattle.csproj", "{E76E5798-72CC-4C66-9DCA-AA6019CC1A28}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3EF6895A-CA37-4627-8C73-E7C13C1BD9FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EF6895A-CA37-4627-8C73-E7C13C1BD9FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EF6895A-CA37-4627-8C73-E7C13C1BD9FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EF6895A-CA37-4627-8C73-E7C13C1BD9FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E76E5798-72CC-4C66-9DCA-AA6019CC1A28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E76E5798-72CC-4C66-9DCA-AA6019CC1A28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E76E5798-72CC-4C66-9DCA-AA6019CC1A28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E76E5798-72CC-4C66-9DCA-AA6019CC1A28}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CDD2D43C-139F-4487-889A-B7FA7BEF4376}
+	EndGlobalSection
+EndGlobal

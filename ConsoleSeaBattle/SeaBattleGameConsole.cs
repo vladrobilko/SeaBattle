@@ -1,13 +1,9 @@
 ﻿using SeaBattle;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ConsoleSeaBattle
 {
-    internal class SeaBattleGameConsole//ивент ставить в конструктор класса, чтобы получал строку
+    internal class SeaBattleGameConsole
     {
  
         IPlayer player1;

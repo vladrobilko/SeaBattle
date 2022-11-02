@@ -10,8 +10,8 @@ namespace SeaBattle
         {
             while (ship._decks.Count != ship.Length)
             {
-                int y = rnd.Next(10);
-                int x = rnd.Next(10);
+                int y = rnd.Next(cells.GetLength(0) - 1);
+                int x = rnd.Next(cells.GetLength(1) - 1);
                 if (CanFillShipUp(cells, ship.Length, y, x) && rnd.Next(2) == 0)
                 {
                     FillShipUp(cells, ship, y, x);
@@ -36,7 +36,7 @@ namespace SeaBattle
 
         private static bool CanFillShipRight(Cell[,] cells, int shipLength, int y, int x)
         {
-            if ((x + shipLength >= 10) || IsCellInSideLine(y, x) || !CanFillAroundShipRight(cells, shipLength, y, x)) return false;
+            if ((x + shipLength >= cells.GetLength(0) - 1) || IsCellInSideLine(cells, y, x) || !CanFillAroundShipRight(cells, shipLength, y, x)) return false;
             for (int i = 0; i < shipLength; i++)
             {
                 if ((cells[y, x + i].State != CellState.Empty))
@@ -57,7 +57,8 @@ namespace SeaBattle
             for (int i = 0; i < shipLength + 2; i++)
             {
                 cells[upPosY, posX].State = CellState.BusyDeckNearby;
-                cells[downPosY, posX + i].State = CellState.BusyDeckNearby;
+                cells[downPosY, posX].State = CellState.BusyDeckNearby;
+                posX++;
             }
         }
 
@@ -96,7 +97,7 @@ namespace SeaBattle
 
         private static bool CanFillShipUp(Cell[,] cells, int shipLength, int y, int x)
         {
-            if ((y - shipLength <= 0) || IsCellInSideLine(y, x) || !CanFillAroundShipUp(cells, shipLength, y, x)) return false;
+            if ((y - shipLength <= 0) || IsCellInSideLine(cells, y, x) || !CanFillAroundShipUp(cells, shipLength, y, x)) return false;
             for (int i = 0; i < shipLength; i++)
             {
                 if (cells[y - i, x].State != CellState.Empty)
@@ -145,9 +146,9 @@ namespace SeaBattle
                 cells[y - shipLength, x].State == CellState.BusyDeck;
         }
 
-        private static bool IsCellInSideLine(int y, int x)
+        private static bool IsCellInSideLine(Cell[,] cells, int y, int x)
         {
-            return x == 0 || y == 9 || y == 0 || x == 9;
+            return x == 0 || y == cells.GetLength(1) - 1 || y == 0 || x == cells.GetLength(0) - 1;
         }
     }
 }

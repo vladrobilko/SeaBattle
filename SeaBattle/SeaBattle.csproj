@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Cell.cs" />
     <Compile Include="CellState.cs" />
+    <Compile Include="ShipConfige.cs" />
     <Compile Include="ShipsCreator.cs" />
     <Compile Include="IPlayer.cs" />
     <Compile Include="IFillerShips.cs" />
@@ -54,8 +55,8 @@
     <Compile Include="FillerRandom.cs" />
     <Compile Include="SeaBattleGame.cs" />
     <Compile Include="Ship.cs" />
-    <Compile Include="FillerShipLenghtOneOnlyBorders.cs" />
-    <Compile Include="ShootResult.cs" />
+    <Compile Include="FillerRandomShipLenghtOneOnlyBorders.cs" />
+    <Compile Include="Shooter.cs" />
     <Compile Include="ShootResultType.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
