@@ -2,7 +2,7 @@
 {
     public interface IPlayer
     {
-        string Name { get; }
+        string Name { get; set; }
 
         void FillShips();
 

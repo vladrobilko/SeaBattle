@@ -1,10 +1,14 @@
+using SeaBattle;
 using SeaBattleApi.Services;
 using SeaBattleApi.Services.Intefaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddSingleton<ISeaBattleGameService, SeaBattleGameService>();// Added my service
+builder.Services.AddSingleton<ISeaBattleGameService, SeaBattleGameService>();// My service
+builder.Services.AddSingleton<IPlayerClientService, PlayerClientService>();
+
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

@@ -9,29 +9,41 @@ namespace SeaBattleApi.Controllers
     [ApiController]
     public class SeaBattleGameController : Controller
     {
-        ISeaBattleGameService _seaBattleService;
+        private readonly ISeaBattleGameService _seaBattleService;
 
-        public SeaBattleGameController(ISeaBattleGameService seaBattleService)
-        {
+        private readonly IPlayerClientService _player;
+
+        public SeaBattleGameController(ISeaBattleGameService seaBattleService, IPlayerClientService player)
+        {              
             _seaBattleService = seaBattleService;
+            _player = player;
         }
 
         [HttpGet("[action]")]
         public IActionResult GameName()
         {
-            return Json(_seaBattleService.GetGameName());
+            return Json(_seaBattleService.GetName());
+        }
+
+        [HttpGet("[action]")]
+        public IActionResult GetPlayerInfo()
+        {
+            if (_player != null)
+            {
+                return Json(_player);
+            }
+            return BadRequest("Something is wrong");
         }
 
         [HttpPost("[action]")]
-        public IActionResult SetPlayerName([FromBody] PlayerClient player)
+        public IActionResult Login([FromBody] PlayerClientService player)
         {
-            PlayerClient player1 = new PlayerClient();
-            player1.Name = player.Name;
-            if (player1.Name == null || player.Name == null)
+            if (_player.Name == null)//тут по сути и сетаю игрока и гет делать два метода???
             {
-                return NotFound("Player don't recorded");
+                _player.Name = player.Name;
+                return Ok();
             }
-            return Ok($"{player1.Name} is in the game");
+            return BadRequest("Something is wrong");
         }
     }
 }

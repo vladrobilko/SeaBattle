@@ -1,7 +1,11 @@
-﻿namespace SeaBattleApi.Services.Intefaces
+﻿using SeaBattle;
+
+namespace SeaBattleApi.Services.Intefaces
 {
     public interface ISeaBattleGameService
     {
-        string GetGameName();
+        string GetName();
+
+        string Start(IPlayerClientService player1, IPlayerClientService player2);
     }
 }
