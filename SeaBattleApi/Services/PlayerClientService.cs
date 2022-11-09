@@ -1,37 +1,41 @@
 ﻿using SeaBattle;
+using SeaBattleApi.Models;
+using SeaBattleApi.Models.Interfaces;
 using SeaBattleApi.Services.Intefaces;
 
 namespace SeaBattleApi.Services
 {
     public class PlayerClientService : IPlayerClientService
     {
+        private static List<IPlayerClient> _players;
 
-        public string Name { get; set; }
-
-        public string ID { get; } = Guid.NewGuid().ToString();
-
-        public string TimeAdding { get; } = DateTime.Now.ToString();
-
-        public void FillShips()
+        public PlayerClientService()
         {
-            throw new NotImplementedException();
+            _players = new List<IPlayerClient>();
         }
 
-        public Point GetNextShootTarget()
+        public void Add(string name)
         {
-            throw new NotImplementedException();
+            var player = new PlayerClient() { Name = name };
+            _players.Add(player);
         }
 
-        public PlayArea GetPlayArea()
+        public IPlayerClient GetById(string id)
         {
-            throw new NotImplementedException();
+            return _players.SingleOrDefault(p => p.ID == id);
         }
 
-        public ShootResultType OnShoot(Point target)
+        public static IPlayerClient GetByIdOrName(string id = null, string name = null)
         {
-            throw new NotImplementedException();
+            if (name == null)
+                return _players.SingleOrDefault(p => p.ID == id);
+            return _players.SingleOrDefault(p => p.Name == name);
         }
 
+        public List<IPlayerClient> GetAll()
+        {
+            return _players;
+        }
 
     }
 }

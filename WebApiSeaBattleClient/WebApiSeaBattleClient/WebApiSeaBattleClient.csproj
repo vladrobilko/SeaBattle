@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\SeaBattleApi\SeaBattleApi.csproj" />
     <ProjectReference Include="..\..\SeaBattle\SeaBattle.csproj" />
   </ItemGroup>
 

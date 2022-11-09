@@ -6,7 +6,7 @@ namespace ConsoleSeaBattle
 {
     public class PlayerConsole : IPlayer
     {
-        public string Name { get; }
+        public string Name { get; set; }
 
         private IFillerShips _filler;
 

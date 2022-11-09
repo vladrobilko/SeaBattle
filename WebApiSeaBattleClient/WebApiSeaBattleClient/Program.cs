@@ -1,13 +1,5 @@
-﻿using System.Net.Http.Headers;
-using System.Net.Http.Json;
-using System.Text.Json;
-using System.Threading.Tasks;
-using System.Net;
-using SeaBattle;
-using System;
-using System.IO;
-using System.Numerics;
-using Microsoft.VisualBasic;
+﻿using System.Net.Http.Json;
+using SeaBattleApi.Models;
 
 class Program
 {
@@ -32,22 +24,23 @@ class Program
                 await GetNameGame("https://localhost:7109/api/SeaBattleGame/GameName");
             }    
         }
-        Environment.Exit(0);
     }
     private static readonly HttpClient client = new HttpClient();
 
-    private static PlayerClientService _player;
+    private static PlayerClient _player;
+
+    private static SeaBattleGameSession _seaBattleGameSession;
 
     private static async Task CreatePlayer(string path, string playerName)
     {
-        using HttpResponseMessage response = await client.PostAsJsonAsync(path, new PlayerClientService() { Name = playerName });
+        using HttpResponseMessage response = await client.PostAsJsonAsync(path, new PlayerClient() { Name = playerName });
         Console.WriteLine($"Status code: {response.StatusCode}");
     }
 
     private static async Task GetPlayerInformation(string path)
     {
         using HttpResponseMessage response = await client.GetAsync(path);
-        _player = await response.Content.ReadFromJsonAsync<PlayerClientService>();
+        _player = await response.Content.ReadFromJsonAsync<PlayerClient>();
         if (_player != null)
         {
             Console.WriteLine($"Name: {_player.Name}, ID: {_player.ID}, time adding: {_player.TimeAdding}");
