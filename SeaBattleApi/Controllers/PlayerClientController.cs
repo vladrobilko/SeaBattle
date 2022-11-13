@@ -23,22 +23,23 @@ namespace SeaBattleApi.Controllers
             if (playerName != null)
             {
                 _playerClientService.Add(playerName);
+                return Ok();
             }
             return BadRequest("Something is wrong");
         }
 
-        [HttpGet("[action]")]
-        public IActionResult GetPlayer([FromBody] string id)
+        [HttpPost("[action]")]
+        public IActionResult GetByName([FromBody] string name)
         {
-            if (id != null)
+            if (name != null)
             {
-                return Json(_playerClientService.GetById(id));
+                return Json(_playerClientService.GetByName(name));
             }
             return BadRequest("Something is wrong");
         }
 
         [HttpGet("[action]")]
-        public IActionResult GetAllPlayers()
+        public IActionResult GetAll()
         {
             return Json(_playerClientService.GetAll());
         }

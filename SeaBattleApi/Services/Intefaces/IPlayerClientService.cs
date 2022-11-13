@@ -1,4 +1,5 @@
 ﻿using System;
+using SeaBattleApi.Models;
 using SeaBattleApi.Models.Interfaces;
 
 namespace SeaBattleApi.Services.Intefaces
@@ -6,7 +7,8 @@ namespace SeaBattleApi.Services.Intefaces
     public interface IPlayerClientService
     {
         void Add(string name);
-        IPlayerClient GetById(string id);
-        List<IPlayerClient> GetAll();
+        PlayerClient GetById(string id);
+        PlayerClient GetByName(string name);
+        List<PlayerClient> GetAll();
     }
 }

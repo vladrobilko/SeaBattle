@@ -18,22 +18,26 @@ namespace SeaBattleApi.Controllers
         }
 
         [HttpGet("[action]")]
-        public IActionResult GetAllSessions()
+        public IActionResult GetAll()
         {
             return Json(_seaBattleGameSessionService.GetAllSessions());
         }
 
         [HttpPost("[action]")]
-        public IActionResult CreateSession([FromBody] string idPlayer, [FromBody] string nameGame)
-        {            
-            _seaBattleGameSessionService.CreateSession(idPlayer, nameGame);
-            return Ok("The session has been created.");
+        public IActionResult Create([FromBody] SeaBattleGameSession seaBattleGameSession)
+        {
+            if (seaBattleGameSession != null)
+            {
+                _seaBattleGameSessionService.CreateSession(seaBattleGameSession);
+                return Ok("The session has been created.");
+            }
+            return BadRequest();
         }
 
         [HttpPost("[action]")]
-        public IActionResult ConnectToSession([FromBody] string idPlayer, [FromBody] string idSession)
+        public IActionResult Connect([FromBody] string idPlayer)
         {
-            _seaBattleGameSessionService.AddPlayerInSession(idPlayer, idSession);
+            _seaBattleGameSessionService.AddPlayerInSession(idPlayer);
             return Ok();
         }
     }

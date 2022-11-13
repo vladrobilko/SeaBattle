@@ -4,7 +4,7 @@ namespace SeaBattleApi.Models.Interfaces
 {
     public interface IPlayerClient : IPlayer
     {
-        public string ID { get; }
-        public string TimeAdding { get; }
+        public string ID { get; set; }
+        public string TimeAdding { get; set; }
     }
 }

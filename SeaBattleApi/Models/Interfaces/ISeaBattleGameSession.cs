@@ -5,7 +5,7 @@
         string ID { get; }
         string Name { get; set; }
         bool IsStarted { get; set; }
-        IPlayerClient PlayerHost { get; set; }
-        IPlayerClient PlayerJoin { get; set; }
+        PlayerClient PlayerHost { get; set; }
+        PlayerClient PlayerJoin { get; set; }
     }
 }
