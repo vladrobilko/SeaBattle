@@ -19,24 +19,16 @@ namespace SeaBattleApi.Controllers
         }
 
         [HttpPost("[action]")]
-        public IActionResult Login([FromBody][MinLength(3)] string playerName)
+        public IActionResult Login([FromBody][MinLength(3)][Required] string playerName)
         {
-            if (playerName != null)
-            {
-                _playerClientService.Add(playerName);
-                return Ok();
-            }
-            return BadRequest("Something is wrong");
+            _playerClientService.Add(playerName);
+            return Ok();
         }
 
         [HttpPost("[action]")]
-        public ActionResult<PlayerClient> GetByName([FromBody] string name)
+        public ActionResult<PlayerClient> GetByName([FromBody][Required] string name)
         {
-            if (name != null)
-            {
-                return Ok(_playerClientService.GetByName(name));
-            }
-            return BadRequest("Something is wrong");
+            return Ok(_playerClientService.GetByName(name));
         }
 
         [HttpGet("[action]")]
