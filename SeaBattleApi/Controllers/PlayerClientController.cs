@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SeaBattleApi.Models;
 using SeaBattleApi.Services;
 using SeaBattleApi.Services.Intefaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace SeaBattleApi.Controllers
 {
@@ -18,7 +19,7 @@ namespace SeaBattleApi.Controllers
         }
 
         [HttpPost("[action]")]
-        public IActionResult Login([FromBody] string playerName)
+        public IActionResult Login([FromBody][MinLength(3)] string playerName)
         {
             if (playerName != null)
             {
@@ -29,19 +30,19 @@ namespace SeaBattleApi.Controllers
         }
 
         [HttpPost("[action]")]
-        public IActionResult GetByName([FromBody] string name)
+        public ActionResult<PlayerClient> GetByName([FromBody] string name)
         {
             if (name != null)
             {
-                return Json(_playerClientService.GetByName(name));
+                return Ok(_playerClientService.GetByName(name));
             }
             return BadRequest("Something is wrong");
         }
 
         [HttpGet("[action]")]
-        public IActionResult GetAll()
+        public ActionResult<List<PlayerClient>> GetAll()
         {
-            return Json(_playerClientService.GetAll());
+            return Ok(_playerClientService.GetAll());
         }
     }
 }

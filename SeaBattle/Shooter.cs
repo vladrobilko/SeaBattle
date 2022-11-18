@@ -23,13 +23,6 @@ namespace SeaBattle
         {
             foreach (var ship in ships)
             {
-                //condition ? value1 : value2;
-                //.?
-                //if (ship._decks.Any(deck => deck != null && deck.Point.Y == point.Y && deck.Point.X == point.X)) return ship;
-                //ship?.obj1 == null
-                //if here null ?? value;
-
-
                 foreach (var deck in ship._decks)
                 {
                     if (deck != null && deck.Point.Y == point.Y && deck.Point.X == point.X)
@@ -58,7 +51,6 @@ namespace SeaBattle
             }
             return true;
         }
-
 
         private static bool IsShipDead(Ship ship)
         {

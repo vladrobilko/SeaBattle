@@ -6,7 +6,6 @@ namespace SeaBattle
     {
         public Cell[,] FillShips(Cell[,] cells, List<Ship> ships)
         {
-
             for (int i = 0; i < ships.Count; i++)
             {
                 if (ships[i].Length == 1)
@@ -16,7 +15,7 @@ namespace SeaBattle
                 else
                 {
                     FillerRandomShipsWithoutBorders.FillShip(cells, ships[i]);
-                }                
+                }
             }
             return cells;
         }
