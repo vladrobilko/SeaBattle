@@ -19,7 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ConsoleSeaBattle\ConsoleSeaBattle.csproj" />
-    <ProjectReference Include="..\SeaBattle\SeaBattle.csproj" />
+    <ProjectReference Include="..\SeaBattle\SeaBattle.Domain.csproj" />
   </ItemGroup>
 
 </Project>

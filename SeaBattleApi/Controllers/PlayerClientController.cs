@@ -26,13 +26,13 @@ namespace SeaBattleApi.Controllers
         }
 
         [HttpPost("[action]")]
-        public ActionResult<PlayerClient> GetByName([FromBody][Required] string name)
+        public ActionResult<PlayerClientModel> GetByName([FromBody][Required] string name)
         {
             return Ok(_playerClientService.GetByName(name));
         }
 
         [HttpGet("[action]")]
-        public ActionResult<List<PlayerClient>> GetAll()
+        public ActionResult<List<PlayerClientModel>> GetAll()
         {
             return Ok(_playerClientService.GetAll());
         }

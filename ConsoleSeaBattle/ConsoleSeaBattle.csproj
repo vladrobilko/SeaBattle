@@ -57,9 +57,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SeaBattle\SeaBattle.csproj">
+    <ProjectReference Include="..\SeaBattle\SeaBattle.Domain.csproj">
       <Project>{e76e5798-72cc-4c66-9dca-aa6019cc1a28}</Project>
-      <Name>SeaBattle</Name>
+      <Name>SeaBattle.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

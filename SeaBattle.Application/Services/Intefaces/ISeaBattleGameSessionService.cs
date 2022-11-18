@@ -1,5 +1,4 @@
 ﻿using SeaBattleApi.Models;
-using SeaBattleApi.Models.Interfaces;
 
 namespace SeaBattleApi.Services.Intefaces
 {

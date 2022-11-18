@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SeaBattleApi.Models;
-using SeaBattleApi.Models.Interfaces;
 using SeaBattleApi.Services;
 using SeaBattleApi.Services.Intefaces;
 
