@@ -15,7 +15,7 @@ class Program
             key = Console.ReadKey().Key;                        
             if (key == ConsoleKey.Enter)
             {
-                await CreatePlayer("https://localhost:7109/api/PlayerClient/Login", "Vasya");
+                await CreatePlayer("https://localhost:7109/api/PlayerClient/Login", "Vasya");//register 
             }
             else if (key == ConsoleKey.F1)
             {

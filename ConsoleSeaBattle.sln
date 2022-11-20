@@ -7,13 +7,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleSeaBattle", "Console
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeaBattle.Domain", "SeaBattle\SeaBattle.Domain.csproj", "{E76E5798-72CC-4C66-9DCA-AA6019CC1A28}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{06A5229F-0A2C-471F-A64A-60CAF005C7B7}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeaBattle.Api", "SeaBattleApi\SeaBattle.Api.csproj", "{B99FD7E5-A681-4802-92C4-9B476412FD34}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeaBattle.Application", "SeaBattle.Application\SeaBattle.Application.csproj", "{2C5823CF-A6D6-4AB8-A7E5-DA1B332DEDD4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeaBattle.Application", "SeaBattle.Application\SeaBattle.Application.csproj", "{2C5823CF-A6D6-4AB8-A7E5-DA1B332DEDD4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{57CFC66F-7CD9-4B88-AD19-3E8AB94B1B2B} = {57CFC66F-7CD9-4B88-AD19-3E8AB94B1B2B}
+		{E76E5798-72CC-4C66-9DCA-AA6019CC1A28} = {E76E5798-72CC-4C66-9DCA-AA6019CC1A28}
+		{EB2DFCBB-6333-430C-A829-F6E372537158} = {EB2DFCBB-6333-430C-A829-F6E372537158}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeaBattle.Infrastructure", "SeaBattle.Infrastructure\SeaBattle.Infrastructure.csproj", "{3619525E-E591-4B1C-B5E0-6024837B4A68}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeaBattle.ApiClientModels", "SeaBattle.ApiClient\SeaBattle.ApiClientModels.csproj", "{EB2DFCBB-6333-430C-A829-F6E372537158}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeaBattle.infrastructure", "SeaBattle.infrastructure\SeaBattle.infrastructure.csproj", "{57CFC66F-7CD9-4B88-AD19-3E8AB94B1B2B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +34,6 @@ Global
 		{E76E5798-72CC-4C66-9DCA-AA6019CC1A28}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E76E5798-72CC-4C66-9DCA-AA6019CC1A28}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E76E5798-72CC-4C66-9DCA-AA6019CC1A28}.Release|Any CPU.Build.0 = Release|Any CPU
-		{06A5229F-0A2C-471F-A64A-60CAF005C7B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{06A5229F-0A2C-471F-A64A-60CAF005C7B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{06A5229F-0A2C-471F-A64A-60CAF005C7B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{06A5229F-0A2C-471F-A64A-60CAF005C7B7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B99FD7E5-A681-4802-92C4-9B476412FD34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B99FD7E5-A681-4802-92C4-9B476412FD34}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B99FD7E5-A681-4802-92C4-9B476412FD34}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -41,10 +42,14 @@ Global
 		{2C5823CF-A6D6-4AB8-A7E5-DA1B332DEDD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C5823CF-A6D6-4AB8-A7E5-DA1B332DEDD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C5823CF-A6D6-4AB8-A7E5-DA1B332DEDD4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3619525E-E591-4B1C-B5E0-6024837B4A68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3619525E-E591-4B1C-B5E0-6024837B4A68}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3619525E-E591-4B1C-B5E0-6024837B4A68}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3619525E-E591-4B1C-B5E0-6024837B4A68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB2DFCBB-6333-430C-A829-F6E372537158}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB2DFCBB-6333-430C-A829-F6E372537158}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB2DFCBB-6333-430C-A829-F6E372537158}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB2DFCBB-6333-430C-A829-F6E372537158}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57CFC66F-7CD9-4B88-AD19-3E8AB94B1B2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57CFC66F-7CD9-4B88-AD19-3E8AB94B1B2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57CFC66F-7CD9-4B88-AD19-3E8AB94B1B2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57CFC66F-7CD9-4B88-AD19-3E8AB94B1B2B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

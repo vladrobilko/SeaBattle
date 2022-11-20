@@ -11,9 +11,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SeaBattle.ApiClient\SeaBattle.ApiClientModels.csproj" />
     <ProjectReference Include="..\SeaBattle.Application\SeaBattle.Application.csproj" />
-    <ProjectReference Include="..\SeaBattle.Infrastructure\SeaBattle.Infrastructure.csproj" />
+    <ProjectReference Include="..\SeaBattle.infrastructure\SeaBattle.infrastructure.csproj" />
     <ProjectReference Include="..\SeaBattle\SeaBattle.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\" />
   </ItemGroup>
 
 </Project>
