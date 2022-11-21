@@ -15,15 +15,11 @@ namespace SeaBattle.Application
             return new PlayerModel() { Name = playerDto.Name };
         }
 
-        //public static PlayerModel Convert(this PlayerDto playerDto)
-        //{
-        //    return new PlayerModel() { Name = playerDto.Name };
-        //}
-
         public static List<PlayerModel> ConvertToListPlayerModel(this List<PlayerDto> listPlayerDto)
         {
-            var listPM = new List<PlayerModel>();
-
+            var listPM = listPlayerDto
+                .Select(x => new PlayerModel() { Name = x.Name })
+                .ToList();
             return listPM;
         }
     }

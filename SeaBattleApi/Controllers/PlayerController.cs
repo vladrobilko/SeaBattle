@@ -13,7 +13,6 @@ namespace SeaBattleApi.Controllers
     public class PlayerController : Controller
     {
         private readonly IPlayerModelService _playerClientService;
-        private readonly IPlayerDtoRepository db;
 
         public PlayerController(IPlayerModelService playerClientService)
         {
@@ -23,7 +22,6 @@ namespace SeaBattleApi.Controllers
         [HttpPost("[action]")]
         public IActionResult Register([FromBody][MinLength(3)][Required] string playerName)
         {
-            //db.create(string name);
             _playerClientService.Create(playerName);
             return Ok();
         }

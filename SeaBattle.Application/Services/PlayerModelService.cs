@@ -29,8 +29,8 @@ namespace SeaBattleApi.Services
 
         public List<PlayerModel> GetAll()
         {
-            List<PlayerModel> sdf = new List<PlayerModel>();
-            return sdf;
+            var listPlayerDto = _db.GetAll();
+            return listPlayerDto.ConvertToListPlayerModel();
         }
     }
 }

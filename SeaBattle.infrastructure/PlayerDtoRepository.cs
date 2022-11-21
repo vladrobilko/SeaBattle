@@ -8,29 +8,28 @@ using SeaBattle.infrastructure.Models;
 
 namespace SeaBattle.infrastructure
 {
-    internal class PlayerDtoRepository : IPlayerDtoRepository
+    public class PlayerDtoRepository : IPlayerDtoRepository
     {
         private readonly List<PlayerDto> _players;
-
-        public void Create(string name)
-        {
-            var player = new PlayerDto() { Name = name };
-            _players.Add(player);
-        }
 
         public PlayerDtoRepository()
         {
             _players = new List<PlayerDto>();
         }
 
-        public List<PlayerDto> GetAll()
+        public void Create(string name)
         {
-            throw new NotImplementedException();
+            var player = new PlayerDto() { Name = name };
+            _players.Add(player);
         }
-
         public PlayerDto Get(string name)
         {
-            throw new NotImplementedException();
+            return _players.SingleOrDefault(p => p.Name == name);
+        }
+
+        public List<PlayerDto> GetAll()
+        {
+            return _players;
         }
     }
 }

@@ -1,4 +1,5 @@
-using SeaBattle;
+using SeaBattle.infrastructure;
+using SeaBattle.infrastructure.Interfaces;
 using SeaBattleApi.Services;
 using SeaBattleApi.Services.Intefaces;
 
@@ -6,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddSingleton<IPlayerModelService, PlayerModelService>();// My service
+builder.Services.AddSingleton<IPlayerDtoRepository, PlayerDtoRepository>();
 //builder.Services.AddSingleton<ISeaBattleGameSessionService, SeaBattleGameSessionService>();// My service
 
 
