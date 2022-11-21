@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SeaBattle.ApiClientModels
+namespace SeaBattle.infrastructure
 {
-    public class ApiClient
+    public class JoinToSessionDtoRepository
     {
     }
 }

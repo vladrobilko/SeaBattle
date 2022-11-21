@@ -1,9 +1,7 @@
-﻿using SeaBattle.Application;
+﻿using SeaBattle.Application.Converters;
 using SeaBattle.infrastructure.Interfaces;
-using SeaBattle.infrastructure.Models;
 using SeaBattleApi.Models;
 using SeaBattleApi.Services.Intefaces;
-using System.Collections.Generic;
 
 namespace SeaBattleApi.Services
 {

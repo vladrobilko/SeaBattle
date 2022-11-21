@@ -1,12 +1,7 @@
 ﻿using SeaBattle.infrastructure.Models;
 using SeaBattleApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SeaBattle.Application
+namespace SeaBattle.Application.Converters
 {
     public static class PlayerDtoConverter
     {
@@ -17,10 +12,9 @@ namespace SeaBattle.Application
 
         public static List<PlayerModel> ConvertToListPlayerModel(this List<PlayerDto> listPlayerDto)
         {
-            var listPM = listPlayerDto
+            return listPlayerDto
                 .Select(x => new PlayerModel() { Name = x.Name })
                 .ToList();
-            return listPM;
         }
     }
 }

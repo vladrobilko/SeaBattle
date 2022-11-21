@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using SeaBattle.infrastructure.Interfaces;
-using SeaBattleApi.Models;
-using SeaBattleApi.Services;
+﻿using Microsoft.AspNetCore.Mvc;
+using SeaBattle.ApiClientModels;
+using SeaBattle.Application.Converters;
 using SeaBattleApi.Services.Intefaces;
 using System.ComponentModel.DataAnnotations;
 
@@ -27,15 +25,9 @@ namespace SeaBattleApi.Controllers
         }
 
         [HttpPost("[action]")]
-        public ActionResult<PlayerModel> GetByName([FromBody][Required] string name)//наверное не тут?
+        public ActionResult<PlayerClient> GetByName([FromBody][Required] string name)
         {
-            return Ok(_playerClientService.Get(name));
-        }
-
-        [HttpGet("[action]")]
-        public ActionResult<List<PlayerModel>> GetAll()
-        {
-            return Ok(_playerClientService.GetAll());
+            return Ok(_playerClientService.Get(name).ConvertToPlayerClient());
         }
     }
 }
