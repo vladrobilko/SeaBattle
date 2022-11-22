@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SeaBattle.infrastructure.Models
+namespace SeaBattle.ApiClientModels
 {
-    public class JoinToSessionDto
+    public class JoinToSessionClient
     {
         [Required]
         public string Player { get; set; }
