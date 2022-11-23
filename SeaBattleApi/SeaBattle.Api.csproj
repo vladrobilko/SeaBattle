@@ -13,7 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\SeaBattle.ApiClient\SeaBattle.ApiClient.csproj" />
     <ProjectReference Include="..\SeaBattle.Application\SeaBattle.Application.csproj" />
-    <ProjectReference Include="..\SeaBattle.infrastructure\SeaBattle.infrastructure.csproj" />
+    <ProjectReference Include="..\SeaBattle.infrastructure\SeaBattle.Infrastructure.csproj" />
     <ProjectReference Include="..\SeaBattle\SeaBattle.Domain.csproj" />
   </ItemGroup>
 

@@ -18,7 +18,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeaBattle.Application", "Se
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeaBattle.ApiClient", "SeaBattle.ApiClient\SeaBattle.ApiClient.csproj", "{EB2DFCBB-6333-430C-A829-F6E372537158}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeaBattle.infrastructure", "SeaBattle.infrastructure\SeaBattle.infrastructure.csproj", "{57CFC66F-7CD9-4B88-AD19-3E8AB94B1B2B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeaBattle.Infrastructure", "SeaBattle.infrastructure\SeaBattle.Infrastructure.csproj", "{57CFC66F-7CD9-4B88-AD19-3E8AB94B1B2B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
