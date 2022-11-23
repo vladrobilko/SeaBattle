@@ -14,6 +14,10 @@ namespace SeaBattle.Application.Services
         {
             _db = newSessionDtoRepository;
         }
+        public void CreateNewPlayer(string name)
+        {
+            _db.AddNewPlayer(name);
+        }
 
         public void CreateNewSession(NewSessionClient newSessionClient)
         {
@@ -25,11 +29,6 @@ namespace SeaBattle.Application.Services
             return _db.
                 GetAllFreeSessions().
                 ConvertToListSessionModel();
-        }
-
-        public void CreateNewPlayer(string name)
-        {
-            _db.AddNewPlayer(name);
         }
 
         public bool IsJoinToSession(JoinToSessionClient joinSessionClient)

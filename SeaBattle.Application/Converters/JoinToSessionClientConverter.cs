@@ -12,7 +12,7 @@ namespace SeaBattle.Application.Converters
     {
         public static JoinToSessionDto ConvertToJoinToSessionDto(this JoinToSessionClient joinToSessionClient)
         {
-            return new JoinToSessionDto() { Player = joinToSessionClient.Player, SessionName = joinToSessionClient.SessionName };
+            return new JoinToSessionDto() { JoinPlayerName = joinToSessionClient.JoinPlayerName, SessionName = joinToSessionClient.SessionName };
         }
     }
 }

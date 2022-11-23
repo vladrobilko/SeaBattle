@@ -5,7 +5,7 @@ namespace SeaBattle.infrastructure.Models
     public class JoinToSessionDto
     {
         [Required]
-        public string Player { get; set; }
+        public string JoinPlayerName { get; set; }
         [Required]
         public string SessionName { get; set; }
     }

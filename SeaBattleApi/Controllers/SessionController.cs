@@ -18,26 +18,33 @@ namespace SeaBattle.Api.Controllers
         }
 
         [HttpPost("[action]")]
-        public IActionResult Register([FromBody][MinLength(3)][Required] string playerName)
+        public IActionResult RegisterNewPlayer([FromBody][MinLength(3)][Required] string playerName)
         {
             _session.CreateNewPlayer(playerName);
             return Ok();
         }
 
         [HttpPost("[action]")]
-        public IActionResult NewSession([FromBody] NewSessionClient newSessionClient)
+        public IActionResult StartNewSession([FromBody] NewSessionClient newSessionClient)
         {
             _session.CreateNewSession(newSessionClient);
             return Ok();
         }
 
         [HttpGet("[action]")]
-        public IActionResult GetAllSessions()
+        public IActionResult GetAllWaitingSessions()
         {
             return Ok(_session.GetAllNewSessions().ConvertToListNewSessionClient());
         }
 
-        //[HttpPost("[action]")]
-        //pubic IActionResult Join
+        [HttpPost("[action]")]
+        public IActionResult JoinToSession([FromBody] JoinToSessionClient joinToSessionClient)
+        {
+            if (_session.IsJoinToSession(joinToSessionClient))
+            {
+                return Ok();
+            }
+            return BadRequest();
+        }
     }
 }
