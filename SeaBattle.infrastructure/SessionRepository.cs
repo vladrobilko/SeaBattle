@@ -4,41 +4,41 @@ namespace SeaBattle.infrastructure
 {
     public class SessionRepository : ISessionRepository
     {
-        private readonly List<NewSessionDto> _newsessions;
+        private readonly List<NewSessionDtoModel> _newsessions;
 
-        private readonly List<JoinToSessionDto> _startingsessions;
+        private readonly List<JoinToSessionDtoModel> _startingsessions;
 
-        private readonly List<PlayerDto> _players;
+        private readonly List<PlayerDtoModel> _players;
 
         public SessionRepository()
         {
-            _newsessions = new List<NewSessionDto>();
-            _players = new List<PlayerDto>();
-            _startingsessions = new List<JoinToSessionDto>();
+            _newsessions = new List<NewSessionDtoModel>();
+            _players = new List<PlayerDtoModel>();
+            _startingsessions = new List<JoinToSessionDtoModel>();
         }
 
         public void AddNewPlayer(string name)
         {
-            var player = new PlayerDto() { Name = name };
+            var player = new PlayerDtoModel() { Name = name };
             _players.Add(player);
         }
 
-        public void AddNewSession(NewSessionDto newSessionDto)
+        public void AddNewSession(NewSessionDtoModel newSessionDto)
         {
             _newsessions.Add(newSessionDto);
         }
 
-        public List<NewSessionDto> GetAllFreeSessions()
+        public List<NewSessionDtoModel> GetAllFreeSessions()
         {
             return _newsessions;
         }
 
-        public void AddToStartsSessions(JoinToSessionDto joinToSessionDto)
+        public void AddToStartsSessions(JoinToSessionDtoModel joinToSessionDto)
         {
             _startingsessions.Add(joinToSessionDto);
         }
 
-        public NewSessionDto GetFreeSession(string sessionName)
+        public NewSessionDtoModel GetFreeSession(string sessionName)
         {
             return _newsessions.SingleOrDefault(p => p.SessionName == sessionName);
         }

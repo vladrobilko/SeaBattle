@@ -1,6 +1,6 @@
 ﻿namespace SeaBattle.infrastructure.Models
 {
-    public class PlayerDto
+    public class PlayerDtoModel
     {
         public string Name { get; set; }
     }

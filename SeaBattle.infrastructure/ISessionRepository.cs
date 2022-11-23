@@ -6,12 +6,12 @@ namespace SeaBattle.infrastructure
     {
         void AddNewPlayer(string name);
 
-        void AddNewSession(NewSessionDto newSessionDto);
+        void AddNewSession(NewSessionDtoModel newSessionDto);
 
-        void AddToStartsSessions(JoinToSessionDto newSessionDto);
+        void AddToStartsSessions(JoinToSessionDtoModel newSessionDto);
 
-        List<NewSessionDto> GetAllFreeSessions();
+        List<NewSessionDtoModel> GetAllFreeSessions();
 
-        NewSessionDto GetFreeSession(string sessionName);
+        NewSessionDtoModel GetFreeSession(string sessionName);
     }
 }

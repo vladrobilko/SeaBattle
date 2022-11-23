@@ -7,9 +7,9 @@ namespace SeaBattle.Application.Services.Intefaces
     {
         void CreateNewPlayer(string name);
 
-        void CreateNewSession(NewSessionClient newSessionClient);
+        void CreateNewSession(NewSessionClientModel newSessionClient);
 
-        bool IsJoinToSession(JoinToSessionClient joinSessionClient);
+        bool IsJoinToSession(JoinToSessionClientModel joinSessionClient);
 
         List<NewSessionModel> GetAllNewSessions();
     }

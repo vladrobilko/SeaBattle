@@ -25,7 +25,7 @@ namespace SeaBattle.Api.Controllers
         }
 
         [HttpPost("[action]")]
-        public IActionResult StartNewSession([FromBody] NewSessionClient newSessionClient)
+        public IActionResult StartNewSession([FromBody] NewSessionClientModel newSessionClient)
         {
             _session.CreateNewSession(newSessionClient);
             return Ok();
@@ -38,7 +38,7 @@ namespace SeaBattle.Api.Controllers
         }
 
         [HttpPost("[action]")]
-        public IActionResult JoinToSession([FromBody] JoinToSessionClient joinToSessionClient)
+        public IActionResult JoinToSession([FromBody] JoinToSessionClientModel joinToSessionClient)
         {
             if (_session.IsJoinToSession(joinToSessionClient))
             {

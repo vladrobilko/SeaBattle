@@ -11,14 +11,14 @@ namespace SeaBattle.Application.Converters
 {
     public static class NewSessionClientConverter
     {
-        public static NewSessionModel ConvertToNewSessionModel(this NewSessionClient newSessionClient)
+        public static NewSessionModel ConvertToNewSessionModel(this NewSessionClientModel newSessionClient)
         {           
             return new NewSessionModel { HostPlayerName = newSessionClient.HostPlayerName, SessionName = newSessionClient.SessionName};
         }
 
-        public static NewSessionDto ConvertToNewSessionDto(this NewSessionClient newSessionClient)
+        public static NewSessionDtoModel ConvertToNewSessionDto(this NewSessionClientModel newSessionClient)
         {
-            return new NewSessionDto { HostPlayerName = newSessionClient.HostPlayerName, SessionName = newSessionClient.SessionName };
+            return new NewSessionDtoModel { HostPlayerName = newSessionClient.HostPlayerName, SessionName = newSessionClient.SessionName };
         }
     }
 }

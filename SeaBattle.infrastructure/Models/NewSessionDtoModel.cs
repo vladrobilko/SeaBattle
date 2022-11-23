@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SeaBattle.ApiClientModels
+namespace SeaBattle.infrastructure.Models
 {
-    public class NewSessionClient
+    public class NewSessionDtoModel
     {
         [Required]
         public string HostPlayerName { get; set; }

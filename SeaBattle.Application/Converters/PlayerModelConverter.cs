@@ -10,9 +10,9 @@ namespace SeaBattle.Application.Converters
 {
     public static class PlayerModelConverter
     {
-        public static PlayerClient ConvertToPlayerClient(this PlayerModel playerClient)
+        public static PlayerClientModel ConvertToPlayerClient(this PlayerModel playerClient)
         {
-            return new PlayerClient() { Name = playerClient.Name };
+            return new PlayerClientModel() { Name = playerClient.Name };
         }
     }
 }
