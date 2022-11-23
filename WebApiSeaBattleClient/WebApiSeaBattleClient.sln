@@ -9,11 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeaBattle.Api", "..\SeaBatt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeaBattle.Domain", "..\SeaBattle\SeaBattle.Domain.csproj", "{E76E5798-72CC-4C66-9DCA-AA6019CC1A28}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeaBattle.ApiClientModels", "..\SeaBattle.ApiClient\SeaBattle.ApiClientModels.csproj", "{CA0226ED-63C7-415F-82C4-F94149FB3ECC}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeaBattle.Application", "..\SeaBattle.Application\SeaBattle.Application.csproj", "{44539042-7995-444A-88A8-E781124D475E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeaBattle.infrastructure", "..\SeaBattle.infrastructure\SeaBattle.infrastructure.csproj", "{2AA962AE-2214-4573-9122-467C6EAA037E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeaBattle.ApiClient", "..\SeaBattle.ApiClient\SeaBattle.ApiClient.csproj", "{879F682D-03E0-4942-81FB-7F73259F24C7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,10 +33,6 @@ Global
 		{E76E5798-72CC-4C66-9DCA-AA6019CC1A28}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E76E5798-72CC-4C66-9DCA-AA6019CC1A28}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E76E5798-72CC-4C66-9DCA-AA6019CC1A28}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CA0226ED-63C7-415F-82C4-F94149FB3ECC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CA0226ED-63C7-415F-82C4-F94149FB3ECC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CA0226ED-63C7-415F-82C4-F94149FB3ECC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CA0226ED-63C7-415F-82C4-F94149FB3ECC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{44539042-7995-444A-88A8-E781124D475E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{44539042-7995-444A-88A8-E781124D475E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44539042-7995-444A-88A8-E781124D475E}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +41,10 @@ Global
 		{2AA962AE-2214-4573-9122-467C6EAA037E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2AA962AE-2214-4573-9122-467C6EAA037E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2AA962AE-2214-4573-9122-467C6EAA037E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{879F682D-03E0-4942-81FB-7F73259F24C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{879F682D-03E0-4942-81FB-7F73259F24C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{879F682D-03E0-4942-81FB-7F73259F24C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{879F682D-03E0-4942-81FB-7F73259F24C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

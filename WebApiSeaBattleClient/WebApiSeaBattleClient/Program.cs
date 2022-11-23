@@ -1,4 +1,5 @@
 ﻿using SeaBattle.ApiClientModels;
+using System.IO;
 using System.Net.Http.Json;
 
 class Program
@@ -12,29 +13,30 @@ class Program
             key = Console.ReadKey().Key;
             if (key == ConsoleKey.Enter)
             {
-                await CreatePlayer("https://localhost:7109/api/PlayerClient/Login", "Vasya");//register 
+                await CreatePlayer("https://localhost:7109/api/Session/RegisterNewPlayer", "Vasya");
+            }
+            else if (key == ConsoleKey.M)
+            {
+                await CreatePlayer("https://localhost:7109/api/Session/RegisterNewPlayer", "Igor");
             }
             else if (key == ConsoleKey.F1)
             {
-                //await GetPlayerByName("https://localhost:7109/api/PlayerClient/GetByName", "Vasya");
+                await HostNewSession("https://localhost:7109/api/Session/StartNewSession", "Vasya", "SeaBattle");
             }
 
             else if (key == ConsoleKey.F2)
             {
-                //CreateSession("https://localhost:7109/api/SeaBattleSession/Create", _player, "Sea Battle");
+                await GetAllSession("https://localhost:7109/api/Session/GetAllWaitingSessions");
             }
 
             else if (key == ConsoleKey.F3)
             {
-                //GetAllSession("https://localhost:7109/api/SeaBattleSession/GetAll", _seaBattleGameSession.ID);
+                await JoinToSession("https://localhost:7109/api/Session/JoinToSession", "Vasya", "SeaBattle");
             }
         }
     }
+
     private static readonly HttpClient client = new HttpClient();
-
-    private static PlayerClientModel _player;
-
-    //private static Session _seaBattleGameSession;
 
     private static async Task CreatePlayer(string path, string playerName)
     {
@@ -42,31 +44,25 @@ class Program
         Console.WriteLine($"Status code: {response.StatusCode}");
     }
 
-    //private static async Task GetPlayerByName(string path, string name)
-    //{
-    //    using HttpResponseMessage response = await client.PostAsJsonAsync(path, name);
-    //    _player = await response.Content.ReadFromJsonAsync<PlayerClient>();
-    //    if (_player != null)
-    //    {
-    //        Console.WriteLine($"Name: {_player.Name}, ID: {_player.ID}, time adding: {_player.TimeAdding}");
-    //        return;
-    //    }
-    //    Console.WriteLine($"The player isn't created. Error: {response.StatusCode}");
-    //}
-
-    //private static async Task CreateSession(string path, PlayerClient playerClient, string nameGame)
-    //{
-    //    _seaBattleGameSession = new SeaBattleGameSession();
-    //    _seaBattleGameSession.PlayerHost = playerClient;
-    //    _seaBattleGameSession.Name = nameGame;
-    //    using HttpResponseMessage response = await client.PostAsJsonAsync(path, _seaBattleGameSession);
-    //    Console.WriteLine($"Status code: {response.StatusCode}");
-    //}
-
-    private static async Task GetAllSession(string path, string idSession)
+    private static async Task HostNewSession(string path, string namePlayer, string namesession)
     {
-        using HttpResponseMessage response = await client.PostAsJsonAsync(path, idSession);
-        Console.WriteLine($"Status code: {response.StatusCode}");
+        var newSession = new NewSessionClientModel() { HostPlayerName = namePlayer, SessionName = namesession };
+        using HttpResponseMessage response = await client.PostAsJsonAsync(path, newSession);
+        Console.WriteLine(response.StatusCode);
+    }
+
+    private static async Task GetAllSession(string path)
+    {
+        using HttpResponseMessage response = await client.GetAsync(path);
+        var jsonMes = await response.Content.ReadAsStringAsync();
+        Console.WriteLine("Isessions informations" + jsonMes);
+    }
+
+    private static async Task JoinToSession(string path, string namePlayer, string namesession)
+    {
+        var join = new JoinToSessionClientModel() { JoinPlayerName = namePlayer, SessionName = namesession };
+        using HttpResponseMessage response = await client.PostAsJsonAsync(path, join);
+        Console.WriteLine(response.StatusCode);
     }
 
     private static void Information()
@@ -74,18 +70,13 @@ class Program
         Console.ForegroundColor = ConsoleColor.Red;
         Console.WriteLine("____________________________");
         Console.WriteLine(
-            "[Enter] - Register a player (Once after the server starts)" +
-            "\n[F1]  - Player's name, id and registration time" +
-            "\n[F2]  - Host a session" +
-            "\n[F3]  - Get sessionы" +
+            "[Enter] - Register first player Vasya (Once after the server starts)" +
+            "\n[M] - Register second player Igor (Once after the server starts)" +
+            "\n[F1]  - Host a session" +
+            "\n[F2]  - Get free sessions" +
+            "\n[F3]  - join to session" +
             "\n[Esc] - EXIT");
         Console.WriteLine("____________________________");
         Console.ResetColor();
     }
 }
-//private static async Task GetNameGame(string path)
-//{
-//    using HttpResponseMessage response = await client.GetAsync(path);
-//    var jsonMes = await response.Content.ReadAsStringAsync();
-//    Console.WriteLine("The name of the game:" + jsonMes);
-//}//await GetNameGame("https://localhost:7109/api/PlayerClient/GameName");
