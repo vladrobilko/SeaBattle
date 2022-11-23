@@ -33,12 +33,17 @@ namespace SeaBattle.Application.Services
 
         public bool IsJoinToSession(JoinToSessionClientModel joinSessionClient)
         {
-            if (_db.GetFreeSession(joinSessionClient.SessionName) != null)
+            if (_db.GetFreeSession(joinSessionClient.SessionName) != null && IsPlayerRegistered(joinSessionClient.JoinPlayerName))
             {
                 _db.AddToStartsSessions(joinSessionClient.ConvertToJoinToSessionDto());
                 return true;
             }
             return false;
+        }
+
+        private bool IsPlayerRegistered(string playerName)
+        {
+            return _db.GetPlayer(playerName) != null;
         }
     }
 }

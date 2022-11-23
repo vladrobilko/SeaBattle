@@ -42,5 +42,10 @@ namespace SeaBattle.infrastructure
         {
             return _newsessions.SingleOrDefault(p => p.SessionName == sessionName);
         }
+
+        public PlayerDtoModel GetPlayer(string playerName)
+        {
+            return _players.SingleOrDefault(p => p.Name == playerName);
+        }
     }
 }

@@ -13,5 +13,7 @@ namespace SeaBattle.infrastructure
         List<NewSessionDtoModel> GetAllFreeSessions();
 
         NewSessionDtoModel GetFreeSession(string sessionName);
+
+        PlayerDtoModel GetPlayer(string playerName);
     }
 }
