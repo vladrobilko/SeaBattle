@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeaBattle.Domain", "..\SeaB
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeaBattle.Application", "..\SeaBattle.Application\SeaBattle.Application.csproj", "{44539042-7995-444A-88A8-E781124D475E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeaBattle.infrastructure", "..\SeaBattle.infrastructure\SeaBattle.infrastructure.csproj", "{2AA962AE-2214-4573-9122-467C6EAA037E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeaBattle.ApiClient", "..\SeaBattle.ApiClient\SeaBattle.ApiClient.csproj", "{879F682D-03E0-4942-81FB-7F73259F24C7}"
 EndProject
 Global
@@ -37,10 +35,6 @@ Global
 		{44539042-7995-444A-88A8-E781124D475E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44539042-7995-444A-88A8-E781124D475E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44539042-7995-444A-88A8-E781124D475E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2AA962AE-2214-4573-9122-467C6EAA037E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2AA962AE-2214-4573-9122-467C6EAA037E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2AA962AE-2214-4573-9122-467C6EAA037E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2AA962AE-2214-4573-9122-467C6EAA037E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{879F682D-03E0-4942-81FB-7F73259F24C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{879F682D-03E0-4942-81FB-7F73259F24C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{879F682D-03E0-4942-81FB-7F73259F24C7}.Release|Any CPU.ActiveCfg = Release|Any CPU

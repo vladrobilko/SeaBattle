@@ -1,4 +1,4 @@
-﻿using SeaBattle.infrastructure.Models;
+﻿using SeaBattle.Repository.Models;
 using SeaBattleApi.Models;
 
 namespace SeaBattle.Application.Converters

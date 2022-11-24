@@ -1,5 +1,5 @@
 ﻿using SeaBattle.ApiClientModels;
-using SeaBattle.infrastructure.Models;
+using SeaBattle.Repository.Models;
 using SeaBattleApi.Models;
 using System;
 using System.Collections.Generic;

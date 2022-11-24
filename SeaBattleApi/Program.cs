@@ -1,6 +1,6 @@
 using SeaBattle.Application.Services;
 using SeaBattle.Application.Services.Intefaces;
-using SeaBattle.infrastructure;
+using SeaBattle.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
