@@ -57,7 +57,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SeaBattle\SeaBattle.Domain.csproj">
+    <ProjectReference Include="..\SeaBattle.Domain\SeaBattle.Domain.csproj">
       <Project>{e76e5798-72cc-4c66-9dca-aa6019cc1a28}</Project>
       <Name>SeaBattle.Domain</Name>
     </ProjectReference>

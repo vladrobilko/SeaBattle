@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SeaBattle.infrastructure\SeaBattle.Infrastructure.csproj" />
+    <ProjectReference Include="..\SeaBattle.ApiClientModels\SeaBattle.ApiClientModels.csproj" />
     <ProjectReference Include="..\SeaBattle.Repository\SeaBattle.Repository.csproj" />
   </ItemGroup>
 

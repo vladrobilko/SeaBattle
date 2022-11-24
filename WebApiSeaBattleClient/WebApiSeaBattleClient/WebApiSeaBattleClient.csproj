@@ -8,14 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\SeaBattle.ApiClient\SeaBattle.ApiClient.csproj" />
-    <ProjectReference Include="..\..\SeaBattle.ApiClient\SeaBattle.ApiClientModels.csproj" />
-    <ProjectReference Include="..\..\SeaBattle.Application\SeaBattle.Application.csproj" />
-    <ProjectReference Include="..\..\SeaBattle.infrastructure\SeaBattle.infrastructure.csproj" />
-    <ProjectReference Include="..\..\SeaBattleApi\SeaBattle.Api.csproj" />
-    <ProjectReference Include="..\..\SeaBattleApi\SeaBattleApi.csproj" />
-    <ProjectReference Include="..\..\SeaBattle\SeaBattle.csproj" />
-    <ProjectReference Include="..\..\SeaBattle\SeaBattle.Domain.csproj" />
+    <ProjectReference Include="..\..\SeaBattle.ApiClientModels\SeaBattle.ApiClientModels.csproj" />
   </ItemGroup>
 
 </Project>

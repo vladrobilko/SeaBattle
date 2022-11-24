@@ -59,5 +59,8 @@
     <Compile Include="Shooter.cs" />
     <Compile Include="ShootResultType.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

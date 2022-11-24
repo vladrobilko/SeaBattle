@@ -1,5 +1,4 @@
 ﻿using SeaBattle.ApiClientModels;
-using System.IO;
 using System.Net.Http.Json;
 
 class Program
