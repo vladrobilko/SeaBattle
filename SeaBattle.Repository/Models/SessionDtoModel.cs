@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 
 namespace SeaBattle.Repository.Models
 {
-    public class NewSessionDtoModel
+    public class SessionDtoModel
     {
         [Required]
         public string HostPlayerName { get; set; }
+        [Required]
+        public string JoinPlayerName { get; set; }
         [Required]
         public string SessionName { get; set; }
     }

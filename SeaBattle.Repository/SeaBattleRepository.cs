@@ -3,19 +3,19 @@ using SeaBattle.Repository.Models;
 
 namespace SeaBattle.Repository
 {
-    public class SessionRepository : ISessionRepository
+    public class SeaBattleRepository : ISeaBattleRepository
     {
-        private readonly List<NewSessionDtoModel> _newsessions;
+        private readonly List<SessionDtoModel> _newsessions;
 
-        private readonly List<JoinToSessionDtoModel> _startingsessions;
+        private readonly List<SessionDtoModel> _startingsessions;
 
         private readonly List<PlayerDtoModel> _players;
 
-        public SessionRepository()
+        public SeaBattleRepository()
         {
-            _newsessions = new List<NewSessionDtoModel>();
+            _newsessions = new List<SessionDtoModel>();
             _players = new List<PlayerDtoModel>();
-            _startingsessions = new List<JoinToSessionDtoModel>();
+            _startingsessions = new List<SessionDtoModel>();
         }
 
         public void AddNewPlayer(string name)
@@ -24,22 +24,22 @@ namespace SeaBattle.Repository
             _players.Add(player);
         }
 
-        public void AddNewSession(NewSessionDtoModel newSessionDto)
+        public void AddNewSession(SessionDtoModel newSessionDto)
         {
             _newsessions.Add(newSessionDto);
         }
 
-        public List<NewSessionDtoModel> GetAllFreeSessions()
+        public List<SessionDtoModel> GetAllFreeSessions()
         {
             return _newsessions;
         }
 
-        public void AddToStartsSessions(JoinToSessionDtoModel joinToSessionDto)
+        public void AddToStartsSessions(SessionDtoModel joinToSessionDto)
         {
             _startingsessions.Add(joinToSessionDto);
         }
 
-        public NewSessionDtoModel GetFreeSession(string sessionName)
+        public SessionDtoModel GetFreeSession(string sessionName)
         {
             return _newsessions.SingleOrDefault(p => p.SessionName == sessionName);
         }

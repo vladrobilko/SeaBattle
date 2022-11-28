@@ -10,9 +10,9 @@ namespace SeaBattle.Application.Converters
 {
     public static class JoinToSessionClientConverter
     {
-        public static JoinToSessionDtoModel ConvertToJoinToSessionDto(this JoinToSessionClientModel joinToSessionClient)
+        public static SessionDtoModel ConvertToJoinToSessionDto(this JoinToSessionClientModel joinToSessionClient)
         {
-            return new JoinToSessionDtoModel() { JoinPlayerName = joinToSessionClient.JoinPlayerName, SessionName = joinToSessionClient.SessionName };
+            return new SessionDtoModel() { JoinPlayerName = joinToSessionClient.JoinPlayerName, SessionName = joinToSessionClient.SessionName };
         }
     }
 }

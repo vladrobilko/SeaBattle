@@ -5,7 +5,7 @@ using SeaBattle.Repository;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddSingleton<ISessionRepository, SessionRepository>();
+builder.Services.AddSingleton<ISeaBattleRepository, SeaBattleRepository>();
 builder.Services.AddSingleton<ISessionService, SessionService>();
 
 builder.Services.AddControllers();

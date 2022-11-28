@@ -8,9 +8,9 @@ namespace SeaBattle.Application.Services
 {
     public class SessionService : ISessionService
     {
-        ISessionRepository _db;
+        ISeaBattleRepository _db;
 
-        public SessionService(ISessionRepository newSessionDtoRepository)
+        public SessionService(ISeaBattleRepository newSessionDtoRepository)
         {
             _db = newSessionDtoRepository;
         }
