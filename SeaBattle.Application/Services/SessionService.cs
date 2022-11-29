@@ -16,16 +16,12 @@ namespace SeaBattle.Application.Services
         }
         public void CreateNewPlayer(string name)
         {
-            _db.AddNewPlayer(name);
+            _db.AddNewPlayerOrThrowExeption(name);
         }
 
         public void CreateNewSession(NewSessionClientModel newSessionClient)
         {
-            if (_db.IsSessionExists(newSessionClient.SessionName))
-            {
-                throw new Exception("The session has already been created");
-            }
-            _db.AddNewSession(newSessionClient.HostPlayerName, newSessionClient.SessionName);
+            _db.AddNewSessionOrThrowExeption(newSessionClient.HostPlayerName, newSessionClient.SessionName);
         }
 
         public List<NewSessionModel> GetAllNewSessions()

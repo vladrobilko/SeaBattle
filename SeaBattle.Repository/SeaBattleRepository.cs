@@ -1,5 +1,6 @@
 ﻿
 using SeaBattle.Repository.Models;
+using System.Xml.Linq;
 
 namespace SeaBattle.Repository
 {
@@ -9,23 +10,29 @@ namespace SeaBattle.Repository
 
         private readonly List<SessionDtoModel> _startingsessions;
 
-        private readonly List<PlayerDtoModel> _players;
+        private readonly List<PlayerDtoModel> _registeredPlayers;
 
         public SeaBattleRepository()
         {
             _newsessions = new List<SessionDtoModel>();
-            _players = new List<PlayerDtoModel>();
+            _registeredPlayers = new List<PlayerDtoModel>();
             _startingsessions = new List<SessionDtoModel>();
         }
 
-        public void AddNewPlayer(string name)
+        public void AddNewPlayerOrThrowExeption(string name)
         {
+            if (IsPlayerRegistered(name))
+                throw new Exception("The name is occupied.");
             var player = new PlayerDtoModel() { Name = name };
-            _players.Add(player);
+            _registeredPlayers.Add(player);
         }
 
-        public void AddNewSession(string hostPlayerName, string sessionName)
+        public void AddNewSessionOrThrowExeption(string hostPlayerName, string sessionName)
         {
+            if (IsSessionExists(sessionName))
+                throw new Exception("The session has already been created");
+            else if (!IsPlayerRegistered(hostPlayerName))
+                throw new Exception("The player is not registered");
             _newsessions.Add(new SessionDtoModel() { HostPlayerName = hostPlayerName, SessionName = sessionName });
         }
 
@@ -36,27 +43,20 @@ namespace SeaBattle.Repository
 
         public void AddToStartsSessionsOrThrowExeption(string joinSessionName, string nameSession)
         {
-            var session = GetFreeSession(nameSession) ?? throw new Exception("Session not found.");
-            if (session == null)
-                throw new Exception("Session not found.");
+            var session = _newsessions.SingleOrDefault(p => p.SessionName == nameSession) ?? throw new Exception("Session not found.");
             session.JoinPlayerName = joinSessionName;
             _startingsessions.Add(session);
         }
 
-        public SessionDtoModel GetFreeSession(string sessionName)
-        {
-            return _newsessions.SingleOrDefault(p => p.SessionName == sessionName);
-        }
-
-        public PlayerDtoModel GetPlayer(string playerName)
-        {
-            return _players.SingleOrDefault(p => p.Name == playerName);
-        }
-
-        public bool IsSessionExists(string nameSession)
+        private bool IsSessionExists(string nameSession)
         {
             return _newsessions.SingleOrDefault(p => p.SessionName == nameSession) != null ||
                 _startingsessions.SingleOrDefault(p => p.SessionName == nameSession) != null;
+        }
+
+        private bool IsPlayerRegistered(string name)
+        {
+            return _registeredPlayers.SingleOrDefault(p => p.Name == name) != null;
         }
     }
 }

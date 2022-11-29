@@ -5,19 +5,15 @@ namespace SeaBattle.Repository
 {
     public interface ISeaBattleRepository
     {
-        void AddNewPlayer(string name);
+        void AddNewPlayerOrThrowExeption(string name);
 
-        PlayerDtoModel GetPlayer(string playerName);
+        //PlayerDtoModel GetPlayerOrThrowExeption(string playerName); хз пока что нужно ли это
 
-        void AddNewSession(string hostPlayerName, string sessionName);
+        void AddNewSessionOrThrowExeption(string hostPlayerName, string sessionName);
 
         void AddToStartsSessionsOrThrowExeption(string joinPlayerName, string sessionName);
 
         List<SessionDtoModel> GetAllFreeSessions();
-
-        SessionDtoModel GetFreeSession(string sessionName);
-
-        bool IsSessionExists(string sessionName);
 
         //StartGame или игра сессия будет содержать игру
         //нужна проверка есть ли такая сессия 
