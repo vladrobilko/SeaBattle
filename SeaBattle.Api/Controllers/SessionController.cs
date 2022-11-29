@@ -40,11 +40,8 @@ namespace SeaBattle.Api.Controllers
         [HttpPost("[action]")]
         public IActionResult JoinToSession([FromBody] JoinToSessionClientModel joinToSessionClient)
         {
-            if (_session.IsJoinToSession(joinToSessionClient))
-            {
-                return Ok();
-            }
-            return BadRequest();
+            _session.JoinToSession(joinToSessionClient);
+            return Ok();
         }
     }
 }
