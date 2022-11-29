@@ -52,5 +52,11 @@ namespace SeaBattle.Repository
         {
             return _players.SingleOrDefault(p => p.Name == playerName);
         }
+
+        public bool IsSessionExists(string nameSession)
+        {
+            return _newsessions.SingleOrDefault(p => p.SessionName == nameSession) != null ||
+                _startingsessions.SingleOrDefault(p => p.SessionName == nameSession) != null;
+        }
     }
 }

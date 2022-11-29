@@ -17,6 +17,8 @@ namespace SeaBattle.Repository
 
         SessionDtoModel GetFreeSession(string sessionName);
 
+        bool IsSessionExists(string sessionName);
+
         //StartGame или игра сессия будет содержать игру
         //нужна проверка есть ли такая сессия 
     }
