@@ -24,9 +24,9 @@ namespace SeaBattle.Repository
             _players.Add(player);
         }
 
-        public void AddNewSession(SessionDtoModel newSessionDto)
+        public void AddNewSession(string hostPlayerName, string sessionName)
         {
-            _newsessions.Add(newSessionDto);
+            _newsessions.Add(new SessionDtoModel() { HostPlayerName = hostPlayerName, SessionName = sessionName });
         }
 
         public List<SessionDtoModel> GetAllFreeSessions()
@@ -34,9 +34,13 @@ namespace SeaBattle.Repository
             return _newsessions;
         }
 
-        public void AddToStartsSessions(SessionDtoModel joinToSessionDto)
+        public void AddToStartsSessionsOrThrowExeption(string joinSessionName, string nameSession)
         {
-            _startingsessions.Add(joinToSessionDto);
+            var session = GetFreeSession(nameSession) ?? throw new Exception("Session not found.");
+            if (session == null)
+                throw new Exception("Session not found.");
+            session.JoinPlayerName = joinSessionName;
+            _startingsessions.Add(session);
         }
 
         public SessionDtoModel GetFreeSession(string sessionName)

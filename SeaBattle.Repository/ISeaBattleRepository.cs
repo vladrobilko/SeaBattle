@@ -9,14 +9,15 @@ namespace SeaBattle.Repository
 
         PlayerDtoModel GetPlayer(string playerName);
 
-        void AddNewSession(SessionDtoModel newSessionDto);//Create new session
+        void AddNewSession(string hostPlayerName, string sessionName);
 
-        void AddToStartsSessions(SessionDtoModel newSessionDto);//Join to session
+        void AddToStartsSessionsOrThrowExeption(string joinPlayerName, string sessionName);
 
         List<SessionDtoModel> GetAllFreeSessions();
 
         SessionDtoModel GetFreeSession(string sessionName);
 
         //StartGame или игра сессия будет содержать игру
+        //нужна проверка есть ли такая сессия 
     }
 }

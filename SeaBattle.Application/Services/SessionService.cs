@@ -21,7 +21,7 @@ namespace SeaBattle.Application.Services
 
         public void CreateNewSession(NewSessionClientModel newSessionClient)
         {
-            _db.AddNewSession(newSessionClient.ConvertToNewSessionDto());
+            _db.AddNewSession(newSessionClient.HostPlayerName, newSessionClient.SessionName);
         }
 
         public List<NewSessionModel> GetAllNewSessions()
@@ -31,19 +31,9 @@ namespace SeaBattle.Application.Services
                 ConvertToListSessionModel();
         }
 
-        public bool IsJoinToSession(JoinToSessionClientModel joinSessionClient)
+        public void JoinToSession(JoinToSessionClientModel joinSessionClient)
         {
-            if (_db.GetFreeSession(joinSessionClient.SessionName) != null && IsPlayerRegistered(joinSessionClient.JoinPlayerName))//new feature
-            {
-                _db.AddToStartsSessions(joinSessionClient.ConvertToJoinToSessionDto());
-                return true;
-            }
-            return false;//
-        }
-
-        private bool IsPlayerRegistered(string playerName)
-        {
-            return _db.GetPlayer(playerName) != null;
+            _db.AddToStartsSessionsOrThrowExeption(joinSessionClient.JoinPlayerName, joinSessionClient.SessionName);
         }
     }
 }
