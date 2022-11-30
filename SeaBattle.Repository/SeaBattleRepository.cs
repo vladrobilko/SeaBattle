@@ -45,6 +45,7 @@ namespace SeaBattle.Repository
         {
             var session = _newsessions.SingleOrDefault(p => p.SessionName == nameSession) ?? throw new Exception("Session not found.");
             session.JoinPlayerName = joinSessionName;
+            _newsessions.Remove(session);
             _startingsessions.Add(session);
         }
 
