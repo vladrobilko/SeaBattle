@@ -12,11 +12,11 @@ class Program
             key = Console.ReadKey().Key;
             if (key == ConsoleKey.Enter)
             {
-                await CreatePlayer("https://localhost:7109/api/Session/RegisterNewPlayer", "Vasya");
+                await CreatePlayer("https://localhost:7109/api/Player/RegisterNewPlayer", "Vasya");
             }
             else if (key == ConsoleKey.M)
             {
-                await CreatePlayer("https://localhost:7109/api/Session/RegisterNewPlayer", "Igor");
+                await CreatePlayer("https://localhost:7109/api/Player/RegisterNewPlayer", "Igor");
             }
             else if (key == ConsoleKey.F1)
             {

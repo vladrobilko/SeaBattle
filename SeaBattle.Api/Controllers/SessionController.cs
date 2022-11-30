@@ -18,13 +18,6 @@ namespace SeaBattle.Api.Controllers
         }
 
         [HttpPost("[action]")]
-        public IActionResult RegisterNewPlayer([FromBody][MinLength(3)][Required] string playerName)
-        {
-            _session.CreateNewPlayer(playerName);
-            return Ok();
-        }
-
-        [HttpPost("[action]")]
         public IActionResult StartNewSession([FromBody] NewSessionClientModel newSessionClient)
         {
             _session.CreateNewSession(newSessionClient);

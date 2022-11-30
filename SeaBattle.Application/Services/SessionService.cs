@@ -8,15 +8,11 @@ namespace SeaBattle.Application.Services
 {
     public class SessionService : ISessionService
     {
-        ISeaBattleRepository _db;
+        private readonly ISeaBattleRepository _db;
 
         public SessionService(ISeaBattleRepository newSessionDtoRepository)
         {
             _db = newSessionDtoRepository;
-        }
-        public void CreateNewPlayer(string name)
-        {
-            _db.AddNewPlayerOrThrowExeption(name);
         }
 
         public void CreateNewSession(NewSessionClientModel newSessionClient)
