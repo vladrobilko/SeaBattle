@@ -1,12 +1,9 @@
-﻿
-using SeaBattle.Repository.Models;
+﻿using SeaBattle.Repository.Models;
 
-namespace SeaBattle.Repository
+namespace SeaBattle.Repository.Services
 {
-    public interface ISeaBattleRepository
+    public interface ISessionRepository
     {
-        void AddNewPlayerOrThrowExeption(string name);
-
         void AddNewSessionOrThrowExeption(string hostPlayerName, string sessionName);
 
         void AddToStartsSessionsOrThrowExeption(string joinPlayerName, string sessionName);

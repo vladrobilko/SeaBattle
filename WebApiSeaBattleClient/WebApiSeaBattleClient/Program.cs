@@ -88,6 +88,6 @@ class Program
     private static async Task GetPlayAreaForPlayer(string path)
     {
         using HttpResponseMessage response = await client.GetAsync(path);
-        string[,] playArea = await response.Content.();
+        //string[,] playArea = await response.Content.();
     }
 }

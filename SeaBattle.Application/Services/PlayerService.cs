@@ -1,5 +1,5 @@
 ﻿using SeaBattle.Api.Controllers;
-using SeaBattle.Repository;
+using SeaBattle.Repository.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,16 +10,16 @@ namespace SeaBattle.Application.Services
 {
     public class PlayerService : IPlayerService
     {
-        private readonly ISeaBattleRepository _db;
+        private readonly IPlayerRepository _playerRepository;
 
-        public PlayerService(ISeaBattleRepository seaBattleRepository)
+        public PlayerService(IPlayerRepository playerRepository)
         {
-            _db = seaBattleRepository;
+            _playerRepository = playerRepository;
         }
 
         public void CreateNewPlayer(string name)
         {
-            _db.AddNewPlayerOrThrowExeption(name);
+            _playerRepository.AddNewPlayerOrThrowExeption(name);
         }
     }
 }

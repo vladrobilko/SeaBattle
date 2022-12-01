@@ -1,16 +1,16 @@
 ﻿using SeaBattle.ApiClientModels;
 using SeaBattle.Application.Converters;
 using SeaBattle.Application.Services.Intefaces;
-using SeaBattle.Repository;
+using SeaBattle.Repository.Services;
 using SeaBattleApi.Models;
 
 namespace SeaBattle.Application.Services
 {
     public class SessionService : ISessionService
     {
-        private readonly ISeaBattleRepository _db;
+        private readonly ISessionRepository _db;
 
-        public SessionService(ISeaBattleRepository newSessionDtoRepository)
+        public SessionService(ISessionRepository newSessionDtoRepository)
         {
             _db = newSessionDtoRepository;
         }
