@@ -7,8 +7,6 @@ namespace SeaBattle.Repository
     {
         void AddNewPlayerOrThrowExeption(string name);
 
-        //PlayerDtoModel GetPlayerOrThrowExeption(string playerName); хз пока что нужно ли это
-
         void AddNewSessionOrThrowExeption(string hostPlayerName, string sessionName);
 
         void AddToStartsSessionsOrThrowExeption(string joinPlayerName, string sessionName);

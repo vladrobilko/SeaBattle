@@ -18,7 +18,7 @@ namespace ConsoleGameFillerForClient
                 Console.Write(i + "|");
                 FillLine(playArea1, i);
                 Console.Write("|" + i + "|");
-                FillEnemyWithInvisibleShips(playArea2, i);
+                FillLine(playArea2, i);
                 Console.SetCursorPosition(0, i + 2);
             }
         }
@@ -35,7 +35,7 @@ namespace ConsoleGameFillerForClient
             }
         }
 
-        private static void FillLine(string[,] playArea, int lineNumber)//одинаковый 
+        private static void FillLine(string[,] playArea, int lineNumber)
         {
             for (int i = 0; i < playArea.GetLength(1); i++)
             {               
@@ -43,12 +43,5 @@ namespace ConsoleGameFillerForClient
             }
         }
 
-        static void FillEnemyWithInvisibleShips(string[,] playArea, int lineNumber)//одинаковый 
-        {
-            for (int k = 0; k < playArea.GetLength(1); k++)
-            {
-                Console.Write(playArea[lineNumber, k] + "|");
-            }
-        }
     }
 }

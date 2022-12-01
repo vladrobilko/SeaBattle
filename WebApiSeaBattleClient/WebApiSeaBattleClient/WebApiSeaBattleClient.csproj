@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\SeaBattle.ApiClientModels\SeaBattle.ApiClientModels.csproj" />
+    <ProjectReference Include="..\ConsoleGameFillerForClient\ConsoleGameFillerForClient.csproj" />
   </ItemGroup>
 
 </Project>

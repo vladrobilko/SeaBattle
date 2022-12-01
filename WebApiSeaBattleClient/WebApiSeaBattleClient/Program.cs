@@ -1,4 +1,5 @@
 ﻿using SeaBattle.ApiClientModels;
+using System.IO;
 using System.Net.Http.Json;
 
 class Program
@@ -31,6 +32,11 @@ class Program
             else if (key == ConsoleKey.F3)
             {
                 await JoinToSession("https://localhost:7109/api/Session/JoinToSession", "Vasya", "SeaBattle");
+            }
+
+            else if (key == ConsoleKey.F4)
+            {
+
             }
         }
     }
@@ -77,5 +83,11 @@ class Program
             "\n[Esc] - EXIT");
         Console.WriteLine("____________________________");
         Console.ResetColor();
+    }
+
+    private static async Task GetPlayAreaForPlayer(string path)
+    {
+        using HttpResponseMessage response = await client.GetAsync(path);
+        string[,] playArea = await response.Content.();
     }
 }
