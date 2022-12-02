@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SeaBattle.Application.Services.Interfaces.RepositoryServices;
 using SeaBattle.Repository.Models;
-using SeaBattle.Repository.Services;
 
-namespace SeaBattle.Repository
+namespace SeaBattle.Repository.Repositories
 {
     public class SeaBattleGameRepositoty : ISeaBattleGameRepository
     {

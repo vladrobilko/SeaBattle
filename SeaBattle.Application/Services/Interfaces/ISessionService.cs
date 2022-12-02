@@ -1,4 +1,4 @@
-﻿using SeaBattle.ApiClientModels;
+﻿using SeaBattle.ApiClientModels.Models;
 using SeaBattle.Application.Models;
 
 namespace SeaBattle.Application.Services.Intefaces

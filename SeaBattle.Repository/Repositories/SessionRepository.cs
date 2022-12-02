@@ -1,10 +1,9 @@
-﻿
+﻿using SeaBattle.Application.Converters;
+using SeaBattle.Application.Models;
+using SeaBattle.Application.Services.Interfaces.RepositoryServices;
 using SeaBattle.Repository.Models;
-using SeaBattle.Repository.Services;
-using System.Text;
-using System.Xml.Linq;
 
-namespace SeaBattle.Repository
+namespace SeaBattle.Repository.Repositories
 {
     public class SessionRepository : ISessionRepository
     {
@@ -25,9 +24,9 @@ namespace SeaBattle.Repository
             _newSessionsWaitSecondPlayer.Add(new SessionDtoModel() { HostPlayerName = hostPlayerName, SessionName = sessionName });
         }
 
-        public List<SessionDtoModel> GetAllFreeSessions()
+        public List<NewSessionModel> GetAllFreeSessions()
         {
-            return _newSessionsWaitSecondPlayer;
+            return _newSessionsWaitSecondPlayer.ConvertToListSessionModel();
         }
 
         public void AddToStartsSessionsOrThrowExeption(string joinSessionName, string nameSession)

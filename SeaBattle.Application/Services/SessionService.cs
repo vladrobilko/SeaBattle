@@ -1,8 +1,8 @@
-﻿using SeaBattle.ApiClientModels;
+﻿using SeaBattle.ApiClientModels.Models;
 using SeaBattle.Application.Converters;
 using SeaBattle.Application.Models;
 using SeaBattle.Application.Services.Intefaces;
-using SeaBattle.Repository.Services;
+using SeaBattle.Application.Services.Interfaces.RepositoryServices;
 
 namespace SeaBattle.Application.Services
 {
@@ -23,8 +23,7 @@ namespace SeaBattle.Application.Services
         public List<NewSessionModel> GetAllNewSessions()
         {
             return _db.
-                GetAllFreeSessions().
-                ConvertToListSessionModel();
+                GetAllFreeSessions();
         }
 
         public void JoinToSession(JoinToSessionClientModel joinSessionClient)

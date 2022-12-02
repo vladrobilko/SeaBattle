@@ -1,6 +1,6 @@
-﻿using SeaBattle.Repository.Models;
+﻿using SeaBattle.Application.Models;
 
-namespace SeaBattle.Repository.Services
+namespace SeaBattle.Application.Services.Interfaces.RepositoryServices
 {
     public interface ISessionRepository
     {
@@ -8,7 +8,7 @@ namespace SeaBattle.Repository.Services
 
         void AddToStartsSessionsOrThrowExeption(string joinPlayerName, string sessionName);
 
-        List<SessionDtoModel> GetAllFreeSessions();
+        List<NewSessionModel> GetAllFreeSessions();
 
         bool IsSessionReadyToStartGame(string sessionName);
     }

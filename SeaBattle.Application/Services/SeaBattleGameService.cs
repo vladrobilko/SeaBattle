@@ -1,5 +1,5 @@
 ﻿using SeaBattle.Application.Services.Interfaces;
-using SeaBattle.Repository.Services;
+using SeaBattle.Application.Services.Interfaces.RepositoryServices;
 
 namespace SeaBattle.Application.Services
 {

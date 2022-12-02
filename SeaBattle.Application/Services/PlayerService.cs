@@ -1,10 +1,5 @@
 ﻿using SeaBattle.Api.Controllers;
-using SeaBattle.Repository.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SeaBattle.Application.Services.Interfaces.RepositoryServices;
 
 namespace SeaBattle.Application.Services
 {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SeaBattle.ApiClientModels
+namespace SeaBattle.ApiClientModels.Models
 {
     public class JoinToSessionClientModel
     {

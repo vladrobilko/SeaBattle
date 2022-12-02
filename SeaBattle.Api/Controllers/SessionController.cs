@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SeaBattle.ApiClientModels;
+using SeaBattle.ApiClientModels.Models;
 using SeaBattle.Application.Converters;
 using SeaBattle.Application.Services.Intefaces;
-using SeaBattle.Application.Converters;
 
 namespace SeaBattle.Api.Controllers
 {

@@ -1,5 +1,6 @@
 ﻿using SeaBattle.Application.Models;
 using SeaBattle.Repository.Models;
+
 namespace SeaBattle.Application.Converters
 {
     public static class NewSessionDtoConverter

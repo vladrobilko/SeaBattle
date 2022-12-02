@@ -1,5 +1,4 @@
-﻿using SeaBattle.ApiClientModels;
-using System.IO;
+﻿using SeaBattle.ApiClientModels.Models;
 using System.Net.Http.Json;
 
 class Program
@@ -31,7 +30,7 @@ class Program
 
             else if (key == ConsoleKey.F3)
             {
-                await JoinToSession("https://localhost:7109/api/Session/JoinToSession", "Vasya", "SeaBattle");
+                await JoinToSession("https://localhost:7109/api/Session/JoinToSession", "Vasya", "SeaBattle");//это не то что то ????
             }
 
             else if (key == ConsoleKey.F4)
