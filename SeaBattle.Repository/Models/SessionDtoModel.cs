@@ -5,12 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SeaBattle.ApiClientModels
+namespace SeaBattle.Repository.Models
 {
-    public class NewSessionClientModel
+    public class SessionDtoModel
     {
         [Required]
         public string HostPlayerName { get; set; }
+        [Required]
+        public string JoinPlayerName { get; set; } = "NoName";
         [Required]
         public string SessionName { get; set; }
     }

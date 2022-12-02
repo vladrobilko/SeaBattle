@@ -1,4 +1,4 @@
-﻿using SeaBattle.ApiClientModels;
+﻿using SeaBattle.ApiClientModels.Models;
 using System.Net.Http.Json;
 
 class Program
@@ -12,11 +12,11 @@ class Program
             key = Console.ReadKey().Key;
             if (key == ConsoleKey.Enter)
             {
-                await CreatePlayer("https://localhost:7109/api/Session/RegisterNewPlayer", "Vasya");
+                await CreatePlayer("https://localhost:7109/api/Player/RegisterNewPlayer", "Vasya");
             }
             else if (key == ConsoleKey.M)
             {
-                await CreatePlayer("https://localhost:7109/api/Session/RegisterNewPlayer", "Igor");
+                await CreatePlayer("https://localhost:7109/api/Player/RegisterNewPlayer", "Igor");
             }
             else if (key == ConsoleKey.F1)
             {
@@ -30,7 +30,13 @@ class Program
 
             else if (key == ConsoleKey.F3)
             {
-                await JoinToSession("https://localhost:7109/api/Session/JoinToSession", "Vasya", "SeaBattle");
+                await JoinToSession("https://localhost:7109/api/Session/JoinToSession", "Vasya", "SeaBattle");//это не то что то ????
+            }
+
+            else if (key == ConsoleKey.F4)
+            {
+                await StartGame("https://localhost:7109/api/Session/StartGame");
+
             }
         }
     }
@@ -64,6 +70,15 @@ class Program
         Console.WriteLine(response.StatusCode);
     }
 
+
+    private static async Task StartGame(string path)
+    {
+        using HttpResponseMessage response = await client.GetAsync(path);
+        //string[,] playArea = await response.Content.();
+    }
+
+
+
     private static void Information()
     {
         Console.ForegroundColor = ConsoleColor.Red;
@@ -74,6 +89,7 @@ class Program
             "\n[F1]  - Host a session" +
             "\n[F2]  - Get free sessions" +
             "\n[F3]  - join to session" +
+            "\n[F3]  - Start game" +
             "\n[Esc] - EXIT");
         Console.WriteLine("____________________________");
         Console.ResetColor();

@@ -2,8 +2,6 @@
 
 namespace SeaBattle
 {
-    public delegate void OnPlayerHit(bool Player1Turn);
-
     public class SeaBattleGame
     {
         IPlayer player1;

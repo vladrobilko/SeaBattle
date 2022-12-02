@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SeaBattleApi.Models
+namespace SeaBattle.Application.Models
 {
     public class NewSessionModel
     {

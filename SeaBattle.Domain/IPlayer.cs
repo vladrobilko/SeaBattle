@@ -8,5 +8,4 @@
         ShootResultType OnShoot(Point target);
         PlayArea GetPlayArea();
     }
-
 }

@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SeaBattle.ApiClientModels;
+using SeaBattle.ApiClientModels.Models;
 using SeaBattle.Application.Converters;
 using SeaBattle.Application.Services.Intefaces;
-using System.ComponentModel.DataAnnotations;
 
 namespace SeaBattle.Api.Controllers
 {
@@ -15,13 +14,6 @@ namespace SeaBattle.Api.Controllers
         public SessionController(ISessionService modelService)
         {
             _session = modelService;
-        }
-
-        [HttpPost("[action]")]
-        public IActionResult RegisterNewPlayer([FromBody][MinLength(3)][Required] string playerName)
-        {
-            _session.CreateNewPlayer(playerName);
-            return Ok();
         }
 
         [HttpPost("[action]")]
@@ -40,11 +32,8 @@ namespace SeaBattle.Api.Controllers
         [HttpPost("[action]")]
         public IActionResult JoinToSession([FromBody] JoinToSessionClientModel joinToSessionClient)
         {
-            if (_session.IsJoinToSession(joinToSessionClient))
-            {
-                return Ok();
-            }
-            return BadRequest();
+            _session.JoinToSession(joinToSessionClient);
+            return Ok();
         }
     }
 }
