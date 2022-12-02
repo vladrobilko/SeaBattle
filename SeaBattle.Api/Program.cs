@@ -1,6 +1,7 @@
 using SeaBattle.Api.Controllers;
 using SeaBattle.Application.Services;
 using SeaBattle.Application.Services.Intefaces;
+using SeaBattle.Application.Services.Interfaces;
 using SeaBattle.Repository;
 using SeaBattle.Repository.Services;
 
@@ -11,6 +12,7 @@ builder.Services.AddSingleton<ISessionRepository, SessionRepository>();
 builder.Services.AddSingleton<IPlayerService, PlayerService>();
 builder.Services.AddSingleton<IPlayerRepository, PlayerRepository>();
 builder.Services.AddSingleton<ISessionService, SessionService>();
+builder.Services.AddSingleton<ISeaBattleGameService, SeaBattleGameService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

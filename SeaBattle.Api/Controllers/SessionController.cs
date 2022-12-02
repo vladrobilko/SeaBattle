@@ -2,7 +2,7 @@
 using SeaBattle.ApiClientModels;
 using SeaBattle.Application.Converters;
 using SeaBattle.Application.Services.Intefaces;
-using System.ComponentModel.DataAnnotations;
+using SeaBattle.Application.Converters;
 
 namespace SeaBattle.Api.Controllers
 {

@@ -1,12 +1,5 @@
-﻿using SeaBattle.Repository.Models;
-using SeaBattleApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-
+﻿using SeaBattle.Application.Models;
+using SeaBattle.Repository.Models;
 namespace SeaBattle.Application.Converters
 {
     public static class NewSessionDtoConverter

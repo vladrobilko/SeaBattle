@@ -1,17 +1,25 @@
 ﻿using SeaBattle.Application.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SeaBattle.Repository.Services;
 
 namespace SeaBattle.Application.Services
 {
     public class SeaBattleGameService : ISeaBattleGameService
-    {// инфа что в браузере есть база данных https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API
-        public void StartGame()
+    {
+        private readonly ISeaBattleGameRepository _seaBattleGameService;
+
+        private readonly ISessionRepository _sessionRepository;
+
+        public SeaBattleGameService(ISeaBattleGameRepository seaBattleGameService)
         {
-            throw new NotImplementedException();
+            _seaBattleGameService = seaBattleGameService;
+        }
+
+        public void StartGame(string nameSession)
+        {
+            if (_sessionRepository.IsSessionReadyToStartGame(nameSession))
+            {
+                //_seaBattleGameService. - тут будем добалвть уже начатую игру 
+            }
         }
     }
 }

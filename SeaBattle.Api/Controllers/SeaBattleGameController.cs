@@ -17,10 +17,12 @@ namespace SeaBattle.Api.Controllers
         }
 
         [HttpGet("[action]")]
-        public IActionResult StartGame()
+        public IActionResult StartGame([FromBody] string SessionName)
         {
-            _seaBattleGameService.StartGame();
-            return Ok();
+            _seaBattleGameService.StartGame(SessionName);
+            return Ok("The game has started");//тут отослать модель игры и сообзение с тем кто ходит
         }
+
+        //тут отослать модель игры и сообзение с тем кто ходит
     }
 }

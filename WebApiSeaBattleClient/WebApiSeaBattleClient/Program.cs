@@ -36,6 +36,7 @@ class Program
 
             else if (key == ConsoleKey.F4)
             {
+                await StartGame("https://localhost:7109/api/Session/StartGame");
 
             }
         }
@@ -70,6 +71,15 @@ class Program
         Console.WriteLine(response.StatusCode);
     }
 
+
+    private static async Task StartGame(string path)
+    {
+        using HttpResponseMessage response = await client.GetAsync(path);
+        //string[,] playArea = await response.Content.();
+    }
+
+
+
     private static void Information()
     {
         Console.ForegroundColor = ConsoleColor.Red;
@@ -80,14 +90,9 @@ class Program
             "\n[F1]  - Host a session" +
             "\n[F2]  - Get free sessions" +
             "\n[F3]  - join to session" +
+            "\n[F3]  - Start game" +
             "\n[Esc] - EXIT");
         Console.WriteLine("____________________________");
         Console.ResetColor();
-    }
-
-    private static async Task GetPlayAreaForPlayer(string path)
-    {
-        using HttpResponseMessage response = await client.GetAsync(path);
-        //string[,] playArea = await response.Content.();
     }
 }

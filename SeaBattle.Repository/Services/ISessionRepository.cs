@@ -10,7 +10,6 @@ namespace SeaBattle.Repository.Services
 
         List<SessionDtoModel> GetAllFreeSessions();
 
-        //StartGame или игра сессия будет содержать игру
-        //нужна проверка есть ли такая сессия 
+        bool IsSessionReadyToStartGame(string sessionName);
     }
 }
