@@ -58,7 +58,6 @@ namespace ConsoleSeaBattle
                     Console.Write(' ' + "|");
                     continue;
                 }
-                //enemy.GetPlayArea().Cells[lineNumber, k].ToString2();
                 Console.Write(CellStateConsole.ToString(enemy.GetPlayArea().Cells[lineNumber, k]) + "|");
             }
         }

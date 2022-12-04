@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SeaBattle.ApiClientModels\SeaBattle.ApiClientModels.csproj" />
+    <ProjectReference Include="..\SeaBattle.Domain\SeaBattle.Domain.csproj" />
   </ItemGroup>
 
 </Project>

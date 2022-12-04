@@ -1,5 +1,7 @@
-﻿using SeaBattle.Application.Services.Interfaces;
+﻿using SeaBattle.Application.Models;
+using SeaBattle.Application.Services.Interfaces;
 using SeaBattle.Application.Services.Interfaces.RepositoryServices;
+using SeaBattleApi.Models;
 
 namespace SeaBattle.Application.Services
 {
@@ -14,12 +16,23 @@ namespace SeaBattle.Application.Services
             _seaBattleGameService = seaBattleGameService;
         }
 
-        public void StartGame(string nameSession)
+        public void Start(string nameSession)
         {
             if (_sessionRepository.IsSessionReadyToStartGame(nameSession))
             {
+                var gameSession = _sessionRepository.GetSessionModel(nameSession);
+                var game = new SeaBattleGameModel
+                    (new PlayerModel(new FillerRandom(), gameSession.SessionName),
+                    new PlayerModel(new FillerRandom(), gameSession.JoinPlayerName),
+                    gameSession.SessionName);
+                game.Start();
                 //_seaBattleGameService. - тут будем добалвть уже начатую игру 
             }
+            else
+            {
+                throw new Exception("The game can't start");
+            }
         }
+
     }
 }

@@ -5,7 +5,7 @@ namespace SeaBattle.Application.Converters
 {
     public static class NewSessionDtoConverter
     {
-        public static NewSessionModel ConvertToSessionModel(this SessionDtoModel newSessionDto)
+        public static NewSessionModel ConvertToNewSessionModel(this SessionDtoModel newSessionDto)
         {
             return new NewSessionModel() { HostPlayerName = newSessionDto.HostPlayerName, SessionName = newSessionDto.SessionName };
         }
@@ -13,8 +13,14 @@ namespace SeaBattle.Application.Converters
         public static List<NewSessionModel> ConvertToListSessionModel(this List<SessionDtoModel> newSessionDto)
         {
             return newSessionDto
-                .Select(ConvertToSessionModel)
+                .Select(ConvertToNewSessionModel)
                 .ToList();
+        }
+
+        public static SessionModel ConvertToSessionModel(this SessionDtoModel SessionDto)
+        {
+            return new SessionModel() { HostPlayerName = SessionDto.HostPlayerName,
+                JoinPlayerName = SessionDto.JoinPlayerName, SessionName = SessionDto.SessionName };
         }
     }
 }

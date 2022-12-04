@@ -47,5 +47,14 @@ namespace SeaBattle.Repository.Repositories
             return _newSessionsWaitSecondPlayer.SingleOrDefault(p => p.SessionName == nameSession) != null ||
                 _waitingSessionsToStartGame.SingleOrDefault(p => p.SessionName == nameSession) != null;
         }
-    }//Наврное надо где то удалять сессию из ожидания когда игра началась
+
+        public SessionModel GetSessionModel(string nameSession)
+        {
+            var newSession = _newSessionsWaitSecondPlayer.
+                SingleOrDefault(p => p.SessionName == nameSession);
+            if (newSession == null)
+                throw new Exception("Session not found.");
+            return newSession.ConvertToSessionModel();
+        }
+    }
 }

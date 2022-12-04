@@ -26,7 +26,9 @@ namespace SeaBattle.Api.Controllers
         [HttpGet("[action]")]
         public IActionResult GetAllWaitingSessions()
         {
-            return Ok(_session.GetAllNewSessions().ConvertToListNewSessionClient());
+            return Ok(_session.
+                GetAllNewSessions().
+                ConvertToListNewSessionClient());
         }
 
         [HttpPost("[action]")]

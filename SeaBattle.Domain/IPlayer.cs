@@ -4,7 +4,7 @@
     {
         string Name { get; set; }
         void FillShips();
-        Point GetNextShootTarget();
+        Point GetNextShootTarget(int y = 0, int x = 0);
         ShootResultType OnShoot(Point target);
         PlayArea GetPlayArea();
     }

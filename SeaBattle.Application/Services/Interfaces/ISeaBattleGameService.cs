@@ -2,6 +2,6 @@
 {
     public interface ISeaBattleGameService
     {
-        void StartGame(string sessionName);
+        void Start(string sessionName);
     }
 }

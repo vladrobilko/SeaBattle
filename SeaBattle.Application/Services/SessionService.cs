@@ -1,5 +1,4 @@
 ﻿using SeaBattle.ApiClientModels.Models;
-using SeaBattle.Application.Converters;
 using SeaBattle.Application.Models;
 using SeaBattle.Application.Services.Intefaces;
 using SeaBattle.Application.Services.Interfaces.RepositoryServices;
@@ -8,27 +7,27 @@ namespace SeaBattle.Application.Services
 {
     public class SessionService : ISessionService
     {
-        private readonly ISessionRepository _db;
+        private readonly ISessionRepository _sessionRepository;
 
         public SessionService(ISessionRepository newSessionDtoRepository)
         {
-            _db = newSessionDtoRepository;
+            _sessionRepository = newSessionDtoRepository;
         }
 
         public void CreateNewSession(NewSessionClientModel newSessionClient)
         {
-            _db.AddNewSessionOrThrowExeption(newSessionClient.HostPlayerName, newSessionClient.SessionName);
+            _sessionRepository.AddNewSessionOrThrowExeption(newSessionClient.HostPlayerName, newSessionClient.SessionName);
         }
 
         public List<NewSessionModel> GetAllNewSessions()
         {
-            return _db.
+            return _sessionRepository.
                 GetAllFreeSessions();
         }
 
         public void JoinToSession(JoinToSessionClientModel joinSessionClient)
         {
-            _db.AddToStartsSessionsOrThrowExeption(joinSessionClient.JoinPlayerName, joinSessionClient.SessionName);
+            _sessionRepository.AddToStartsSessionsOrThrowExeption(joinSessionClient.JoinPlayerName, joinSessionClient.SessionName);
         }
     }
 }

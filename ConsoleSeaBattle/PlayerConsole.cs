@@ -23,16 +23,19 @@ namespace ConsoleSeaBattle
             _filler = filler;
             _ships = ShipsCreator.CreatShips(new List<ShipConfige>()
             { new ShipConfige(1,4), new ShipConfige(2, 3), new ShipConfige(3, 2), new ShipConfige(4, 1) });
-            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Enter your name");
             Name = Console.ReadLine();
             Console.Clear();
-            Console.ResetColor();
         }
 
         public void FillShips()
         {
             _filler.FillShips(_playArea.Cells, _ships);
+        }
+
+        public PlayArea GetPlayArea()
+        {
+            return new PlayArea(_playArea);
         }
 
         public Point GetNextShootTarget()
@@ -43,14 +46,14 @@ namespace ConsoleSeaBattle
                 int Y = int.Parse(Console.ReadLine());
                 Console.WriteLine("Enter the horizontal coordinate.");
                 int X = int.Parse(Console.ReadLine());
-                if (_playAreaEnemyForInformation.Cells[Y,X].State == CellState.HasShooted)
+                if (_playAreaEnemyForInformation.Cells[Y, X].State == CellState.HasShooted)
                 {
                     Console.WriteLine("You have already shot here. Please enter again.");
                     Console.WriteLine("Enter the vertical coordinate.");
                     Y = int.Parse(Console.ReadLine());
                     Console.WriteLine("Enter the horizontal coordinate.");
                     X = int.Parse(Console.ReadLine());
-                }                
+                }
                 _playAreaEnemyForInformation.Cells[Y, X].State = CellState.HasShooted;
                 return new Point(Y, X);
             }
@@ -74,11 +77,6 @@ namespace ConsoleSeaBattle
                 _playArea.Cells[target.Y, target.X].State = CellState.HasHit;
             }
             return shootResultType;
-        }
-
-        public PlayArea GetPlayArea()
-        {
-            return new PlayArea(_playArea);
         }
     }
 
