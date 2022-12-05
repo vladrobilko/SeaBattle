@@ -18,19 +18,17 @@ namespace SeaBattle.Api.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> StartGame([FromBody] NewSessionClientModel sessionClientModel)
+        public IActionResult StartGame([FromBody] NewSessionClientModel sessionClientModel)
         {
             try
             {
-                await _seaBattleGameService.StartGame(sessionClientModel.SessionName,sessionClientModel.HostPlayerName);
-                return Ok("The game has started");
+                _seaBattleGameService.StartGame(sessionClientModel.SessionName,sessionClientModel.HostPlayerName);
+                return Ok("The game has started");//тут отослать модель игры и сообзение с тем кто ходит
             }
             catch (Exception e)
             {
                 return BadRequest("The game was not started. Error message: " + e.Message);
             }
-        }
-
-        //тут отослать модель игры и сообзение с тем кто ходит
+        }        
     }
 }
