@@ -3,10 +3,8 @@ using SeaBattle;
 
 namespace ConsoleSeaBattle
 {
-
     public class ConsoleFillerForGame
     {
-
         public static void FillConsole(IPlayer player, IPlayer enemy)
         {
             Console.Clear();

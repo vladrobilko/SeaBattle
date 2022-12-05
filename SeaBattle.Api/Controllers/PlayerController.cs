@@ -18,8 +18,15 @@ namespace SeaBattle.Api.Controllers
         [HttpPost("[action]")]
         public IActionResult RegisterNewPlayer([FromBody][MinLength(3)][Required] string playerName)
         {
-            _playerService.CreateNewPlayer(playerName);
-            return Ok();
+            try
+            {
+                _playerService.CreateNewPlayer(playerName);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest("Failed to register a player. Error message: " + e.Message);
+            }            
         }
     }
 }

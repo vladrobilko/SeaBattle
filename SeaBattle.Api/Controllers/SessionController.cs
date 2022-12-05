@@ -19,23 +19,45 @@ namespace SeaBattle.Api.Controllers
         [HttpPost("[action]")]
         public IActionResult StartNewSession([FromBody] NewSessionClientModel newSessionClient)
         {
-            _session.CreateNewSession(newSessionClient);
-            return Ok();
+            try
+            {
+                _session.CreateNewSession(newSessionClient);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest("The session was not started. Error message: " + e.Message);
+            }
         }
 
         [HttpGet("[action]")]
         public IActionResult GetAllWaitingSessions()
         {
-            return Ok(_session.
-                GetAllNewSessions().
-                ConvertToListNewSessionClient());
+            try
+            {
+                return Ok(_session.
+               GetAllNewSessions().
+               ConvertToListNewSessionClient());
+            }
+            catch (Exception e)
+            {
+                return BadRequest("Sessions were not given. Error message: " + e.Message);
+            }
+
         }
 
         [HttpPost("[action]")]
         public IActionResult JoinToSession([FromBody] JoinToSessionClientModel joinToSessionClient)
         {
-            _session.JoinToSession(joinToSessionClient);
-            return Ok();
+            try
+            {
+                _session.JoinToSession(joinToSessionClient);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest("Couldn't connect to the session. Error message: " + e.Message);
+            }
         }
     }
 }

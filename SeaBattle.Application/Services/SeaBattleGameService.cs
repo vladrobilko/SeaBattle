@@ -7,16 +7,17 @@ namespace SeaBattle.Application.Services
 {
     public class SeaBattleGameService : ISeaBattleGameService
     {
-        private readonly ISeaBattleGameRepository _seaBattleGameService;
+        private readonly ISeaBattleGameRepository _seaBattleGameRepository;
 
         private readonly ISessionRepository _sessionRepository;
 
-        public SeaBattleGameService(ISeaBattleGameRepository seaBattleGameService)
+        public SeaBattleGameService(ISeaBattleGameRepository seaBattleGameService, ISessionRepository sessionRepository)
         {
-            _seaBattleGameService = seaBattleGameService;
+            _seaBattleGameRepository = seaBattleGameService;
+            _sessionRepository = sessionRepository;
         }
 
-        public void Start(string nameSession)
+        public void StartGame(string nameSession)
         {
             if (_sessionRepository.IsSessionReadyToStartGame(nameSession))
             {
@@ -26,7 +27,7 @@ namespace SeaBattle.Application.Services
                     new PlayerModel(new FillerRandom(), gameSession.JoinPlayerName),
                     gameSession.SessionName);
                 game.Start();
-                //_seaBattleGameService. - тут будем добалвть уже начатую игру 
+
             }
             else
             {

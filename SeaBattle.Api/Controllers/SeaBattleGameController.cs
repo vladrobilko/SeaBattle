@@ -19,7 +19,7 @@ namespace SeaBattle.Api.Controllers
         [HttpGet("[action]")]
         public IActionResult StartGame([FromBody] string SessionName)
         {
-            _seaBattleGameService.Start(SessionName);
+            _seaBattleGameService.StartGame(SessionName);
             return Ok("The game has started");
         }
 
