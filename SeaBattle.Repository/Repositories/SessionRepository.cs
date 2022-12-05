@@ -33,8 +33,8 @@ namespace SeaBattle.Repository.Repositories
         {
             var session = _newSessionsWaitSecondPlayer.SingleOrDefault(p => p.SessionName == nameSession) ?? throw new Exception("Session not found.");
             session.JoinPlayerName = joinSessionName;
-            _newSessionsWaitSecondPlayer.Remove(session);
             _waitingSessionsToStartGame.Add(session);
+            _newSessionsWaitSecondPlayer.Remove(session);
         }
 
         public bool IsSessionReadyToStartGame(string nameSession)
@@ -48,13 +48,22 @@ namespace SeaBattle.Repository.Repositories
                 _waitingSessionsToStartGame.SingleOrDefault(p => p.SessionName == nameSession) != null;
         }
 
-        public SessionModel GetSessionModel(string nameSession)
+        public SessionModel GetFreeSessionByName(string nameSession)
         {
             var newSession = _newSessionsWaitSecondPlayer.
                 SingleOrDefault(p => p.SessionName == nameSession);
             if (newSession == null)
                 throw new Exception("Session not found.");
             return newSession.ConvertToSessionModel();
+        }
+
+        public SessionModel GetStartSessionByName(string nameSession)
+        {
+            var session = _waitingSessionsToStartGame.
+                SingleOrDefault(p => p.SessionName == nameSession);
+            if (session == null)
+                throw new Exception("Session not found.");
+            return session.ConvertToSessionModel();
         }
     }
 }

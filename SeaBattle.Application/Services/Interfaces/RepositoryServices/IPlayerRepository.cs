@@ -3,5 +3,7 @@
     public interface IPlayerRepository
     {
         void AddNewPlayerOrThrowExeption(string name);
+
+        bool IsPlayerRegistered(string name);
     }
 }

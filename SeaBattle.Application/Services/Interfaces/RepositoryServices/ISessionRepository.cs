@@ -8,7 +8,9 @@ namespace SeaBattle.Application.Services.Interfaces.RepositoryServices
 
         void AddToStartsSessionsOrThrowExeption(string joinPlayerName, string sessionName);
 
-        SessionModel GetSessionModel(string nameSession);
+        SessionModel GetFreeSessionByName(string nameSession);
+
+        SessionModel GetStartSessionByName(string nameSession);
 
         List<NewSessionModel> GetAllFreeSessions();
 

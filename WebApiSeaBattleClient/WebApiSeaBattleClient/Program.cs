@@ -3,6 +3,21 @@ using System.Net.Http.Json;
 
 class Program
 {
+    private static void Information()
+    {
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine("____________________________");
+        Console.WriteLine(
+            "[Enter] - Register first player Vasya (Once after the server starts)" +
+            "\n[M] - Register second player Igor (Once after the server starts)" +
+            "\n[F1]  - Host a session" +
+            "\n[F2]  - Get free sessions" +
+            "\n[F3]  - join to session" +
+            "\n[F4]  - Start game" +
+            "\n[Esc] - EXIT");
+        Console.WriteLine("____________________________");
+        Console.ResetColor();
+    }
     static async Task Main(string[] args)
     {
         ConsoleKey key = new ConsoleKey();
@@ -30,14 +45,13 @@ class Program
 
             else if (key == ConsoleKey.F3)
             {
-                await JoinToSession("https://localhost:7109/api/Session/JoinToSession", "Vasya", "SeaBattle");//это не то что то ????
+                await JoinToSession("https://localhost:7109/api/Session/JoinToSession", "Igor", "SeaBattle");//это не то что то ????
             }
 
             else if (key == ConsoleKey.F4)
             {
-                await StartGame("https://localhost:7109/api/Session/StartGame");
-
-            }
+                await StartGame("https://localhost:7109/api/SeaBattleGame/StartGame", "Vasya", "SeaBattle");
+            }//   /api/SeaBattleGame/StartGame
         }
     }
 
@@ -46,52 +60,40 @@ class Program
     private static async Task CreatePlayer(string path, string playerName)
     {
         using HttpResponseMessage response = await client.PostAsJsonAsync(path, playerName);
-        Console.WriteLine($"Status code: {response.StatusCode}");
+        Console.WriteLine($"Status code: {response.StatusCode}. Api exception message: {response.Content.ReadAsStringAsync().Result}");
     }
 
     private static async Task HostNewSession(string path, string namePlayer, string namesession)
     {
         var newSession = new NewSessionClientModel() { HostPlayerName = namePlayer, SessionName = namesession };
         using HttpResponseMessage response = await client.PostAsJsonAsync(path, newSession);
-        Console.WriteLine(response.StatusCode);
+        Console.WriteLine($"Status code: {response.StatusCode}. Api exception message: {response.Content.ReadAsStringAsync().Result}");
     }
 
     private static async Task GetAllSession(string path)
     {
         using HttpResponseMessage response = await client.GetAsync(path);
         var jsonMes = await response.Content.ReadAsStringAsync();
-        Console.WriteLine("Isessions informations" + jsonMes);
+        Console.WriteLine($"Status code: {response.StatusCode}, Sessions informations + {jsonMes} ." +
+            $" \nApi exception message: {response.Content.ReadAsStringAsync().Result}");
     }
 
     private static async Task JoinToSession(string path, string namePlayer, string namesession)
     {
         var join = new JoinToSessionClientModel() { JoinPlayerName = namePlayer, SessionName = namesession };
         using HttpResponseMessage response = await client.PostAsJsonAsync(path, join);
-        Console.WriteLine(response.StatusCode);
+        Console.WriteLine($"Status code: {response.StatusCode}. Api exception message: {response.Content.ReadAsStringAsync().Result}");
     }
 
 
-    private static async Task StartGame(string path)
+    private static async Task StartGame(string path, string namePlayer, string namesession)
     {
-        using HttpResponseMessage response = await client.GetAsync(path);
+        var newSession = new NewSessionClientModel() { HostPlayerName = namePlayer, SessionName = namesession };
+
+        using HttpResponseMessage response = await client.PostAsJsonAsync(path, newSession);
+
+        Console.WriteLine($"Status code: {response.StatusCode}. Api exception message: {response.Content.ReadAsStringAsync().Result}");
         //string[,] playArea = await response.Content.();
     }
 
-
-
-    private static void Information()
-    {
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine("____________________________");
-        Console.WriteLine(
-            "[Enter] - Register first player Vasya (Once after the server starts)" +
-            "\n[M] - Register second player Igor (Once after the server starts)" +
-            "\n[F1]  - Host a session" +
-            "\n[F2]  - Get free sessions" +
-            "\n[F3]  - join to session" +
-            "\n[F3]  - Start game" +
-            "\n[Esc] - EXIT");
-        Console.WriteLine("____________________________");
-        Console.ResetColor();
-    }
 }

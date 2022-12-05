@@ -19,7 +19,8 @@ namespace SeaBattle.Repository.Repositories
             var player = new PlayerDtoModel() { Name = name };
             _registeredPlayers.Add(player);
         }
-        private bool IsPlayerRegistered(string name)
+
+        public bool IsPlayerRegistered(string name)
         {
             return _registeredPlayers.SingleOrDefault(p => p.Name == name) != null;
         }

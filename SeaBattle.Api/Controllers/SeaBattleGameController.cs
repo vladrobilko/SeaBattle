@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SeaBattle.ApiClientModels.Models;
 using SeaBattle.Application.Services;
 using SeaBattle.Application.Services.Interfaces;
 using System.ComponentModel.DataAnnotations;
@@ -16,11 +17,18 @@ namespace SeaBattle.Api.Controllers
             _seaBattleGameService = seaBattleGameService;
         }
 
-        [HttpGet("[action]")]
-        public IActionResult StartGame([FromBody] string SessionName)
+        [HttpPost("[action]")]
+        public async Task<IActionResult> StartGame([FromBody] NewSessionClientModel sessionClientModel)
         {
-            _seaBattleGameService.StartGame(SessionName);
-            return Ok("The game has started");
+            try
+            {
+                await _seaBattleGameService.StartGame(sessionClientModel.SessionName,sessionClientModel.HostPlayerName);
+                return Ok("The game has started");
+            }
+            catch (Exception e)
+            {
+                return BadRequest("The game was not started. Error message: " + e.Message);
+            }
         }
 
         //тут отослать модель игры и сообзение с тем кто ходит

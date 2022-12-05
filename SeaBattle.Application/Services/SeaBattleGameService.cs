@@ -11,28 +11,29 @@ namespace SeaBattle.Application.Services
 
         private readonly ISessionRepository _sessionRepository;
 
-        public SeaBattleGameService(ISeaBattleGameRepository seaBattleGameService, ISessionRepository sessionRepository)
+        private readonly IPlayerRepository _playerRepository;
+
+        public SeaBattleGameService(ISeaBattleGameRepository seaBattleGameService,
+            ISessionRepository sessionRepository, IPlayerRepository playerRepository)
         {
             _seaBattleGameRepository = seaBattleGameService;
             _sessionRepository = sessionRepository;
+            _playerRepository = playerRepository;
         }
 
-        public void StartGame(string nameSession)
+        public void StartGame(string nameSession, string hostName)
         {
-            if (_sessionRepository.IsSessionReadyToStartGame(nameSession))
-            {
-                var gameSession = _sessionRepository.GetSessionModel(nameSession);
-                var game = new SeaBattleGameModel
-                    (new PlayerModel(new FillerRandom(), gameSession.SessionName),
-                    new PlayerModel(new FillerRandom(), gameSession.JoinPlayerName),
-                    gameSession.SessionName);
-                game.Start();
-
-            }
-            else
-            {
+            if (!_sessionRepository.IsSessionReadyToStartGame(nameSession) || !_playerRepository.IsPlayerRegistered(hostName))
                 throw new Exception("The game can't start");
-            }
+
+            var gameSession = _sessionRepository.GetStartSessionByName(nameSession);
+            var game = new SeaBattleGameModel
+                (new PlayerModel(new FillerRandom(), gameSession.SessionName),
+                new PlayerModel(new FillerRandom(), gameSession.JoinPlayerName),
+                gameSession.SessionName);
+            game.Start();
+
+
         }
 
     }

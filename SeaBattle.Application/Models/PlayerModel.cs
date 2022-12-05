@@ -45,7 +45,7 @@ namespace SeaBattleApi.Models
             // int X = int.Parse(Console.ReadLine());
             if (_playAreaEnemyForInformation.Cells[Y, X].State == CellState.HasShooted)
             {
-                throw new Exception("You have already shot here. Please enter again.");
+                //throw new Exception("You have already shot here. Please enter again.");
 
                 // Console.WriteLine("You have already shot here. Please enter again.");
                 //Console.WriteLine("Enter the vertical coordinate.");
