@@ -16,7 +16,7 @@ namespace SeaBattle.Api.Controllers
         }
 
         [HttpPost("[action]")]
-        public IActionResult RegisterNewPlayer([FromBody][MinLength(3)][Required] string playerName)
+        public IActionResult Register([FromBody][MinLength(3)][Required] string playerName)
         {
             try
             {

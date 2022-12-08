@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace SeaBattle.ApiClientModels.Models
 {
-    public class PlayerClientModel
+    internal class ClientInfoModel
     {
-        public string Name { get; set; }
     }
 }

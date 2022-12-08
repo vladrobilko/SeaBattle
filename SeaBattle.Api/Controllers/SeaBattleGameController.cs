@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SeaBattle.ApiClientModels.Models;
-using SeaBattle.Application.Services;
 using SeaBattle.Application.Services.Interfaces;
-using System.ComponentModel.DataAnnotations;
 
 namespace SeaBattle.Api.Controllers
 {
@@ -18,7 +16,7 @@ namespace SeaBattle.Api.Controllers
         }
 
         [HttpPost("[action]")]
-        public IActionResult StartGame([FromBody] NewSessionClientModel sessionClientModel)
+        public IActionResult StartGameHostPlayer([FromBody] HostSessionClientModel sessionClientModel)
         {
             try
             {
@@ -29,6 +27,18 @@ namespace SeaBattle.Api.Controllers
             {
                 return BadRequest("The game was not started. Error message: " + e.Message);
             }
-        }        
+        }
+
+        [HttpPost("[action]")]
+        public IActionResult GetPlayArea([FromBody] string name)
+        {
+            return Ok();//возвратить игровую арену с массивом 
+        }
+
+        [HttpPost("[action]")]
+        public IActionResult StartGameJoinPlayer([FromBody] JoinSessionClientModel sessionClientModel)
+        {
+            return Ok();//стать готовым 
+        }
     }
 }

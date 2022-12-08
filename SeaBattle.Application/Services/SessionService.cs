@@ -14,7 +14,7 @@ namespace SeaBattle.Application.Services
             _sessionRepository = newSessionDtoRepository;
         }
 
-        public void CreateNewSession(NewSessionClientModel newSessionClient)
+        public void CreateNewSession(HostSessionClientModel newSessionClient)
         {
             _sessionRepository.AddNewSessionOrThrowExeption(newSessionClient.HostPlayerName, newSessionClient.SessionName);
         }
@@ -25,7 +25,7 @@ namespace SeaBattle.Application.Services
                 GetAllFreeSessions();
         }
 
-        public void JoinToSession(JoinToSessionClientModel joinSessionClient)
+        public void JoinToSession(JoinSessionClientModel joinSessionClient)
         {
             _sessionRepository.AddToStartsSessionsOrThrowExeption(joinSessionClient.JoinPlayerName, joinSessionClient.SessionName);
         }

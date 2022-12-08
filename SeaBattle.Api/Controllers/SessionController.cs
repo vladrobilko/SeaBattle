@@ -17,11 +17,11 @@ namespace SeaBattle.Api.Controllers
         }
 
         [HttpPost("[action]")]
-        public IActionResult StartNewSession([FromBody] NewSessionClientModel newSessionClient)
+        public IActionResult HostSession([FromBody] HostSessionClientModel hostSessionClientModel)
         {
             try
             {
-                _session.CreateNewSession(newSessionClient);
+                _session.CreateNewSession(hostSessionClientModel);
                 return Ok();
             }
             catch (Exception e)
@@ -47,7 +47,7 @@ namespace SeaBattle.Api.Controllers
         }
 
         [HttpPost("[action]")]
-        public IActionResult JoinToSession([FromBody] JoinToSessionClientModel joinToSessionClient)
+        public IActionResult JoinSession([FromBody] JoinSessionClientModel joinToSessionClient)
         {
             try
             {

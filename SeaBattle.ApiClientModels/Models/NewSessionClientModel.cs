@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SeaBattle.ApiClientModels.Models
 {
-    public class NewSessionClientModel
+    public class HostSessionClientModel
     {
         [Required]
         public string HostPlayerName { get; set; }
