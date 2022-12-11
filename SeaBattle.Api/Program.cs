@@ -7,12 +7,12 @@ using SeaBattle.Repository.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddSingleton<ISessionRepository, SessionRepository>();
 builder.Services.AddSingleton<IPlayerService, PlayerService>();
 builder.Services.AddSingleton<IPlayerRepository, PlayerRepository>();
 builder.Services.AddSingleton<ISessionService, SessionService>();
-builder.Services.AddSingleton<ISeaBattleGameRepository, SeaBattleGameRepositoty>();
+builder.Services.AddSingleton<ISessionRepository, SessionRepository>();
 builder.Services.AddSingleton<ISeaBattleGameService, SeaBattleGameService>();
+builder.Services.AddSingleton<ISeaBattleGameRepository, SeaBattleGameRepositoty>();
 
 builder.Services.AddControllers();
 

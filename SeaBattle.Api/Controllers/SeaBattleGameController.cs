@@ -16,29 +16,41 @@ namespace SeaBattle.Api.Controllers
         }
 
         [HttpPost("[action]")]
-        public IActionResult StartGameHostPlayer([FromBody] HostSessionClientModel sessionClientModel)
+        public ActionResult<string[,]> GetPlayArea([FromBody] PlayerClientInfoModel playerClientInfoModel)
         {
-            try
-            {
-                _seaBattleGameService.StartGame(sessionClientModel.SessionName,sessionClientModel.HostPlayerName);
-                return Ok("The game has started");//тут отослать модель игры и сообзение с тем кто ходит
-            }
-            catch (Exception e)
-            {
-                return BadRequest("The game was not started. Error message: " + e.Message);
-            }
+            string[,] area = new string[10, 10];
+            return Ok(area);//возвратить игровую арену в виде массива строк
         }
 
         [HttpPost("[action]")]
-        public IActionResult GetPlayArea([FromBody] string name)
+        public ActionResult<string[,]> ChangePlayArea([FromBody] PlayerClientInfoModel playerClientInfoModel)
         {
-            return Ok();//возвратить игровую арену с массивом 
+            string[,] area = new string[10, 10];
+            return Ok();//возвратить новую игровую арену в виде массива строк 
         }
 
         [HttpPost("[action]")]
-        public IActionResult StartGameJoinPlayer([FromBody] JoinSessionClientModel sessionClientModel)
+        public IActionResult ReadyToStartGame([FromBody] PlayerClientInfoModel playerClientInfoModel)
         {
-            return Ok();//стать готовым 
+            return Ok();//если можно быть готовым, возвратить ок и модель игрока чтобы показать игровое поле
+        }
+
+        [HttpPost("[action]")]
+        public IActionResult GetGameModel([FromBody] PlayerClientInfoModel playerClientInfoModel)
+        {
+            return Ok();//если игра началалсь и ход этого игрока вернуть модель (обновленное поле и сообщение для игрока)
+        }
+
+        [HttpPost("[action]")]
+        public IActionResult Shoot([FromBody] PlayerClientShootModel playerClientShootModel)
+        {
+            return Ok();//вернуть модель игры с сообщением 
+        }
+
+        [HttpPost("[action]")]
+        public IActionResult EndGame([FromBody] PlayerClientInfoModel playerClientInfoModel)
+        {
+            return Ok();//когда кто то проиграл
         }
     }
 }

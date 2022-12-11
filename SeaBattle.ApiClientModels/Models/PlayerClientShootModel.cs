@@ -7,13 +7,19 @@ using System.Threading.Tasks;
 
 namespace SeaBattle.ApiClientModels.Models
 {
-    public class SessionClientModel
+    public class PlayerClientShootModel
     {
         [Required]
-        public string HostPlayerName { get; set; }
-        [Required]
-        public string JoinPlayerName { get; set; }
+        public string PlayerName { get; set; }
+
         [Required]
         public string SessionName { get; set; }
+
+        [Required]
+        public string ShootCoordinateY { get; set; }
+
+
+        [Required]
+        public string ShootCoordinateX { get; set; }
     }
 }

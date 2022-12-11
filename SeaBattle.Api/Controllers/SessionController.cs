@@ -31,7 +31,7 @@ namespace SeaBattle.Api.Controllers
         }
 
         [HttpGet("[action]")]
-        public IActionResult GetAllWaitingSessions()
+        public ActionResult<List<HostSessionClientModel>> GetAllWaitingSessions()
         {
             try
             {
