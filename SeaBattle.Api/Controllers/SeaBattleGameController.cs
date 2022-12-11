@@ -26,31 +26,33 @@ namespace SeaBattle.Api.Controllers
         public ActionResult<string[,]> ChangePlayArea([FromBody] PlayerClientInfoModel playerClientInfoModel)
         {
             string[,] area = new string[10, 10];
-            return Ok();//возвратить новую игровую арену в виде массива строк 
+            return Ok(area);//возвратить новую игровую арену в виде массива строк 
         }
 
         [HttpPost("[action]")]
-        public IActionResult ReadyToStartGame([FromBody] PlayerClientInfoModel playerClientInfoModel)
+        public ActionResult<string[,]> ReadyToStartGame([FromBody] PlayerClientInfoModel playerClientInfoModel)
         {
-            return Ok();//если можно быть готовым, возвратить ок и модель игрока чтобы показать игровое поле
+            string[,] area = new string[10, 10];
+            return Ok(area);//если можно быть готовым, возвратить ок и модель игрока чтобы показать игровое поле
         }
 
         [HttpPost("[action]")]
-        public IActionResult GetGameModel([FromBody] PlayerClientInfoModel playerClientInfoModel)
+        public ActionResult<GameClientModel> GetGameModel([FromBody] PlayerClientInfoModel playerClientInfoModel)
         {
-            return Ok();//если игра началалсь и ход этого игрока вернуть модель (обновленное поле и сообщение для игрока)
+            return Ok(new GameClientModel());//если игра началалсь и ход этого игрока вернуть модель (обновленное поле и сообщение для игрока)
         }
 
         [HttpPost("[action]")]
         public IActionResult Shoot([FromBody] PlayerClientShootModel playerClientShootModel)
         {
-            return Ok();//вернуть модель игры с сообщением 
+            return Ok(new GameClientModel());//вернуть модель игры с сообщением 
         }
 
         [HttpPost("[action]")]
-        public IActionResult EndGame([FromBody] PlayerClientInfoModel playerClientInfoModel)
+        public ActionResult<string> EndGame([FromBody] PlayerClientInfoModel playerClientInfoModel)
         {
-            return Ok();//когда кто то проиграл
+            var gameModel = new GameClientModel();
+            return Ok(gameModel.Message);//когда кто то проиграл
         }
     }
 }
