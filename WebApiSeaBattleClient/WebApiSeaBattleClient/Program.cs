@@ -18,6 +18,7 @@ class Program
         Console.WriteLine("____________________________");
         Console.ResetColor();
     }
+
     static async Task Main(string[] args)
     {
         ConsoleKey key = new ConsoleKey();
@@ -65,7 +66,7 @@ class Program
 
     private static async Task HostNewSession(string path, string namePlayer, string namesession)
     {
-        var newSession = new NewSessionClientModel() { HostPlayerName = namePlayer, SessionName = namesession };
+        var newSession = new HostSessionClientModel() { HostPlayerName = namePlayer, SessionName = namesession };
         using HttpResponseMessage response = await client.PostAsJsonAsync(path, newSession);
         Console.WriteLine($"Status code: {response.StatusCode}. Api exception message: {response.Content.ReadAsStringAsync().Result}");
     }
@@ -80,20 +81,18 @@ class Program
 
     private static async Task JoinToSession(string path, string namePlayer, string namesession)
     {
-        var join = new JoinToSessionClientModel() { JoinPlayerName = namePlayer, SessionName = namesession };
+        var join = new JoinSessionClientModel() { JoinPlayerName = namePlayer, SessionName = namesession };
         using HttpResponseMessage response = await client.PostAsJsonAsync(path, join);
         Console.WriteLine($"Status code: {response.StatusCode}. Api exception message: {response.Content.ReadAsStringAsync().Result}");
     }
 
-
     private static async Task StartGame(string path, string namePlayer, string namesession)
     {
-        var newSession = new NewSessionClientModel() { HostPlayerName = namePlayer, SessionName = namesession };
+        var newSession = new HostSessionClientModel() { HostPlayerName = namePlayer, SessionName = namesession };
 
         using HttpResponseMessage response = await client.PostAsJsonAsync(path, newSession);
 
         Console.WriteLine($"Status code: {response.StatusCode}. Api exception message: {response.Content.ReadAsStringAsync().Result}");
         //string[,] playArea = await response.Content.();
     }
-
 }
