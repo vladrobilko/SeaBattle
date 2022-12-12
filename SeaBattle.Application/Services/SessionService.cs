@@ -9,13 +9,18 @@ namespace SeaBattle.Application.Services
     {
         private readonly ISessionRepository _sessionRepository;
 
-        public SessionService(ISessionRepository newSessionDtoRepository)
+        private readonly IPlayerRepository _playerRepository;
+
+        public SessionService(ISessionRepository newSessionDtoRepository, IPlayerRepository playerRepository)
         {
             _sessionRepository = newSessionDtoRepository;
+            _playerRepository = playerRepository;
         }
 
         public void CreateNewSession(HostSessionClientModel newSessionClient)
         {
+            if (!_playerRepository.IsPlayerRegistered(newSessionClient.HostPlayerName))
+                throw new Exception("The player is not registered");
             _sessionRepository.AddNewSessionOrThrowException(newSessionClient.HostPlayerName, newSessionClient.SessionName);
         }
 
@@ -27,7 +32,11 @@ namespace SeaBattle.Application.Services
 
         public void JoinToSession(JoinSessionClientModel joinSessionClient)
         {
-            _sessionRepository.AddToStartsSessionsOrThrowException(joinSessionClient.JoinPlayerName, joinSessionClient.SessionName);
+            if (!_playerRepository.IsPlayerRegistered(joinSessionClient.JoinPlayerName))
+                throw new Exception("The player is not registered");
+            _sessionRepository.
+                AddToStartsSessionsOrThrowException
+                (joinSessionClient.JoinPlayerName, joinSessionClient.SessionName);
         }
     }
 }
