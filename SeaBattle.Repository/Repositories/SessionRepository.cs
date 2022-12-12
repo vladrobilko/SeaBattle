@@ -17,19 +17,19 @@ namespace SeaBattle.Repository.Repositories
             _waitingSessionsToStartGame = new List<SessionDtoModel>();
         }
 
-        public void AddNewSessionOrThrowExeption(string hostPlayerName, string sessionName)
+        public void AddNewSessionOrThrowException(string hostPlayerName, string sessionName)
         {
             if (IsSessionExists(sessionName))
                 throw new Exception("The session has already been created");
             _newSessionsWaitSecondPlayer.Add(new SessionDtoModel() { HostPlayerName = hostPlayerName, SessionName = sessionName });
         }
 
-        public List<NewSessionModel> GetAllFreeSessions()
+        public List<NewSessionModel> GetAllFreeSessionsOrThrowException()
         {
             return _newSessionsWaitSecondPlayer.ConvertToListSessionModel();
         }
 
-        public void AddToStartsSessionsOrThrowExeption(string joinSessionName, string nameSession)
+        public void AddToStartsSessionsOrThrowException(string joinSessionName, string nameSession)
         {
             var session = _newSessionsWaitSecondPlayer.SingleOrDefault(p => p.SessionName == nameSession) ?? throw new Exception("Session not found.");
             session.JoinPlayerName = joinSessionName;

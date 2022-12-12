@@ -16,18 +16,18 @@ namespace SeaBattle.Application.Services
 
         public void CreateNewSession(HostSessionClientModel newSessionClient)
         {
-            _sessionRepository.AddNewSessionOrThrowExeption(newSessionClient.HostPlayerName, newSessionClient.SessionName);
+            _sessionRepository.AddNewSessionOrThrowException(newSessionClient.HostPlayerName, newSessionClient.SessionName);
         }
 
         public List<NewSessionModel> GetAllNewSessions()
         {
             return _sessionRepository.
-                GetAllFreeSessions();
+                GetAllFreeSessionsOrThrowException();
         }
 
         public void JoinToSession(JoinSessionClientModel joinSessionClient)
         {
-            _sessionRepository.AddToStartsSessionsOrThrowExeption(joinSessionClient.JoinPlayerName, joinSessionClient.SessionName);
+            _sessionRepository.AddToStartsSessionsOrThrowException(joinSessionClient.JoinPlayerName, joinSessionClient.SessionName);
         }
     }
 }

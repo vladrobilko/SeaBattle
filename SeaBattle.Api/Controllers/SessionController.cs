@@ -41,7 +41,7 @@ namespace SeaBattle.Api.Controllers
             }
             catch (Exception e) 
             {
-                return BadRequest("Sessions were not given. Error message: " + e.Message);
+                return BadRequest("Error message: " + e.Message);
             }
 
         }
