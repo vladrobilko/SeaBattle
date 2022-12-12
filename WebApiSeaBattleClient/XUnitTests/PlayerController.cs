@@ -26,9 +26,10 @@ namespace XUnitTests
             //pre
             HttpClient client = new HttpClient();
             string path = "https://localhost:7109/api/Player/Register";
+            string name = "Petr";
             //act
-            using HttpResponseMessage response1 = await client.PostAsJsonAsync(path, "Petr");
-            using HttpResponseMessage response2 = await client.PostAsJsonAsync(path, "Petr");
+            using HttpResponseMessage response1 = await client.PostAsJsonAsync(path, name);
+            using HttpResponseMessage response2 = await client.PostAsJsonAsync(path, name);
             //assert
             Assert.Equal(response2.StatusCode, System.Net.HttpStatusCode.BadRequest);
         }
