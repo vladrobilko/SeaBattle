@@ -21,39 +21,39 @@ class Program
 
     static async Task Main(string[] args)
     {
-        ConsoleKey key = new ConsoleKey();
-        while (key != ConsoleKey.Escape)
-        {
-            Information();
-            key = Console.ReadKey().Key;
-            if (key == ConsoleKey.Enter)
-            {
-                await CreatePlayer("https://localhost:7109/api/Player/RegisterNewPlayer", "Vasya");
-            }
-            else if (key == ConsoleKey.M)
-            {
-                await CreatePlayer("https://localhost:7109/api/Player/RegisterNewPlayer", "Igor");
-            }
-            else if (key == ConsoleKey.F1)
-            {
-                await HostNewSession("https://localhost:7109/api/Session/StartNewSession", "Vasya", "SeaBattle");
-            }
+        //ConsoleKey key = new ConsoleKey();
+        //while (key != ConsoleKey.Escape)
+        //{
+        //    Information();
+        //    key = Console.ReadKey().Key;
+        //    if (key == ConsoleKey.Enter)
+        //    {
+        //        await CreatePlayer("https://localhost:7109/api/Player/RegisterNewPlayer", "Vasya");
+        //    }
+        //    else if (key == ConsoleKey.M)
+        //    {
+        //        await CreatePlayer("https://localhost:7109/api/Player/RegisterNewPlayer", "Igor");
+        //    }
+        //    else if (key == ConsoleKey.F1)
+        //    {
+        //        await HostSession("https://localhost:7109/api/Session/HostSession", "Vasya", "SeaBattle");
+        //    }
 
-            else if (key == ConsoleKey.F2)
-            {
-                await GetAllSession("https://localhost:7109/api/Session/GetAllWaitingSessions");
-            }
+        //    else if (key == ConsoleKey.F2)
+        //    {
+        //        await GetAllSession("https://localhost:7109/api/Session/GetAllWaitingSessions");
+        //    }
 
-            else if (key == ConsoleKey.F3)
-            {
-                await JoinToSession("https://localhost:7109/api/Session/JoinToSession", "Igor", "SeaBattle");//это не то что то ????
-            }
+        //    else if (key == ConsoleKey.F3)
+        //    {
+        //        await JoinSession("https://localhost:7109/api/Session/JoinSession", "Igor", "SeaBattle");//это не то что то ????
+        //    }
 
-            else if (key == ConsoleKey.F4)
-            {
-                await StartGame("https://localhost:7109/api/SeaBattleGame/StartGame", "Vasya", "SeaBattle");
-            }//   /api/SeaBattleGame/StartGame
-        }
+        //    else if (key == ConsoleKey.F4)
+        //    {
+        //        await StartGame("https://localhost:7109/api/SeaBattleGame/StartGame", "Vasya", "SeaBattle");
+        //    }//   /api/SeaBattleGame/StartGame
+        //}
     }
 
     private static readonly HttpClient client = new HttpClient();
@@ -64,7 +64,7 @@ class Program
         Console.WriteLine($"Status code: {response.StatusCode}. Api exception message: {response.Content.ReadAsStringAsync().Result}");
     }
 
-    private static async Task HostNewSession(string path, string namePlayer, string namesession)
+    private static async Task HostSession(string path, string namePlayer, string namesession)
     {
         var newSession = new HostSessionClientModel() { HostPlayerName = namePlayer, SessionName = namesession };
         using HttpResponseMessage response = await client.PostAsJsonAsync(path, newSession);
@@ -79,7 +79,7 @@ class Program
             $" \nApi exception message: {response.Content.ReadAsStringAsync().Result}");
     }
 
-    private static async Task JoinToSession(string path, string namePlayer, string namesession)
+    private static async Task JoinSession(string path, string namePlayer, string namesession)
     {
         var join = new JoinSessionClientModel() { JoinPlayerName = namePlayer, SessionName = namesession };
         using HttpResponseMessage response = await client.PostAsJsonAsync(path, join);
