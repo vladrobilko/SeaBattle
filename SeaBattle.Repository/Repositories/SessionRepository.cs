@@ -26,6 +26,8 @@ namespace SeaBattle.Repository.Repositories
 
         public List<NewSessionModel> GetAllFreeSessionsOrThrowException()
         {
+            if (_newSessionsWaitSecondPlayer.Count == 0)
+                throw new Exception("No waiting sessions founds");
             return _newSessionsWaitSecondPlayer.ConvertToListSessionModel();
         }
 
