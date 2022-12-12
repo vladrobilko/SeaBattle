@@ -2,7 +2,7 @@
 using System.Net.Http.Json;
 using Xunit;
 
-//[assembly: CollectionBehavior(DisableTestParallelization = true)]
+[assembly: CollectionBehavior(DisableTestParallelization = true)]
 
 namespace XUnitTests
 {

@@ -9,7 +9,7 @@ namespace XUnitTests
         [InlineData("Vanya")]
         [InlineData("Petya")]
         [InlineData("Alyosha")]
-        public async Task Test1GetRegister_RegisterPlayer_ReturnStatusCodeOk(string name)
+        public async Task TestGetRegister_RegisterPlayer_ReturnStatusCodeOk(string name)
         {
             //pre
             HttpClient client = new HttpClient();
@@ -21,7 +21,7 @@ namespace XUnitTests
         }
 
         [Fact]
-        public async Task Test2GetRegister_RegisterSameNamePlayer_ReturnStatusCodeBadRequest()
+        public async Task TestGetRegister_RegisterSameNamePlayer_ReturnStatusCodeBadRequest()
         {
             //pre
             HttpClient client = new HttpClient();
