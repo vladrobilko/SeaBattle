@@ -77,16 +77,17 @@ namespace XUnitTests
             string nameSession = "Sessiontest4";
             //act
             await client.PostAsJsonAsync(pathRegisterPlayer, nameHostPlayer);
+            await client.PostAsJsonAsync(pathRegisterPlayer, nameJoinPlayer);
 
-            await client.PostAsJsonAsync(
-                pathHostSession, new HostSessionClientModel()
+            await client.PostAsJsonAsync(pathHostSession,
+                new HostSessionClientModel()
                 {
                     HostPlayerName = nameHostPlayer,
                     SessionName = nameSession
                 });
 
-            using HttpResponseMessage response = await client.PostAsJsonAsync(
-                pathJoinSession, new JoinSessionClientModel()
+            using HttpResponseMessage response = await client.PostAsJsonAsync(pathJoinSession,
+                new JoinSessionClientModel()
                 {
                     JoinPlayerName = nameJoinPlayer,
                     SessionName = nameSession

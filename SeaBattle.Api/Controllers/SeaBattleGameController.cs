@@ -14,7 +14,8 @@ namespace SeaBattle.Api.Controllers
         {
             _seaBattleGameService = seaBattleGameService;
         }
-
+        //может начать использование паттерна поведение с игры, так как уже написано до сессии
+        //а игру начать писать с методикой tdd. сначала тест потом код
         [HttpPost("[action]")]
         public ActionResult<string[,]> GetPlayArea([FromBody] PlayerClientInfoModel playerClientInfoModel)
         {
