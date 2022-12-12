@@ -18,9 +18,9 @@ namespace XUnitTests
         public async Task TestA_GetAllWaitingSessions_GetSessionsWithNoAddedWaitingSessions_ReturnStatusCodeBadRequest()
         {
             //pre
-            HttpClient client = new HttpClient();
+            var client = new HttpClient();
             //act
-            using HttpResponseMessage response = await client.GetAsync(pathGetAllSessions);
+            using var response = await client.GetAsync(pathGetAllSessions);
             //assert
             Assert.Equal(System.Net.HttpStatusCode.BadRequest, response.StatusCode);
         }
@@ -29,13 +29,13 @@ namespace XUnitTests
         public async Task TestB_PostHostSession_HostSession_ReturnStatusCodeOk()
         {
             //pre
-            HttpClient client = new HttpClient();
+            var client = new HttpClient();
             string namePlayer = "Test2";
             string nameSession = "SessionTest2";
             //act
             await client.PostAsJsonAsync(pathRegisterPlayer, namePlayer);
 
-            using HttpResponseMessage response = await client.PostAsJsonAsync(
+            using var response = await client.PostAsJsonAsync(
                 pathHostSession, new HostSessionClientModel()
                 {
                     HostPlayerName = namePlayer,
@@ -49,7 +49,7 @@ namespace XUnitTests
         public async Task TestC_GetAllWaitingSessions_AddPlayerHostSessionGetSession_ReturnStatusCodeOk()
         {
             //pre
-            HttpClient client = new HttpClient();
+            var client = new HttpClient();
             string namePlayer = "Test3";
             string nameSession = "SessionTest3";
             //act
@@ -62,7 +62,7 @@ namespace XUnitTests
                     SessionName = nameSession
                 });
 
-            using HttpResponseMessage getAllSessions = await client.GetAsync(pathGetAllSessions);
+            using var getAllSessions = await client.GetAsync(pathGetAllSessions);
             //assert
             Assert.Equal(System.Net.HttpStatusCode.OK, getAllSessions.StatusCode);
         }
@@ -71,7 +71,7 @@ namespace XUnitTests
         public async Task TestD_PostJoinSession_JoinSession_ReturnStatusCodeOk()
         {
             //pre
-            HttpClient client = new HttpClient();
+            var client = new HttpClient();
             string nameHostPlayer = "Hosttest4";
             string nameJoinPlayer = "Jointest4";
             string nameSession = "Sessiontest4";
@@ -86,7 +86,7 @@ namespace XUnitTests
                     SessionName = nameSession
                 });
 
-            using HttpResponseMessage response = await client.PostAsJsonAsync(pathJoinSession,
+            using var response = await client.PostAsJsonAsync(pathJoinSession,
                 new JoinSessionClientModel()
                 {
                     JoinPlayerName = nameJoinPlayer,

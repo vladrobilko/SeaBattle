@@ -5,6 +5,8 @@ namespace XUnitTests
 {
     public class TestPlayerController
     {
+        string path = "https://localhost:7109/api/Player/Register";
+
         [Theory]
         [InlineData("Vanya")]
         [InlineData("Petya")]
@@ -12,10 +14,9 @@ namespace XUnitTests
         public async Task TestGetRegister_RegisterPlayer_ReturnStatusCodeOk(string name)
         {
             //pre
-            HttpClient client = new HttpClient();
-            string path = "https://localhost:7109/api/Player/Register";
+            var client = new HttpClient();
             //act
-            using HttpResponseMessage response = await client.PostAsJsonAsync(path, name);
+            using var response = await client.PostAsJsonAsync(path, name);
             //assert
             Assert.Equal(response.StatusCode, System.Net.HttpStatusCode.OK);
         }
@@ -24,12 +25,11 @@ namespace XUnitTests
         public async Task TestGetRegister_RegisterSameNamePlayer_ReturnStatusCodeBadRequest()
         {
             //pre
-            HttpClient client = new HttpClient();
-            string path = "https://localhost:7109/api/Player/Register";
+            var client = new HttpClient();
             string name = "Petr";
             //act
-            using HttpResponseMessage response1 = await client.PostAsJsonAsync(path, name);
-            using HttpResponseMessage response2 = await client.PostAsJsonAsync(path, name);
+            using var response1 = await client.PostAsJsonAsync(path, name);
+            using var response2 = await client.PostAsJsonAsync(path, name);
             //assert
             Assert.Equal(response2.StatusCode, System.Net.HttpStatusCode.BadRequest);
         }
