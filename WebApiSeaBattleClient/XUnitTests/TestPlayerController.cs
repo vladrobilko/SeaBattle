@@ -3,13 +3,13 @@ using Xunit;
 
 namespace XUnitTests
 {
-    public class PlayerController
+    public class TestPlayerController
     {
         [Theory]
         [InlineData("Vanya")]
         [InlineData("Petya")]
         [InlineData("Alyosha")]
-        public async Task GetRegister_RegisterPlayer_ReturnsStatusCodeOk(string name)
+        public async Task TestGetRegister_RegisterPlayer_ReturnStatusCodeOk(string name)
         {
             //pre
             HttpClient client = new HttpClient();
@@ -21,7 +21,7 @@ namespace XUnitTests
         }
 
         [Fact]
-        public async Task GetRegister_RegisterSameNamePlayer_ReturnsStatusCodeBadRequest()
+        public async Task TestGetRegister_RegisterSameNamePlayer_ReturnStatusCodeBadRequest()
         {
             //pre
             HttpClient client = new HttpClient();

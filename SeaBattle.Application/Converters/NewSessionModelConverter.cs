@@ -10,7 +10,7 @@ namespace SeaBattle.Application.Converters
             return new HostSessionClientModel() { HostPlayerName = newSessionModel.HostPlayerName, SessionName = newSessionModel.SessionName };
         }
 
-        public static List<HostSessionClientModel> ConvertToListNewSessionClient(this List<NewSessionModel> newSessionClients)
+        public static List<HostSessionClientModel> ConvertToListHostSessionClientModel(this List<NewSessionModel> newSessionClients)
         {
             return newSessionClients
                 .Select(ConvertToNewSessionClient)

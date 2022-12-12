@@ -37,9 +37,9 @@ namespace SeaBattle.Api.Controllers
             {
                 return Ok(_session.
                GetAllNewSessions().
-               ConvertToListNewSessionClient());
+               ConvertToListHostSessionClientModel());
             }
-            catch (Exception e)
+            catch (Exception e) 
             {
                 return BadRequest("Sessions were not given. Error message: " + e.Message);
             }

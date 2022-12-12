@@ -21,4 +21,10 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\SeaBattle.ApiClientModels\SeaBattle.ApiClientModels.csproj" />
+    <ProjectReference Include="..\ConsoleGameFillerForClient\ConsoleGameFillerForClient.csproj" />
+    <ProjectReference Include="..\WebApiSeaBattleClient\WebApiSeaBattleClient.csproj" />
+  </ItemGroup>
+
 </Project>
