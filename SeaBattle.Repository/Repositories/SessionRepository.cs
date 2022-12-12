@@ -33,8 +33,10 @@ namespace SeaBattle.Repository.Repositories
 
         public void AddToStartsSessionsOrThrowException(string joinSessionName, string nameSession)
         {
-            var session = _newSessionsWaitSecondPlayer.SingleOrDefault(p => p.SessionName == nameSession) ?? throw new Exception("Session not found.");
-            
+            var session = _newSessionsWaitSecondPlayer.
+                SingleOrDefault(p => p.SessionName == nameSession) ??
+                throw new Exception("Session not found.");
+
             session.JoinPlayerName = joinSessionName;
             _waitingSessionsToStartGame.Add(session);
             _newSessionsWaitSecondPlayer.Remove(session);

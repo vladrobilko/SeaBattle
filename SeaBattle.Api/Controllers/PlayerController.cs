@@ -26,7 +26,7 @@ namespace SeaBattle.Api.Controllers
             catch (Exception e)
             {
                 return BadRequest("Failed to register a player. Error message: " + e.Message);
-            }            
+            }
         }
     }
 }

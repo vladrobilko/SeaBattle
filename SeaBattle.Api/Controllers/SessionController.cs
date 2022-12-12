@@ -39,7 +39,7 @@ namespace SeaBattle.Api.Controllers
                GetAllNewSessions().
                ConvertToListHostSessionClientModel());
             }
-            catch (Exception e) 
+            catch (Exception e)
             {
                 return BadRequest("Error message: " + e.Message);
             }
