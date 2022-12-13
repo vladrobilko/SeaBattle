@@ -1,11 +1,8 @@
 ﻿using SeaBattle.ApiClientModels.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http.Json;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
+using Newtonsoft.Json;
+using System.Text.Json.Nodes;
 
 namespace XUnitTests
 {
@@ -19,12 +16,21 @@ namespace XUnitTests
         string pathEndGame = "https://localhost:7109/api/SeaBattleGame/EndGame";
 
         [Fact]
-        public async Task TestGetPlayArea_smth_smth(string name)
+        public async Task TestGetPlayArea_smth_smth()
         {
             //pre
-            var client = new PlayerClientInfoModel();
+            var client = new HttpClient();
+            var clientInfoModel = new PlayerClientInfoModel() { PlayerName = "asd", SessionName = "asdd"};            
             //act
+            var response = await client.PostAsJsonAsync(pathGetPlayArea, clientInfoModel);
+            var json = await response.Content.ReadAsStringAsync();
+            var gameArea = JsonConvert.DeserializeObject<GameAreaClientModel>(json);
             //assert
+            Assert.NotNull(gameArea);
         }
     }
 }
+//act
+//var response = await client.PostAsJsonAsync(pathGetPlayArea, clientInfoModel);
+//var gameModel = await response.Content.ReadFromJsonAsync<String>();
+//var deser = JsonConvert.DeserializeObject<string[][]>(gameModel);

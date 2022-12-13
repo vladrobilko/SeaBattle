@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using SeaBattle.ApiClientModels.Models;
 using SeaBattle.Application.Services.Interfaces;
+using System;
 
 namespace SeaBattle.Api.Controllers
 {
@@ -16,13 +18,17 @@ namespace SeaBattle.Api.Controllers
         }
         //может начать использование паттерна поведение с игры, так как уже написано до сессии
         //а игру начать писать с методикой tdd. сначала тест потом код
+
         [HttpPost("[action]")]
-        public ActionResult<string[,]> GetPlayArea([FromBody] PlayerClientInfoModel playerClientInfoModel)
+        public ActionResult<string> GetPlayArea([FromBody] PlayerClientInfoModel playerClientInfoModel)
         {
-            string[,] area = new string[10, 10];
-            return Ok(area);//возвратить игровую арену в виде массива строк
+            var gameClientModel = new GameAreaClientModel();
+            gameClientModel.ClientPlayArea = new string[10][];
+            var json = JsonConvert.SerializeObject(gameClientModel);
+            return Ok(json);
         }
 
+        //возвратить игровую арену в виде массива строк(сверху)
         [HttpPost("[action]")]
         public ActionResult<string[,]> ChangePlayArea([FromBody] PlayerClientInfoModel playerClientInfoModel)
         {
