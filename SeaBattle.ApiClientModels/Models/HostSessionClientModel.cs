@@ -11,7 +11,13 @@ namespace SeaBattle.ApiClientModels.Models
     {
         [Required]
         public string HostPlayerName { get; set; }
+
         [Required]
         public string SessionName { get; set; }
+
+        public HostSessionClientModel()
+        {
+
+        }
     }
 }

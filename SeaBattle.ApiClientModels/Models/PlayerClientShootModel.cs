@@ -21,5 +21,10 @@ namespace SeaBattle.ApiClientModels.Models
 
         [Required]
         public string ShootCoordinateX { get; set; }
+
+        public PlayerClientShootModel()
+        {
+
+        }
     }
 }

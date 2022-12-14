@@ -9,10 +9,15 @@ namespace SeaBattle.ApiClientModels.Models
 {
     public class PlayerClientInfoModel
     {
-
         [Required]
         public string PlayerName { get; set; }
+
         [Required]
         public string SessionName { get; set; }
+
+        public PlayerClientInfoModel()
+        {
+
+        }
     }
 }

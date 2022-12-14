@@ -20,46 +20,38 @@ namespace SeaBattle.Api.Controllers
         //а игру начать писать с методикой tdd. сначала тест потом код
 
         [HttpPost("[action]")]
-        public ActionResult<string> GetPlayArea([FromBody] PlayerClientInfoModel playerClientInfoModel)
+        public ActionResult<GameAreaClientModel> GetPlayArea([FromBody] PlayerClientInfoModel playerClientInfoModel)
         {
-            var gameClientModel = new GameAreaClientModel();
-            gameClientModel.ClientPlayArea = new string[10][];
-            var json = JsonConvert.SerializeObject(gameClientModel);
-            return Ok(json);
-        }
-
-        //возвратить игровую арену в виде массива строк(сверху)
-        [HttpPost("[action]")]
-        public ActionResult<string[,]> ChangePlayArea([FromBody] PlayerClientInfoModel playerClientInfoModel)
-        {
-            string[,] area = new string[10, 10];
-            return Ok(area);//возвратить новую игровую арену в виде массива строк 
+            var gameClientModel = new GameAreaClientModel() { ClientPlayArea = new string[10][] };
+            return Ok(JsonConvert.SerializeObject(gameClientModel));
         }
 
         [HttpPost("[action]")]
-        public ActionResult<string[,]> ReadyToStartGame([FromBody] PlayerClientInfoModel playerClientInfoModel)
+        public ActionResult<GameAreaClientModel> ChangePlayArea([FromBody] PlayerClientInfoModel playerClientInfoModel)
         {
-            string[,] area = new string[10, 10];
-            return Ok(area);//если можно быть готовым, возвратить ок и модель игрока чтобы показать игровое поле
+            var gameClientModel = new GameAreaClientModel() { ClientPlayArea = new string[10][] };
+            return Ok(JsonConvert.SerializeObject(gameClientModel));
+        }
+
+        [HttpPost("[action]")]
+        public ActionResult<GameClientModel> ReadyToStartGame([FromBody] PlayerClientInfoModel playerClientInfoModel)
+        {
+            var gameClientModel = new GameClientModel();
+            return Ok(JsonConvert.SerializeObject(gameClientModel));
         }
 
         [HttpPost("[action]")]
         public ActionResult<GameClientModel> GetGameModel([FromBody] PlayerClientInfoModel playerClientInfoModel)
         {
-            return Ok(new GameClientModel());//если игра началалсь и ход этого игрока вернуть модель (обновленное поле и сообщение для игрока)
+            var gameClientModel = new GameClientModel();
+            return Ok(JsonConvert.SerializeObject(gameClientModel));
         }
 
-        [HttpPost("[action]")]
-        public IActionResult Shoot([FromBody] PlayerClientShootModel playerClientShootModel)
+        [HttpPost("[action]")]//last
+        public ActionResult<GameClientModel> Shoot([FromBody] PlayerClientShootModel playerClientShootModel)
         {
-            return Ok(new GameClientModel());//вернуть модель игры с сообщением 
-        }
-
-        [HttpPost("[action]")]
-        public ActionResult<string> EndGame([FromBody] PlayerClientInfoModel playerClientInfoModel)
-        {
-            var gameModel = new GameClientModel();
-            return Ok(gameModel.Message);//когда кто то проиграл
+            var gameClientModel = new GameClientModel();
+            return Ok(JsonConvert.SerializeObject(gameClientModel));
         }
     }
 }
