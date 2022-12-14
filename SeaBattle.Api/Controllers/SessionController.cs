@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using SeaBattle.ApiClientModels.Models;
 using SeaBattle.Application.Converters;
 using SeaBattle.Application.Services.Intefaces;
@@ -35,9 +36,11 @@ namespace SeaBattle.Api.Controllers
         {
             try
             {
-                return Ok(_session.
-               GetAllNewSessions().
-               ConvertToListHostSessionClientModel());
+                var json = JsonConvert
+                    .SerializeObject(_session
+                    .GetAllNewSessions()
+                    .ConvertToListHostSessionClientModel());
+                return Ok(json);
             }
             catch (Exception e)
             {

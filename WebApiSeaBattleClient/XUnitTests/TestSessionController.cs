@@ -1,4 +1,5 @@
-﻿using SeaBattle.ApiClientModels.Models;
+﻿using Newtonsoft.Json;
+using SeaBattle.ApiClientModels.Models;
 using System.Net.Http.Json;
 using Xunit;
 
@@ -62,7 +63,7 @@ namespace XUnitTests
                     SessionName = nameSession
                 });
 
-            using var getAllSessions = await client.GetAsync(pathGetAllSessions);
+            var getAllSessions = await client.GetAsync(pathGetAllSessions);
             //assert
             Assert.Equal(System.Net.HttpStatusCode.OK, getAllSessions.StatusCode);
         }
@@ -94,6 +95,42 @@ namespace XUnitTests
                 });
             //assert
             Assert.Equal(System.Net.HttpStatusCode.OK, response.StatusCode);
+        }
+
+        //List<HostSessionClientModel>
+        [Fact]
+        public async Task TestE_GetAllWaitingSessions_Add2HostSessionGetSession_ReturnListWaitingSessionNotNull()
+        {
+            //pre
+            var client = new HttpClient();
+            string namePlayer = "TestE";
+            string nameSession = "TestE";
+            string namePlayer2 = "TestE2";
+            string nameSession2 = "TestE2";
+
+            //act
+            await client.PostAsJsonAsync(pathRegisterPlayer, namePlayer);
+            await client.PostAsJsonAsync(pathRegisterPlayer, namePlayer2);
+
+            await client.PostAsJsonAsync(
+                pathHostSession, new HostSessionClientModel()
+                {
+                    HostPlayerName = namePlayer,
+                    SessionName = nameSession
+                });
+            await client.PostAsJsonAsync(
+           pathHostSession, new HostSessionClientModel()
+           {
+               HostPlayerName = namePlayer2,
+               SessionName = nameSession2
+           });
+
+            var response = await client.GetAsync(pathGetAllSessions);
+            var json = await response.Content.ReadAsStringAsync();
+            var sessions = JsonConvert.DeserializeObject<List<HostSessionClientModel>>(json);
+            //assert
+            Assert.Equal(System.Net.HttpStatusCode.OK, response.StatusCode);
+            Assert.NotNull(sessions);
         }
     }
 }
