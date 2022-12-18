@@ -2,6 +2,7 @@
 using SeaBattle.Application.Models;
 using SeaBattle.Application.Services.Interfaces.RepositoryServices;
 using SeaBattle.Repository.Models;
+using System.Data;
 
 namespace SeaBattle.Repository.Repositories
 {
@@ -20,14 +21,14 @@ namespace SeaBattle.Repository.Repositories
         public void AddNewSessionOrThrowException(string hostPlayerName, string sessionName)
         {
             if (IsSessionExists(sessionName))
-                throw new Exception("The session has already been created");
+                throw new DuplicateNameException();
             _newSessionsWaitSecondPlayer.Add(new SessionDtoModel() { HostPlayerName = hostPlayerName, SessionName = sessionName });
         }
 
         public List<NewSessionModel> GetAllFreeSessionsOrThrowException()
         {
             if (_newSessionsWaitSecondPlayer.Count == 0)
-                throw new Exception("No waiting sessions founds");
+                throw new DirectoryNotFoundException();
             return _newSessionsWaitSecondPlayer.ConvertToListSessionModel();
         }
 
@@ -35,8 +36,7 @@ namespace SeaBattle.Repository.Repositories
         {
             var session = _newSessionsWaitSecondPlayer.
                 SingleOrDefault(p => p.SessionName == nameSession) ??
-                throw new Exception("Session not found.");
-
+                throw new DirectoryNotFoundException();
             session.JoinPlayerName = joinSessionName;
             _waitingSessionsToStartGame.Add(session);
             _newSessionsWaitSecondPlayer.Remove(session);
@@ -58,7 +58,7 @@ namespace SeaBattle.Repository.Repositories
             var newSession = _newSessionsWaitSecondPlayer.
                 SingleOrDefault(p => p.SessionName == nameSession);
             if (newSession == null)
-                throw new Exception("Session not found.");
+                throw new DirectoryNotFoundException();
             return newSession.ConvertToSessionModel();
         }
 
@@ -67,7 +67,7 @@ namespace SeaBattle.Repository.Repositories
             var session = _waitingSessionsToStartGame.
                 SingleOrDefault(p => p.SessionName == nameSession);
             if (session == null)
-                throw new Exception("Session not found.");
+                throw new DirectoryNotFoundException();
             return session.ConvertToSessionModel();
         }
     }

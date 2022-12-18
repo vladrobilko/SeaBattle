@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SeaBattle.ApiClientModels.Models
 {
-    public class PlayerClientInfoModel
+    public class InfoPlayerClientModel
     {
         [Required]
         public string PlayerName { get; set; }
@@ -15,7 +15,7 @@ namespace SeaBattle.ApiClientModels.Models
         [Required]
         public string SessionName { get; set; }
 
-        public PlayerClientInfoModel()
+        public InfoPlayerClientModel()
         {
 
         }

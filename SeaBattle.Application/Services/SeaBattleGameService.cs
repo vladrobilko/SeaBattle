@@ -23,8 +23,8 @@ namespace SeaBattle.Application.Services
 
         public void StartGame(string nameSession, string hostName)
         {
-            if (!_sessionRepository.IsSessionReadyToStartGame(nameSession))
-                throw new Exception("The game can't start");
+            //if (!_sessionRepository.IsSessionReadyToStartGame(nameSession))
+                //throw new Exception("The game can't start");
 
             var gameSession = _sessionRepository.GetStartSessionByName(nameSession);
             var game = new SeaBattleGameModel

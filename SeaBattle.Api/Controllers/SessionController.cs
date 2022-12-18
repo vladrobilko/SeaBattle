@@ -27,7 +27,7 @@ namespace SeaBattle.Api.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest("The session was not started. Error message: " + e.Message);
+                return BadRequest("Server error: " + e.Message);
             }
         }
 
@@ -44,7 +44,7 @@ namespace SeaBattle.Api.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest("Error message: " + e.Message);
+                return BadRequest("Server error: " + e.Message);
             }
 
         }
@@ -59,7 +59,7 @@ namespace SeaBattle.Api.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest("Couldn't connect to the session. Error message: " + e.Message);
+                return BadRequest("Server error: " + e.Message);
             }
         }
     }

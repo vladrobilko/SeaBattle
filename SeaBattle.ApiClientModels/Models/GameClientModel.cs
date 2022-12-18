@@ -10,7 +10,9 @@ namespace SeaBattle.ApiClientModels.Models
     {
         public string[][] ClientPlayArea { get; set; }
 
-        public string[][] EnemyPlayArea { get; set; }
+        public bool IsGameStarted { get; set; }
+
+        public bool PlayerTurnToShoot { get; set; }
 
         public string Message { get; set; }
 

@@ -16,7 +16,7 @@ namespace SeaBattle.Repository.Repositories
         public void AddNewPlayerOrThrowExeption(string name)
         {
             if (IsPlayerRegistered(name))
-                throw new Exception("The name is occupied.");
+                throw new InvalidOperationException("The name is occupied.");
             var player = new PlayerDtoModel() { Name = name };
             _registeredPlayers.Add(player);
         }

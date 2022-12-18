@@ -16,7 +16,7 @@ namespace XUnitTests
             //pre
             var client = new HttpClient();
             //act
-            using var response = await client.PostAsJsonAsync(path, name);
+            var response = await client.PostAsJsonAsync(path, name);
             //assert
             Assert.Equal(response.StatusCode, System.Net.HttpStatusCode.OK);
         }

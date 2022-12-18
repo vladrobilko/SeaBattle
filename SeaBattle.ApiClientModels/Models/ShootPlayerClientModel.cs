@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SeaBattle.ApiClientModels.Models
 {
-    public class PlayerClientShootModel
+    public class ShootPlayerClientModel
     {
         [Required]
         public string PlayerName { get; set; }
@@ -22,7 +22,7 @@ namespace SeaBattle.ApiClientModels.Models
         [Required]
         public string ShootCoordinateX { get; set; }
 
-        public PlayerClientShootModel()
+        public ShootPlayerClientModel()
         {
 
         }

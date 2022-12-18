@@ -97,7 +97,6 @@ namespace XUnitTests
             Assert.Equal(System.Net.HttpStatusCode.OK, response.StatusCode);
         }
 
-        //List<HostSessionClientModel>
         [Fact]
         public async Task TestE_GetAllWaitingSessions_Add2HostSessionGetSession_ReturnListWaitingSessionNotNull()
         {
