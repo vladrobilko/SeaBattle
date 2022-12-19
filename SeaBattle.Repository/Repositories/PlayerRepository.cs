@@ -16,8 +16,6 @@ namespace SeaBattle.Repository.Repositories
 
         public void AddNewPlayerOrThrowExeption(string name)
         {
-            if (IsPlayerRegistered(name))
-                throw new DuplicateNameException();
             var player = new PlayerDtoModel() { Name = name };
             _registeredPlayers.Add(player);
         }

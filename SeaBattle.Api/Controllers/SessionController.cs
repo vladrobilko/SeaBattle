@@ -20,47 +20,25 @@ namespace SeaBattle.Api.Controllers
         [HttpPost("[action]")]
         public IActionResult HostSession([FromBody] HostSessionClientModel hostSessionClientModel)
         {
-            try
-            {
-                _session.CreateNewSession(hostSessionClientModel);
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                return BadRequest("Server error: " + e.Message);
-            }
+            _session.CreateNewSession(hostSessionClientModel);
+            return Ok();
         }
 
         [HttpGet("[action]")]
         public ActionResult<List<HostSessionClientModel>> GetAllWaitingSessions()
         {
-            try
-            {
-                var json = JsonConvert
-                    .SerializeObject(_session
-                    .GetAllNewSessions()
-                    .ConvertToListHostSessionClientModel());
-                return Ok(json);
-            }
-            catch (Exception e)
-            {
-                return BadRequest("Server error: " + e.Message);
-            }
-
+            var json = JsonConvert
+                .SerializeObject(_session
+                .GetAllNewSessions()
+                .ConvertToListHostSessionClientModel());
+            return Ok(json);
         }
 
         [HttpPost("[action]")]
         public IActionResult JoinSession([FromBody] JoinSessionClientModel joinToSessionClient)
         {
-            try
-            {
-                _session.JoinToSession(joinToSessionClient);
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                return BadRequest("Server error: " + e.Message);
-            }
+            _session.JoinToSession(joinToSessionClient);
+            return Ok();
         }
     }
 }

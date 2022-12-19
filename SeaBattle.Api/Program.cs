@@ -1,3 +1,4 @@
+using Microsoft.Extensions.DependencyInjection;
 using SeaBattle.Api.Controllers;
 using SeaBattle.Application.Services;
 using SeaBattle.Application.Services.Intefaces;
@@ -7,6 +8,7 @@ using SeaBattle.Repository.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<IPlayerService, PlayerService>();
 builder.Services.AddSingleton<IPlayerRepository, PlayerRepository>();
 builder.Services.AddSingleton<ISessionService, SessionService>();
@@ -23,7 +25,7 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseDeveloperExceptionPage();
+    app.UseExceptionHandler("/error");
     app.UseSwagger();
     app.UseSwaggerUI();
 }
