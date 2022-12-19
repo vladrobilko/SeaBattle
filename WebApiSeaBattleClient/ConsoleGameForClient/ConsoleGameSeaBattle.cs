@@ -1,20 +1,14 @@
 ﻿using ConsoleGameFillerForClient;
 using Newtonsoft.Json;
 using SeaBattle.ApiClientModels.Models;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Net.Http.Json;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace ConsoleGameForClient
 {
     public class ConsoleGameSeaBattle
     {
+        RequestToSeaBattleApiHelper _requestHelper;
+
         private HttpClient _client;
 
         private InfoPlayerClientModel _playerClientInfoModel;
@@ -28,35 +22,73 @@ namespace ConsoleGameForClient
             _playerClientInfoModel = new InfoPlayerClientModel();
             _playerClientShootModel = new ShootPlayerClientModel();
             _client = new HttpClient();
+            _requestHelper = new RequestToSeaBattleApiHelper();
         }
 
         public async Task Start()
         {
             Console.WriteLine("Online Game sea battle.");
-            await RegisterPlayerAndSetClientModelsAsync();
-            var listWaitingSessions = await RequestToSeaBattleApiHelper.GetAllWaitingSessions();
-            await HostOrJoinSession(listWaitingSessions);
-            await ChoosePlayAreaAndReadyToGame();
+            RegisterPlayerAndSetClientModelsAsync();
+            var listWaitingSessions = _requestHelper.GetAllWaitingSessions().Result;
+            ChooseHostOrJoinSession(listWaitingSessions);
+            ChoosePlayAreaAndReadyToGame();
             var gameModel = await WaitingStartGame();
             await PlayGame(gameModel);
             Console.ReadKey();
         }
 
-        private async Task HostOrJoinSession(List<HostSessionClientModel> listWaitingSessions)
+        private void RegisterPlayerAndSetClientModelsAsync()
+        {
+            Console.WriteLine("Write the name, and press enter for registration.");
+            string namePlayer = Console.ReadLine();
+            if (_requestHelper.IsStatusCodeAfterRegisterPlayerOk(namePlayer).Result)
+            {
+                SetNameInClientsModels(namePlayer);
+                Console.WriteLine($"You registered. Your name is {_playerClientInfoModel.PlayerName}.");
+                return;
+            }
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("The player is not registered. Try again\n");
+            Console.ResetColor();
+            RegisterPlayerAndSetClientModelsAsync();
+        }
+
+        private void ChooseHostOrJoinSession(List<HostSessionClientModel> listWaitingSessions)
         {
             if (listWaitingSessions == null)
             {
                 Console.WriteLine("No waiting sessions found");
-                Console.WriteLine("\nWrite new host name to start the session");
-                string message2 = Console.ReadLine();
-                await HostSession(message2);
+                HostSession();
                 return;
             }
             Console.WriteLine("Available sessions to join: ");
             listWaitingSessions.ForEach(i => Console.Write($"\tName host: {i.HostPlayerName}, Name Session: {i.SessionName}\n"));
-            Console.WriteLine("\nWrite the session name to connect");
+            Console.WriteLine("\nWrite the session name to connect, or something else to host");
             string message = Console.ReadLine();
-            await JoinSession(message);
+            if (listWaitingSessions.SingleOrDefault(p => p.SessionName ==message) == null)
+            {
+                HostSession();
+                return;
+            }
+            JoinSession(message);
+        }
+
+        private void HostSession()
+        {
+            Console.WriteLine("\nWrite new host name to start the session");
+            string message = Console.ReadLine();
+            if (_requestHelper.IsStatusCodeAfterHostSessionPlayerOk(_playerClientInfoModel.PlayerName, message).Result)
+            {
+                SetNameSessionInClientsModels(message);
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"The session was created.\n\t Your name of session: <<{message}>>." +
+                    $"\n\t Your name: <<{_playerClientInfoModel.PlayerName}>>");
+                Console.ResetColor();
+                return;
+            }
+            Console.WriteLine("Error.");
+            HostSession();
         }
 
         private async Task PlayGame(GameClientModel gameClientModel)
@@ -118,39 +150,11 @@ namespace ConsoleGameForClient
             var key = new ConsoleKey();
             while (key != ConsoleKey.Enter)
             {
-                Console.WriteLine(" Press enter to get the play arena");
+                Console.WriteLine("Press enter to get the play arena");
                 key = Console.ReadKey().Key;
                 Console.Clear();
-                var response = await _client.PostAsJsonAsync("https://localhost:7109/api/SeaBattleGame/GetPlayArea", _playerClientInfoModel);
-                var json = await response.Content.ReadAsStringAsync();
-                var gameArea = JsonConvert.DeserializeObject<GameAreaClientModel>(json);
+                var gameArea = await _requestHelper.GetPlayArea(_playerClientInfoModel);
                 ConsoleGameFiller.FillConsolePlayerAreaOnly(gameArea.ClientPlayArea);
-                Console.WriteLine("");
-            }
-        }
-
-        private async Task RegisterPlayerAndSetClientModelsAsync()
-        {
-            try
-            {
-                Console.WriteLine("Write the name, and press enter for registration.");
-                string namePlayer = Console.ReadLine();
-                var response = await RequestToSeaBattleApiHelper.ResponseAfterRegisterPlayer(namePlayer);
-                if (response.StatusCode == System.Net.HttpStatusCode.OK)
-                {
-                    SetNameInClientsModels(namePlayer);
-                    Console.WriteLine($"You registered. Your name is {_playerClientInfoModel.PlayerName}.");
-                    return;
-                }
-                var json = await response.Content.ReadAsStringAsync();
-                throw new Exception(json);
-            }
-            catch (Exception e)
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine(e.Message);
-                Console.ResetColor();
-                await RegisterPlayerAndSetClientModelsAsync();
             }
         }
 
@@ -160,28 +164,6 @@ namespace ConsoleGameForClient
             _playerClientShootModel.PlayerName = namePlayer;
         }
 
-        private async Task HostSession(string nameSession)
-        {
-            try
-            {
-                await _client.PostAsJsonAsync("https://localhost:7109/api/Session/HostSession",
-                    new HostSessionClientModel()
-                    {
-                        HostPlayerName = _playerClientInfoModel.PlayerName,
-                        SessionName = nameSession
-                    });
-                SetNameSessionInClientsModels(nameSession);
-                Console.Clear();
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"The session was created.\n\t Your name of session: <<{nameSession}>>." +
-                    $"\n\t Your name: <<{_playerClientInfoModel.PlayerName}>>");
-                Console.ResetColor();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error" + e.Message);
-            }
-        }
 
         private async Task JoinSession(string nameSession)
         {
