@@ -16,11 +16,11 @@ namespace SeaBattle.ApiClientModels.Models
         public string SessionName { get; set; }
 
         [Required]
-        public string ShootCoordinateY { get; set; }
+        public int ShootCoordinateY { get; set; }
 
 
         [Required]
-        public string ShootCoordinateX { get; set; }
+        public int ShootCoordinateX { get; set; }
 
         public ShootPlayerClientModel()
         {

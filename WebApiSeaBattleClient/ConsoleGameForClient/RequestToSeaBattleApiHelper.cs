@@ -20,12 +20,11 @@ namespace ConsoleGameForClient
         private string pathPostJoinSession = "https://localhost:7109/api/Session/JoinSession";
 
         private string pathPostGetPlayArea = "https://localhost:7109/api/SeaBattleGame/GetPlayArea";
-        private string pathPostChangePlayArea = "https://localhost:7109/api/SeaBattleGame/ChangePlayArea";
         private string pathPostReadyToStartGame = "https://localhost:7109/api/SeaBattleGame/ReadyToStartGame";
         private string pathPostGetGameModel = "https://localhost:7109/api/SeaBattleGame/GetGameModel";
         private string pathPostShoot = "https://localhost:7109/api/SeaBattleGame/Shoot";
 
-        public async Task<bool> IsStatusCodeAfterRegisterPlayerOk(string name)
+        public async Task<bool> IsStatusCodeOKAfterRegisterPlayer(string name)
         {
             var response = await _client.PostAsJsonAsync(pathPostRegisterPlayer, name);
             return response.StatusCode == System.Net.HttpStatusCode.OK;
@@ -41,7 +40,7 @@ namespace ConsoleGameForClient
             return listWaitingSessions;
         }
 
-        public async Task<bool> IsStatusCodeAfterHostSessionPlayerOk(string playerHostName,string sessionName)
+        public async Task<bool> IsStatusCodeOKAfterHostSessionPlayer(string playerHostName,string sessionName)
         {
             var response = await _client.PostAsJsonAsync(pathPostHostSession,
                     new HostSessionClientModel()
@@ -60,6 +59,33 @@ namespace ConsoleGameForClient
             return gameArea;
         }
 
+        public async Task<bool> IsStatusCodeOKAfterJoinSessionPlayer(string playerHostName, string sessionName)
+        {
+            var response = await _client.PostAsJsonAsync(pathPostJoinSession,
+                new JoinSessionClientModel()
+                {
+                    JoinPlayerName = playerHostName,
+                    SessionName = sessionName
+                });
+            return response.StatusCode == System.Net.HttpStatusCode.OK;
+        }
 
+        public async Task PostReadyToStartGame(InfoPlayerClientModel infoPlayerClientModel)
+        {
+            var response = await _client.PostAsJsonAsync(pathPostReadyToStartGame, infoPlayerClientModel);
+        }
+
+        public async Task<GameClientModel> GetGameModel(InfoPlayerClientModel infoPlayerClientModel)
+        {
+            var response = await _client.PostAsJsonAsync(pathPostGetGameModel, infoPlayerClientModel);
+            var json = await response.Content.ReadAsStringAsync();
+            var gameModel = JsonConvert.DeserializeObject<GameClientModel>(json);
+            return gameModel;
+        }
+
+        public async Task<GameClientModel>  Shoot(ShootPlayerClientModel shootPlayerClientModel)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

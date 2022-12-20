@@ -32,35 +32,42 @@ namespace SeaBattle.Api.Controllers
         }
 
         [HttpPost("[action]")]
-        public ActionResult<GameAreaClientModel> ChangePlayArea([FromBody] InfoPlayerClientModel playerClientInfoModel)
-        {
-            var gameClientModel = new GameAreaClientModel() { ClientPlayArea = new string[10][] };
-            return Ok(JsonConvert.SerializeObject(gameClientModel));
-        }
-
-        [HttpPost("[action]")]
         public ActionResult<GameClientModel> ReadyToStartGame([FromBody] InfoPlayerClientModel playerClientInfoModel)
         {
-            return Ok("You are ready to play, wait for the enemy.");
+            return Ok();
         }
 
         [HttpPost("[action]")]
         public ActionResult<GameClientModel> GetGameModel([FromBody] InfoPlayerClientModel playerClientInfoModel)
         {
+
             string[][] arr = new string[10][];
             for (int i = 0; i < 10; i++)
             {
                 arr[i] = new string[10] { "*", "*", "*", "#", "*", "*", "*", "*", "*", "*" };
             }
+
+
+            string[][] arr1 = new string[10][];
+            for (int i = 0; i < 10; i++)
+            {
+                arr1[i] = new string[10] { "*", "*", "*", "*", "*", "*", "*", "*", "*", "*" };
+            }
+
+
+
+
             var gameClientModel = new GameClientModel();
             gameClientModel.ClientPlayArea = arr;
-            gameClientModel.IsGameStarted = true;
-            gameClientModel.Message = "The game is starting";
+            gameClientModel.EnemyPlayArea = arr1;
+            gameClientModel.IsPlayerTurnToShoot = true;
+            gameClientModel.IsGameOn = true;
+            gameClientModel.Message = "Your turn to shoot";
             return Ok(JsonConvert.SerializeObject(gameClientModel));
         }
 
         [HttpPost("[action]")]//last
-        public ActionResult<GameClientModel> Shoot([FromBody] InfoPlayerClientModel playerClientShootModel)
+        public ActionResult<GameClientModel> Shoot([FromBody] ShootPlayerClientModel shootPlayerClientModel)
         {
             var gameClientModel = new GameClientModel();
             return Ok(JsonConvert.SerializeObject(gameClientModel));

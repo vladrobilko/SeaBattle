@@ -7,44 +7,77 @@ namespace ConsoleGameForClient
 {
     public class ConsoleGameSeaBattle
     {
-        RequestToSeaBattleApiHelper _requestHelper;
+        private RequestToSeaBattleApiHelper _requestHelper;
 
-        private HttpClient _client;
+        private InfoPlayerClientModel _infoPlayerClientModel;
 
-        private InfoPlayerClientModel _playerClientInfoModel;
-
-        private ShootPlayerClientModel _playerClientShootModel;
-
-        private string[][] _playAreaEnemy;
+        private ShootPlayerClientModel _shootPlayerClientModel;
 
         public ConsoleGameSeaBattle()
         {
-            _playerClientInfoModel = new InfoPlayerClientModel();
-            _playerClientShootModel = new ShootPlayerClientModel();
-            _client = new HttpClient();
+            _infoPlayerClientModel = new InfoPlayerClientModel();
+            _shootPlayerClientModel = new ShootPlayerClientModel();
             _requestHelper = new RequestToSeaBattleApiHelper();
         }
 
-        public async Task Start()
+        public void Start()
         {
             Console.WriteLine("Online Game sea battle.");
             RegisterPlayerAndSetClientModelsAsync();
             var listWaitingSessions = _requestHelper.GetAllWaitingSessions().Result;
             ChooseHostOrJoinSession(listWaitingSessions);
             ChoosePlayAreaAndReadyToGame();
-            var gameModel = await WaitingStartGame();
-            await PlayGame(gameModel);
-            Console.ReadKey();
+            var gameClientModel = WaitingStartGame();
+            PlayGame(gameClientModel);
         }
+
+        private void PlayGame(GameClientModel gameClientModel)
+        {
+            Console.Clear();
+            ConsoleGameFiller.FillConsolePlayerAreaAndEnemyArea(gameClientModel.ClientPlayArea, gameClientModel.EnemyPlayArea);
+            Console.WriteLine(gameClientModel.Message);
+            while (gameClientModel.IsGameOn)
+            {
+                if (gameClientModel.IsPlayerTurnToShoot == false)
+                {
+                    Task.Delay(2000);
+                    Console.Clear();
+                    ConsoleGameFiller.FillConsolePlayerAreaAndEnemyArea(gameClientModel.ClientPlayArea, gameClientModel.EnemyPlayArea);
+                    Console.WriteLine(gameClientModel.Message);
+                }
+                else if (gameClientModel.IsPlayerTurnToShoot)
+                {
+                    Console.WriteLine("Your turn to shoot.");
+                    Console.WriteLine("Enter the first coordinate");
+                    int coordinateY = int.Parse(Console.ReadLine());
+                    Console.WriteLine("Enter the second coordinate");
+                    int coordinateX = int.Parse(Console.ReadLine());
+                    gameClientModel = _requestHelper.Shoot(new ShootPlayerClientModel()
+                    {
+                        PlayerName = _infoPlayerClientModel.PlayerName,
+                        SessionName = _infoPlayerClientModel.SessionName,
+                        ShootCoordinateY = coordinateY,
+                        ShootCoordinateX = coordinateX
+
+                    }).Result;
+                }
+            }
+            Console.WriteLine(gameClientModel.Message);
+
+            //message контроллер выдает общий для всех, то есть одно и тоже сообщение видят два игрока если делают запрос
+            //метод принятия выстрела 
+            //метод выстрела 
+        }
+
 
         private void RegisterPlayerAndSetClientModelsAsync()
         {
             Console.WriteLine("Write the name, and press enter for registration.");
             string namePlayer = Console.ReadLine();
-            if (_requestHelper.IsStatusCodeAfterRegisterPlayerOk(namePlayer).Result)
+            if (_requestHelper.IsStatusCodeOKAfterRegisterPlayer(namePlayer).Result)
             {
                 SetNameInClientsModels(namePlayer);
-                Console.WriteLine($"You registered. Your name is {_playerClientInfoModel.PlayerName}.");
+                Console.WriteLine($"You registered. Your name is {_infoPlayerClientModel.PlayerName}.");
                 return;
             }
             Console.ForegroundColor = ConsoleColor.Red;
@@ -65,7 +98,7 @@ namespace ConsoleGameForClient
             listWaitingSessions.ForEach(i => Console.Write($"\tName host: {i.HostPlayerName}, Name Session: {i.SessionName}\n"));
             Console.WriteLine("\nWrite the session name to connect, or something else to host");
             string message = Console.ReadLine();
-            if (listWaitingSessions.SingleOrDefault(p => p.SessionName ==message) == null)
+            if (listWaitingSessions.SingleOrDefault(p => p.SessionName == message) == null)
             {
                 HostSession();
                 return;
@@ -77,13 +110,13 @@ namespace ConsoleGameForClient
         {
             Console.WriteLine("\nWrite new host name to start the session");
             string message = Console.ReadLine();
-            if (_requestHelper.IsStatusCodeAfterHostSessionPlayerOk(_playerClientInfoModel.PlayerName, message).Result)
+            if (_requestHelper.IsStatusCodeOKAfterHostSessionPlayer(_infoPlayerClientModel.PlayerName, message).Result)
             {
                 SetNameSessionInClientsModels(message);
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine($"The session was created.\n\t Your name of session: <<{message}>>." +
-                    $"\n\t Your name: <<{_playerClientInfoModel.PlayerName}>>");
+                    $"\n\t Your name: <<{_infoPlayerClientModel.PlayerName}>>");
                 Console.ResetColor();
                 return;
             }
@@ -91,107 +124,60 @@ namespace ConsoleGameForClient
             HostSession();
         }
 
-        private async Task PlayGame(GameClientModel gameClientModel)
+        private void JoinSession(string nameSession)
         {
-            Console.WriteLine(gameClientModel.Message);
-            SetEnemyArea(gameClientModel.ClientPlayArea.Length);
-            if (gameClientModel.PlayerTurnToShoot == true)
+            if (_requestHelper.IsStatusCodeOKAfterJoinSessionPlayer(_infoPlayerClientModel.PlayerName, nameSession).Result)
             {
-
-            }
-        }
-
-        private void SetEnemyArea(int length)
-        {
-            _playAreaEnemy = new string[length][];
-            for (int i = 0; i < length; i++)
-            {
-                _playAreaEnemy[i] = new string[10] { " ", " ", " ", " ", " ", " ", " ", " ", " ", " " };
-            }
-        }
-
-        private async Task<GameClientModel> WaitingStartGame()
-        {
-            var gameArea = await GetGameModelWithDelay3SecondFromServer();
-            while (!gameArea.IsGameStarted)
-            {
-                gameArea = await GetGameModelWithDelay3SecondFromServer();
-            }
-            return gameArea;
-        }
-
-        private async Task<GameClientModel> GetGameModelWithDelay3SecondFromServer()
-        {
-            await Task.Delay(3000);
-            var response = await _client.PostAsJsonAsync("https://localhost:7109/api/SeaBattleGame/GetGameModel", _playerClientInfoModel);
-            var json = await response.Content.ReadAsStringAsync();
-            var gameModel = JsonConvert.DeserializeObject<GameClientModel>(json);
-            return gameModel;
-        }
-
-        private async Task ChoosePlayAreaAndReadyToGame()
-        {
-            var key = new ConsoleKey();
-            while (key != ConsoleKey.Enter)
-            {
-                await GetPlayArea();
-                Console.WriteLine(" Press enter to use this play area, another button is change");
-                key = Console.ReadKey().Key;
-                Console.Clear();
-            }
-
-            var response = await _client.PostAsJsonAsync("https://localhost:7109/api/SeaBattleGame/ReadyToStartGame", _playerClientInfoModel);
-            var json = await response.Content.ReadAsStringAsync();
-            Console.WriteLine(json);
-        }
-
-        private async Task GetPlayArea()
-        {
-            var key = new ConsoleKey();
-            while (key != ConsoleKey.Enter)
-            {
-                Console.WriteLine("Press enter to get the play arena");
-                key = Console.ReadKey().Key;
-                Console.Clear();
-                var gameArea = await _requestHelper.GetPlayArea(_playerClientInfoModel);
-                ConsoleGameFiller.FillConsolePlayerAreaOnly(gameArea.ClientPlayArea);
-            }
-        }
-
-        private void SetNameInClientsModels(string namePlayer)
-        {
-            _playerClientInfoModel.PlayerName = namePlayer;
-            _playerClientShootModel.PlayerName = namePlayer;
-        }
-
-
-        private async Task JoinSession(string nameSession)
-        {
-            try
-            {
-                var response = await _client.PostAsJsonAsync("https://localhost:7109/api/Session/JoinSession",
-                    new JoinSessionClientModel()
-                    {
-                        JoinPlayerName = _playerClientInfoModel.PlayerName,
-                        SessionName = nameSession
-                    });
                 SetNameSessionInClientsModels(nameSession);
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine($"You have connected to the session.\n\t Your name of session: <<{nameSession}>>." +
-                    $" \t Your name: <<{_playerClientInfoModel.PlayerName}>>");
+                    $" \t Your name: <<{_infoPlayerClientModel.PlayerName}>>");
                 Console.ResetColor();
+                return;
             }
-            catch (Exception e)
+            Console.WriteLine("Error.");
+            JoinSession(nameSession);
+        }
+
+        private void ChoosePlayAreaAndReadyToGame()
+        {
+            Console.Clear();
+            var key = new ConsoleKey();
+            while (key != ConsoleKey.Enter)
             {
-                Console.WriteLine("Error" + e.Message);
+                var gameArea = _requestHelper.GetPlayArea(_infoPlayerClientModel).Result;
+                ConsoleGameFiller.FillConsolePlayerAreaOnly(gameArea.ClientPlayArea);
+                Console.WriteLine("Press enter to use this play area, another button is change");
+                key = Console.ReadKey().Key;
+                Console.Clear();
             }
+            _requestHelper.PostReadyToStartGame(_infoPlayerClientModel);
+            Console.WriteLine("You're ready to the game, waiting enemy");
+        }
+
+        private GameClientModel WaitingStartGame()
+        {
+            var gameArea = _requestHelper.GetGameModel(_infoPlayerClientModel).Result;
+            while (!gameArea.IsGameOn)
+            {
+                Task.Delay(3000);
+                gameArea = _requestHelper.GetGameModel(_infoPlayerClientModel).Result;
+            }
+            Console.WriteLine("The game has started");
+            return gameArea;
+        }
+
+        private void SetNameInClientsModels(string namePlayer)
+        {
+            _infoPlayerClientModel.PlayerName = namePlayer;
+            _shootPlayerClientModel.PlayerName = namePlayer;
         }
 
         private void SetNameSessionInClientsModels(string nameSession)
         {
-            _playerClientInfoModel.SessionName = nameSession;
-            _playerClientShootModel.SessionName = nameSession;
+            _infoPlayerClientModel.SessionName = nameSession;
+            _shootPlayerClientModel.SessionName = nameSession;
         }
     }
 }
