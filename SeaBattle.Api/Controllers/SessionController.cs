@@ -29,8 +29,7 @@ namespace SeaBattle.Api.Controllers
         {
             var json = JsonConvert
                 .SerializeObject(_session
-                .GetAllNewSessions()
-                .ConvertToListHostSessionClientModel());
+                .GetAllNewSessions());
             return Ok(json);
         }
 

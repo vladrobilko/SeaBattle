@@ -17,10 +17,9 @@ namespace SeaBattle.Api.Controllers
             _seaBattleGameService = seaBattleGameService;
         }
         //может начать использование паттерна поведение с игры, так как уже написано до сессии
-        //а игру начать писать с методикой tdd. сначала тест потом код
 
         [HttpPost("[action]")]
-        public ActionResult<GameAreaClientModel> GetPlayArea([FromBody] InfoPlayerClientModel playerClientInfoModel)
+        public ActionResult<GameAreaClientModel> GetPlayArea([FromBody] InfoPlayerClientModel infoPlayerClientModel)
         {
             string[][] arr = new string[10][];
             for (int i = 0; i < 10; i++)
@@ -32,13 +31,13 @@ namespace SeaBattle.Api.Controllers
         }
 
         [HttpPost("[action]")]
-        public ActionResult<GameClientModel> ReadyToStartGame([FromBody] InfoPlayerClientModel playerClientInfoModel)
+        public ActionResult ReadyToStartGame([FromBody] InfoPlayerClientModel infoPlayerClientModel)
         {
             return Ok();
         }
 
         [HttpPost("[action]")]
-        public ActionResult<GameClientModel> GetGameModel([FromBody] InfoPlayerClientModel playerClientInfoModel)
+        public ActionResult<GameClientModel> GetGameModel([FromBody] InfoPlayerClientModel infoPlayerClientModel)
         {
 
             string[][] arr = new string[10][];
@@ -66,7 +65,7 @@ namespace SeaBattle.Api.Controllers
             return Ok(JsonConvert.SerializeObject(gameClientModel));
         }
 
-        [HttpPost("[action]")]//last
+        [HttpPost("[action]")]
         public ActionResult<GameClientModel> Shoot([FromBody] ShootPlayerClientModel shootPlayerClientModel)
         {
             var gameClientModel = new GameClientModel();

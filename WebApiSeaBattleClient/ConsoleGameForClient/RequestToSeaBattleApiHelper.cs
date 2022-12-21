@@ -83,7 +83,7 @@ namespace ConsoleGameForClient
             return gameModel;
         }
 
-        public async Task<GameClientModel>  Shoot(ShootPlayerClientModel shootPlayerClientModel)
+        public async Task<GameClientModel> Shoot(ShootPlayerClientModel shootPlayerClientModel)
         {
             throw new NotImplementedException();
         }

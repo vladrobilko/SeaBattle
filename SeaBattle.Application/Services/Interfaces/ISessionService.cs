@@ -9,6 +9,6 @@ namespace SeaBattle.Application.Services.Intefaces
 
         void JoinToSession(JoinSessionClientModel joinSessionClient);
 
-        List<NewSessionModel> GetAllNewSessions();
+        List<HostSessionClientModel> GetAllNewSessions();
     }
 }

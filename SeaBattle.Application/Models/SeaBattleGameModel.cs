@@ -58,20 +58,10 @@ namespace SeaBattle.Application.Models
         {
             if (shootResultType == ShootResultType.Kill)
             {
-                //ConsoleFillerForGame.FillConsole(player1, player2);
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("The ship is dead, press enter");
-                Console.ReadLine();
-                Console.ResetColor();
                 return;
             }
             else if (shootResultType == ShootResultType.Hit)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                //.FillConsole(player1, player2);
-                Console.WriteLine("It's a hit! Press enter");
-                Console.ReadLine();
-                Console.ResetColor();
                 return;
             }
         }

@@ -1,4 +1,5 @@
 ﻿using SeaBattle.ApiClientModels.Models;
+using SeaBattle.Application.Converters;
 using SeaBattle.Application.Models;
 using SeaBattle.Application.Services.Intefaces;
 using SeaBattle.Application.Services.Interfaces.RepositoryServices;
@@ -22,10 +23,11 @@ namespace SeaBattle.Application.Services
             _sessionRepository.AddNewSessionOrThrowException(newSessionClient.HostPlayerName, newSessionClient.SessionName);
         }
 
-        public List<NewSessionModel> GetAllNewSessions()
+        public List<HostSessionClientModel> GetAllNewSessions()
         {
             return _sessionRepository.
-                GetAllFreeSessionsOrThrowException();
+                GetAllFreeSessionsOrThrowException()
+                .ConvertToListHostSessionClientModel();
         }
 
         public void JoinToSession(JoinSessionClientModel joinSessionClient)
