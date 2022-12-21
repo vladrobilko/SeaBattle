@@ -2,7 +2,7 @@
 {
     public interface IPlayerRepository
     {
-        void AddNewPlayerOrThrowExeption(string name);
+        void SaveNewPlayerOrThrowExeption(string name);
 
         bool IsPlayerRegistered(string name);
     }

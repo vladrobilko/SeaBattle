@@ -17,7 +17,7 @@ namespace SeaBattle.Application.Services
         {
             if (_playerRepository.IsPlayerRegistered(name))
                 throw new DuplicateNameException();
-            _playerRepository.AddNewPlayerOrThrowExeption(name);
+            _playerRepository.SaveNewPlayerOrThrowExeption(name);
         }
     }
 }

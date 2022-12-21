@@ -18,7 +18,7 @@ namespace SeaBattle.Repository.Repositories
             _waitingSessionsToStartGame = new List<SessionDtoModel>();
         }
 
-        public void AddNewSessionOrThrowException(string hostPlayerName, string sessionName)
+        public void SaveNewSessionOrThrowException(string hostPlayerName, string sessionName)
         {
             if (IsSessionExists(sessionName))
                 throw new DuplicateNameException();
@@ -32,7 +32,7 @@ namespace SeaBattle.Repository.Repositories
             return _newSessionsWaitSecondPlayer.ConvertToListSessionModel();
         }
 
-        public void AddToStartsSessionsOrThrowException(string joinSessionName, string nameSession)
+        public void SaveStartsSessionsOrThrowException(string joinSessionName, string nameSession)
         {
             var session = _newSessionsWaitSecondPlayer.
                 SingleOrDefault(p => p.SessionName == nameSession) ??

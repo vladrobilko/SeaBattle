@@ -14,7 +14,7 @@ namespace SeaBattle.Repository.Repositories
             _registeredPlayers = new List<PlayerDtoModel>();
         }
 
-        public void AddNewPlayerOrThrowExeption(string name)
+        public void SaveNewPlayerOrThrowExeption(string name)
         {
             var player = new PlayerDtoModel() { Name = name };
             _registeredPlayers.Add(player);
