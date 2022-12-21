@@ -9,12 +9,12 @@ namespace TestSeaBattleGameService
     public class TestGetPlayArea
     {
         [Test]
+        [Repeat(100)]
         public void TestGetPlayArea_GetPlayAreaInClientModel_ReturnNotNull()
         {
             //pre
             var client = new InfoPlayerClientModel() { PlayerName = "123", SessionName = "123" };
             var playerModel = new PlayerModel(new FillerRandom(), client.PlayerName);
-            var gameAreaClientModel = new GameAreaClientModel();
             var result = new string[10][];
             //act
             playerModel.FillShips();

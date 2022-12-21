@@ -15,5 +15,7 @@ namespace SeaBattle.Application.Services.Interfaces.RepositoryServices
         List<NewSessionModel> GetAllFreeSessionsOrThrowException();
 
         bool IsSessionReadyToStartGame(string sessionName);
+
+        bool IsSessionExists(string nameSession);
     }
 }

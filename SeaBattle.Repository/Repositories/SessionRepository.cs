@@ -47,7 +47,7 @@ namespace SeaBattle.Repository.Repositories
             return _waitingSessionsToStartGame.SingleOrDefault(p => p.SessionName == nameSession) != null;
         }
 
-        private bool IsSessionExists(string nameSession)
+        public bool IsSessionExists(string nameSession)
         {
             return _newSessionsWaitSecondPlayer.SingleOrDefault(p => p.SessionName == nameSession) != null ||
                 _waitingSessionsToStartGame.SingleOrDefault(p => p.SessionName == nameSession) != null;

@@ -20,12 +20,7 @@ namespace SeaBattle.Api.Controllers
         [HttpPost("[action]")]
         public ActionResult<GameAreaClientModel> GetPlayArea([FromBody] InfoPlayerClientModel infoPlayerClientModel)
         {
-            string[][] arr = new string[10][];
-            for (int i = 0; i < 10; i++)
-            {
-                arr[i] = new string[10] { "*", "*", "*", "#", "*", "*", "*", "*", "*", "*" };
-            }
-            var gameClientModel = new GameAreaClientModel() { ClientPlayArea = arr };
+            var gameClientModel = _seaBattleGameService.GetPlayArea(infoPlayerClientModel);
             return Ok(JsonConvert.SerializeObject(gameClientModel));
         }
 

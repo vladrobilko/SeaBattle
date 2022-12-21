@@ -1,4 +1,5 @@
 ﻿using SeaBattle.ApiClientModels.Models;
+using SeaBattle.Application.Converters;
 using SeaBattle.Application.Models;
 using SeaBattle.Application.Services.Interfaces;
 using SeaBattle.Application.Services.Interfaces.RepositoryServices;
@@ -25,12 +26,15 @@ namespace SeaBattle.Application.Services
         public GameAreaClientModel GetPlayArea(InfoPlayerClientModel infoPlayerClientModel)
         {
             var playerModel = new PlayerModel(new FillerRandom(), infoPlayerClientModel.PlayerName);
+            playerModel.Name = infoPlayerClientModel.PlayerName;
             var gameAreaClientModel = new GameAreaClientModel();
-            playerModel.GetPlayArea();
-
+            playerModel.FillShips();
+            gameAreaClientModel.ClientPlayArea = playerModel.GetPlayArea().ConvertToArrayString();
 
             return gameAreaClientModel;
         }
+
+
 
 
 
