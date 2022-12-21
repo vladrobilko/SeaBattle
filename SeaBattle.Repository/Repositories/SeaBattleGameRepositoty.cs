@@ -1,20 +1,30 @@
 ﻿using SeaBattle.Application.Services.Interfaces.RepositoryServices;
 using SeaBattle.Repository.Models;
+using SeaBattleApi.Models;
 
 namespace SeaBattle.Repository.Repositories
 {
     public class SeaBattleGameRepositoty : ISeaBattleGameRepository
     {
-        private readonly List<SeaBattleGameDtoModel> _startedGames;
+        List<PlayerModel> _lastPlayers;
+
+        List<PlayerModel> _confirmedPlayers;
 
         public SeaBattleGameRepositoty()
         {
-            _startedGames = new List<SeaBattleGameDtoModel>();
+            _lastPlayers= new List<PlayerModel>();
+            _confirmedPlayers= new List<PlayerModel>();
         }
 
-        public void AddGame()
+        public void SaveLastPlayerModel(PlayerModel playerModel)
         {
-            throw new NotImplementedException();
+            _lastPlayers.Add(playerModel);
+        }
+
+        public void SaveConfirmedPlayerModel(string name)
+        {
+            _confirmedPlayers.Add(_lastPlayers
+                .SingleOrDefault(p => p.Name == name) ?? throw new DirectoryNotFoundException());
         }
     }
 }

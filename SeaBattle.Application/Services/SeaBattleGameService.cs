@@ -29,6 +29,7 @@ namespace SeaBattle.Application.Services
             playerModel.Name = infoPlayerClientModel.PlayerName;
             var gameAreaClientModel = new GameAreaClientModel();
             playerModel.FillShips();
+            _seaBattleGameRepository.SaveLastPlayerModel(playerModel);
             gameAreaClientModel.ClientPlayArea = playerModel.GetPlayArea().ConvertToArrayString();
 
             return gameAreaClientModel;
