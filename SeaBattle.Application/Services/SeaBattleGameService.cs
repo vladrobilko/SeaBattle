@@ -1,4 +1,5 @@
-﻿using SeaBattle.Application.Models;
+﻿using SeaBattle.ApiClientModels.Models;
+using SeaBattle.Application.Models;
 using SeaBattle.Application.Services.Interfaces;
 using SeaBattle.Application.Services.Interfaces.RepositoryServices;
 using SeaBattleApi.Models;
@@ -21,7 +22,29 @@ namespace SeaBattle.Application.Services
             _playerRepository = playerRepository;
         }
 
-        public void StartGame(string nameSession, string hostName)
+        public GameAreaClientModel GetPlayArea(InfoPlayerClientModel infoPlayerClientModel)
+        {
+            var playerModel = new PlayerModel(new FillerRandom(), infoPlayerClientModel.PlayerName);
+            var gameAreaClientModel = new GameAreaClientModel();
+            playerModel.GetPlayArea();
+
+
+            return gameAreaClientModel;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+        private void StartGame(string nameSession, string hostName)
         {
             //if (!_sessionRepository.IsSessionReadyToStartGame(nameSession))
                 //throw new Exception("The game can't start");

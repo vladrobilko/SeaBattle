@@ -4,7 +4,7 @@ namespace SeaBattle.Application.Services.Interfaces
 {
     public interface ISeaBattleGameService
     {
-        void GetPlayArea(InfoPlayerClientModel infoPlayerClientModel);
+        GameAreaClientModel GetPlayArea(InfoPlayerClientModel infoPlayerClientModel);
 
         //void ReadyToStartGame(); - тут будет старт игры если 2 игрока готовы
 

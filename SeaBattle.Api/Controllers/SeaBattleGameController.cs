@@ -16,7 +16,6 @@ namespace SeaBattle.Api.Controllers
         {
             _seaBattleGameService = seaBattleGameService;
         }
-        //может начать использование паттерна поведение с игры, так как уже написано до сессии
 
         [HttpPost("[action]")]
         public ActionResult<GameAreaClientModel> GetPlayArea([FromBody] InfoPlayerClientModel infoPlayerClientModel)
