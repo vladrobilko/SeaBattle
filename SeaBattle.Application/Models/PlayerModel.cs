@@ -37,33 +37,7 @@ namespace SeaBattleApi.Models
             return new PlayArea(_playArea);
         }
 
-        public Point GetNextShootTarget(int Y, int X)
-        {
-            //try
-            //{
-            //Console.WriteLine("Enter the vertical coordinate.");
-            // int Y = int.Parse(Console.ReadLine());
-            // Console.WriteLine("Enter the horizontal coordinate.");
-            // int X = int.Parse(Console.ReadLine());
-            if (_playAreaEnemyForInformation.Cells[Y, X].State == CellState.HasShooted)
-            {
-                //throw new Exception("You have already shot here. Please enter again.");
-
-                // Console.WriteLine("You have already shot here. Please enter again.");
-                //Console.WriteLine("Enter the vertical coordinate.");
-                //Y = int.Parse(Console.ReadLine());
-                //Console.WriteLine("Enter the horizontal coordinate.");
-                ///X = int.Parse(Console.ReadLine());
-            }
-            _playAreaEnemyForInformation.Cells[Y, X].State = CellState.HasShooted;
-            return new Point(Y, X);
-            //}
-            // catch (Exception)
-            //{
-            //Console.WriteLine("Error. Please enter again.");
-            //return GetNextShootTarget();
-            //}
-        }
+       
 
         public ShootResultType OnShoot(Point target)
         {
@@ -78,6 +52,11 @@ namespace SeaBattleApi.Models
                 _playArea.Cells[target.Y, target.X].State = CellState.HasHit;
             }
             return shootResultType;
+        }
+
+        public Point GetNextShootTarget()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -31,10 +31,10 @@ namespace SeaBattle
             _filler.FillShips(_playArea.Cells, _ships);
         }
 
-        public Point GetNextShootTarget(int Y = 0, int X = 0)
+        public Point GetNextShootTarget()
         {
-            Y = rnd.Next(10);
-            X = rnd.Next(10);
+            int Y = rnd.Next(10);
+            int X = rnd.Next(10);
             while (_playAreaEnemyForInformation.Cells[Y, X].State != CellState.HasShooted)
             {
                 _playAreaEnemyForInformation.Cells[Y, X].State = CellState.HasShooted;
