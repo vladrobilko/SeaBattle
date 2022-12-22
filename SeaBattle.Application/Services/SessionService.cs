@@ -1,4 +1,5 @@
 ﻿using SeaBattle.ApiClientModels.Models;
+using SeaBattle.Application.Converters;
 using SeaBattle.Application.Models;
 using SeaBattle.Application.Services.Intefaces;
 using SeaBattle.Application.Services.Interfaces.RepositoryServices;
@@ -9,25 +10,31 @@ namespace SeaBattle.Application.Services
     {
         private readonly ISessionRepository _sessionRepository;
 
-        public SessionService(ISessionRepository newSessionDtoRepository)
+        private readonly IPlayerRepository _playerRepository;
+
+        public SessionService(ISessionRepository newSessionDtoRepository, IPlayerRepository playerRepository)
         {
             _sessionRepository = newSessionDtoRepository;
+            _playerRepository = playerRepository;
         }
 
-        public void CreateNewSession(NewSessionClientModel newSessionClient)
+        public void CreateNewSession(HostSessionClientModel newSessionClient)
         {
-            _sessionRepository.AddNewSessionOrThrowExeption(newSessionClient.HostPlayerName, newSessionClient.SessionName);
+            _sessionRepository.SaveNewSessionOrThrowException(newSessionClient.HostPlayerName, newSessionClient.SessionName);
         }
 
-        public List<NewSessionModel> GetAllNewSessions()
+        public List<HostSessionClientModel> GetAllNewSessions()
         {
             return _sessionRepository.
-                GetAllFreeSessions();
+                GetAllFreeSessionsOrThrowException()
+                .ConvertToListHostSessionClientModel();
         }
 
-        public void JoinToSession(JoinToSessionClientModel joinSessionClient)
+        public void JoinToSession(JoinSessionClientModel joinSessionClient)
         {
-            _sessionRepository.AddToStartsSessionsOrThrowExeption(joinSessionClient.JoinPlayerName, joinSessionClient.SessionName);
+            _sessionRepository.
+                SaveStartsSessionsOrThrowException
+                (joinSessionClient.JoinPlayerName, joinSessionClient.SessionName);
         }
     }
 }

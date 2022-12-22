@@ -1,5 +1,7 @@
 ﻿using SeaBattle.Application.Services.Interfaces.RepositoryServices;
 using SeaBattle.Repository.Models;
+using System.Data;
+using System.Runtime.CompilerServices;
 
 namespace SeaBattle.Repository.Repositories
 {
@@ -12,10 +14,8 @@ namespace SeaBattle.Repository.Repositories
             _registeredPlayers = new List<PlayerDtoModel>();
         }
 
-        public void AddNewPlayerOrThrowExeption(string name)
+        public void SaveNewPlayerOrThrowExeption(string name)
         {
-            if (IsPlayerRegistered(name))
-                throw new Exception("The name is occupied.");
             var player = new PlayerDtoModel() { Name = name };
             _registeredPlayers.Add(player);
         }

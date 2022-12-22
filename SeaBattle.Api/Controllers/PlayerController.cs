@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using SeaBattle.ApiClientModels.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace SeaBattle.Api.Controllers
@@ -16,17 +18,10 @@ namespace SeaBattle.Api.Controllers
         }
 
         [HttpPost("[action]")]
-        public IActionResult RegisterNewPlayer([FromBody][MinLength(3)][Required] string playerName)
+        public IActionResult Register([FromBody][MinLength(3)][Required] string playerName)
         {
-            try
-            {
-                _playerService.CreateNewPlayer(playerName);
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                return BadRequest("Failed to register a player. Error message: " + e.Message);
-            }            
+            _playerService.CreateNewPlayer(playerName);
+            return Ok();
         }
     }
 }

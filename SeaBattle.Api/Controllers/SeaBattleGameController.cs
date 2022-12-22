@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using SeaBattle.ApiClientModels.Models;
-using SeaBattle.Application.Services;
 using SeaBattle.Application.Services.Interfaces;
-using System.ComponentModel.DataAnnotations;
+using System;
 
 namespace SeaBattle.Api.Controllers
 {
@@ -18,17 +18,31 @@ namespace SeaBattle.Api.Controllers
         }
 
         [HttpPost("[action]")]
-        public IActionResult StartGame([FromBody] NewSessionClientModel sessionClientModel)
+        public ActionResult<GameAreaClientModel> GetPlayArea([FromBody] InfoPlayerClientModel infoPlayerClientModel)
         {
-            try
-            {
-                _seaBattleGameService.StartGame(sessionClientModel.SessionName,sessionClientModel.HostPlayerName);
-                return Ok("The game has started");//тут отослать модель игры и сообзение с тем кто ходит
-            }
-            catch (Exception e)
-            {
-                return BadRequest("The game was not started. Error message: " + e.Message);
-            }
-        }        
+            var gameClientModel = _seaBattleGameService.GetPlayArea(infoPlayerClientModel);
+            return Ok(JsonConvert.SerializeObject(gameClientModel));
+        }
+
+        [HttpPost("[action]")]
+        public IActionResult ReadyToStartGame([FromBody] InfoPlayerClientModel infoPlayerClientModel)
+        {
+            _seaBattleGameService.ReadyToStartGame(infoPlayerClientModel);
+            return Ok();
+        }
+
+        [HttpPost("[action]")]
+        public ActionResult<GameClientModel> GetGameModel([FromBody] InfoPlayerClientModel infoPlayerClientModel)
+        {
+            var gameClientModel = _seaBattleGameService.GetGameModel(infoPlayerClientModel.SessionName, infoPlayerClientModel.PlayerName);
+            return Ok(JsonConvert.SerializeObject(gameClientModel));
+        }
+
+        [HttpPost("[action]")]
+        public ActionResult<GameClientModel> Shoot([FromBody] ShootPlayerClientModel shootPlayerClientModel)
+        {
+            var gameClientModel = new GameClientModel();
+            return Ok(JsonConvert.SerializeObject(gameClientModel));
+        }
     }
 }

@@ -78,6 +78,11 @@ namespace ConsoleSeaBattle
             }
             return shootResultType;
         }
+
+        public Point GetNextShootTarget(int Y = 0, int X = 0)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }

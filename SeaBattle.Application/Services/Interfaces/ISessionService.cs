@@ -5,10 +5,10 @@ namespace SeaBattle.Application.Services.Intefaces
 {
     public interface ISessionService
     {
-        void CreateNewSession(NewSessionClientModel newSessionClient);
+        void CreateNewSession(HostSessionClientModel newSessionClient);
 
-        void JoinToSession(JoinToSessionClientModel joinSessionClient);
+        void JoinToSession(JoinSessionClientModel joinSessionClient);
 
-        List<NewSessionModel> GetAllNewSessions();
+        List<HostSessionClientModel> GetAllNewSessions();
     }
 }

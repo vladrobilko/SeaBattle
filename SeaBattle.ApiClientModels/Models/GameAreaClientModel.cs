@@ -6,8 +6,13 @@ using System.Threading.Tasks;
 
 namespace SeaBattle.ApiClientModels.Models
 {
-    public class PlayerClientModel
+    public class GameAreaClientModel
     {
-        public string Name { get; set; }
+        public string[][] ClientPlayArea { get; set; }
+
+        public GameAreaClientModel()
+        {
+
+        }
     }
 }

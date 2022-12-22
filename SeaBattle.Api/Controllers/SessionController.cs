@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using SeaBattle.ApiClientModels.Models;
 using SeaBattle.Application.Converters;
 using SeaBattle.Application.Services.Intefaces;
@@ -17,47 +18,26 @@ namespace SeaBattle.Api.Controllers
         }
 
         [HttpPost("[action]")]
-        public IActionResult StartNewSession([FromBody] NewSessionClientModel newSessionClient)
+        public IActionResult HostSession([FromBody] HostSessionClientModel hostSessionClientModel)
         {
-            try
-            {
-                _session.CreateNewSession(newSessionClient);
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                return BadRequest("The session was not started. Error message: " + e.Message);
-            }
+            _session.CreateNewSession(hostSessionClientModel);
+            return Ok();
         }
 
         [HttpGet("[action]")]
-        public IActionResult GetAllWaitingSessions()
+        public ActionResult<List<HostSessionClientModel>> GetAllWaitingSessions()
         {
-            try
-            {
-                return Ok(_session.
-               GetAllNewSessions().
-               ConvertToListNewSessionClient());
-            }
-            catch (Exception e)
-            {
-                return BadRequest("Sessions were not given. Error message: " + e.Message);
-            }
-
+            var json = JsonConvert
+                .SerializeObject(_session
+                .GetAllNewSessions());
+            return Ok(json);
         }
 
         [HttpPost("[action]")]
-        public IActionResult JoinToSession([FromBody] JoinToSessionClientModel joinToSessionClient)
+        public IActionResult JoinSession([FromBody] JoinSessionClientModel joinToSessionClient)
         {
-            try
-            {
-                _session.JoinToSession(joinToSessionClient);
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                return BadRequest("Couldn't connect to the session. Error message: " + e.Message);
-            }
+            _session.JoinToSession(joinToSessionClient);
+            return Ok();
         }
     }
 }

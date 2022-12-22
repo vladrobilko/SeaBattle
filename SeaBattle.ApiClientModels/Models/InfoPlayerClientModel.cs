@@ -7,13 +7,17 @@ using System.Threading.Tasks;
 
 namespace SeaBattle.ApiClientModels.Models
 {
-    public class SessionClientModel
+    public class InfoPlayerClientModel
     {
         [Required]
-        public string HostPlayerName { get; set; }
-        [Required]
-        public string JoinPlayerName { get; set; }
+        public string PlayerName { get; set; }
+
         [Required]
         public string SessionName { get; set; }
+
+        public InfoPlayerClientModel()
+        {
+
+        }
     }
 }

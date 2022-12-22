@@ -19,8 +19,12 @@ namespace SeaBattle.Application.Converters
 
         public static SessionModel ConvertToSessionModel(this SessionDtoModel SessionDto)
         {
-            return new SessionModel() { HostPlayerName = SessionDto.HostPlayerName,
-                JoinPlayerName = SessionDto.JoinPlayerName, SessionName = SessionDto.SessionName };
+            return new SessionModel()
+            {
+                HostPlayerName = SessionDto.HostPlayerName,
+                JoinPlayerName = SessionDto.JoinPlayerName,
+                SessionName = SessionDto.SessionName
+            };
         }
     }
 }

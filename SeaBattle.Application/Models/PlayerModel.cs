@@ -7,6 +7,8 @@ namespace SeaBattleApi.Models
     {
         public string Name { get; set; }
 
+        public string SessionName { get; set; }
+
         private IFillerShips _filler;
 
         PlayArea _playArea;
