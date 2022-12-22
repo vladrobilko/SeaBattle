@@ -15,14 +15,14 @@ namespace SeaBattle.Application.Converters
             var gameClientModel = new GameClientModel();
             if (seaBattleGameModel.Player1.Name == nameClient)
             {
-                gameClientModel.ClientPlayArea = seaBattleGameModel.Player1.GetPlayArea().ConvertToArrayString();
-                gameClientModel.EnemyPlayArea = seaBattleGameModel.Player2.GetPlayArea().ConvertToArrayString();
+                gameClientModel.ClientPlayArea = seaBattleGameModel.Player1.GetPlayArea().ConvertToArrayStringForClient();
+                gameClientModel.EnemyPlayArea = seaBattleGameModel.Player2.GetPlayArea().ConvertToArrayStringForClientEnemyPlayArea();
                 //gameClientModel.IsPlayerTurnToShoot = true;
             }
             else
             {
-                gameClientModel.ClientPlayArea = seaBattleGameModel.Player2.GetPlayArea().ConvertToArrayString();
-                gameClientModel.EnemyPlayArea = seaBattleGameModel.Player1.GetPlayArea().ConvertToArrayString();
+                gameClientModel.ClientPlayArea = seaBattleGameModel.Player2.GetPlayArea().ConvertToArrayStringForClient();
+                gameClientModel.EnemyPlayArea = seaBattleGameModel.Player1.GetPlayArea().ConvertToArrayStringForClientEnemyPlayArea();
             }
 
             gameClientModel.IsGameOn = true;

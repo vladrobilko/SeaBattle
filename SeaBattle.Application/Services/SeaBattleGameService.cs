@@ -23,10 +23,11 @@ namespace SeaBattle.Application.Services
         {
             var playerModel = new PlayerModel(new FillerRandom(), infoPlayerClientModel.PlayerName);
             playerModel.Name = infoPlayerClientModel.PlayerName;
+            playerModel.SessionName = infoPlayerClientModel.SessionName;
             var gameAreaClientModel = new GameAreaClientModel();
             playerModel.FillShips();
             _seaBattleGameRepository.SaveLastPlayerModel(playerModel);
-            gameAreaClientModel.ClientPlayArea = playerModel.GetPlayArea().ConvertToArrayString();
+            gameAreaClientModel.ClientPlayArea = playerModel.GetPlayArea().ConvertToArrayStringForClient();
 
             return gameAreaClientModel;
         }

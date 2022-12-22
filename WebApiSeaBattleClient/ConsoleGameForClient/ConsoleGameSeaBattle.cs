@@ -36,6 +36,11 @@ namespace ConsoleGameForClient
             Console.Clear();
             ConsoleGameFiller.FillConsolePlayerAreaAndEnemyArea(gameClientModel.ClientPlayArea, gameClientModel.EnemyPlayArea);
             Console.WriteLine(gameClientModel.Message);
+            while (true)
+            {
+
+            }
+            /*
             while (gameClientModel.IsGameOn)
             {
                 if (gameClientModel.IsPlayerTurnToShoot == false)
@@ -61,8 +66,7 @@ namespace ConsoleGameForClient
 
                     }).Result;
                 }
-            }
-            Console.WriteLine(gameClientModel.Message);
+            }*/
 
             //message контроллер выдает общий для всех, то есть одно и тоже сообщение видят два игрока если делают запрос
             //метод принятия выстрела 
@@ -158,6 +162,7 @@ namespace ConsoleGameForClient
 
         private GameClientModel WaitingStartGame()
         {
+            Task.Delay(3000);
             var gameArea = _requestHelper.GetGameModel(_infoPlayerClientModel).Result;
             while (!gameArea.IsGameOn)
             {

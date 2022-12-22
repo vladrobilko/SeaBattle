@@ -1,39 +1,34 @@
 ﻿using ConsoleGameFillerForClient;
 using ConsoleGameForClient;
+using Newtonsoft.Json;
 using SeaBattle.ApiClientModels.Models;
 using System.Net.Http.Json;
 
 class Program
 {
-    private static async Task Host2GamesForPlayerSeeHostGames()
+    private static async Task HostGameAndReadyToStartForTest()
     {
         var client = new HttpClient();
-        string namePlayer1 = "Player1";
-        string nameSession1 = "SessionPlayer1";
-        string namePlayer2 = "Player2";
-        string nameSession2 = "SessionPlayer2";
-
-        await client.PostAsJsonAsync("https://localhost:7109/api/Player/Register", namePlayer1);
-        await client.PostAsJsonAsync("https://localhost:7109/api/Player/Register", namePlayer2);
+        string namePlayer = "TestPlayer";
+        string nameSession = "TestSession";
+        //host
+        await client.PostAsJsonAsync("https://localhost:7109/api/Player/Register", namePlayer);
 
         await client.PostAsJsonAsync("https://localhost:7109/api/Session/HostSession",
             new HostSessionClientModel()
             {
-                HostPlayerName = namePlayer1,
-                SessionName = nameSession1
+                HostPlayerName = namePlayer,
+                SessionName = nameSession
             });
-
-        await client.PostAsJsonAsync("https://localhost:7109/api/Session/HostSession",
-             new HostSessionClientModel()
-             {
-                 HostPlayerName = namePlayer2,
-                 SessionName = nameSession2
-             });
+        //get play area
+        await client.PostAsJsonAsync("https://localhost:7109/api/SeaBattleGame/GetPlayArea", new InfoPlayerClientModel() { PlayerName = "TestPlayer", SessionName = "TestSession" });
+        //ready to start
+        await client.PostAsJsonAsync("https://localhost:7109/api/SeaBattleGame/ReadyToStartGame", new InfoPlayerClientModel() { PlayerName = "TestPlayer", SessionName = "TestSession" });
     }
 
     static async Task Main(string[] args)
     {
-        await Host2GamesForPlayerSeeHostGames();
+        await HostGameAndReadyToStartForTest();
         var consoleGameSeaBattle = new ConsoleGameSeaBattle();
         consoleGameSeaBattle.Start();
 

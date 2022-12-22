@@ -12,13 +12,13 @@ namespace SeaBattle.Repository.Repositories
 
         List<PlayerModel> _confirmedPlayers;
 
-        List<SeaBattleGameModel> _lastSeaBattleGameDtoModels;
+        List<SeaBattleGameModel> _lastSeaBattleGameModels;
 
         public SeaBattleGameRepositoty()
         {
             _lastPlayers = new List<PlayerModel>();
             _confirmedPlayers = new List<PlayerModel>();
-            _lastSeaBattleGameDtoModels = new List<SeaBattleGameModel>();
+            _lastSeaBattleGameModels = new List<SeaBattleGameModel>();
         }
 
         public void SaveLastPlayerModel(PlayerModel playerModel)
@@ -44,17 +44,17 @@ namespace SeaBattle.Repository.Repositories
 
         public void SaveGameModel(SeaBattleGameModel seaBattleGameModel)
         {
-            var model = _lastSeaBattleGameDtoModels.SingleOrDefault(p => p.NameSession == seaBattleGameModel.NameSession);
+            var model = _lastSeaBattleGameModels.SingleOrDefault(p => p.NameSession == seaBattleGameModel.NameSession);
             if (model != null)
             {
-                _lastSeaBattleGameDtoModels.Remove(model);
+                _lastSeaBattleGameModels.Remove(model);
             }
-            _lastSeaBattleGameDtoModels.Add(seaBattleGameModel);
+            _lastSeaBattleGameModels.Add(seaBattleGameModel);
         }
 
         public SeaBattleGameModel GetLastGameModelByNameSession(string nameSession)
         {
-            return _lastSeaBattleGameDtoModels.SingleOrDefault(p => p.NameSession == nameSession);
+            return _lastSeaBattleGameModels.SingleOrDefault(p => p.NameSession == nameSession) ?? throw new NullReferenceException();
         }
     }
 }

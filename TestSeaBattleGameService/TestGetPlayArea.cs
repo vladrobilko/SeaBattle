@@ -18,7 +18,7 @@ namespace TestSeaBattleGameService
             var result = new string[10][];
             //act
             playerModel.FillShips();
-            result = playerModel.GetPlayArea().ConvertToArrayString();
+            result = playerModel.GetPlayArea().ConvertToArrayStringForClient();
             //assert
             foreach (var item in result)
             {
