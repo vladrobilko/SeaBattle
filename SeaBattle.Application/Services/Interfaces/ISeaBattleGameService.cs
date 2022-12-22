@@ -6,9 +6,9 @@ namespace SeaBattle.Application.Services.Interfaces
     {
         GameAreaClientModel GetPlayArea(InfoPlayerClientModel infoPlayerClientModel);
 
-        //void ReadyToStartGame(); - тут будет старт игры если 2 игрока готовы
+        void ReadyToStartGame(InfoPlayerClientModel infoPlayerClientModel);
 
-        //void GetGameModel();
+        GameClientModel GetGameModel(string nameSession, string nameClient);
 
         //void Shoot();
     }

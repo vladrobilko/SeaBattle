@@ -1,4 +1,5 @@
-﻿using SeaBattleApi.Models;
+﻿using SeaBattle.Application.Models;
+using SeaBattleApi.Models;
 
 namespace SeaBattle.Application.Services.Interfaces.RepositoryServices
 {
@@ -8,7 +9,11 @@ namespace SeaBattle.Application.Services.Interfaces.RepositoryServices
 
         void SaveConfirmedPlayerModel(string name);
 
-        //void SaveGameModel();
+        PlayerModel GetConfirmedPlayerModelByName(string name);
+
+        void SaveGameModel(SeaBattleGameModel seaBattleGameModel);
+
+        SeaBattleGameModel GetLastGameModelByNameSession(string name);
 
         //void SaveGame();
 
