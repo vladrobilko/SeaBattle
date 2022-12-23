@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SeaBattle.ApiClientModels.Models
 {
-    public class GameClientModel
+    public class GameClientStateModel
     {
         public string[][] ClientPlayArea { get; set; }
 
@@ -15,11 +15,11 @@ namespace SeaBattle.ApiClientModels.Models
 
         public bool IsGameOn { get; set; }
 
-        public bool IsPlayerTurnToShoot { get; set; }
+        public string NamePlayerTurn { get; set; }
 
         public string Message { get; set; }
 
-        public GameClientModel()
+        public GameClientStateModel()
         {
 
         }

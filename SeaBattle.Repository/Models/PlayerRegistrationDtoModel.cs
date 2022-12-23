@@ -1,6 +1,6 @@
 ﻿namespace SeaBattle.Repository.Models
 {
-    public class PlayerDtoModel
+    public class PlayerRegistrationDtoModel
     {
         public string Name { get; set; }
     }

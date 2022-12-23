@@ -8,19 +8,22 @@ namespace SeaBattle.Repository.Repositories
 {
     public class SeaBattleGameRepositoty : ISeaBattleGameRepository
     {
-        List<PlayerModel> _lastPlayers;
+        List<PlayerSeaBattleStateModel> _lastPlayers;
 
-        List<PlayerModel> _confirmedPlayers;
+        List<PlayerSeaBattleStateModel> _confirmedPlayers;
+
+        List<GameStateModel> _gameStateModels;
 
         public SeaBattleGameRepositoty()
         {
-            _lastPlayers = new List<PlayerModel>();
-            _confirmedPlayers = new List<PlayerModel>();
+            _lastPlayers = new List<PlayerSeaBattleStateModel>();
+            _confirmedPlayers = new List<PlayerSeaBattleStateModel>();
+            _gameStateModels= new List<GameStateModel>();
         }
 
-        public void SaveLastPlayerModel(PlayerModel playerModel)
+        public void ResaveLastPlayerStateModel(PlayerSeaBattleStateModel playerModel)
         {
-            var model = _lastPlayers?.SingleOrDefault(p => p.Name == playerModel.Name);
+            var model = _lastPlayers.SingleOrDefault(p => p?.Name == playerModel.Name);
             if (model != null)
             {
                 _lastPlayers.Remove(model);
@@ -28,15 +31,30 @@ namespace SeaBattle.Repository.Repositories
             _lastPlayers.Add(playerModel);
         }
 
-        public void SaveConfirmedPlayerModel(string name)
+        public void SaveConfirmedPlayerStateModel(string name)
         {
             _confirmedPlayers.Add(_lastPlayers
                 .SingleOrDefault(p => p.Name == name) ?? throw new DirectoryNotFoundException());
         }
 
-        public PlayerModel GetConfirmedPlayerModelByName(string name)
+        public PlayerSeaBattleStateModel GetConfirmedPlayerStateModelByName(string name)
         {
             return _lastPlayers.SingleOrDefault(p => p.Name == name);
+        }
+
+        public void ResaveGameStateModel(GameStateModel gameStateDtoModel)
+        {
+            var model = _gameStateModels.SingleOrDefault(p => p?.NameSession == gameStateDtoModel.NameSession);
+            if (model != null)
+            {
+                _gameStateModels.Remove(model);
+            }
+            _gameStateModels.Add(gameStateDtoModel);
+        }
+
+        public GameStateModel GetGameStateModelByNameSession(string nameSession)
+        {
+            return _gameStateModels.SingleOrDefault(p => p?.NameSession == nameSession) ?? throw new NotFiniteNumberException();
         }
     }
 }

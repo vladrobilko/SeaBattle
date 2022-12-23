@@ -7,16 +7,16 @@ namespace SeaBattle.Repository.Repositories
 {
     public class PlayerRepository : IPlayerRepository
     {
-        private readonly List<PlayerDtoModel> _registeredPlayers;
+        private readonly List<PlayerRegistrationDtoModel> _registeredPlayers;
 
         public PlayerRepository()
         {
-            _registeredPlayers = new List<PlayerDtoModel>();
+            _registeredPlayers = new List<PlayerRegistrationDtoModel>();
         }
 
         public void SaveNewPlayerOrThrowExeption(string name)
         {
-            var player = new PlayerDtoModel() { Name = name };
+            var player = new PlayerRegistrationDtoModel() { Name = name };
             _registeredPlayers.Add(player);
         }
 

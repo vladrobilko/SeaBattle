@@ -24,6 +24,43 @@ namespace ConsoleGameForClient
         private string pathPostGetGameModel = "https://localhost:7109/api/SeaBattleGame/GetGameModel";
         private string pathPostShoot = "https://localhost:7109/api/SeaBattleGame/Shoot";
 
+
+        public async Task HostGameAndReadyToStartForTest()
+        {
+            string namePlayer = "TestPlayer";
+            string nameSession = "TestSession";
+            //host
+            var response1 = await _client.PostAsJsonAsync("https://localhost:7109/api/Player/Register", namePlayer);
+            if (response1.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            {
+                throw new NullReferenceException("Error");
+            }
+
+            var response2 = await _client.PostAsJsonAsync("https://localhost:7109/api/Session/HostSession",
+                new HostSessionClientModel()
+                {
+                    HostPlayerName = namePlayer,
+                    SessionName = nameSession
+                });
+            if (response2.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            {
+                throw new NullReferenceException("Error");
+            }
+            //get play area
+            var response3 = await _client.PostAsJsonAsync("https://localhost:7109/api/SeaBattleGame/GetPlayArea", new InfoPlayerClientModel() { PlayerName = "TestPlayer", SessionName = "TestSession" });
+            if (response3.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            {
+                throw new NullReferenceException("Error");
+            }
+            //ready to start
+            var response4 = await _client.PostAsJsonAsync("https://localhost:7109/api/SeaBattleGame/ReadyToStartGame",
+                new InfoPlayerClientModel() { PlayerName = "TestPlayer", SessionName = "TestSession" });
+            if (response4.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            {
+                throw new NullReferenceException("Error");
+            }
+        }
+
         public async Task<bool> IsStatusCodeOKAfterRegisterPlayer(string name)
         {
             var response = await _client.PostAsJsonAsync(pathPostRegisterPlayer, name);
@@ -83,7 +120,7 @@ namespace ConsoleGameForClient
             }
         }
 
-        public async Task<GameClientModel> GetGameModelOrThrowException(InfoPlayerClientModel infoPlayerClientModel)
+        public async Task<GameClientStateModel> GetGameModelOrThrowException(InfoPlayerClientModel infoPlayerClientModel)
         {
             var response = await _client.PostAsJsonAsync(pathPostGetGameModel, infoPlayerClientModel);
             if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
@@ -91,11 +128,11 @@ namespace ConsoleGameForClient
                 throw new Exception("Error");
             }
             var json = await response.Content.ReadAsStringAsync();
-            var gameModel = JsonConvert.DeserializeObject<GameClientModel>(json);
+            var gameModel = JsonConvert.DeserializeObject<GameClientStateModel>(json);
             return gameModel;
         }
 
-        public async Task<GameClientModel> Shoot(ShootPlayerClientModel shootPlayerClientModel)
+        public async Task<GameClientStateModel> Shoot(ShootPlayerClientModel shootPlayerClientModel)
         {
             throw new NotImplementedException();
         }

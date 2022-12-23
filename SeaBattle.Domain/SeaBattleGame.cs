@@ -16,11 +16,14 @@ namespace SeaBattle
 
         public string Start()
         {
-            player1.FillShips();
-            player2.FillShips();
+            if (player1.GetPlayArea() == null && player2.GetPlayArea() == null)
+            {
+                player1.FillShips();
+                player2.FillShips();
+            }
 
             var gameOver = false;
-            var player1Turn = true;
+            var player1Turn = false;
             while (!gameOver)
             {   
                 if (player1Turn)

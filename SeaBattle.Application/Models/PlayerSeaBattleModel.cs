@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SeaBattleApi.Models
 {
-    public class PlayerModel : IPlayer
+    public class PlayerSeaBattleStateModel : IPlayer
     {
         public string Name { get; private set; }
 
@@ -17,7 +17,7 @@ namespace SeaBattleApi.Models
 
         List<Ship> _ships;
 
-        public PlayerModel(IFillerShips filler, string name, string sessionName)
+        public PlayerSeaBattleStateModel(IFillerShips filler, string name, string sessionName)
         {
             _playArea = new PlayArea();
             _playAreaEnemyForInformation = new PlayArea();
@@ -78,6 +78,10 @@ namespace SeaBattleApi.Models
                 Console.WriteLine("Error. Please enter again.");
                 return GetNextShootTarget();
             }*/
+            while (true)
+            {
+
+            }
             throw new NotImplementedException();
         }
     }

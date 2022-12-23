@@ -25,23 +25,23 @@ namespace SeaBattle.Api.Controllers
         }
 
         [HttpPost("[action]")]
-        public ActionResult ReadyToStartGame([FromBody] InfoPlayerClientModel infoPlayerClientModel)
+        public IActionResult ReadyToStartGame([FromBody] InfoPlayerClientModel infoPlayerClientModel)
         {
             _seaBattleGameService.ReadyToStartGame(infoPlayerClientModel);
             return Ok();
         }
 
         [HttpPost("[action]")]
-        public ActionResult<GameClientModel> GetGameModel([FromBody] InfoPlayerClientModel infoPlayerClientModel)
+        public ActionResult<GameClientStateModel> GetGameModel([FromBody] InfoPlayerClientModel infoPlayerClientModel)
         {
             var gameClientModel = _seaBattleGameService.GetGameModel(infoPlayerClientModel.SessionName, infoPlayerClientModel.PlayerName);
             return Ok(JsonConvert.SerializeObject(gameClientModel));
         }
 
         [HttpPost("[action]")]
-        public ActionResult<GameClientModel> Shoot([FromBody] ShootPlayerClientModel shootPlayerClientModel)
+        public ActionResult<GameClientStateModel> Shoot([FromBody] ShootPlayerClientModel shootPlayerClientModel)
         {
-            var gameClientModel = new GameClientModel();
+            var gameClientModel = new GameClientStateModel();
             return Ok(JsonConvert.SerializeObject(gameClientModel));
         }
     }

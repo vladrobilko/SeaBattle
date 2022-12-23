@@ -21,19 +21,21 @@ namespace SeaBattle.Application.Services
 
         public GameAreaClientModel GetPlayArea(InfoPlayerClientModel infoPlayerClientModel)
         {
-            var playerModel = new PlayerModel(new FillerRandom(), infoPlayerClientModel.PlayerName, infoPlayerClientModel.SessionName);
+            var playerModel = new PlayerSeaBattleStateModel(new FillerRandom(), infoPlayerClientModel.PlayerName, infoPlayerClientModel.SessionName);
             var gameAreaClientModel = new GameAreaClientModel();
             playerModel.FillShips();
-            _seaBattleGameRepository.SaveLastPlayerModel(playerModel);
-            gameAreaClientModel.ClientPlayArea = playerModel.GetPlayArea().ConvertToArrayStringForClient();
+            _seaBattleGameRepository.ResaveLastPlayerStateModel(playerModel);
+            gameAreaClientModel.ClientPlayArea = playerModel
+                                                        .GetPlayArea()
+                                                        .ConvertToArrayStringForClient();
 
             return gameAreaClientModel;
         }
 
         public void ReadyToStartGame(InfoPlayerClientModel infoPlayerClientModel)
         {
-            _seaBattleGameRepository.SaveConfirmedPlayerModel(infoPlayerClientModel.PlayerName);
-            //TryToStartGame(infoPlayerClientModel.SessionName); тут ошибка 
+            _seaBattleGameRepository.SaveConfirmedPlayerStateModel(infoPlayerClientModel.PlayerName);
+            TryToStartGame(infoPlayerClientModel.SessionName);
         }
 
         private void TryToStartGame(string nameSession)
@@ -41,8 +43,8 @@ namespace SeaBattle.Application.Services
             var startSession = _sessionRepository.GetStartSessionByName(nameSession);
             if (startSession != null)
             {
-                var player1 = _seaBattleGameRepository.GetConfirmedPlayerModelByName(startSession.HostPlayerName);
-                var player2 = _seaBattleGameRepository.GetConfirmedPlayerModelByName(startSession.JoinPlayerName);
+                var player1 = _seaBattleGameRepository.GetConfirmedPlayerStateModelByName(startSession.HostPlayerName);
+                var player2 = _seaBattleGameRepository.GetConfirmedPlayerStateModelByName(startSession.JoinPlayerName);
                 if (player1 != null && player2 != null)
                 {
                     StartGame(player1, player2, nameSession);
@@ -52,16 +54,24 @@ namespace SeaBattle.Application.Services
 
         private void StartGame(IPlayer player1, IPlayer player2, string nameSession)
         {
-            var gameSession = _sessionRepository.GetStartSessionByName(nameSession);
-            var game = new SeaBattleGame(player1, player2);
-            game.Start();
+            _seaBattleGameRepository.ResaveGameStateModel(new GameStateModel()
+            {
+                Player1 = player1,
+                Player2 = player2,
+                NameSession = nameSession,
+                IsGameOn = true,
+                NamePlayerTurn = player1.Name,
+                GameMessage = GameStateMessage.WhoShoot(player1.Name),
+            });
+            //var game = new SeaBattleGame(player1, player2);//первый ходит player2
+            //game.Start();
 
 
         }
 
-        public GameClientModel GetGameModel(string nameSession, string nameClient)
+        public GameClientStateModel GetGameModel(string nameSession, string nameClient)
         {
-            throw new NotImplementedException();
+            return _seaBattleGameRepository.GetGameStateModelByNameSession(nameSession).ConvertToGameClientModel(nameClient);
         }
     }
 }

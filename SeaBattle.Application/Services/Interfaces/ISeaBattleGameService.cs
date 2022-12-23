@@ -8,7 +8,7 @@ namespace SeaBattle.Application.Services.Interfaces
 
         void ReadyToStartGame(InfoPlayerClientModel infoPlayerClientModel);
 
-        GameClientModel GetGameModel(string nameSession, string nameClient);
+        GameClientStateModel GetGameModel(string nameSession, string nameClient);
 
         //void Shoot();
     }
