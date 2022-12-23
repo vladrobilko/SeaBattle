@@ -8,8 +8,6 @@ namespace SeaBattle.Application.Services.Interfaces.RepositoryServices
 
         void SaveStartsSessionsOrThrowException(string joinPlayerName, string sessionName);
 
-        SessionModel GetFreeSessionByName(string nameSession);
-
         SessionModel GetStartSessionByName(string nameSession);
 
         List<NewSessionModel> GetAllFreeSessionsOrThrowException();

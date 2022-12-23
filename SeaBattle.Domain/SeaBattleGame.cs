@@ -22,7 +22,7 @@ namespace SeaBattle
             var gameOver = false;
             var player1Turn = true;
             while (!gameOver)
-            {
+            {   
                 if (player1Turn)
                 {
                     var target = player1.GetNextShootTarget();

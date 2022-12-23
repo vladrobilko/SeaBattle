@@ -25,7 +25,7 @@ namespace SeaBattle.Api.Controllers
         }
 
         [HttpPost("[action]")]
-        public IActionResult ReadyToStartGame([FromBody] InfoPlayerClientModel infoPlayerClientModel)
+        public ActionResult ReadyToStartGame([FromBody] InfoPlayerClientModel infoPlayerClientModel)
         {
             _seaBattleGameService.ReadyToStartGame(infoPlayerClientModel);
             return Ok();

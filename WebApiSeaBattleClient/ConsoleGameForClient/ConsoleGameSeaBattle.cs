@@ -24,7 +24,7 @@ namespace ConsoleGameForClient
         {
             Console.WriteLine("Online Game sea battle.");
             RegisterPlayerAndSetClientModelsAsync();
-            var listWaitingSessions = _requestHelper.GetAllWaitingSessions().Result;
+            var listWaitingSessions = _requestHelper.GetAllWaitingSessionsOrThrowException().Result;
             ChooseHostOrJoinSession(listWaitingSessions);
             ChoosePlayAreaAndReadyToGame();
             var gameClientModel = WaitingStartGame();
@@ -150,24 +150,24 @@ namespace ConsoleGameForClient
             var key = new ConsoleKey();
             while (key != ConsoleKey.Enter)
             {
-                var gameArea = _requestHelper.GetPlayArea(_infoPlayerClientModel).Result;
+                var gameArea = _requestHelper.GetPlayAreaOrThrowException(_infoPlayerClientModel).Result;
                 ConsoleGameFiller.FillConsolePlayerAreaOnly(gameArea.ClientPlayArea);
                 Console.WriteLine("Press enter to use this play area, another button is change");
                 key = Console.ReadKey().Key;
                 Console.Clear();
             }
-            _requestHelper.PostReadyToStartGame(_infoPlayerClientModel);
+            _requestHelper.PostReadyToStartGameOrThrowException(_infoPlayerClientModel);
             Console.WriteLine("You're ready to the game, waiting enemy");
         }
 
         private GameClientModel WaitingStartGame()
         {
             Task.Delay(3000);
-            var gameArea = _requestHelper.GetGameModel(_infoPlayerClientModel).Result;
+            var gameArea = _requestHelper.GetGameModelOrThrowException(_infoPlayerClientModel).Result;
             while (!gameArea.IsGameOn)
             {
                 Task.Delay(3000);
-                gameArea = _requestHelper.GetGameModel(_infoPlayerClientModel).Result;
+                gameArea = _requestHelper.GetGameModelOrThrowException(_infoPlayerClientModel).Result;
             }
             Console.WriteLine("The game has started");
             return gameArea;

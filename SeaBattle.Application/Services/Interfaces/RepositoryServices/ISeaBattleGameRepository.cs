@@ -11,10 +11,6 @@ namespace SeaBattle.Application.Services.Interfaces.RepositoryServices
 
         PlayerModel GetConfirmedPlayerModelByName(string name);
 
-        void SaveGameModel(SeaBattleGameModel seaBattleGameModel);
-
-        SeaBattleGameModel GetLastGameModelByNameSession(string name);
-
         //void SaveGame();
 
     }

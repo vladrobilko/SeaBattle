@@ -30,11 +30,11 @@ namespace ConsoleGameForClient
             return response.StatusCode == System.Net.HttpStatusCode.OK;
         }
 
-        public async Task<List<HostSessionClientModel>> GetAllWaitingSessions()
+        public async Task<List<HostSessionClientModel>> GetAllWaitingSessionsOrThrowException()
         {
             var response = await _client.GetAsync(pathGetGetAllWaitingSessions);
             if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
-                return null;
+                throw new Exception("Error");
             var json = await response.Content.ReadAsStringAsync();
             var listWaitingSessions = JsonConvert.DeserializeObject<List<HostSessionClientModel>>(json);
             return listWaitingSessions;
@@ -51,9 +51,13 @@ namespace ConsoleGameForClient
             return response.StatusCode == System.Net.HttpStatusCode.OK;
         }
 
-        public async Task<GameAreaClientModel> GetPlayArea(InfoPlayerClientModel infoPlayerClientModel)
+        public async Task<GameAreaClientModel> GetPlayAreaOrThrowException(InfoPlayerClientModel infoPlayerClientModel)
         {
             var response = await _client.PostAsJsonAsync(pathPostGetPlayArea, infoPlayerClientModel);
+            if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            {
+                throw new Exception("Error");
+            }
             var json = await response.Content.ReadAsStringAsync();
             var gameArea = JsonConvert.DeserializeObject<GameAreaClientModel>(json);
             return gameArea;
@@ -70,14 +74,22 @@ namespace ConsoleGameForClient
             return response.StatusCode == System.Net.HttpStatusCode.OK;
         }
 
-        public async Task PostReadyToStartGame(InfoPlayerClientModel infoPlayerClientModel)
+        public async Task PostReadyToStartGameOrThrowException(InfoPlayerClientModel infoPlayerClientModel)
         {
             var response = await _client.PostAsJsonAsync(pathPostReadyToStartGame, infoPlayerClientModel);
+            if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            {
+                throw new Exception("Error");
+            }
         }
 
-        public async Task<GameClientModel> GetGameModel(InfoPlayerClientModel infoPlayerClientModel)
+        public async Task<GameClientModel> GetGameModelOrThrowException(InfoPlayerClientModel infoPlayerClientModel)
         {
             var response = await _client.PostAsJsonAsync(pathPostGetGameModel, infoPlayerClientModel);
+            if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            {
+                throw new Exception("Error");
+            }
             var json = await response.Content.ReadAsStringAsync();
             var gameModel = JsonConvert.DeserializeObject<GameClientModel>(json);
             return gameModel;

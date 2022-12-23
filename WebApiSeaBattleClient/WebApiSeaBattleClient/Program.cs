@@ -12,18 +12,35 @@ class Program
         string namePlayer = "TestPlayer";
         string nameSession = "TestSession";
         //host
-        await client.PostAsJsonAsync("https://localhost:7109/api/Player/Register", namePlayer);
+        var response1 = await client.PostAsJsonAsync("https://localhost:7109/api/Player/Register", namePlayer);
+        if (response1.StatusCode == System.Net.HttpStatusCode.BadRequest)
+        {
+            throw new NullReferenceException("Error");
+        }
 
-        await client.PostAsJsonAsync("https://localhost:7109/api/Session/HostSession",
+        var response2 = await client.PostAsJsonAsync("https://localhost:7109/api/Session/HostSession",
             new HostSessionClientModel()
             {
                 HostPlayerName = namePlayer,
                 SessionName = nameSession
             });
+        if (response2.StatusCode == System.Net.HttpStatusCode.BadRequest)
+        {
+            throw new NullReferenceException("Error");
+        }
         //get play area
-        await client.PostAsJsonAsync("https://localhost:7109/api/SeaBattleGame/GetPlayArea", new InfoPlayerClientModel() { PlayerName = "TestPlayer", SessionName = "TestSession" });
+        var response3 = await client.PostAsJsonAsync("https://localhost:7109/api/SeaBattleGame/GetPlayArea", new InfoPlayerClientModel() { PlayerName = "TestPlayer", SessionName = "TestSession" });
+        if (response3.StatusCode == System.Net.HttpStatusCode.BadRequest)
+        {
+            throw new NullReferenceException("Error");
+        }
         //ready to start
-        await client.PostAsJsonAsync("https://localhost:7109/api/SeaBattleGame/ReadyToStartGame", new InfoPlayerClientModel() { PlayerName = "TestPlayer", SessionName = "TestSession" });
+        var response4 =  await client.PostAsJsonAsync("https://localhost:7109/api/SeaBattleGame/ReadyToStartGame",
+            new InfoPlayerClientModel() { PlayerName = "TestPlayer", SessionName = "TestSession" });
+        if (response4.StatusCode == System.Net.HttpStatusCode.BadRequest)
+        {
+            throw new NullReferenceException("Error");
+        }
     }
 
     static async Task Main(string[] args)

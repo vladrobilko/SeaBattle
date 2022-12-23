@@ -5,9 +5,9 @@ namespace SeaBattleApi.Models
 {
     public class PlayerModel : IPlayer
     {
-        public string Name { get; set; }
+        public string Name { get; private set; }
 
-        public string SessionName { get; set; }
+        public string SessionName { get; private set; }
 
         private IFillerShips _filler;
 
@@ -17,7 +17,7 @@ namespace SeaBattleApi.Models
 
         List<Ship> _ships;
 
-        public PlayerModel(IFillerShips filler, string name)
+        public PlayerModel(IFillerShips filler, string name, string sessionName)
         {
             _playArea = new PlayArea();
             _playAreaEnemyForInformation = new PlayArea();
@@ -25,19 +25,18 @@ namespace SeaBattleApi.Models
             _ships = ShipsCreator.CreatShips(new List<ShipConfige>()
             { new ShipConfige(1,4), new ShipConfige(2, 3), new ShipConfige(3, 2), new ShipConfige(4, 1) });
             Name = name;
+            SessionName = sessionName;
         }
 
         public void FillShips()
         {
-            _filler.FillShips(_playArea.Cells, _ships);
+            _filler.FillShips(_playArea?.Cells, _ships);
         }
 
         public PlayArea GetPlayArea()
         {
             return new PlayArea(_playArea);
         }
-
-       
 
         public ShootResultType OnShoot(Point target)
         {
@@ -56,6 +55,29 @@ namespace SeaBattleApi.Models
 
         public Point GetNextShootTarget()
         {
+            /*
+            try
+            {
+                Console.WriteLine("Enter the vertical coordinate.");
+                int Y = int.Parse(Console.ReadLine());
+                Console.WriteLine("Enter the horizontal coordinate.");
+                int X = int.Parse(Console.ReadLine());
+                if (_playAreaEnemyForInformation.Cells[Y, X].State == CellState.HasShooted)
+                {
+                    Console.WriteLine("You have already shot here. Please enter again.");
+                    Console.WriteLine("Enter the vertical coordinate.");
+                    Y = int.Parse(Console.ReadLine());
+                    Console.WriteLine("Enter the horizontal coordinate.");
+                    X = int.Parse(Console.ReadLine());
+                }
+                _playAreaEnemyForInformation.Cells[Y, X].State = CellState.HasShooted;
+                return new Point(Y, X);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Error. Please enter again.");
+                return GetNextShootTarget();
+            }*/
             throw new NotImplementedException();
         }
     }

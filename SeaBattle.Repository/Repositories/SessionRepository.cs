@@ -53,21 +53,12 @@ namespace SeaBattle.Repository.Repositories
                 _waitingSessionsToStartGame.SingleOrDefault(p => p.SessionName == nameSession) != null;
         }
 
-        public SessionModel GetFreeSessionByName(string nameSession)
-        {
-            var newSession = _newSessionsWaitSecondPlayer.
-                SingleOrDefault(p => p.SessionName == nameSession);
-            if (newSession == null)
-                throw new DirectoryNotFoundException();
-            return newSession.ConvertToSessionModel();
-        }
-
         public SessionModel GetStartSessionByName(string nameSession)
         {
             var session = _waitingSessionsToStartGame.
                 SingleOrDefault(p => p.SessionName == nameSession);
             if (session == null)
-                throw new DirectoryNotFoundException();
+                return null;
             return session.ConvertToSessionModel();
         }
     }
