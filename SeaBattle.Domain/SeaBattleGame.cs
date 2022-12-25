@@ -43,9 +43,9 @@ namespace SeaBattle
             }
             if (player1Turn)
             {
-                return $"The winner is {player1.Name}";
+                return $"The winner is {player1.NamePlayer}";
             }
-            return $"The winner is {player2.Name}";
+            return $"The winner is {player2.NamePlayer}";
         }
     }
 }

@@ -11,10 +11,15 @@ namespace SeaBattle.Application.Services.Interfaces.RepositoryServices
 
         PlayerSeaBattleStateModel GetConfirmedPlayerStateModelByName(string name);
 
-        void ResaveGameStateModel(GameStateModel gameStateDtoModel);
+        void ResaveGameStateModel(GameStateModel gameStateModel);
 
-        GameStateModel GetGameStateModelByNameSession(string nameSession);
+        GameStateModel GetGameStateModelOrThrowExceptionByNameSession(string nameSession);
 
         void ResaveValidShoot(ShootModel shootModel);
+
+        ShootModel GetLastShootModelOrNullByNameSession(string nameSession);
+
+        void ChangeGameStateModel(string nameSession, IPlayer? playerToChange = null,
+            string? namePlayerTurn = null, bool IsGameOn = true, string? gameMessage = null);
     }
 }

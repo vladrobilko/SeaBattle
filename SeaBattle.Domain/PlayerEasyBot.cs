@@ -5,7 +5,7 @@ namespace SeaBattle
 {
     public class PlayerEasyBot : IPlayer
     {
-        public string Name { get; set; } = "Easy bot";
+        public string NamePlayer { get; set; } = "Easy bot";
 
         IFillerShips _filler;
 

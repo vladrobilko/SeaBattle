@@ -27,19 +27,19 @@ namespace SeaBattle.Repository.Repositories
 
         public void ResaveLastPlayerStateModel(PlayerSeaBattleStateModel playerModel)
         {
-            _lastPlayerModels.Remove(_lastPlayerModels.SingleOrDefault(p => p?.Name == playerModel.Name));
+            _lastPlayerModels.Remove(_lastPlayerModels.SingleOrDefault(p => p?.NamePlayer == playerModel.NamePlayer));
             _lastPlayerModels.Add(playerModel);
         }
 
         public void SaveConfirmedPlayerStateModel(string name)
         {
             _confirmedPlayerModels.Add(_lastPlayerModels
-                .SingleOrDefault(p => p.Name == name) ?? throw new DirectoryNotFoundException());
+                .SingleOrDefault(p => p.NamePlayer == name) ?? throw new DirectoryNotFoundException());
         }
 
         public PlayerSeaBattleStateModel GetConfirmedPlayerStateModelByName(string name)
         {
-            return _confirmedPlayerModels.SingleOrDefault(p => p.Name == name);
+            return _confirmedPlayerModels.SingleOrDefault(p => p.NamePlayer == name);
         }
 
         public void ResaveGameStateModel(GameStateModel gameStateModel)
@@ -48,21 +48,52 @@ namespace SeaBattle.Repository.Repositories
             _gameStateModels.Add(gameStateModel);
         }
 
-        public GameStateModel GetGameStateModelByNameSession(string nameSession)
+        public GameStateModel GetGameStateModelOrThrowExceptionByNameSession(string nameSession)
         {
             return _gameStateModels.SingleOrDefault(p => p?.NameSession == nameSession) ?? throw new NotFiniteNumberException();
         }
 
         public void ResaveValidShoot(ShootModel shootModel)
         {
-            if (GetGameStateModelByNameSession(shootModel.SessionName).NamePlayerTurn == shootModel.PlayerName)
+            if (GetGameStateModelOrThrowExceptionByNameSession(shootModel.NameSession).NamePlayerTurn == shootModel.NamePlayer)
             {
-                _lastValidShootModel.Remove(_lastValidShootModel.SingleOrDefault(p => p?.SessionName == shootModel.SessionName));
+                _lastValidShootModel.Remove(_lastValidShootModel.SingleOrDefault(p => p?.NameSession == shootModel.NameSession));
                 _lastValidShootModel.Add(shootModel);
             }
             else
             {
                 throw new NotSupportedException();
+            }
+        }
+
+        public ShootModel GetLastShootModelOrNullByNameSession(string nameSession)
+        {
+            return _lastValidShootModel.SingleOrDefault(p => p?.NameSession == nameSession);
+        }
+
+        public void ChangeGameStateModel(string nameSession, IPlayer? playerToChange = null,
+            string? namePlayerTurn = null, bool IsGameOn = true, string? gameMessage = null)
+        {
+            var gameStateModel = _gameStateModels.SingleOrDefault(p => p?.NameSession == nameSession) ?? throw new NotFiniteNumberException();
+            if (gameStateModel.Player1.NamePlayer == playerToChange?.NamePlayer)
+            {
+                gameStateModel.Player1 = playerToChange;
+            }
+            else if (gameStateModel.Player2.NamePlayer == playerToChange?.NamePlayer)
+            {
+                gameStateModel.Player2 = playerToChange;
+            }
+            else if (namePlayerTurn != null)
+            {
+                gameStateModel.NamePlayerTurn = namePlayerTurn;
+            }
+            else if (IsGameOn == false)
+            {
+                gameStateModel.IsGameOn = false;
+            }
+            else if (gameMessage != null)
+            {
+                gameStateModel.GameMessage = gameMessage;
             }
         }
     }

@@ -1,13 +1,16 @@
 ﻿using SeaBattle;
+using SeaBattle.Application;
+using SeaBattle.Application.Services;
+using SeaBattle.Application.Services.Interfaces.RepositoryServices;
 using System.ComponentModel.DataAnnotations;
 
 namespace SeaBattleApi.Models
 {
     public class PlayerSeaBattleStateModel : IPlayer
     {
-        public string Name { get; private set; }
+        public string NamePlayer { get; private set; }
 
-        public string SessionName { get; private set; }
+        public string NameSession { get; private set; }
 
         private IFillerShips _filler;
 
@@ -17,15 +20,18 @@ namespace SeaBattleApi.Models
 
         List<Ship> _ships;
 
-        public PlayerSeaBattleStateModel(IFillerShips filler, string name, string sessionName)
+        ISeaBattleGameRepository _seaBattleGameRepository;
+
+        public PlayerSeaBattleStateModel(IFillerShips filler, string name, string sessionName, ISeaBattleGameRepository seaBattleGameService)
         {
             _playArea = new PlayArea();
             _playAreaEnemyForInformation = new PlayArea();
             _filler = filler;
             _ships = ShipsCreator.CreatShips(new List<ShipConfige>()
             { new ShipConfige(1,4), new ShipConfige(2, 3), new ShipConfige(3, 2), new ShipConfige(4, 1) });
-            Name = name;
-            SessionName = sessionName;
+            NamePlayer = name;
+            NameSession = sessionName;
+            _seaBattleGameRepository = seaBattleGameService;
         }
 
         public void FillShips()
@@ -45,6 +51,8 @@ namespace SeaBattleApi.Models
             if (shootResultType == ShootResultType.Miss)
             {
                 _playArea.Cells[target.Y, target.X].State = CellState.HasMiss;
+                _seaBattleGameRepository.ChangeGameStateModel(
+                    nameSession: NameSession, namePlayerTurn: NamePlayer, gameMessage: GameStateMessage.WhoShoot(NamePlayer));
             }
             else if (shootResultType == ShootResultType.Hit || shootResultType == ShootResultType.Kill)
             {
@@ -55,34 +63,22 @@ namespace SeaBattleApi.Models
 
         public Point GetNextShootTarget()
         {
-            while (true)//get из сервиса игры последнюю модель выстрела 
+            var shoot = _seaBattleGameRepository.GetLastShootModelOrNullByNameSession(NameSession);
+            throw new NotFiniteNumberException();
+            while (shoot == null && shoot?.NamePlayer != NamePlayer)
             {
                 Task.Delay(2000).Wait();
+                shoot = _seaBattleGameRepository.GetLastShootModelOrNullByNameSession(NameSession);
             }
-            /*
-            try
+            while (_playAreaEnemyForInformation.Cells[shoot.ShootCoordinateY, shoot.ShootCoordinateX].State == CellState.HasShooted)
             {
-                Console.WriteLine("Enter the vertical coordinate.");
-                int Y = int.Parse(Console.ReadLine());
-                Console.WriteLine("Enter the horizontal coordinate.");
-                int X = int.Parse(Console.ReadLine());
-                if (_playAreaEnemyForInformation.Cells[Y, X].State == CellState.HasShooted)
-                {
-                    Console.WriteLine("You have already shot here. Please enter again.");
-                    Console.WriteLine("Enter the vertical coordinate.");
-                    Y = int.Parse(Console.ReadLine());
-                    Console.WriteLine("Enter the horizontal coordinate.");
-                    X = int.Parse(Console.ReadLine());
-                }
-                _playAreaEnemyForInformation.Cells[Y, X].State = CellState.HasShooted;
-                return new Point(Y, X);
+                _seaBattleGameRepository.ChangeGameStateModel(nameSession: NameSession,
+                    gameMessage: GameStateMessage.WhoShootSameCellAndWhoShoot(NamePlayer));
+                Task.Delay(2000).Wait();
+                shoot = _seaBattleGameRepository.GetLastShootModelOrNullByNameSession(NameSession);
             }
-            catch (Exception)
-            {
-                Console.WriteLine("Error. Please enter again.");
-                return GetNextShootTarget();
-            }*/
-            throw new NotImplementedException();
+            _playAreaEnemyForInformation.Cells[shoot.ShootCoordinateY, shoot.ShootCoordinateX].State = CellState.HasShooted;
+            return new Point(shoot.ShootCoordinateY, shoot.ShootCoordinateX);
         }
     }
 }

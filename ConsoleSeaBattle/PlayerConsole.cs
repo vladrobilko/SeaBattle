@@ -6,7 +6,7 @@ namespace ConsoleSeaBattle
 {
     public class PlayerConsole : IPlayer
     {
-        public string Name { get; set; }
+        public string NamePlayer { get; set; }
 
         private IFillerShips _filler;
 
@@ -24,7 +24,7 @@ namespace ConsoleSeaBattle
             _ships = ShipsCreator.CreatShips(new List<ShipConfige>()
             { new ShipConfige(1,4), new ShipConfige(2, 3), new ShipConfige(3, 2), new ShipConfige(4, 1) });
             Console.WriteLine("Enter your name");
-            Name = Console.ReadLine();
+            NamePlayer = Console.ReadLine();
             Console.Clear();
         }
 

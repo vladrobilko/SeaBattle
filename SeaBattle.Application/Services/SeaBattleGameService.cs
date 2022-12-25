@@ -21,7 +21,7 @@ namespace SeaBattle.Application.Services
 
         public GameAreaClientModel GetPlayArea(InfoPlayerClientModel infoPlayerClientModel)
         {
-            var playerModel = new PlayerSeaBattleStateModel(new FillerRandom(), infoPlayerClientModel.PlayerName, infoPlayerClientModel.SessionName);
+            var playerModel = new PlayerSeaBattleStateModel(new FillerRandom(), infoPlayerClientModel.PlayerName, infoPlayerClientModel.SessionName, _seaBattleGameRepository);
             var gameAreaClientModel = new GameAreaClientModel();
             playerModel.FillShips();
             _seaBattleGameRepository.ResaveLastPlayerStateModel(playerModel);
@@ -52,18 +52,16 @@ namespace SeaBattle.Application.Services
         public GameClientStateModel GetGameModel(InfoPlayerClientModel infoPlayerClientModel)
         {
             return _seaBattleGameRepository
-                .GetGameStateModelByNameSession(infoPlayerClientModel.SessionName)
+                .GetGameStateModelOrThrowExceptionByNameSession(infoPlayerClientModel.SessionName)
                 .ConvertToGameClientModel(infoPlayerClientModel.PlayerName);
         }
 
         private void StartGame(IPlayer player1, IPlayer player2, string nameSession)
         {
             _seaBattleGameRepository.ResaveGameStateModel(
-                new GameStateModel(player1, player2, nameSession, player2.Name, true, GameStateMessage.WhoShoot(player2.Name)));
+                new GameStateModel(player1, player2, nameSession, player2.NamePlayer, true, GameStateMessage.WhoShoot(player2.NamePlayer)));
             var game = new SeaBattleGame(player1, player2);//первый ходит player2
             game.Start();
-
-
         }
 
         public void Shoot(ShootPlayerClientModel shootPlayerClientModel)

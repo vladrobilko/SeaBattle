@@ -22,8 +22,7 @@ namespace ConsoleGameForClient
 
         public async Task Start()
         {
-            await _requestHelper.HostGameAndReadyToStartForTest(); // host player for testing 
-
+            await _requestHelper.HostGameAndReadyToStartForTest(); // host player for testing
 
             Console.WriteLine("Online Game sea battle.");
             await RegisterPlayerAndSetClientModelsAsync();
@@ -45,26 +44,15 @@ namespace ConsoleGameForClient
                     Console.Clear();
                     ConsoleGameFiller.FillConsolePlayerAreaAndEnemyArea(gameClientModel.ClientPlayArea, gameClientModel.EnemyPlayArea);
                     Console.WriteLine(gameClientModel.Message);
-                    try
+                    var shootModel = FillShootModelForSend();
+                    var shoot = await _requestHelper.IsStatusCodeOKAfterShoot(shootModel);
+                    while (!shoot)
                     {
-                        Console.WriteLine("Enter the first coordinate");
-                        int coordinateY = int.Parse(Console.ReadLine());
-                        Console.WriteLine("Enter the second coordinate");
-                        int coordinateX = int.Parse(Console.ReadLine());
-                        if (coordinateY > 9 || coordinateY < 0|| coordinateX > 9 || coordinateX < 0)
-                        {
-                            throw new Exception();
-                        }
-                        var shootModel = new ShootPlayerClientModel() { PlayerName = }
-                        else if (await IsStatusCodeOKAfterShoot(shootModel))
-                        {
-
-                        }
-                        //тут послыаем выстрел, если без ошибок то код после else
-                    }
-                    catch (Exception)
-                    {
-                        Console.WriteLine("Incorrect input, enter again.");
+                        gameClientModel = await _requestHelper.GetGameModelOrThrowException(_infoPlayerClientModel);
+                        Console.WriteLine(gameClientModel.Message);
+                        shootModel = FillShootModelForSend();
+                        await Task.Delay(2000);
+                        shoot = await _requestHelper.IsStatusCodeOKAfterShoot(shootModel);
                     }
                 }
                 else
@@ -80,6 +68,33 @@ namespace ConsoleGameForClient
             Console.WriteLine($"Game ended.\n {gameClientModel.Message}");
         }
 
+        private ShootPlayerClientModel FillShootModelForSend()
+        {
+            try
+            {
+                Console.WriteLine("Enter the first coordinate");
+                int coordinateY = int.Parse(Console.ReadLine());
+                Console.WriteLine("Enter the second coordinate");
+                int coordinateX = int.Parse(Console.ReadLine());
+                if (coordinateY > 9 || coordinateY < 0 || coordinateX > 9 || coordinateX < 0)
+                {
+                    throw new Exception();
+                }
+                var shootModel = new ShootPlayerClientModel()
+                {
+                    PlayerName = _infoPlayerClientModel.PlayerName,
+                    SessionName = _infoPlayerClientModel.SessionName,
+                    ShootCoordinateY = coordinateY,
+                    ShootCoordinateX = coordinateX
+                };
+                return shootModel;
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Incorrect input, enter again.");
+                return FillShootModelForSend();
+            }
+        }
 
         private async Task RegisterPlayerAndSetClientModelsAsync()
         {
@@ -153,6 +168,7 @@ namespace ConsoleGameForClient
 
         private async Task ChoosePlayAreaAndReadyToGame()
         {
+            await Task.Delay(2000);
             Console.Clear();
             var key = new ConsoleKey();
             while (key != ConsoleKey.Enter)
@@ -170,15 +186,15 @@ namespace ConsoleGameForClient
         private async Task<GameClientStateModel> WaitingStartGame()
         {
             await Task.Delay(2000);
-            var gameArea = await _requestHelper.GetGameModelOrThrowException(_infoPlayerClientModel);
-            while (!gameArea.IsGameOn)
+            var gameModel = await _requestHelper.GetGameModelOrThrowException(_infoPlayerClientModel);
+            while (!gameModel.IsGameOn)
             {
                 await Task.Delay(2000);
-                gameArea = await _requestHelper.GetGameModelOrThrowException(_infoPlayerClientModel);
+                gameModel = await _requestHelper.GetGameModelOrThrowException(_infoPlayerClientModel);
             }   
             Console.WriteLine("The game has started");
             await Task.Delay(2000);
-            return gameArea;
+            return gameModel;
         }
 
         private void SetNameInClientsModels(string namePlayer)
