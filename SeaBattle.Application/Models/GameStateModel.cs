@@ -19,5 +19,15 @@ namespace SeaBattle.Application.Models
         public bool IsGameOn { get; set; }
 
         public string GameMessage { get; set; }
+
+        public GameStateModel(IPlayer player1, IPlayer player2, string nameSession, string namePlayerTurn, bool isGameOn, string gameMessage)
+        {
+            Player1 = player1;
+            Player2 = player2;
+            NameSession = nameSession;
+            NamePlayerTurn = namePlayerTurn;
+            IsGameOn = isGameOn;
+            GameMessage = gameMessage;
+        }
     }
 }

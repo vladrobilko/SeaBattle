@@ -34,15 +34,15 @@ namespace SeaBattle.Api.Controllers
         [HttpPost("[action]")]
         public ActionResult<GameClientStateModel> GetGameModel([FromBody] InfoPlayerClientModel infoPlayerClientModel)
         {
-            var gameClientModel = _seaBattleGameService.GetGameModel(infoPlayerClientModel.SessionName, infoPlayerClientModel.PlayerName);
+            var gameClientModel = _seaBattleGameService.GetGameModel(infoPlayerClientModel);
             return Ok(JsonConvert.SerializeObject(gameClientModel));
         }
 
         [HttpPost("[action]")]
-        public ActionResult<GameClientStateModel> Shoot([FromBody] ShootPlayerClientModel shootPlayerClientModel)
+        public ActionResult Shoot([FromBody] ShootPlayerClientModel shootPlayerClientModel)
         {
-            var gameClientModel = new GameClientStateModel();
-            return Ok(JsonConvert.SerializeObject(gameClientModel));
+            _seaBattleGameService.Shoot(shootPlayerClientModel);
+            return Ok();
         }
     }
 }

@@ -15,5 +15,6 @@ namespace SeaBattle.Application.Services.Interfaces.RepositoryServices
 
         GameStateModel GetGameStateModelByNameSession(string nameSession);
 
+        void ResaveValidShoot(ShootModel shootModel);
     }
 }

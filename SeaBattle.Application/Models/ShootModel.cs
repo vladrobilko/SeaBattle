@@ -5,25 +5,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SeaBattle.ApiClientModels.Models
+namespace SeaBattle.Application.Models
 {
-    public class ShootPlayerClientModel
+    public class ShootModel
     {
-        [Required]
         public int ShootCoordinateY { get; set; }
 
-        [Required]
         public int ShootCoordinateX { get; set; }
 
-        [Required]
         public string PlayerName { get; set; }
 
-        [Required]
         public string SessionName { get; set; }
 
-        public ShootPlayerClientModel()
+        public ShootModel(int shootCoordinateY, int shootCoordinateX, string playerName, string sessionName)
         {
-
+            ShootCoordinateY = shootCoordinateY;
+            ShootCoordinateX = shootCoordinateX;
+            PlayerName = playerName;
+            SessionName = sessionName;
         }
     }
 }

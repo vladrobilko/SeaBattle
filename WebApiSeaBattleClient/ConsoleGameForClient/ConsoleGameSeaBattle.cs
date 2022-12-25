@@ -30,7 +30,7 @@ namespace ConsoleGameForClient
             var listWaitingSessions = _requestHelper.GetAllWaitingSessionsOrThrowException().Result;
             await ChooseHostOrJoinSession(listWaitingSessions);
             await ChoosePlayAreaAndReadyToGame();
-            GameClientStateModel gameClientModel = await WaitingStartGame();
+            var gameClientModel = await WaitingStartGame();
             await PlayGame(gameClientModel);
         }
 
@@ -38,42 +38,46 @@ namespace ConsoleGameForClient
         {
             Console.Clear();
             ConsoleGameFiller.FillConsolePlayerAreaAndEnemyArea(gameClientModel.ClientPlayArea, gameClientModel.EnemyPlayArea);
-            Console.WriteLine(gameClientModel.Message);
-            while (true)
-            {
-
-            }
-            /*
             while (gameClientModel.IsGameOn)
             {
-                if (gameClientModel.IsPlayerTurnToShoot == false)
+                if (gameClientModel.NamePlayerTurn == _infoPlayerClientModel.PlayerName)
                 {
-                    Task.Delay(2000);
+                    Console.Clear();
+                    ConsoleGameFiller.FillConsolePlayerAreaAndEnemyArea(gameClientModel.ClientPlayArea, gameClientModel.EnemyPlayArea);
+                    Console.WriteLine(gameClientModel.Message);
+                    try
+                    {
+                        Console.WriteLine("Enter the first coordinate");
+                        int coordinateY = int.Parse(Console.ReadLine());
+                        Console.WriteLine("Enter the second coordinate");
+                        int coordinateX = int.Parse(Console.ReadLine());
+                        if (coordinateY > 9 || coordinateY < 0|| coordinateX > 9 || coordinateX < 0)
+                        {
+                            throw new Exception();
+                        }
+                        var shootModel = new ShootPlayerClientModel() { PlayerName = }
+                        else if (await IsStatusCodeOKAfterShoot(shootModel))
+                        {
+
+                        }
+                        //тут послыаем выстрел, если без ошибок то код после else
+                    }
+                    catch (Exception)
+                    {
+                        Console.WriteLine("Incorrect input, enter again.");
+                    }
+                }
+                else
+                {
                     Console.Clear();
                     ConsoleGameFiller.FillConsolePlayerAreaAndEnemyArea(gameClientModel.ClientPlayArea, gameClientModel.EnemyPlayArea);
                     Console.WriteLine(gameClientModel.Message);
                 }
-                else if (gameClientModel.IsPlayerTurnToShoot)
-                {
-                    Console.WriteLine("Your turn to shoot.");
-                    Console.WriteLine("Enter the first coordinate");
-                    int coordinateY = int.Parse(Console.ReadLine());
-                    Console.WriteLine("Enter the second coordinate");
-                    int coordinateX = int.Parse(Console.ReadLine());
-                    gameClientModel = _requestHelper.Shoot(new ShootPlayerClientModel()
-                    {
-                        PlayerName = _infoPlayerClientModel.PlayerName,
-                        SessionName = _infoPlayerClientModel.SessionName,
-                        ShootCoordinateY = coordinateY,
-                        ShootCoordinateX = coordinateX
+                await Task.Delay(2000);
+                gameClientModel = await _requestHelper.GetGameModelOrThrowException(_infoPlayerClientModel);
+            }
 
-                    }).Result;
-                }
-            }*/
-
-            //message контроллер выдает общий для всех, то есть одно и тоже сообщение видят два игрока если делают запрос
-            //метод принятия выстрела 
-            //метод выстрела 
+            Console.WriteLine($"Game ended.\n {gameClientModel.Message}");
         }
 
 
@@ -165,14 +169,15 @@ namespace ConsoleGameForClient
 
         private async Task<GameClientStateModel> WaitingStartGame()
         {
-            Task.Delay(3000).Wait();
+            await Task.Delay(2000);
             var gameArea = await _requestHelper.GetGameModelOrThrowException(_infoPlayerClientModel);
             while (!gameArea.IsGameOn)
             {
-                Task.Delay(3000).Wait();
+                await Task.Delay(2000);
                 gameArea = await _requestHelper.GetGameModelOrThrowException(_infoPlayerClientModel);
             }   
             Console.WriteLine("The game has started");
+            await Task.Delay(2000);
             return gameArea;
         }
 

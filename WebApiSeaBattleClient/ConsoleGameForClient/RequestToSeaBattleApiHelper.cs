@@ -132,9 +132,10 @@ namespace ConsoleGameForClient
             return gameModel;
         }
 
-        public async Task<GameClientStateModel> Shoot(ShootPlayerClientModel shootPlayerClientModel)
+        public async Task<bool> IsStatusCodeOKAfterShoot(ShootPlayerClientModel shootPlayerClientModel)
         {
-            throw new NotImplementedException();
+            var response = await _client.PostAsJsonAsync(pathPostShoot, shootPlayerClientModel);
+            return response.StatusCode == System.Net.HttpStatusCode.OK;
         }
     }
 }

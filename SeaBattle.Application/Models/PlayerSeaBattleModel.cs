@@ -55,6 +55,10 @@ namespace SeaBattleApi.Models
 
         public Point GetNextShootTarget()
         {
+            while (true)//get из сервиса игры последнюю модель выстрела 
+            {
+                Task.Delay(2000).Wait();
+            }
             /*
             try
             {
@@ -78,10 +82,6 @@ namespace SeaBattleApi.Models
                 Console.WriteLine("Error. Please enter again.");
                 return GetNextShootTarget();
             }*/
-            while (true)
-            {
-
-            }
             throw new NotImplementedException();
         }
     }
