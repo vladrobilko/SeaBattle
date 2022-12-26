@@ -42,11 +42,6 @@ namespace SeaBattle.Repository.Repositories
             _newSessionsWaitSecondPlayer.Remove(session);
         }
 
-        public bool IsSessionReadyToStartGame(string nameSession)
-        {
-            return _waitingSessionsToStartGame.SingleOrDefault(p => p.SessionName == nameSession) != null;
-        }
-
         public bool IsSessionExists(string nameSession)
         {
             return _newSessionsWaitSecondPlayer.SingleOrDefault(p => p.SessionName == nameSession) != null ||
