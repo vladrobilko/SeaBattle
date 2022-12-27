@@ -26,7 +26,7 @@ namespace SeaBattle.Repository.Repositories
             _hostSessionDtoModels.Add(hostSessionModel.ConvertToHostSessionDtoModel());
         }
 
-        public List<HostSessionModel> GetAllFreeSessionsOrThrowException()
+        public List<HostSessionModel> GetAllHostSessionsOrThrowException()
         {
             if (_hostSessionDtoModels.Count == 0)
                 throw new DirectoryNotFoundException();
