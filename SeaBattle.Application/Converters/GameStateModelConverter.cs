@@ -1,12 +1,7 @@
 ﻿using SeaBattle.ApiClientModels.Models;
-using SeaBattle.Application.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SeaBattle.Application.Converters;
 
-namespace SeaBattle.Application.Converters
+namespace SeaBattle.Repository.Converters
 {
     public static class GameStateModelConverter
     {

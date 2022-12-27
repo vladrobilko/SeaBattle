@@ -39,7 +39,7 @@ namespace SeaBattle.Api.Controllers
         }
 
         [HttpPost("[action]")]
-        public ActionResult Shoot([FromBody] ShootPlayerClientModel shootPlayerClientModel)
+        public ActionResult Shoot([FromBody] ShootClientModel shootPlayerClientModel)
         {
             _seaBattleGameService.Shoot(shootPlayerClientModel);
             return Ok();

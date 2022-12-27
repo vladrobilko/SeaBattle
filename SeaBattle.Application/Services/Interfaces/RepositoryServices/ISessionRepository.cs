@@ -4,15 +4,13 @@ namespace SeaBattle.Application.Services.Interfaces.RepositoryServices
 {
     public interface ISessionRepository
     {
-        void SaveNewSessionOrThrowException(string hostPlayerName, string sessionName);
+        void SaveNewSessionOrThrowException(HostSessionModel hostSessionModel);
 
-        void SaveStartsSessionsOrThrowException(string joinPlayerName, string sessionName);
+        void SaveStartsSessionsOrThrowException(JoinSessionModel joinSessionModel);
 
-        SessionModel GetStartSessionByName(string nameSession);
+        StartSessionModel GetStartSessionByNameOrNull(string nameSession);
 
-        List<NewSessionModel> GetAllFreeSessionsOrThrowException();
-
-        bool IsSessionReadyToStartGame(string sessionName);
+        List<HostSessionModel> GetAllFreeSessionsOrThrowException();
 
         bool IsSessionExists(string nameSession);
     }

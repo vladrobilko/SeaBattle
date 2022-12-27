@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SeaBattle.Application.Models
+﻿
+namespace SeaBattle.Repository.Models
 {
-    public class GameStateModel
+    public class GameStateDtoModel
     {
         public IPlayer Player1 { get; set; }
 
@@ -20,7 +15,7 @@ namespace SeaBattle.Application.Models
 
         public string GameMessage { get; set; }
 
-        public GameStateModel(IPlayer player1, IPlayer player2, string nameSession, string namePlayerTurn, bool isGameOn, string gameMessage)
+        public GameStateDtoModel(IPlayer player1, IPlayer player2, string nameSession, string namePlayerTurn, bool isGameOn, string gameMessage)
         {
             Player1 = player1;
             Player2 = player2;

@@ -1,4 +1,6 @@
 ﻿using SeaBattle.Api.Controllers;
+using SeaBattle.ApiClientModels.Models;
+using SeaBattle.Application.Converters;
 using SeaBattle.Application.Services.Interfaces.RepositoryServices;
 using System.Data;
 
@@ -13,11 +15,9 @@ namespace SeaBattle.Application.Services
             _playerRepository = playerRepository;
         }
 
-        public void CreateNewPlayer(string name)
+        public void CreateNewPlayer(PlayerRegistrationClientModel playerRegistrationClientModel)
         {
-            if (_playerRepository.IsPlayerRegistered(name))
-                throw new DuplicateNameException();
-            _playerRepository.SaveNewPlayerOrThrowExeption(name);
+            _playerRepository.SaveNewPlayerOrThrowExeption(playerRegistrationClientModel.ConvertToPlayerRegistrationModel());
         }
     }
 }

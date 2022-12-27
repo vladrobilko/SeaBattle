@@ -83,7 +83,7 @@ namespace ConsoleGameForClient
                 var shootModel = new ShootPlayerClientModel()
                 {
                     PlayerName = _infoPlayerClientModel.PlayerName,
-                    SessionName = _infoPlayerClientModel.SessionName,
+                    NameSession = _infoPlayerClientModel.SessionName,
                     ShootCoordinateY = coordinateY,
                     ShootCoordinateX = coordinateX
                 };
@@ -100,7 +100,7 @@ namespace ConsoleGameForClient
         {
             Console.WriteLine("Write the name, and press enter for registration.");
             string namePlayer = Console.ReadLine();
-            if (await _requestHelper.IsStatusCodeOKAfterRegisterPlayer(namePlayer))
+            if (await _requestHelper.IsStatusCodeOKAfterRegisterPlayer(new PlayerRegistrationClientModel() { NamePlayer = namePlayer }))
             {
                 SetNameInClientsModels(namePlayer);
                 Console.WriteLine($"You registered. Your name is {_infoPlayerClientModel.PlayerName}.");
@@ -206,7 +206,7 @@ namespace ConsoleGameForClient
         private void SetNameSessionInClientsModels(string nameSession)
         {
             _infoPlayerClientModel.SessionName = nameSession;
-            _shootPlayerClientModel.SessionName = nameSession;
+            _shootPlayerClientModel.NameSession = nameSession;
         }
     }
 }

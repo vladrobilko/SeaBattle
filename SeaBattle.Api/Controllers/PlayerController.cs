@@ -18,9 +18,9 @@ namespace SeaBattle.Api.Controllers
         }
 
         [HttpPost("[action]")]
-        public IActionResult Register([FromBody][MinLength(3)][Required] string playerName)
+        public IActionResult Register([FromBody] PlayerRegistrationClientModel playerRegistrationClientModel)
         {
-            _playerService.CreateNewPlayer(playerName);
+            _playerService.CreateNewPlayer(playerRegistrationClientModel);
             return Ok();
         }
     }

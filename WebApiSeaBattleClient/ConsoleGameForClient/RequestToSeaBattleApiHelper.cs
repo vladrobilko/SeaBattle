@@ -29,7 +29,7 @@ namespace ConsoleGameForClient
             string namePlayer = "TestPlayer";
             string nameSession = "TestSession";
             //host
-            var response1 = await _client.PostAsJsonAsync("https://localhost:7109/api/Player/Register", namePlayer);
+            var response1 = await _client.PostAsJsonAsync("https://localhost:7109/api/Player/Register", new PlayerRegistrationClientModel() { NamePlayer = namePlayer});
             if (response1.StatusCode == System.Net.HttpStatusCode.BadRequest)
             {
                 throw new NullReferenceException("Error");
@@ -60,9 +60,9 @@ namespace ConsoleGameForClient
             }
         }
 
-        public async Task<bool> IsStatusCodeOKAfterRegisterPlayer(string name)
+        public async Task<bool> IsStatusCodeOKAfterRegisterPlayer(PlayerRegistrationClientModel playerRegistrationClientModel)
         {
-            var response = await _client.PostAsJsonAsync(pathPostRegisterPlayer, name);
+            var response = await _client.PostAsJsonAsync(pathPostRegisterPlayer, playerRegistrationClientModel);
             return response.StatusCode == System.Net.HttpStatusCode.OK;
         }
 
@@ -104,8 +104,8 @@ namespace ConsoleGameForClient
             var response = await _client.PostAsJsonAsync(pathPostJoinSession,
                 new JoinSessionClientModel()
                 {
-                    JoinPlayerName = playerHostName,
-                    SessionName = sessionName
+                    NameJoinPlayer = playerHostName,
+                    NameSession = sessionName
                 });
             return response.StatusCode == System.Net.HttpStatusCode.OK;
         }

@@ -14,11 +14,11 @@ namespace TestSeaBattleGameService
         {
             //pre
             var client = new InfoPlayerClientModel() { PlayerName = "123", SessionName = "123" };
-            var playerModel = new PlayerSeaBattleStateModel(new FillerRandom(), client.PlayerName, client.SessionName);
+            //var playerModel = new PlayerSeaBattleStateModel(new FillerRandom(), client.PlayerName);
             var result = new string[10][];
             //act
-            playerModel.FillShips();
-            result = playerModel.GetPlayArea().ConvertToArrayStringForClient();
+            //playerModel.FillShips();
+            //result = playerModel.GetPlayArea().ConvertToArrayStringForClient();
             //assert
             foreach (var item in result)
             {

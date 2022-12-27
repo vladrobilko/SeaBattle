@@ -10,6 +10,6 @@ namespace SeaBattle.Application.Services.Interfaces
 
         GameClientStateModel GetGameModel(InfoPlayerClientModel infoPlayerClientModel);
 
-        void Shoot(ShootPlayerClientModel shootPlayerClientModel);
+        void Shoot(ShootClientModel shootPlayerClientModel);
     }
 }

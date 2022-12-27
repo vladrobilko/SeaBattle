@@ -10,11 +10,11 @@ namespace SeaBattle.Application.Converters
 {
     public static class ShootPlayerClientModelConverter
     {
-        public static ShootModel ConvertToShootModel(this ShootPlayerClientModel shootPlayerClientModel)
+        public static ShootModel ConvertToShootModel(this ShootClientModel shootPlayerClientModel)
         {
             return new ShootModel(
                 shootPlayerClientModel.ShootCoordinateY, shootPlayerClientModel.ShootCoordinateX,
-                shootPlayerClientModel.PlayerName, shootPlayerClientModel.SessionName);
+                shootPlayerClientModel.PlayerName, shootPlayerClientModel.NameSession);
         }
     }
 }

@@ -28,7 +28,7 @@ namespace ConsoleSeaBattle
                 ConsoleFillerForGame.FillConsole(player1, player2);
                 if (player1Turn)
                 {
-                    Point target = player1.GetNextShootTarget();
+                    Point target = player1.GetNextValidShootTarget();
                     ShootResultType result = player2.OnShoot(target);
                     gameOver = (result == ShootResultType.GameOver);
                     player1Turn = (result == ShootResultType.Kill) || (result == ShootResultType.Hit);
@@ -36,7 +36,7 @@ namespace ConsoleSeaBattle
                 }
                 else
                 {
-                    Point target = player2.GetNextShootTarget();
+                    Point target = player2.GetNextValidShootTarget();
                     ShootResultType result = player1.OnShoot(target);
                     gameOver = (result == ShootResultType.GameOver);
                     player1Turn = result != ShootResultType.Kill && result != ShootResultType.Hit;

@@ -27,9 +27,8 @@ namespace SeaBattle.Api.Controllers
         [HttpGet("[action]")]
         public ActionResult<List<HostSessionClientModel>> GetAllWaitingSessions()
         {
-            var json = JsonConvert
-                .SerializeObject(_session
-                .GetAllNewSessions());
+            var hostSessions = _session.GetAllHostSessions();
+            var json = JsonConvert.SerializeObject(hostSessions);
             return Ok(json);
         }
 

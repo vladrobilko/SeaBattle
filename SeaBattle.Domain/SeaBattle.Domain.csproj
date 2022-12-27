@@ -44,6 +44,8 @@
     <Compile Include="Cell.cs" />
     <Compile Include="CellState.cs" />
     <Compile Include="CellStateConverter.cs" />
+    <Compile Include="GameStateModel.cs" />
+    <Compile Include="GameStateMessage.cs" />
     <Compile Include="ShipConfige.cs" />
     <Compile Include="ShipsCreator.cs" />
     <Compile Include="IPlayer.cs" />
@@ -54,7 +56,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FillerRandomShipsWithoutBorders.cs" />
     <Compile Include="FillerRandom.cs" />
-    <Compile Include="SeaBattleGame.cs" />
+    <Compile Include="SeaBattleGameStateChanger.cs" />
     <Compile Include="Ship.cs" />
     <Compile Include="FillerRandomShipLenghtOneOnlyBorders.cs" />
     <Compile Include="Shooter.cs" />

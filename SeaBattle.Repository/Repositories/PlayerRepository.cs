@@ -1,4 +1,5 @@
-﻿using SeaBattle.Application.Services.Interfaces.RepositoryServices;
+﻿using SeaBattle.Application.Models;
+using SeaBattle.Application.Services.Interfaces.RepositoryServices;
 using SeaBattle.Repository.Models;
 using System.Data;
 using System.Runtime.CompilerServices;
@@ -14,9 +15,11 @@ namespace SeaBattle.Repository.Repositories
             _registeredPlayers = new List<PlayerRegistrationDtoModel>();
         }
 
-        public void SaveNewPlayerOrThrowExeption(string name)
+        public void SaveNewPlayerOrThrowExeption(PlayerRegistrationModel playerRegistrationModel)
         {
-            var player = new PlayerRegistrationDtoModel() { Name = name };
+            if (IsPlayerRegistered(playerRegistrationModel.NamePlayer))
+                throw new DuplicateNameException();
+            var player = new PlayerRegistrationDtoModel() { Name = playerRegistrationModel.NamePlayer };
             _registeredPlayers.Add(player);
         }
 
