@@ -22,7 +22,7 @@ namespace ConsoleGameForClient
 
         public async Task Start()
         {
-            await _requestHelper.HostGameAndReadyToStartForTest(); // host player for testing
+            //await _requestHelper.HostGameAndReadyToStartForTest(); // host player for testing
 
             Console.WriteLine("Online Game sea battle.");
             await RegisterPlayerAndSetClientModelsAsync();

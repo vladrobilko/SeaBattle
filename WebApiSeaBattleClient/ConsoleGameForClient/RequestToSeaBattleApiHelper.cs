@@ -19,7 +19,7 @@ namespace ConsoleGameForClient
         private string pathPostGetGameModel = "https://localhost:7109/api/SeaBattleGame/GetGameModel";
         private string pathPostShoot = "https://localhost:7109/api/SeaBattleGame/Shoot";
 
-        public async Task HostGameAndReadyToStartForTest()
+        /*public async Task HostGameAndReadyToStartForTest()
         {
             string namePlayer = "TestPlayer";
             string nameSession = "TestSession";
@@ -53,8 +53,7 @@ namespace ConsoleGameForClient
             {
                 throw new NullReferenceException("Error");
             }
-        }
-
+        }*/
 
         public async Task<bool> IsStatusCodeOKAfterRegisterPlayer(PlayerRegistrationClientModel playerRegistrationClientModel)
         {
