@@ -43,10 +43,10 @@ namespace SeaBattle.Repository.Repositories
             return _confirmedPlayerModels.SingleOrDefault(p => p.NamePlayer == name);
         }
 
-        public void ResaveGameStateDtoModel(GameStateModel gameStateModel, string NameSession)
+        public void ResaveGameStateDtoModel(GameStateModel gameStateModel, string nameSession)
         {
-            _gameStateModels.Remove(_gameStateModels.SingleOrDefault(p => p?.NameSession == NameSession));
-            _gameStateModels.Add(gameStateModel.ConvertToGameStateDtoModel(NameSession));
+            _gameStateModels.Remove(_gameStateModels.SingleOrDefault(p => p?.NameSession == nameSession));
+            _gameStateModels.Add(gameStateModel.ConvertToGameStateDtoModel(nameSession));
         }
 
         public GameStateModel GetGameStateModelOrThrowExceptionByNameSession(string nameSession)

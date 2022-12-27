@@ -2,7 +2,7 @@
 
 namespace SeaBattle.ApiClientModels.Models
 {
-    public class ShootPlayerClientModel
+    public class ShootClientModel
     {
         [Required]
         public int ShootCoordinateY { get; set; }
@@ -16,6 +16,6 @@ namespace SeaBattle.ApiClientModels.Models
         [Required]
         public string NameSession { get; set; }
 
-        public ShootPlayerClientModel() { }
+        public ShootClientModel() { }
     }
 }

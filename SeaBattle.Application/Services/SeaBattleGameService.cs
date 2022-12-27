@@ -70,7 +70,7 @@ namespace SeaBattle.Application.Services
             _seaBattleGameRepository.ResaveGameStateDtoModel(gameState, nameSession);
         }
 
-        public void Shoot(ShootPlayerClientModel shootPlayerClientModel)
+        public void Shoot(ShootClientModel shootPlayerClientModel)
         {
             _seaBattleGameRepository.ResaveValidShoot(shootPlayerClientModel.ConvertToShootModel());
             var lastGameModel = _seaBattleGameRepository.GetGameStateModelOrThrowExceptionByNameSession(shootPlayerClientModel.NameSession);
