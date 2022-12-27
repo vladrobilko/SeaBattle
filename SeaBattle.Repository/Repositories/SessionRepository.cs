@@ -1,6 +1,7 @@
 ﻿using SeaBattle.Application.Converters;
 using SeaBattle.Application.Models;
 using SeaBattle.Application.Services.Interfaces.RepositoryServices;
+using SeaBattle.Repository.Converters;
 using SeaBattle.Repository.Models;
 using System.Data;
 
@@ -8,53 +9,59 @@ namespace SeaBattle.Repository.Repositories
 {
     public class SessionRepository : ISessionRepository
     {
-        private readonly List<SessionDtoModel> _newSessionsWaitSecondPlayer;
+        private readonly List<HostSessionDtoModel> _hostSessionDtoModels;
 
-        private readonly List<SessionDtoModel> _waitingSessionsToStartGame;
+        private readonly List<StartSessionDtoModel> _startSessionDtoModels;
 
         public SessionRepository()
         {
-            _newSessionsWaitSecondPlayer = new List<SessionDtoModel>();
-            _waitingSessionsToStartGame = new List<SessionDtoModel>();
+            _hostSessionDtoModels = new List<HostSessionDtoModel>();
+            _startSessionDtoModels = new List<StartSessionDtoModel>();
         }
 
-        public void SaveNewSessionOrThrowException(string hostPlayerName, string sessionName)
+        public void SaveNewSessionOrThrowException(HostSessionModel hostSessionModel)
         {
-            if (IsSessionExists(sessionName))
+            if (IsSessionExists(hostSessionModel.NameSession))
                 throw new DuplicateNameException();
-            _newSessionsWaitSecondPlayer.Add(new SessionDtoModel() { HostPlayerName = hostPlayerName, SessionName = sessionName });
+            _hostSessionDtoModels.Add(hostSessionModel.ConvertToHostSessionDtoModel());
         }
 
         public List<HostSessionModel> GetAllFreeSessionsOrThrowException()
         {
-            if (_newSessionsWaitSecondPlayer.Count == 0)
+            if (_hostSessionDtoModels.Count == 0)
                 throw new DirectoryNotFoundException();
-            return _newSessionsWaitSecondPlayer.ConvertToListSessionModel();
+            return _hostSessionDtoModels.ConvertToListHostSessionModel();
         }
 
-        public void SaveStartsSessionsOrThrowException(string joinSessionName, string nameSession)
+        public void SaveStartsSessionsOrThrowException(JoinSessionModel joinSessionModel)
         {
-            var session = _newSessionsWaitSecondPlayer.
-                SingleOrDefault(p => p.SessionName == nameSession) ??
-                throw new DirectoryNotFoundException();
-            session.JoinPlayerName = joinSessionName;
-            _waitingSessionsToStartGame.Add(session);
-            _newSessionsWaitSecondPlayer.Remove(session);
+            var hostSession = _hostSessionDtoModels.
+                SingleOrDefault(p => p.NameSession == joinSessionModel.NameSession) ?? throw new DirectoryNotFoundException();
+            var startSession = new StartSessionDtoModel()
+            {
+                NameHostPlayer = hostSession.NameHostPlayer,
+                NameJoinPlayer = joinSessionModel.NameJoinPlayer,
+                NameSession = hostSession.NameSession
+            };
+            _startSessionDtoModels.Add(startSession);
+            _hostSessionDtoModels.Remove(hostSession);
         }
 
         public bool IsSessionExists(string nameSession)
         {
-            return _newSessionsWaitSecondPlayer.SingleOrDefault(p => p.SessionName == nameSession) != null ||
-                _waitingSessionsToStartGame.SingleOrDefault(p => p.SessionName == nameSession) != null;
+            return _hostSessionDtoModels.SingleOrDefault(p => p.NameSession == nameSession) != null ||
+                _startSessionDtoModels.SingleOrDefault(p => p.NameSession == nameSession) != null;
         }
 
-        public SessionModel GetStartSessionByName(string nameSession)
+        public StartSessionModel GetStartSessionByNameOrNull(string nameSession)
         {
-            var session = _waitingSessionsToStartGame.
-                SingleOrDefault(p => p.SessionName == nameSession);
-            if (session == null)
+            var startSession = _startSessionDtoModels.
+                SingleOrDefault(p => p.NameSession == nameSession);
+            if (startSession == null)
+            {
                 return null;
-            return session.ConvertToSessionModel();
+            }
+            return startSession.ConvertToStartSessionModel();
         }
     }
 }

@@ -104,8 +104,8 @@ namespace ConsoleGameForClient
             var response = await _client.PostAsJsonAsync(pathPostJoinSession,
                 new JoinSessionClientModel()
                 {
-                    JoinPlayerName = playerHostName,
-                    SessionName = sessionName
+                    NameJoinPlayer = playerHostName,
+                    NameSession = sessionName
                 });
             return response.StatusCode == System.Net.HttpStatusCode.OK;
         }

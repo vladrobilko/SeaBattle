@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SeaBattle.Application.Models
+namespace SeaBattle.Repository.Models
 {
-    public class HostSessionModel
+    public class StartSessionDtoModel
     {
         public string NameHostPlayer { get; set; }
+
+        public string NameJoinPlayer { get; set; }
 
         public string NameSession { get; set; }
     }

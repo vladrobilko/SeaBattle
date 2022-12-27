@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace SeaBattle.Application.Models
 {
-    public class SessionModel
+    public class StartSessionModel
     {
-        public string HostPlayerName { get; set; }
+        public string NameHostPlayer { get; set; }
 
-        public string JoinPlayerName { get; set; } = "NoName";
+        public string NameJoinPlayer { get; set; }
 
-        public string SessionName { get; set; }
+        public string NameSession { get; set; }
     }
 }

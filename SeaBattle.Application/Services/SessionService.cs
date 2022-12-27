@@ -17,10 +17,10 @@ namespace SeaBattle.Application.Services
         public void CreateNewSession(HostSessionClientModel newSessionClient)
         {
             _sessionRepository
-                .SaveNewSessionOrThrowException(newSessionClient.HostPlayerName, newSessionClient.SessionName);
+                .SaveNewSessionOrThrowException(newSessionClient.ConvertToHostSessionModel());
         }
 
-        public List<HostSessionClientModel> GetAllNewSessions()
+        public List<HostSessionClientModel> GetAllHostSessions()
         {
             return _sessionRepository
                 .GetAllFreeSessionsOrThrowException()
@@ -31,7 +31,7 @@ namespace SeaBattle.Application.Services
         {
             _sessionRepository
                 .SaveStartsSessionsOrThrowException
-                (joinSessionClient.JoinPlayerName, joinSessionClient.SessionName);
+                (joinSessionClient.ConvertJoinSessionModel());
         }
     }
 }

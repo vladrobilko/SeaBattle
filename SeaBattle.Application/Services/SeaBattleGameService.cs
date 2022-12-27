@@ -47,11 +47,11 @@ namespace SeaBattle.Application.Services
 
         private void TryToStartGame(string nameSession)
         {
-            var startSession = _sessionRepository.GetStartSessionByName(nameSession);
+            var startSession = _sessionRepository.GetStartSessionByNameOrNull(nameSession);
             if (startSession != null)
             {
-                var player1 = _seaBattleGameRepository.GetConfirmedPlayerStateModelByName(startSession.HostPlayerName);
-                var player2 = _seaBattleGameRepository.GetConfirmedPlayerStateModelByName(startSession.JoinPlayerName);
+                var player1 = _seaBattleGameRepository.GetConfirmedPlayerStateModelByName(startSession.NameHostPlayer);
+                var player2 = _seaBattleGameRepository.GetConfirmedPlayerStateModelByName(startSession.NameJoinPlayer);
                 if (player1 != null && player2 != null)
                 {
                     StartGame(player1, player2, nameSession);
