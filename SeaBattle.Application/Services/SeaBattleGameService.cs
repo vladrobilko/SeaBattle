@@ -1,6 +1,5 @@
 ﻿using SeaBattle.ApiClientModels.Models;
 using SeaBattle.Application.Converters;
-using SeaBattle.Application.Models;
 using SeaBattle.Application.Services.Interfaces;
 using SeaBattle.Application.Services.Interfaces.RepositoryServices;
 using SeaBattle.Repository.Converters;
@@ -22,6 +21,7 @@ namespace SeaBattle.Application.Services
             _sessionRepository = sessionRepository;
             _seaBattleGameChanger = new SeaBattleGameStateChanger();
         }
+
         public GameAreaClientModel GetPlayArea(InfoPlayerClientModel infoPlayerClientModel)
         {
             var playerModel = new PlayerSeaBattleStateModel(new FillerRandom(), infoPlayerClientModel.PlayerName, _seaBattleGameRepository);
@@ -75,7 +75,7 @@ namespace SeaBattle.Application.Services
             _seaBattleGameRepository.ResaveValidShoot(shootPlayerClientModel.ConvertToShootModel());
             var lastGameModel = _seaBattleGameRepository.GetGameStateModelOrThrowExceptionByNameSession(shootPlayerClientModel.NameSession);
             var changeGameModel = _seaBattleGameChanger.ChangeGameState(lastGameModel);
-            _seaBattleGameRepository.ResaveGameStateDtoModel(changeGameModel,shootPlayerClientModel.NameSession);
+            _seaBattleGameRepository.ResaveGameStateDtoModel(changeGameModel, shootPlayerClientModel.NameSession);
         }
     }
 }
