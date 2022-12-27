@@ -1,11 +1,6 @@
 ﻿using Newtonsoft.Json;
 using SeaBattle.ApiClientModels.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http.Json;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ConsoleGameForClient
 {
@@ -59,6 +54,7 @@ namespace ConsoleGameForClient
                 throw new NullReferenceException("Error");
             }
         }
+
 
         public async Task<bool> IsStatusCodeOKAfterRegisterPlayer(PlayerRegistrationClientModel playerRegistrationClientModel)
         {
@@ -131,7 +127,7 @@ namespace ConsoleGameForClient
             return gameModel;
         }
 
-        public async Task<bool> IsStatusCodeOKAfterShoot(ShootPlayerClientModel shootPlayerClientModel)
+        public async Task<bool> IsStatusCodeOKAfterShoot(ShootClientModel shootPlayerClientModel)
         {
             var response = await _client.PostAsJsonAsync(pathPostShoot, shootPlayerClientModel);
             return response.StatusCode == System.Net.HttpStatusCode.OK;

@@ -90,8 +90,8 @@ namespace XUnitTests
             using var response = await client.PostAsJsonAsync(pathJoinSession,
                 new JoinSessionClientModel()
                 {
-                    JoinPlayerName = nameJoinPlayer,
-                    SessionName = nameSession
+                    NameJoinPlayer = nameJoinPlayer,
+                    NameSession = nameSession
                 });
             //assert
             Assert.Equal(System.Net.HttpStatusCode.OK, response.StatusCode);

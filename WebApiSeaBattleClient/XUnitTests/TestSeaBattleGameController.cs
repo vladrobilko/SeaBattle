@@ -79,7 +79,7 @@ namespace XUnitTests
         {
             //pre
             var client = new HttpClient();
-            var clientShootModel = new ShootPlayerClientModel()
+            var clientShootModel = new ShootClientModel()
             {
                 PlayerName = "TestE",
                 NameSession = "TestE",
