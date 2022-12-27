@@ -10,7 +10,7 @@ namespace SeaBattle.Application.Services.Interfaces.RepositoryServices
 
         StartSessionModel GetStartSessionByNameOrNull(string nameSession);
 
-        List<HostSessionModel> GetAllFreeSessionsOrThrowException();
+        List<HostSessionModel> GetAllHostSessionsOrThrowException();
 
         bool IsSessionExists(string nameSession);
     }

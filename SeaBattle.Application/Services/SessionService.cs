@@ -23,7 +23,7 @@ namespace SeaBattle.Application.Services
         public List<HostSessionClientModel> GetAllHostSessions()
         {
             return _sessionRepository
-                .GetAllFreeSessionsOrThrowException()
+                .GetAllHostSessionsOrThrowException()
                 .ConvertToListHostSessionClientModel();
         }
 

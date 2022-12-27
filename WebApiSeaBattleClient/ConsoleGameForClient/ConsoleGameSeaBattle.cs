@@ -11,12 +11,12 @@ namespace ConsoleGameForClient
 
         private InfoPlayerClientModel _infoPlayerClientModel;
 
-        private ShootPlayerClientModel _shootPlayerClientModel;
+        private ShootClientModel _shootPlayerClientModel;
 
         public ConsoleGameSeaBattle()
         {
             _infoPlayerClientModel = new InfoPlayerClientModel();
-            _shootPlayerClientModel = new ShootPlayerClientModel();
+            _shootPlayerClientModel = new ShootClientModel();
             _requestHelper = new RequestToSeaBattleApiHelper();
         }
 
@@ -68,7 +68,7 @@ namespace ConsoleGameForClient
             Console.WriteLine($"Game ended.\n {gameClientModel.Message}");
         }
 
-        private ShootPlayerClientModel FillShootModelForSend()
+        private ShootClientModel FillShootModelForSend()
         {
             try
             {
@@ -80,7 +80,7 @@ namespace ConsoleGameForClient
                 {
                     throw new Exception();
                 }
-                var shootModel = new ShootPlayerClientModel()
+                var shootModel = new ShootClientModel()
                 {
                     PlayerName = _infoPlayerClientModel.PlayerName,
                     NameSession = _infoPlayerClientModel.SessionName,
