@@ -6,7 +6,7 @@
 
         void FillShips();
 
-        Point GetNextShootTarget();
+        Point GetNextValidShootTarget();
 
         ShootResultType OnShoot(Point target);
 

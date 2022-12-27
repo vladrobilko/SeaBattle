@@ -3,6 +3,7 @@ using SeaBattle.Application.Converters;
 using SeaBattle.Application.Models;
 using SeaBattle.Application.Services.Interfaces;
 using SeaBattle.Application.Services.Interfaces.RepositoryServices;
+using SeaBattle.Repository.Converters;
 using SeaBattleApi.Models;
 
 namespace SeaBattle.Application.Services
@@ -13,20 +14,29 @@ namespace SeaBattle.Application.Services
 
         private readonly ISessionRepository _sessionRepository;
 
+        SeaBattleGameStateChanger _seaBattleGameChanger;
+
         public SeaBattleGameService(ISeaBattleGameRepository seaBattleGameService, ISessionRepository sessionRepository)
         {
             _seaBattleGameRepository = seaBattleGameService;
             _sessionRepository = sessionRepository;
+            _seaBattleGameChanger = new SeaBattleGameStateChanger();
         }
-
         public GameAreaClientModel GetPlayArea(InfoPlayerClientModel infoPlayerClientModel)
         {
-            var playerModel = new PlayerSeaBattleStateModel(new FillerRandom(), infoPlayerClientModel.PlayerName, infoPlayerClientModel.SessionName, _seaBattleGameRepository);
+            var playerModel = new PlayerSeaBattleStateModel(new FillerRandom(), infoPlayerClientModel.PlayerName, _seaBattleGameRepository);
             var gameAreaClientModel = new GameAreaClientModel();
             playerModel.FillShips();
             _seaBattleGameRepository.ResaveLastPlayerStateModel(playerModel);
             gameAreaClientModel.ClientPlayArea = playerModel.GetPlayArea().ConvertToArrayStringForClient();
             return gameAreaClientModel;
+        }
+
+        public GameClientStateModel GetGameModel(InfoPlayerClientModel infoPlayerClientModel)
+        {
+            return _seaBattleGameRepository
+                .GetGameStateModelOrThrowExceptionByNameSession(infoPlayerClientModel.SessionName)
+                .ConvertToGameClientModel(infoPlayerClientModel.PlayerName);
         }
 
         public void ReadyToStartGame(InfoPlayerClientModel infoPlayerClientModel)
@@ -49,24 +59,23 @@ namespace SeaBattle.Application.Services
             }
         }
 
-        public GameClientStateModel GetGameModel(InfoPlayerClientModel infoPlayerClientModel)
-        {
-            return _seaBattleGameRepository
-                .GetGameStateModelOrThrowExceptionByNameSession(infoPlayerClientModel.SessionName)
-                .ConvertToGameClientModel(infoPlayerClientModel.PlayerName);
-        }
-
         private void StartGame(IPlayer player1, IPlayer player2, string nameSession)
         {
-            _seaBattleGameRepository.ResaveGameStateModel(
-                new GameStateModel(player1, player2, nameSession, player2.NamePlayer, true, GameStateMessage.WhoShoot(player2.NamePlayer)));
-            var game = new SeaBattleGame(player1, player2);//первый ходит player2
-            game.Start();
+            var gameState = new GameStateModel(
+                    player1,
+                    player2,
+                    player2.NamePlayer,//первый ходит второй игрой, который подключился
+                    true,
+                    GameStateMessage.WhoShoot(player2.NamePlayer));
+            _seaBattleGameRepository.ResaveGameStateDtoModel(gameState, nameSession);
         }
 
         public void Shoot(ShootPlayerClientModel shootPlayerClientModel)
         {
             _seaBattleGameRepository.ResaveValidShoot(shootPlayerClientModel.ConvertToShootModel());
+            var lastGameModel = _seaBattleGameRepository.GetGameStateModelOrThrowExceptionByNameSession(shootPlayerClientModel.NameSession);
+            var changeGameModel = _seaBattleGameChanger.ChangeGameState(lastGameModel);
+            _seaBattleGameRepository.ResaveGameStateDtoModel(changeGameModel,shootPlayerClientModel.NameSession);
         }
     }
 }

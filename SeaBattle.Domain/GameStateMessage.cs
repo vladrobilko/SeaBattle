@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SeaBattle.Application
+namespace SeaBattle
 {
     public static class GameStateMessage
     {
@@ -36,6 +36,5 @@ namespace SeaBattle.Application
         {
             return $"{namePlayer} win the game. ";
         }
-
     }
 }

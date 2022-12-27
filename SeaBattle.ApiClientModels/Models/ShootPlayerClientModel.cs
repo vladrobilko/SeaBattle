@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SeaBattle.ApiClientModels.Models
 {
@@ -19,11 +14,8 @@ namespace SeaBattle.ApiClientModels.Models
         public string PlayerName { get; set; }
 
         [Required]
-        public string SessionName { get; set; }
+        public string NameSession { get; set; }
 
-        public ShootPlayerClientModel()
-        {
-
-        }
+        public ShootPlayerClientModel() { }
     }
 }

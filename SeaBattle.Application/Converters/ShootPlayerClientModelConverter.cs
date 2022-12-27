@@ -14,7 +14,7 @@ namespace SeaBattle.Application.Converters
         {
             return new ShootModel(
                 shootPlayerClientModel.ShootCoordinateY, shootPlayerClientModel.ShootCoordinateX,
-                shootPlayerClientModel.PlayerName, shootPlayerClientModel.SessionName);
+                shootPlayerClientModel.PlayerName, shootPlayerClientModel.NameSession);
         }
     }
 }

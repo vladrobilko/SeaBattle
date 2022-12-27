@@ -38,7 +38,7 @@ namespace ConsoleSeaBattle
             return new PlayArea(_playArea);
         }
 
-        public Point GetNextShootTarget()
+        public Point GetNextValidShootTarget()
         {
             try
             {
@@ -60,7 +60,7 @@ namespace ConsoleSeaBattle
             catch (Exception)
             {
                 Console.WriteLine("Error. Please enter again.");
-                return GetNextShootTarget();
+                return GetNextValidShootTarget();
             }
         }
 

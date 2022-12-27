@@ -19,9 +19,6 @@ namespace SeaBattle.ApiClientModels.Models
 
         public string Message { get; set; }
 
-        public GameClientStateModel()
-        {
-
-        }
+        public GameClientStateModel() { }
     }
 }

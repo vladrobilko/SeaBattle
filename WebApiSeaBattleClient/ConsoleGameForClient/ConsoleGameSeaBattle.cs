@@ -83,7 +83,7 @@ namespace ConsoleGameForClient
                 var shootModel = new ShootPlayerClientModel()
                 {
                     PlayerName = _infoPlayerClientModel.PlayerName,
-                    SessionName = _infoPlayerClientModel.SessionName,
+                    NameSession = _infoPlayerClientModel.SessionName,
                     ShootCoordinateY = coordinateY,
                     ShootCoordinateX = coordinateX
                 };
@@ -206,7 +206,7 @@ namespace ConsoleGameForClient
         private void SetNameSessionInClientsModels(string nameSession)
         {
             _infoPlayerClientModel.SessionName = nameSession;
-            _shootPlayerClientModel.SessionName = nameSession;
+            _shootPlayerClientModel.NameSession = nameSession;
         }
     }
 }

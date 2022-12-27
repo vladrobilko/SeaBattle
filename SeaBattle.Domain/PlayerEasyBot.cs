@@ -31,7 +31,7 @@ namespace SeaBattle
             _filler.FillShips(_playArea.Cells, _ships);
         }
 
-        public Point GetNextShootTarget()
+        public Point GetNextValidShootTarget()
         {
             int Y = rnd.Next(10);
             int X = rnd.Next(10);
@@ -41,7 +41,7 @@ namespace SeaBattle
                 
                 return new Point(Y, X);
             }
-            return GetNextShootTarget();
+            return GetNextValidShootTarget();
         }
 
         public ShootResultType OnShoot(Point target)

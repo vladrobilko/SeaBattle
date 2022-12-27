@@ -68,7 +68,7 @@ namespace XUnitTests
             //act
             var response = await client.PostAsJsonAsync(pathGetGameModel, clientInfoModel);
             var json = await response.Content.ReadAsStringAsync();
-            var gameArea = JsonConvert.DeserializeObject<GameClientModel>(json);
+            var gameArea = JsonConvert.DeserializeObject<GameClientStateModel>(json);
             //assert
             Assert.Equal(System.Net.HttpStatusCode.OK, response.StatusCode);
             Assert.NotNull(gameArea);
@@ -82,14 +82,14 @@ namespace XUnitTests
             var clientShootModel = new ShootPlayerClientModel()
             {
                 PlayerName = "TestE",
-                SessionName = "TestE",
-                ShootCoordinateX = "E1",
-                ShootCoordinateY = "E2"
+                NameSession = "TestE",
+                ShootCoordinateX = 1,
+                ShootCoordinateY = 2
             };
             //act
             var response = await client.PostAsJsonAsync(pathShoot, clientShootModel);
             var json = await response.Content.ReadAsStringAsync();
-            var gameArea = JsonConvert.DeserializeObject<GameClientModel>(json);
+            var gameArea = JsonConvert.DeserializeObject<GameClientStateModel>(json);
             //assert
             Assert.Equal(System.Net.HttpStatusCode.OK, response.StatusCode);
             Assert.NotNull(gameArea);
