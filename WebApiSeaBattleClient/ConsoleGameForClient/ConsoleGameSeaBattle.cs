@@ -100,7 +100,7 @@ namespace ConsoleGameForClient
         {
             Console.WriteLine("Write the name, and press enter for registration.");
             string namePlayer = Console.ReadLine();
-            if (await _requestHelper.IsStatusCodeOKAfterRegisterPlayer(namePlayer))
+            if (await _requestHelper.IsStatusCodeOKAfterRegisterPlayer(new PlayerRegistrationClientModel() { NamePlayer = namePlayer }))
             {
                 SetNameInClientsModels(namePlayer);
                 Console.WriteLine($"You registered. Your name is {_infoPlayerClientModel.PlayerName}.");

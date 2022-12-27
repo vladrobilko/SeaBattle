@@ -10,13 +10,13 @@ namespace SeaBattle.Repository.Repositories
 {
     public class SeaBattleGameRepositoty : ISeaBattleGameRepository
     {
-        List<PlayerSeaBattleStateModel> _lastPlayerModels;//последняя модель игрока, когда игрок выбирает игровую арену,
-                                                          //ему посылается игровая арена и записвается сюда (старая удаляется)
-        List<PlayerSeaBattleStateModel> _confirmedPlayerModels;//когда игрок выбрал арену, сврху она удаляется и записывается сюда, как текущая модель игрока
+        private readonly List<PlayerSeaBattleStateModel> _lastPlayerModels;//последняя модель игрока, когда игрок выбирает игровую арену,
+                                                                           //ему посылается игровая арена и записвается сюда (старая удаляется)
+        private readonly List<PlayerSeaBattleStateModel> _confirmedPlayerModels;//когда игрок выбрал арену, сврху она удаляется и записывается сюда, как текущая модель игрока
 
-        List<GameStateDtoModel> _gameStateModels;//когда два игрока готовы к игре, игра стартуется и сюда сохраняется модель игры
-                                              //в эту модель будет сервис будет вносить изменения 
-        List<ShootModel> _lastValidShootModel;
+        private readonly List<GameStateDtoModel> _gameStateModels;//когда два игрока готовы к игре, игра стартуется и сюда сохраняется модель игры
+                                                                  //в эту модель будет сервис будет вносить изменения 
+        private readonly List<ShootModel> _lastValidShootModel;
 
         public SeaBattleGameRepositoty()
         {

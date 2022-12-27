@@ -1,8 +1,10 @@
-﻿namespace SeaBattle.Application.Services.Interfaces.RepositoryServices
+﻿using SeaBattle.Application.Models;
+
+namespace SeaBattle.Application.Services.Interfaces.RepositoryServices
 {
     public interface IPlayerRepository
     {
-        void SaveNewPlayerOrThrowExeption(string name);
+        void SaveNewPlayerOrThrowExeption(PlayerRegistrationModel playerRegistrationModel);
 
         bool IsPlayerRegistered(string name);
     }
