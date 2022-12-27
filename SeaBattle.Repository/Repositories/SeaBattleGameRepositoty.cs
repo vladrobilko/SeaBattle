@@ -51,7 +51,7 @@ namespace SeaBattle.Repository.Repositories
 
         public GameStateModel GetGameStateModelOrThrowExceptionByNameSession(string nameSession)
         {
-            return _gameStateModels.SingleOrDefault(p => p.NameSession == nameSession)//тут что то null
+            return _gameStateModels.SingleOrDefault(p => p.NameSession == nameSession)
                 .ConvertToGameStateModel() ?? throw new NotFiniteNumberException();
         }
 

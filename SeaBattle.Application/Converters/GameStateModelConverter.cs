@@ -10,7 +10,7 @@ namespace SeaBattle.Repository.Converters
             var gameClientModel = new GameClientStateModel()
             {
                 IsGameOn = gameStateModel.IsGameOn,
-                NamePlayerTurn = nameClient,
+                NamePlayerTurn = gameStateModel.NamePlayerTurn,
                 Message = gameStateModel.GameMessage
             };
             if (gameStateModel.Player1.NamePlayer == nameClient)
