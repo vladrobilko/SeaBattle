@@ -25,7 +25,7 @@ namespace SeaBattle.Repository.Repositories
             _newSessionsWaitSecondPlayer.Add(new SessionDtoModel() { HostPlayerName = hostPlayerName, SessionName = sessionName });
         }
 
-        public List<NewSessionModel> GetAllFreeSessionsOrThrowException()
+        public List<HostSessionModel> GetAllFreeSessionsOrThrowException()
         {
             if (_newSessionsWaitSecondPlayer.Count == 0)
                 throw new DirectoryNotFoundException();

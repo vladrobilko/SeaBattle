@@ -3,14 +3,14 @@ using SeaBattle.Application.Models;
 
 namespace SeaBattle.Application.Converters
 {
-    public static class NewSessionModelConverter
+    public static class HostSessionModelConverter
     {
-        public static HostSessionClientModel ConvertToNewSessionClient(this NewSessionModel newSessionModel)
+        public static HostSessionClientModel ConvertToNewSessionClient(this HostSessionModel newSessionModel)
         {
             return new HostSessionClientModel() { HostPlayerName = newSessionModel.HostPlayerName, SessionName = newSessionModel.SessionName };
         }
 
-        public static List<HostSessionClientModel> ConvertToListHostSessionClientModel(this List<NewSessionModel> newSessionClients)
+        public static List<HostSessionClientModel> ConvertToListHostSessionClientModel(this List<HostSessionModel> newSessionClients)
         {
             return newSessionClients
                 .Select(ConvertToNewSessionClient)

@@ -5,12 +5,12 @@ namespace SeaBattle.Application.Converters
 {
     public static class NewSessionDtoConverter
     {
-        public static NewSessionModel ConvertToNewSessionModel(this SessionDtoModel newSessionDto)
+        public static HostSessionModel ConvertToNewSessionModel(this SessionDtoModel newSessionDto)
         {
-            return new NewSessionModel() { HostPlayerName = newSessionDto.HostPlayerName, SessionName = newSessionDto.SessionName };
+            return new HostSessionModel() { HostPlayerName = newSessionDto.HostPlayerName, SessionName = newSessionDto.SessionName };
         }
 
-        public static List<NewSessionModel> ConvertToListSessionModel(this List<SessionDtoModel> newSessionDto)
+        public static List<HostSessionModel> ConvertToListSessionModel(this List<SessionDtoModel> newSessionDto)
         {
             return newSessionDto
                 .Select(ConvertToNewSessionModel)

@@ -2,7 +2,7 @@
 
 namespace SeaBattle.Application.Models
 {
-    public class NewSessionModel
+    public class HostSessionModel
     {
         public string HostPlayerName { get; set; }
 
