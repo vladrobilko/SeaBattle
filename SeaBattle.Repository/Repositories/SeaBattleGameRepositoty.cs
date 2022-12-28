@@ -49,15 +49,19 @@ namespace SeaBattle.Repository.Repositories
             _gameStateModels.Add(gameStateModel.ConvertToGameStateDtoModel(nameSession));
         }
 
-        public GameStateModel GetGameStateModelOrThrowExceptionByNameSession(string nameSession)
+        public GameStateModel GetGameStateModelByNameSessionOrThrowException(string nameSession)
         {
-            return _gameStateModels.SingleOrDefault(p => p.NameSession == nameSession)
-                .ConvertToGameStateModel() ?? throw new NotFiniteNumberException();
+            var gameStateModel = _gameStateModels.SingleOrDefault(p => p?.NameSession == nameSession);
+            if (gameStateModel != null)
+            {
+                return gameStateModel.ConvertToGameStateModel();
+            }
+            throw new NotFiniteNumberException();
         }
 
         public void ResaveValidShoot(ShootModel shootModel)
         {
-            if (GetGameStateModelOrThrowExceptionByNameSession(shootModel.NameSession).NamePlayerTurn == shootModel.NamePlayer)
+            if (GetGameStateModelByNameSessionOrThrowException(shootModel.NameSession).NamePlayerTurn == shootModel.NamePlayer)
             {
                 _lastValidShootModel.Remove(_lastValidShootModel.SingleOrDefault(p => p?.NameSession == shootModel.NameSession));
                 _lastValidShootModel.Add(shootModel);

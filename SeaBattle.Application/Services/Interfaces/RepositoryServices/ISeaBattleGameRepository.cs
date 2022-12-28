@@ -13,7 +13,7 @@ namespace SeaBattle.Application.Services.Interfaces.RepositoryServices
 
         void ResaveGameStateDtoModel(GameStateModel gameStateModel, string NameSession);
 
-        GameStateModel GetGameStateModelOrThrowExceptionByNameSession(string nameSession);
+        GameStateModel GetGameStateModelByNameSessionOrThrowException(string nameSession);
 
         void ResaveValidShoot(ShootModel shootModel);
 

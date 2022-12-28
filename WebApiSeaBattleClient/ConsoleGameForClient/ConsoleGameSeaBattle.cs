@@ -25,7 +25,7 @@ namespace ConsoleGameForClient
 
             Console.WriteLine("Online Game sea battle.");
             await RegisterPlayerAndSetClientModelsAsync();
-            var listWaitingSessions = _requestHelper.GetAllWaitingSessionsOrThrowException().Result;
+            var listWaitingSessions = _requestHelper.GetAllWaitingSessionsOrNull().Result;
             await ChooseHostOrJoinSession(listWaitingSessions);
             await ChoosePlayAreaAndReadyToGame();
             var gameClientModel = await WaitingStartGame();
@@ -47,7 +47,7 @@ namespace ConsoleGameForClient
                     var shoot = await _requestHelper.IsStatusCodeOKAfterShoot(shootModel);
                     while (!shoot)
                     {
-                        gameClientModel = await _requestHelper.GetGameModelOrThrowException(_infoPlayerClientModel);
+                        gameClientModel = await _requestHelper.GetGameModelOrNull(_infoPlayerClientModel);
                         Console.WriteLine(gameClientModel.Message);
                         shootModel = FillShootModelForSend();
                         await Task.Delay(2000);
@@ -61,7 +61,7 @@ namespace ConsoleGameForClient
                     Console.WriteLine(gameClientModel.Message);
                 }
                 await Task.Delay(2000);
-                gameClientModel = await _requestHelper.GetGameModelOrThrowException(_infoPlayerClientModel);
+                gameClientModel = await _requestHelper.GetGameModelOrNull(_infoPlayerClientModel);
             }
 
             Console.WriteLine($"Game ended.\n {gameClientModel.Message}");
@@ -185,11 +185,11 @@ namespace ConsoleGameForClient
         private async Task<GameClientStateModel> WaitingStartGame()
         {
             await Task.Delay(2000);
-            var gameModel = await _requestHelper.GetGameModelOrThrowException(_infoPlayerClientModel);
-            while (!gameModel.IsGameOn)
+            var gameModel = await _requestHelper.GetGameModelOrNull(_infoPlayerClientModel);
+            while (gameModel == null || !gameModel.IsGameOn)
             {
-                await Task.Delay(2000);
-                gameModel = await _requestHelper.GetGameModelOrThrowException(_infoPlayerClientModel);
+                await Task.Delay(10000);
+                gameModel = await _requestHelper.GetGameModelOrNull(_infoPlayerClientModel);
             }   
             Console.WriteLine("The game has started");
             await Task.Delay(2000);

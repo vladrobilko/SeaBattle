@@ -25,11 +25,11 @@ namespace ConsoleGameForClient
             return response.StatusCode == System.Net.HttpStatusCode.OK;
         }
 
-        public async Task<List<HostSessionClientModel>> GetAllWaitingSessionsOrThrowException()
+        public async Task<List<HostSessionClientModel>> GetAllWaitingSessionsOrNull()
         {
             var response = await _client.GetAsync(pathGetGetAllWaitingSessions);
             if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
-                throw new Exception("Error");
+                return null;
             var json = await response.Content.ReadAsStringAsync();
             var listWaitingSessions = JsonConvert.DeserializeObject<List<HostSessionClientModel>>(json);
             return listWaitingSessions;
@@ -78,12 +78,12 @@ namespace ConsoleGameForClient
             }
         }
 
-        public async Task<GameClientStateModel> GetGameModelOrThrowException(InfoPlayerClientModel infoPlayerClientModel)
+        public async Task<GameClientStateModel> GetGameModelOrNull(InfoPlayerClientModel infoPlayerClientModel)
         {
             var response = await _client.PostAsJsonAsync(pathPostGetGameModel, infoPlayerClientModel);
             if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
             {
-                throw new Exception("Error");
+                return null;
             }
             var json = await response.Content.ReadAsStringAsync();
             var gameModel = JsonConvert.DeserializeObject<GameClientStateModel>(json);
