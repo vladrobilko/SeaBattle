@@ -22,9 +22,8 @@ namespace ConsoleGameForClient
 
         public async Task Start()
         {
-
             Console.WriteLine("Online Game sea battle.");
-            await RegisterPlayerAndSetClientModelsAsync();
+            await RegisterPlayer();
             var listWaitingSessions = _requestHelper.GetAllWaitingSessionsOrNull().Result;
             await ChooseHostOrJoinSession(listWaitingSessions);
             await ChoosePlayAreaAndReadyToGame();
@@ -95,9 +94,9 @@ namespace ConsoleGameForClient
             }
         }
 
-        private async Task RegisterPlayerAndSetClientModelsAsync()
+        private async Task RegisterPlayer()
         {
-            Console.WriteLine("Write the name, and press enter for registration.");
+            Console.WriteLine("Write the name, and press enter for registration...");
             string namePlayer = Console.ReadLine();
             if (await _requestHelper.IsStatusCodeOKAfterRegisterPlayer(new PlayerRegistrationClientModel() { NamePlayer = namePlayer }))
             {
@@ -108,7 +107,7 @@ namespace ConsoleGameForClient
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("The player is not registered. Try again\n");
             Console.ResetColor();
-            await RegisterPlayerAndSetClientModelsAsync();
+            await RegisterPlayer();
         }
 
         private async Task ChooseHostOrJoinSession(List<HostSessionClientModel> listWaitingSessions)
