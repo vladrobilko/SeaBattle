@@ -32,6 +32,135 @@ namespace ConsoleGameForClient
             await PlayGame(gameModel);
         }
 
+        private async Task RegisterPlayer()
+        {
+            Console.WriteLine("Write the name, and press enter for registration.");
+            string namePlayer = Console.ReadLine();
+            if (await _requestHelper.IsStatusCodeOKAfterRegisterPlayer(new PlayerRegistrationClientModel() { NamePlayer = namePlayer }))
+            {
+                SetNameInClientsModels(namePlayer);
+                Console.Clear();
+                Console.WriteLine($"You registered. Your name is {_infoPlayerClientModel.PlayerName}.");
+                return;
+            }
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("The player is not registered. Try again\n");
+            Console.ResetColor();
+            await RegisterPlayer();
+        }
+
+        private async Task ChooseHostOrJoinSession()
+        {
+            var key = new ConsoleKey();
+            while (key != ConsoleKey.F1 && key != ConsoleKey.F2)
+            {
+                Console.WriteLine("Press F1 to host session, press F2 to join session.");
+                key = Console.ReadKey().Key;
+                if (key == ConsoleKey.F1)
+                {
+                    await HostSession();
+                    return;
+                }
+                else if (key == ConsoleKey.F2)
+                {
+                    await JoinSession();
+                    return;
+                }
+            }
+        }
+
+        private async Task HostSession()
+        {
+            Console.WriteLine("Host Session.\n Write new host name to start the session");
+            string message = Console.ReadLine();
+            if (await _requestHelper.IsStatusCodeOKAfterHostSessionPlayer(_infoPlayerClientModel.PlayerName, message))
+            {
+                SetNameSessionInClientsModels(message);
+                Console.Clear();
+                Console.WriteLine($"The session was created." +
+                    $"\n Your name of session: {message}." +
+                    $"\n Your name: {_infoPlayerClientModel.PlayerName}");
+                return;
+            }
+            Console.WriteLine("Error. Try again.");
+            await HostSession();
+        }
+
+        private async Task JoinSession()
+        {
+            var listWaitingSessions = _requestHelper.GetAllWaitingSessionsOrNull().Result;
+            if (listWaitingSessions != null)
+            {
+                Console.WriteLine("Available sessions to join: ");
+                listWaitingSessions.ForEach(i => Console.Write($"\tName host: {i.HostPlayerName}, Name Session: {i.SessionName}\n"));
+                Console.WriteLine(
+                    "\nWrite the session name to connect." +
+                    "\nOr press another button to return back and host game");
+                string? message = Console.ReadLine();
+                if (await _requestHelper.IsStatusCodeOKAfterJoinSessionPlayer(_infoPlayerClientModel.PlayerName, message))
+                {
+                    SetNameSessionInClientsModels(message);
+                    Console.Clear();
+                    Console.WriteLine($"You have connected to the session." +
+                        $"\n Your name of session: <<{message}>>." +
+                        $"\n Your name: <<{_infoPlayerClientModel.PlayerName}>>");
+                    return;
+                }
+                else
+                {
+                    await ChooseHostOrJoinSession();
+                }
+            }
+            else
+            {
+                Console.WriteLine("Free session not found. Press enter to return to choice.");
+                Console.ReadKey();
+                Console.Clear();
+                await ChooseHostOrJoinSession();
+            }
+        }
+
+        private async Task ChoosePlayArea()
+        {
+            await Task.Delay(2000);
+            Console.Clear();
+            var key = new ConsoleKey();
+            while (key != ConsoleKey.Enter)
+            {
+                var gameArea = await _requestHelper.GetPlayAreaOrNull(_infoPlayerClientModel);
+                if (gameArea == null)
+                {
+                    Console.WriteLine("Error...");
+                    await Task.Delay(5000);
+                    Environment.Exit(0);
+                }
+                ConsoleGameFiller.FillConsolePlayerAreaOnly(gameArea.ClientPlayArea);
+                Console.WriteLine("Press enter to use this play area, another button is change");
+                key = Console.ReadKey().Key;
+                Console.Clear();
+            }
+        }
+
+        private async Task ReadyToGame()
+        {
+            await _requestHelper.PostReadyToStartGameOrThrowException(_infoPlayerClientModel);
+            Console.WriteLine("You're ready to the game, waiting enemy");
+        }
+
+        private async Task<GameClientStateModel> WaitingStartGame()
+        {
+            await Task.Delay(2000);
+            var gameModel = await _requestHelper.GetGameModelOrNull(_infoPlayerClientModel);
+            while (gameModel == null || !gameModel.IsGameOn)
+            {
+                await Task.Delay(10000);
+                gameModel = await _requestHelper.GetGameModelOrNull(_infoPlayerClientModel);
+            }
+            Console.WriteLine("The game has started");
+            await Task.Delay(2000);
+            return gameModel;
+        }
+
         private async Task PlayGame(GameClientStateModel gameClientModel)
         {
             Console.Clear();
@@ -93,127 +222,6 @@ namespace ConsoleGameForClient
                 Console.WriteLine("Incorrect input, enter again.");
                 return FillShootModelForSend();
             }
-        }
-
-        private async Task RegisterPlayer()
-        {
-            Console.WriteLine("Write the name, and press enter for registration.");
-            string namePlayer = Console.ReadLine();
-            if (await _requestHelper.IsStatusCodeOKAfterRegisterPlayer(new PlayerRegistrationClientModel() { NamePlayer = namePlayer }))
-            {
-                SetNameInClientsModels(namePlayer);
-                Console.Clear();
-                Console.WriteLine($"You registered. Your name is {_infoPlayerClientModel.PlayerName}.");
-                return;
-            }
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("The player is not registered. Try again\n");
-            Console.ResetColor();
-            await RegisterPlayer();
-        }
-
-        private async Task ChooseHostOrJoinSession()
-        {
-            var key = new ConsoleKey();
-            while (key != ConsoleKey.F1 && key != ConsoleKey.F2)
-            {
-                Console.WriteLine("Press F1 to host session, press F2 to join session.");
-                key = Console.ReadKey().Key;
-                if (key == ConsoleKey.F1)
-                {
-                    await HostSession();
-                    return;
-                }
-                else if (key == ConsoleKey.F2)
-                {
-                    await JoinSession();
-                    return;
-                }
-            }
-        }
-
-        private async Task JoinSession()
-        {
-            var listWaitingSessions = _requestHelper.GetAllWaitingSessionsOrNull().Result;
-            if (listWaitingSessions != null)
-            {
-                Console.WriteLine("Available sessions to join: ");
-                listWaitingSessions.ForEach(i => Console.Write($"\tName host: {i.HostPlayerName}, Name Session: {i.SessionName}\n"));
-                Console.WriteLine(
-                    "\nWrite the session name to connect." +
-                    "\nOr press another button to return back and host game");
-                string? message = Console.ReadLine();
-                if (await _requestHelper.IsStatusCodeOKAfterJoinSessionPlayer(_infoPlayerClientModel.PlayerName, message))
-                {
-                    SetNameSessionInClientsModels(message);
-                    Console.Clear();
-                    Console.WriteLine($"You have connected to the session." +
-                        $"\n Your name of session: <<{message}>>." +
-                        $"\n Your name: <<{_infoPlayerClientModel.PlayerName}>>");
-                    return;
-                }
-                else
-                {
-                    await ChooseHostOrJoinSession();
-                }
-            }
-        }
-
-        private async Task HostSession()
-        {
-            Console.WriteLine("Host Session.\n Write new host name to start the session");
-            string message = Console.ReadLine();
-            if (await _requestHelper.IsStatusCodeOKAfterHostSessionPlayer(_infoPlayerClientModel.PlayerName, message))
-            {
-                SetNameSessionInClientsModels(message);
-                Console.Clear();
-                Console.WriteLine($"The session was created.\n Your name of session: <<{message}>>." +
-                    $"\n Your name: <<{_infoPlayerClientModel.PlayerName}>>");
-                return;
-            }
-            Console.WriteLine("Error.");
-            await HostSession();
-        }
-
-        private async Task ChoosePlayArea()
-        {
-            await Task.Delay(2000);
-            Console.Clear();
-            var key = new ConsoleKey();
-            while (key != ConsoleKey.Enter)
-            {
-                var gameArea = await _requestHelper.GetPlayAreaOrNull(_infoPlayerClientModel);
-                if (gameArea == null)
-                {
-                    Console.WriteLine("Error, waiting 5 seconds");
-                    await Task.Delay(5000);
-                    await ChoosePlayArea();
-                }
-                ConsoleGameFiller.FillConsolePlayerAreaOnly(gameArea.ClientPlayArea);
-                Console.WriteLine("Press enter to use this play area, another button is change");
-                key = Console.ReadKey().Key;
-                Console.Clear();
-            }
-        }
-
-        private async Task ReadyToGame()
-        {
-            await _requestHelper.PostReadyToStartGameOrThrowException(_infoPlayerClientModel);
-            Console.WriteLine("You're ready to the game, waiting enemy");
-        }
-
-        private async Task<GameClientStateModel> WaitingStartGame()
-        {
-            await Task.Delay(2000);
-            var gameModel = await _requestHelper.GetGameModelOrNull(_infoPlayerClientModel);
-            while (gameModel == null || !gameModel.IsGameOn)
-            {
-                await Task.Delay(10000);
-                gameModel = await _requestHelper.GetGameModelOrNull(_infoPlayerClientModel);
-            }   
-            Console.WriteLine("The game has started");
-            await Task.Delay(2000);
-            return gameModel;
         }
 
         private void SetNameInClientsModels(string namePlayer)
