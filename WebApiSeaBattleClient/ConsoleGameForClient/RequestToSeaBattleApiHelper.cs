@@ -46,12 +46,12 @@ namespace ConsoleGameForClient
             return response.StatusCode == System.Net.HttpStatusCode.OK;
         }
 
-        public async Task<GameAreaClientModel> GetPlayAreaOrThrowException(InfoPlayerClientModel infoPlayerClientModel)
+        public async Task<GameAreaClientModel> GetPlayAreaOrNull(InfoPlayerClientModel infoPlayerClientModel)
         {
             var response = await _client.PostAsJsonAsync(pathPostGetPlayArea, infoPlayerClientModel);
             if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
             {
-                throw new Exception("Error");
+                return null;
             }
             var json = await response.Content.ReadAsStringAsync();
             var gameArea = JsonConvert.DeserializeObject<GameAreaClientModel>(json);

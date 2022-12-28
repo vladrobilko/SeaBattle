@@ -10,7 +10,5 @@ class Program
     {
         var consoleGameSeaBattle = new ConsoleGameSeaBattle();
         await consoleGameSeaBattle.Start();
-
-        Console.ReadLine();
     }
 }
