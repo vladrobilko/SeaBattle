@@ -64,7 +64,7 @@ namespace SeaBattle.Application.Services
             var gameState = new GameStateModel(
                     player1,
                     player2,
-                    player2.NamePlayer,//первый ходит второй игрой, который подключился
+                    player2.NamePlayer,
                     true,
                     GameStateMessage.WhoShoot(player2.NamePlayer));
             _seaBattleGameRepository.ResaveGameStateDtoModel(gameState, nameSession);

@@ -42,7 +42,7 @@ namespace SeaBattleApi.Models
         {
             var shoot = _seaBattleGameRepository.GetLastShootModelOrNullByName(NamePlayer) ?? throw new NullReferenceException();
             if (_playAreaEnemyForInformation.Cells[shoot.ShootCoordinateY, shoot.ShootCoordinateX].State == CellState.HasShooted)
-                throw new NotFiniteNumberException();//тут ошибка для килента что стреляет в ту же точку
+                throw new NotFiniteNumberException();
             _playAreaEnemyForInformation.Cells[shoot.ShootCoordinateY, shoot.ShootCoordinateX].State = CellState.HasShooted;
             return new Point(shoot.ShootCoordinateY, shoot.ShootCoordinateX);
         }

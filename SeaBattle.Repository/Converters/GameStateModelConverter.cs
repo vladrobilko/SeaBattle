@@ -17,8 +17,7 @@ namespace SeaBattle.Repository.Converters
                 nameSession,
                 gameState.NamePlayerTurn,
                 gameState.IsGameOn,
-                gameState.GameMessage
-                );
+                gameState.GameMessage);
         }
     }
 }
