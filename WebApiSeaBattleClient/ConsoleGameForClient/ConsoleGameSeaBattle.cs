@@ -101,6 +101,7 @@ namespace ConsoleGameForClient
             if (await _requestHelper.IsStatusCodeOKAfterRegisterPlayer(new PlayerRegistrationClientModel() { NamePlayer = namePlayer }))
             {
                 SetNameInClientsModels(namePlayer);
+                Console.Clear();
                 Console.WriteLine($"You registered. Your name is {_infoPlayerClientModel.PlayerName}.");
                 return;
             }
