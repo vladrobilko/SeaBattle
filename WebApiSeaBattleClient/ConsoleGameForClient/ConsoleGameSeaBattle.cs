@@ -36,7 +36,7 @@ namespace ConsoleGameForClient
         {
             Console.WriteLine("Write the name, and press enter for registration.");
             string namePlayer = Console.ReadLine();
-            if (await _requestHelper.IsStatusCodeOKAfterRegisterPlayer(new PlayerRegistrationClientModel() { NamePlayer = namePlayer }))
+            if (await _requestHelper.IsStatusCodeOKAfterPostRegisterPlayer(new PlayerRegistrationClientModel() { NamePlayer = namePlayer }))
             {
                 SetNameInClientsModels(namePlayer);
                 Console.Clear();
@@ -73,7 +73,7 @@ namespace ConsoleGameForClient
         {
             Console.WriteLine("Host Session.\n Write new host name to start the session");
             string message = Console.ReadLine();
-            if (await _requestHelper.IsStatusCodeOKAfterHostSessionPlayer(_infoPlayerClientModel.PlayerName, message))
+            if (await _requestHelper.IsStatusCodeOKAfterPostHostSessionPlayer(_infoPlayerClientModel.PlayerName, message))
             {
                 SetNameSessionInClientsModels(message);
                 Console.Clear();
@@ -97,7 +97,7 @@ namespace ConsoleGameForClient
                     "\nWrite the session name to connect." +
                     "\nOr press another button to return back and host game");
                 string? message = Console.ReadLine();
-                if (await _requestHelper.IsStatusCodeOKAfterJoinSessionPlayer(_infoPlayerClientModel.PlayerName, message))
+                if (await _requestHelper.IsStatusCodeOKAfterPostJoinSessionPlayer(_infoPlayerClientModel.PlayerName, message))
                 {
                     SetNameSessionInClientsModels(message);
                     Console.Clear();
@@ -143,8 +143,16 @@ namespace ConsoleGameForClient
 
         private async Task ReadyToGame()
         {
-            await _requestHelper.PostReadyToStartGameOrThrowException(_infoPlayerClientModel);
-            Console.WriteLine("You're ready to the game, waiting enemy");
+            if (await _requestHelper.IsStatusCodeOKAfterPostReadyToStartGame(_infoPlayerClientModel))
+            {
+                Console.WriteLine("You're ready to the game, waiting enemy");
+            }
+            else
+            {
+                Console.WriteLine("Error...");
+                await Task.Delay(5000);
+                Environment.Exit(0);
+            }
         }
 
         private async Task<GameClientStateModel> WaitingStartGame()
@@ -173,14 +181,14 @@ namespace ConsoleGameForClient
                     ConsoleGameFiller.FillConsolePlayerAreaAndEnemyArea(gameClientModel.ClientPlayArea, gameClientModel.EnemyPlayArea);
                     Console.WriteLine(gameClientModel.Message);
                     var shootModel = FillShootModelForSend();
-                    var shoot = await _requestHelper.IsStatusCodeOKAfterShoot(shootModel);
-                    while (!shoot)
+                    var isShootResultValid = await _requestHelper.IsStatusCodeOKAfterPostShoot(shootModel);
+                    while (!isShootResultValid)
                     {
                         gameClientModel = await _requestHelper.GetGameModelOrNull(_infoPlayerClientModel);
                         Console.WriteLine(gameClientModel.Message);
                         shootModel = FillShootModelForSend();
                         await Task.Delay(2000);
-                        shoot = await _requestHelper.IsStatusCodeOKAfterShoot(shootModel);
+                        isShootResultValid = await _requestHelper.IsStatusCodeOKAfterPostShoot(shootModel);
                     }
                 }
                 else
