@@ -1,5 +1,4 @@
-﻿
-namespace SeaBattle.Repository.Models
+﻿namespace SeaBattle.Repository.Models
 {
     public class GameStateDtoModel
     {

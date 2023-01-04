@@ -1,4 +1,3 @@
-using Microsoft.Extensions.DependencyInjection;
 using SeaBattle.Api.Controllers;
 using SeaBattle.Application.Services;
 using SeaBattle.Application.Services.Intefaces;

@@ -1,10 +1,8 @@
-﻿using SeaBattle.ApiClientModels.Models;
-using SeaBattle.Application.Models;
+﻿using SeaBattle.Application.Models;
 using SeaBattle.Application.Services.Interfaces.RepositoryServices;
 using SeaBattle.Repository.Converters;
 using SeaBattle.Repository.Models;
 using SeaBattleApi.Models;
-using System.Xml.Linq;
 
 namespace SeaBattle.Repository.Repositories
 {

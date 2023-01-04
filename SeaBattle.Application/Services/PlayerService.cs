@@ -2,7 +2,6 @@
 using SeaBattle.ApiClientModels.Models;
 using SeaBattle.Application.Converters;
 using SeaBattle.Application.Services.Interfaces.RepositoryServices;
-using System.Data;
 
 namespace SeaBattle.Application.Services
 {

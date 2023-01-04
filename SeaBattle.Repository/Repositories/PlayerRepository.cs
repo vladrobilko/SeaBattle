@@ -2,7 +2,6 @@
 using SeaBattle.Application.Services.Interfaces.RepositoryServices;
 using SeaBattle.Repository.Models;
 using System.Data;
-using System.Runtime.CompilerServices;
 
 namespace SeaBattle.Repository.Repositories
 {

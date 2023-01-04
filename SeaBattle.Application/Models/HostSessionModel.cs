@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace SeaBattle.Application.Models
+﻿namespace SeaBattle.Application.Models
 {
     public class HostSessionModel
     {

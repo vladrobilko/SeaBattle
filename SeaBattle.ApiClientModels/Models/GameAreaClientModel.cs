@@ -1,5 +1,5 @@
-﻿
-namespace SeaBattle.ApiClientModels.Models
+﻿namespace SeaBattle.ApiClientModels.Models
+
 {
     public class GameAreaClientModel
     {

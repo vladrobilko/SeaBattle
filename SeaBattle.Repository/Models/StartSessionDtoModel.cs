@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace SeaBattle.Repository.Models
+﻿namespace SeaBattle.Repository.Models
 {
     public class StartSessionDtoModel
     {

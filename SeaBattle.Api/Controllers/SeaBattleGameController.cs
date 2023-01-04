@@ -2,7 +2,6 @@
 using Newtonsoft.Json;
 using SeaBattle.ApiClientModels.Models;
 using SeaBattle.Application.Services.Interfaces;
-using System;
 
 namespace SeaBattle.Api.Controllers
 {
