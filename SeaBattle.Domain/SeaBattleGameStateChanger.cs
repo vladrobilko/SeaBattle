@@ -4,7 +4,7 @@ namespace SeaBattle
 {
     public class SeaBattleGameStateChanger
     {
-        public GameStateModel ChangeGameState(GameStateModel gameState)
+        public GameState ChangeGameState(GameState gameState)
         {
             if (gameState.NamePlayerTurn == gameState.Player1.NamePlayer && gameState.IsGameOn)
             {
@@ -30,7 +30,7 @@ namespace SeaBattle
             throw new NotFiniteNumberException();
         }
 
-        private void AssignGameMessage(GameStateModel gameState,ShootResultType shootResultType, string namePlayer1, string namePlayer2)
+        private void AssignGameMessage(GameState gameState,ShootResultType shootResultType, string namePlayer1, string namePlayer2)
         {
             if (shootResultType == ShootResultType.Miss)
             {

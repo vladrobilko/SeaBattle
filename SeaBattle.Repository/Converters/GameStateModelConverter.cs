@@ -4,7 +4,7 @@ namespace SeaBattle.Repository.Converters
 {
     public static class GameStateModelConverter
     {
-        public static GameStateDtoModel ConvertToGameStateDtoModel(this GameStateModel gameState, string nameSession)
+        public static GameStateDtoModel ConvertToGameStateDtoModel(this GameState gameState, string nameSession)
         {
             return new GameStateDtoModel(
                 gameState.Player1,

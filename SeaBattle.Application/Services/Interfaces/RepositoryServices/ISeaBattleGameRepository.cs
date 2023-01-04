@@ -11,9 +11,9 @@ namespace SeaBattle.Application.Services.Interfaces.RepositoryServices
 
         PlayerSeaBattleStateModel GetConfirmedPlayerStateModelByName(string name);
 
-        void ResaveGameStateDtoModel(GameStateModel gameStateModel, string NameSession);
+        void ResaveGameStateDtoModel(GameState gameStateModel, string NameSession);
 
-        GameStateModel GetGameStateModelByNameSessionOrThrowException(string nameSession);
+        GameState GetGameStateModelByNameSessionOrThrowException(string nameSession);
 
         void ResaveValidShoot(ShootModel shootModel);
 

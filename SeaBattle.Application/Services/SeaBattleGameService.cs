@@ -61,7 +61,7 @@ namespace SeaBattle.Application.Services
 
         private void StartGame(IPlayer player1, IPlayer player2, string nameSession)
         {
-            var gameState = new GameStateModel(
+            var gameState = new GameState(
                     player1,
                     player2,
                     player2.NamePlayer,
