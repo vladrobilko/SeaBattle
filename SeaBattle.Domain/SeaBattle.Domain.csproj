@@ -44,7 +44,7 @@
     <Compile Include="Cell.cs" />
     <Compile Include="CellState.cs" />
     <Compile Include="CellStateConverter.cs" />
-    <Compile Include="GameStateModel.cs" />
+    <Compile Include="GameState.cs" />
     <Compile Include="GameStateMessage.cs" />
     <Compile Include="ShipConfige.cs" />
     <Compile Include="ShipsCreator.cs" />
