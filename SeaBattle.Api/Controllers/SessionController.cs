@@ -20,6 +20,7 @@ namespace SeaBattle.Api.Controllers
         public IActionResult HostSession([FromBody] HostSessionClientModel hostSessionClientModel)
         {
             _session.CreateNewSession(hostSessionClientModel);
+
             return Ok();
         }
 
@@ -27,7 +28,9 @@ namespace SeaBattle.Api.Controllers
         public ActionResult<List<HostSessionClientModel>> GetAllWaitingSessions()
         {
             var hostSessions = _session.GetAllHostSessions();
+
             var json = JsonConvert.SerializeObject(hostSessions);
+
             return Ok(json);
         }
 
@@ -35,6 +38,7 @@ namespace SeaBattle.Api.Controllers
         public IActionResult JoinSession([FromBody] JoinSessionClientModel joinToSessionClient)
         {
             _session.JoinToSession(joinToSessionClient);
+
             return Ok();
         }
     }

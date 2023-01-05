@@ -7,7 +7,11 @@ namespace SeaBattle.Application.Converters
     {
         public static JoinSessionModel ConvertJoinSessionModel(this JoinSessionClientModel joinSessionClientModel)
         {
-            return new JoinSessionModel() { NameJoinPlayer = joinSessionClientModel.NameJoinPlayer, NameSession = joinSessionClientModel.NameSession };
+            return new JoinSessionModel()
+            { 
+                NameJoinPlayer = joinSessionClientModel.NameJoinPlayer,
+                NameSession = joinSessionClientModel.NameSession 
+            };
         }
     }
 }

@@ -13,11 +13,13 @@ namespace SeaBattle.Repository.Converters
                 NamePlayerTurn = gameStateModel.NamePlayerTurn,
                 Message = gameStateModel.GameMessage
             };
+
             if (gameStateModel.Player1.NamePlayer == nameClient)
             {
                 gameClientModel.ClientPlayArea = gameStateModel.Player1.GetPlayArea().ConvertToArrayStringForClient();
                 gameClientModel.EnemyPlayArea = gameStateModel.Player2.GetPlayArea().ConvertToArrayStringForClientEnemyPlayArea();
             }
+
             else
             {
                 gameClientModel.ClientPlayArea = gameStateModel.Player2.GetPlayArea().ConvertToArrayStringForClient();

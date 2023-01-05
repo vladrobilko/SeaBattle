@@ -24,11 +24,16 @@ namespace SeaBattle.Application.Services
 
         public GameAreaClientModel GetPlayArea(InfoPlayerClientModel infoPlayerClientModel)
         {
-            var playerModel = new PlayerSeaBattleStateModel(new FillerRandom(), infoPlayerClientModel.PlayerName, _seaBattleGameRepository);
+            var playerStateModel = new PlayerSeaBattleStateModel(
+                new FillerRandom(),
+                infoPlayerClientModel.PlayerName,
+                _seaBattleGameRepository);
+            playerStateModel.FillShips();
+            _seaBattleGameRepository.ResaveLastPlayerStateModel(playerStateModel);
+
             var gameAreaClientModel = new GameAreaClientModel();
-            playerModel.FillShips();
-            _seaBattleGameRepository.ResaveLastPlayerStateModel(playerModel);
-            gameAreaClientModel.ClientPlayArea = playerModel.GetPlayArea().ConvertToArrayStringForClient();
+            gameAreaClientModel.ClientPlayArea = playerStateModel.GetPlayArea().ConvertToArrayStringForClient();
+
             return gameAreaClientModel;
         }
 
@@ -42,16 +47,20 @@ namespace SeaBattle.Application.Services
         public void ReadyToStartGame(InfoPlayerClientModel infoPlayerClientModel)
         {
             _seaBattleGameRepository.SaveConfirmedPlayerStateModel(infoPlayerClientModel.PlayerName);
+
             TryToStartGame(infoPlayerClientModel.SessionName);
         }
 
         private void TryToStartGame(string nameSession)
         {
             var startSession = _sessionRepository.GetStartSessionByNameOrNull(nameSession);
+
             if (startSession != null)
             {
                 var player1 = _seaBattleGameRepository.GetConfirmedPlayerStateModelByName(startSession.NameHostPlayer);
+
                 var player2 = _seaBattleGameRepository.GetConfirmedPlayerStateModelByName(startSession.NameJoinPlayer);
+
                 if (player1 != null && player2 != null)
                 {
                     StartGame(player1, player2, nameSession);
@@ -67,14 +76,18 @@ namespace SeaBattle.Application.Services
                     player2.NamePlayer,
                     true,
                     GameStateMessage.WhoShoot(player2.NamePlayer));
+
             _seaBattleGameRepository.ResaveGameStateDtoModel(gameState, nameSession);
         }
 
         public void Shoot(ShootClientModel shootPlayerClientModel)
         {
             _seaBattleGameRepository.ResaveValidShoot(shootPlayerClientModel.ConvertToShootModel());
+
             var lastGameModel = _seaBattleGameRepository.GetGameStateModelByNameSession(shootPlayerClientModel.NameSession);
+
             var changeGameModel = _seaBattleGameChanger.ChangeGameState(lastGameModel);
+
             _seaBattleGameRepository.ResaveGameStateDtoModel(changeGameModel, shootPlayerClientModel.NameSession);
         }
     }

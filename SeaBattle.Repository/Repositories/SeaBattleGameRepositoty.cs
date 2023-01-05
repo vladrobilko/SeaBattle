@@ -27,6 +27,7 @@ namespace SeaBattle.Repository.Repositories
         public void ResaveLastPlayerStateModel(PlayerSeaBattleStateModel playerModel)
         {
             _lastPlayerModels.Remove(_lastPlayerModels.SingleOrDefault(p => p?.NamePlayer == playerModel.NamePlayer));
+
             _lastPlayerModels.Add(playerModel);
         }
 
@@ -44,16 +45,19 @@ namespace SeaBattle.Repository.Repositories
         public void ResaveGameStateDtoModel(GameState gameStateModel, string nameSession)
         {
             _gameStateModels.Remove(_gameStateModels.SingleOrDefault(p => p?.NameSession == nameSession));
+
             _gameStateModels.Add(gameStateModel.ConvertToGameStateDtoModel(nameSession));
         }
 
         public GameState GetGameStateModelByNameSession(string nameSession)
         {
             var gameStateModel = _gameStateModels.SingleOrDefault(p => p?.NameSession == nameSession);
+
             if (gameStateModel != null)
             {
                 return gameStateModel.ConvertToGameStateModel();
             }
+
             throw new NotFiniteNumberException();
         }
 
@@ -62,8 +66,11 @@ namespace SeaBattle.Repository.Repositories
             if (GetGameStateModelByNameSession(shootModel.NameSession).NamePlayerTurn == shootModel.NamePlayer)
             {
                 _lastValidShootModel.Remove(_lastValidShootModel.SingleOrDefault(p => p?.NameSession == shootModel.NameSession));
+
+
                 _lastValidShootModel.Add(shootModel);
             }
+
             else
             {
                 throw new NotSupportedException();

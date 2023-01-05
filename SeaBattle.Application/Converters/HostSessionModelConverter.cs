@@ -7,7 +7,11 @@ namespace SeaBattle.Application.Converters
     {
         public static HostSessionClientModel ConvertToNewSessionClient(this HostSessionModel newSessionModel)
         {
-            return new HostSessionClientModel() { HostPlayerName = newSessionModel.NameHostPlayer, SessionName = newSessionModel.NameSession };
+            return new HostSessionClientModel() 
+            {
+                HostPlayerName = newSessionModel.NameHostPlayer,
+                SessionName = newSessionModel.NameSession 
+            };
         }
 
         public static List<HostSessionClientModel> ConvertToListHostSessionClientModel(this List<HostSessionModel> newSessionClients)

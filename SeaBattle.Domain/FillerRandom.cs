@@ -8,10 +8,12 @@ namespace SeaBattle
         {
             for (int i = 0; i < ships.Count; i++)
             {
+
                 if (ships[i].Length == 1)
                 {
                     FillerRandomShipLenghtOneOnlyBorders.FillShips(cells, ships[i]);
                 }
+
                 else
                 {
                     FillerRandomShipsWithoutBorders.FillShip(cells, ships[i]);

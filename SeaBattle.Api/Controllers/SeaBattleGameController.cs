@@ -20,6 +20,7 @@ namespace SeaBattle.Api.Controllers
         public ActionResult<GameAreaClientModel> GetPlayArea([FromBody] InfoPlayerClientModel infoPlayerClientModel)
         {
             var gameClientModel = _seaBattleGameService.GetPlayArea(infoPlayerClientModel);
+
             return Ok(JsonConvert.SerializeObject(gameClientModel));
         }
 
@@ -27,6 +28,7 @@ namespace SeaBattle.Api.Controllers
         public IActionResult ReadyToStartGame([FromBody] InfoPlayerClientModel infoPlayerClientModel)
         {
             _seaBattleGameService.ReadyToStartGame(infoPlayerClientModel);
+
             return Ok();
         }
 
@@ -34,6 +36,7 @@ namespace SeaBattle.Api.Controllers
         public ActionResult<GameClientStateModel> GetGameModel([FromBody] InfoPlayerClientModel infoPlayerClientModel)
         {
             var gameClientModel = _seaBattleGameService.GetGameModel(infoPlayerClientModel);
+
             return Ok(JsonConvert.SerializeObject(gameClientModel));
         }
 
@@ -41,6 +44,7 @@ namespace SeaBattle.Api.Controllers
         public ActionResult Shoot([FromBody] ShootClientModel shootPlayerClientModel)
         {
             _seaBattleGameService.Shoot(shootPlayerClientModel);
+
             return Ok();
         }
     }

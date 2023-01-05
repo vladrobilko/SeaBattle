@@ -10,34 +10,39 @@ namespace SeaBattle.Application.Converters
     {
         public static string[][] ConvertToArrayStringForClient(this PlayArea playArea)
         {
-            string[][] arr = new string[playArea.Height][];
+            string[][] playAreaString = new string[playArea.Height][];
+
             for (int i = 0; i < playArea.Height; i++)
             {
-                arr[i] = new string[playArea.Width];
+                playAreaString[i] = new string[playArea.Width];
                 for (int j = 0; j < playArea.Width; j++)
                 {
-                    arr[i][j] = playArea.Cells[i,j].State.ToStringForInfo();
+                    playAreaString[i][j] = playArea.Cells[i,j].State.ToStringForInfo();
                 }
             }
-            return arr;
+
+            return playAreaString;
         }
+
         public static string[][] ConvertToArrayStringForClientEnemyPlayArea(this PlayArea playArea)
         {
-            string[][] arr = new string[playArea.Height][];
+            string[][] playAreaString = new string[playArea.Height][];
+
             for (int i = 0; i < playArea.Height; i++)
             {
-                arr[i] = new string[playArea.Width];
+                playAreaString[i] = new string[playArea.Width];
                 for (int j = 0; j < playArea.Width; j++)
                 {
                     if (playArea.Cells[i, j].State == CellState.BusyDeckNearby || playArea.Cells[i, j].State == CellState.BusyDeck)
                     {
-                        arr[i][j] = " ";
+                        playAreaString[i][j] = " ";
                         continue;                   
                     }
-                    arr[i][j] = playArea.Cells[i, j].State.ToStringForInfo();
+                    playAreaString[i][j] = playArea.Cells[i, j].State.ToStringForInfo();
                 }
             }
-            return arr;
+
+            return playAreaString;
         }
     }
 }

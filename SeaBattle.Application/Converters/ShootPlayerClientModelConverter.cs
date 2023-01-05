@@ -13,8 +13,10 @@ namespace SeaBattle.Application.Converters
         public static ShootModel ConvertToShootModel(this ShootClientModel shootPlayerClientModel)
         {
             return new ShootModel(
-                shootPlayerClientModel.ShootCoordinateY, shootPlayerClientModel.ShootCoordinateX,
-                shootPlayerClientModel.PlayerName, shootPlayerClientModel.NameSession);
+                shootPlayerClientModel.ShootCoordinateY,
+                shootPlayerClientModel.ShootCoordinateX,
+                shootPlayerClientModel.PlayerName, 
+                shootPlayerClientModel.NameSession);
         }
     }
 }
