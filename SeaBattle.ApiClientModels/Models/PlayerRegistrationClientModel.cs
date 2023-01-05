@@ -6,7 +6,5 @@ namespace SeaBattle.ApiClientModels.Models
     {
         [Required]
         public string NamePlayer { get; set; }
-
-        public PlayerRegistrationClientModel() { }
     }
 }

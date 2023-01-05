@@ -9,7 +9,5 @@ namespace SeaBattle.ApiClientModels.Models
 
         [Required]
         public string NameSession { get; set; }
-
-        public JoinSessionClientModel() { }
     }
 }

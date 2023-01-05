@@ -11,7 +11,5 @@
         public string NamePlayerTurn { get; set; }
 
         public string Message { get; set; }
-
-        public GameClientStateModel() { }
     }
 }
