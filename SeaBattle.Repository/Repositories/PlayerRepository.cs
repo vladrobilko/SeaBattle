@@ -14,7 +14,7 @@ namespace SeaBattle.Repository.Repositories
             _registeredPlayers = new List<PlayerRegistrationDtoModel>();
         }
 
-        public void SaveNewPlayerOrThrowExeption(PlayerRegistrationModel playerRegistrationModel)
+        public void SaveNewPlayer(PlayerRegistrationModel playerRegistrationModel)
         {
             if (IsPlayerRegistered(playerRegistrationModel.NamePlayer))
                 throw new DuplicateNameException();

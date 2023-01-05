@@ -35,7 +35,7 @@ namespace SeaBattle.Application.Services
         public GameClientStateModel GetGameModel(InfoPlayerClientModel infoPlayerClientModel)
         {
             return _seaBattleGameRepository
-                .GetGameStateModelByNameSessionOrThrowException(infoPlayerClientModel.SessionName)
+                .GetGameStateModelByNameSession(infoPlayerClientModel.SessionName)
                 .ConvertToGameClientModel(infoPlayerClientModel.PlayerName);
         }
 
@@ -73,7 +73,7 @@ namespace SeaBattle.Application.Services
         public void Shoot(ShootClientModel shootPlayerClientModel)
         {
             _seaBattleGameRepository.ResaveValidShoot(shootPlayerClientModel.ConvertToShootModel());
-            var lastGameModel = _seaBattleGameRepository.GetGameStateModelByNameSessionOrThrowException(shootPlayerClientModel.NameSession);
+            var lastGameModel = _seaBattleGameRepository.GetGameStateModelByNameSession(shootPlayerClientModel.NameSession);
             var changeGameModel = _seaBattleGameChanger.ChangeGameState(lastGameModel);
             _seaBattleGameRepository.ResaveGameStateDtoModel(changeGameModel, shootPlayerClientModel.NameSession);
         }

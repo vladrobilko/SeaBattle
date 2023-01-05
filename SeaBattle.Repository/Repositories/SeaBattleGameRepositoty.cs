@@ -8,12 +8,12 @@ namespace SeaBattle.Repository.Repositories
 {
     public class SeaBattleGameRepositoty : ISeaBattleGameRepository
     {
-        private readonly List<PlayerSeaBattleStateModel> _lastPlayerModels;//последняя модель игрока, когда игрок выбирает игровую арену,
-                                                                           //ему посылается игровая арена и записвается сюда (старая удаляется)
-        private readonly List<PlayerSeaBattleStateModel> _confirmedPlayerModels;//когда игрок выбрал арену, сврху она удаляется и записывается сюда, как текущая модель игрока
+        private readonly List<PlayerSeaBattleStateModel> _lastPlayerModels;
 
-        private readonly List<GameStateDtoModel> _gameStateModels;//когда два игрока готовы к игре, игра стартуется и сюда сохраняется модель игры
-                                                                  //в эту модель будет сервис будет вносить изменения 
+        private readonly List<PlayerSeaBattleStateModel> _confirmedPlayerModels;
+
+        private readonly List<GameStateDtoModel> _gameStateModels;
+
         private readonly List<ShootModel> _lastValidShootModel;
 
         public SeaBattleGameRepositoty()
@@ -47,7 +47,7 @@ namespace SeaBattle.Repository.Repositories
             _gameStateModels.Add(gameStateModel.ConvertToGameStateDtoModel(nameSession));
         }
 
-        public GameState GetGameStateModelByNameSessionOrThrowException(string nameSession)
+        public GameState GetGameStateModelByNameSession(string nameSession)
         {
             var gameStateModel = _gameStateModels.SingleOrDefault(p => p?.NameSession == nameSession);
             if (gameStateModel != null)
@@ -59,7 +59,7 @@ namespace SeaBattle.Repository.Repositories
 
         public void ResaveValidShoot(ShootModel shootModel)
         {
-            if (GetGameStateModelByNameSessionOrThrowException(shootModel.NameSession).NamePlayerTurn == shootModel.NamePlayer)
+            if (GetGameStateModelByNameSession(shootModel.NameSession).NamePlayerTurn == shootModel.NamePlayer)
             {
                 _lastValidShootModel.Remove(_lastValidShootModel.SingleOrDefault(p => p?.NameSession == shootModel.NameSession));
                 _lastValidShootModel.Add(shootModel);

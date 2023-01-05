@@ -19,21 +19,21 @@ namespace SeaBattle.Repository.Repositories
             _startSessionDtoModels = new List<StartSessionDtoModel>();
         }
 
-        public void SaveNewSessionOrThrowException(HostSessionModel hostSessionModel)
+        public void SaveNewSession(HostSessionModel hostSessionModel)
         {
             if (IsSessionExists(hostSessionModel.NameSession))
                 throw new DuplicateNameException();
             _hostSessionDtoModels.Add(hostSessionModel.ConvertToHostSessionDtoModel());
         }
 
-        public List<HostSessionModel> GetAllHostSessionsOrThrowException()
+        public List<HostSessionModel> GetAllHostSessions()
         {
             if (_hostSessionDtoModels.Count == 0)
                 throw new DirectoryNotFoundException();
             return _hostSessionDtoModels.ConvertToListHostSessionModel();
         }
 
-        public void SaveStartsSessionsOrThrowException(JoinSessionModel joinSessionModel)
+        public void SaveStartsSessions(JoinSessionModel joinSessionModel)
         {
             var hostSession = _hostSessionDtoModels.
                 SingleOrDefault(p => p.NameSession == joinSessionModel.NameSession) ?? throw new DirectoryNotFoundException();
