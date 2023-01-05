@@ -21,76 +21,90 @@ namespace ConsoleGameForClient
 
         public async Task<bool> IsStatusCodeOKAfterPostRegisterPlayer(PlayerRegistrationClientModel playerRegistrationClientModel)
         {
-            var response = await _client.PostAsJsonAsync(pathPostRegisterPlayer, playerRegistrationClientModel);
-            return response.StatusCode == System.Net.HttpStatusCode.OK;
+            var responseRegisterPlayer = await _client.PostAsJsonAsync(pathPostRegisterPlayer, playerRegistrationClientModel);
+
+            return responseRegisterPlayer.StatusCode == System.Net.HttpStatusCode.OK;
         }
 
         public async Task<List<HostSessionClientModel>> GetAllWaitingSessionsOrNull()
         {
-            var response = await _client.GetAsync(pathGetGetAllWaitingSessions);
-            if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            var responseGetAllSessions = await _client.GetAsync(pathGetGetAllWaitingSessions);
+
+            if (responseGetAllSessions.StatusCode == System.Net.HttpStatusCode.BadRequest)
                 return null;
-            var json = await response.Content.ReadAsStringAsync();
+
+            var json = await responseGetAllSessions.Content.ReadAsStringAsync();
             var listWaitingSessions = JsonConvert.DeserializeObject<List<HostSessionClientModel>>(json);
+
             return listWaitingSessions;
         }
 
         public async Task<bool> IsStatusCodeOKAfterPostHostSessionPlayer(string playerHostName, string sessionName)
         {
-            var response = await _client.PostAsJsonAsync(pathPostHostSession,
+            var responseHostSession = await _client.PostAsJsonAsync(pathPostHostSession,
                     new HostSessionClientModel()
                     {
                         HostPlayerName = playerHostName,
                         SessionName = sessionName
                     });
-            return response.StatusCode == System.Net.HttpStatusCode.OK;
+
+            return responseHostSession.StatusCode == System.Net.HttpStatusCode.OK;
         }
 
         public async Task<GameAreaClientModel> GetPlayAreaOrNull(InfoPlayerClientModel infoPlayerClientModel)
         {
-            var response = await _client.PostAsJsonAsync(pathPostGetPlayArea, infoPlayerClientModel);
-            if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            var responseGetPlayArea = await _client.PostAsJsonAsync(pathPostGetPlayArea, infoPlayerClientModel);
+
+            if (responseGetPlayArea.StatusCode == System.Net.HttpStatusCode.BadRequest)
             {
                 return null;
             }
-            var json = await response.Content.ReadAsStringAsync();
+
+            var json = await responseGetPlayArea.Content.ReadAsStringAsync();
             var gameArea = JsonConvert.DeserializeObject<GameAreaClientModel>(json);
+
             return gameArea;
         }
 
         public async Task<bool> IsStatusCodeOKAfterPostJoinSessionPlayer(string playerHostName, string sessionName)
         {
-            var response = await _client.PostAsJsonAsync(pathPostJoinSession,
+            var responseJoinSession = await _client.PostAsJsonAsync(pathPostJoinSession,
                 new JoinSessionClientModel()
                 {
                     NameJoinPlayer = playerHostName,
                     NameSession = sessionName
                 });
-            return response.StatusCode == System.Net.HttpStatusCode.OK;
+
+            return responseJoinSession.StatusCode == System.Net.HttpStatusCode.OK;
         }
 
         public async Task<bool> IsStatusCodeOKAfterPostReadyToStartGame(InfoPlayerClientModel infoPlayerClientModel)
         {
-            var response = await _client.PostAsJsonAsync(pathPostReadyToStartGame, infoPlayerClientModel);
-            return response.StatusCode == System.Net.HttpStatusCode.OK;
+            var responseReadyToStartGame = await _client.PostAsJsonAsync(pathPostReadyToStartGame, infoPlayerClientModel);
+
+            return responseReadyToStartGame.StatusCode == System.Net.HttpStatusCode.OK;
         }
 
         public async Task<GameClientStateModel> GetGameModelOrNull(InfoPlayerClientModel infoPlayerClientModel)
         {
-            var response = await _client.PostAsJsonAsync(pathPostGetGameModel, infoPlayerClientModel);
-            if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            var responseGetGameModel = await _client.PostAsJsonAsync(pathPostGetGameModel, infoPlayerClientModel);
+
+            if (responseGetGameModel.StatusCode == System.Net.HttpStatusCode.BadRequest)
             {
                 return null;
             }
-            var json = await response.Content.ReadAsStringAsync();
+
+            var json = await responseGetGameModel.Content.ReadAsStringAsync();
             var gameModel = JsonConvert.DeserializeObject<GameClientStateModel>(json);
+
             return gameModel;
         }
 
         public async Task<bool> IsStatusCodeOKAfterPostShoot(ShootClientModel shootPlayerClientModel)
         {
-            var response = await _client.PostAsJsonAsync(pathPostShoot, shootPlayerClientModel);
-            return response.StatusCode == System.Net.HttpStatusCode.OK;
+            var responseShoot = await _client.PostAsJsonAsync(pathPostShoot, shootPlayerClientModel);
+
+            return responseShoot.StatusCode == System.Net.HttpStatusCode.OK;
         }
     }
 }

@@ -1,7 +1,5 @@
 ﻿using ConsoleGameFillerForClient;
-using Newtonsoft.Json;
 using SeaBattle.ApiClientModels.Models;
-using System.Net.Http.Json;
 
 namespace ConsoleGameForClient
 {
@@ -24,11 +22,17 @@ namespace ConsoleGameForClient
         {
             Console.SetWindowSize(60, 20);
             Console.WriteLine("Online Game sea battle.");
+
             await RegisterPlayer();
+
             await ChooseHostOrJoinSession();
+
             await ChoosePlayArea();
+
             await ReadyToGame();
+
             var gameModel = await WaitingStartGame();
+
             await PlayGame(gameModel);
         }
 
@@ -36,31 +40,38 @@ namespace ConsoleGameForClient
         {
             Console.WriteLine("Write the name, and press enter for registration.");
             string namePlayer = Console.ReadLine();
-            if (await _requestHelper.IsStatusCodeOKAfterPostRegisterPlayer(new PlayerRegistrationClientModel() { NamePlayer = namePlayer }))
+
+            var registrationModel = new PlayerRegistrationClientModel() { NamePlayer = namePlayer };
+
+            if (await _requestHelper.IsStatusCodeOKAfterPostRegisterPlayer(registrationModel))
             {
                 SetNameInClientsModels(namePlayer);
+
                 Console.Clear();
                 Console.WriteLine($"You registered. Your name is {_infoPlayerClientModel.PlayerName}.");
+
                 return;
             }
-            Console.ForegroundColor = ConsoleColor.Red;
+
             Console.WriteLine("The player is not registered. Try again\n");
-            Console.ResetColor();
             await RegisterPlayer();
         }
 
         private async Task ChooseHostOrJoinSession()
         {
             var key = new ConsoleKey();
+
             while (key != ConsoleKey.F1 && key != ConsoleKey.F2)
             {
                 Console.WriteLine("Press F1 to host session, press F2 to join session.");
                 key = Console.ReadKey().Key;
+
                 if (key == ConsoleKey.F1)
                 {
                     await HostSession();
                     return;
                 }
+
                 else if (key == ConsoleKey.F2)
                 {
                     await JoinSession();
@@ -73,15 +84,19 @@ namespace ConsoleGameForClient
         {
             Console.WriteLine("Host Session.\n Write new host name to start the session");
             string message = Console.ReadLine();
+
             if (await _requestHelper.IsStatusCodeOKAfterPostHostSessionPlayer(_infoPlayerClientModel.PlayerName, message))
             {
                 SetNameSessionInClientsModels(message);
+
                 Console.Clear();
                 Console.WriteLine($"The session was created." +
                     $"\n Your name of session: {message}." +
                     $"\n Your name: {_infoPlayerClientModel.PlayerName}");
+
                 return;
             }
+
             Console.WriteLine("Error. Try again.");
             await HostSession();
         }
@@ -89,23 +104,29 @@ namespace ConsoleGameForClient
         private async Task JoinSession()
         {
             var listWaitingSessions = _requestHelper.GetAllWaitingSessionsOrNull().Result;
+
             if (listWaitingSessions != null)
             {
                 Console.WriteLine("Available sessions to join: ");
                 listWaitingSessions.ForEach(i => Console.Write($"\tName host: {i.HostPlayerName}, Name Session: {i.SessionName}\n"));
+
                 Console.WriteLine(
                     "\nWrite the session name to connect." +
                     "\nOr press another button to return back and host game");
                 string? message = Console.ReadLine();
+
                 if (await _requestHelper.IsStatusCodeOKAfterPostJoinSessionPlayer(_infoPlayerClientModel.PlayerName, message))
                 {
                     SetNameSessionInClientsModels(message);
+
                     Console.Clear();
                     Console.WriteLine($"You have connected to the session." +
                         $"\n Your name of session: <<{message}>>." +
                         $"\n Your name: <<{_infoPlayerClientModel.PlayerName}>>");
+
                     return;
                 }
+
                 else
                 {
                     await ChooseHostOrJoinSession();
@@ -124,17 +145,23 @@ namespace ConsoleGameForClient
         {
             await Task.Delay(2000);
             Console.Clear();
+
             var key = new ConsoleKey();
+
             while (key != ConsoleKey.Enter)
             {
                 var gameArea = await _requestHelper.GetPlayAreaOrNull(_infoPlayerClientModel);
+
                 if (gameArea == null)
                 {
-                    Console.WriteLine("Error...");
+                    Console.Clear();
+                    Console.WriteLine("Server error. Please, restart application.");
                     await Task.Delay(5000);
                     Environment.Exit(0);
                 }
+
                 ConsoleGameFiller.FillConsolePlayerAreaOnly(gameArea.ClientPlayArea);
+
                 Console.WriteLine("Press enter to use this play area, another button is change");
                 key = Console.ReadKey().Key;
                 Console.Clear();
@@ -147,9 +174,11 @@ namespace ConsoleGameForClient
             {
                 Console.WriteLine("You're ready to the game, waiting enemy");
             }
+
             else
             {
-                Console.WriteLine("Error...");
+                Console.Clear();
+                Console.WriteLine("Server error. Please, restart application.");
                 await Task.Delay(5000);
                 Environment.Exit(0);
             }
@@ -159,13 +188,16 @@ namespace ConsoleGameForClient
         {
             await Task.Delay(2000);
             var gameModel = await _requestHelper.GetGameModelOrNull(_infoPlayerClientModel);
+
             while (gameModel == null || !gameModel.IsGameOn)
             {
                 await Task.Delay(10000);
                 gameModel = await _requestHelper.GetGameModelOrNull(_infoPlayerClientModel);
             }
+
             Console.WriteLine("The game has started");
             await Task.Delay(2000);
+
             return gameModel;
         }
 
@@ -173,20 +205,28 @@ namespace ConsoleGameForClient
         {
             Console.Clear();
             ConsoleGameFiller.FillConsolePlayerAreaAndEnemyArea(gameClientModel.ClientPlayArea, gameClientModel.EnemyPlayArea);
+
             while (gameClientModel.IsGameOn)
             {
                 if (gameClientModel.NamePlayerTurn == _infoPlayerClientModel.PlayerName)
                 {
                     Console.Clear();
                     ConsoleGameFiller.FillConsolePlayerAreaAndEnemyArea(gameClientModel.ClientPlayArea, gameClientModel.EnemyPlayArea);
+
                     Console.WriteLine(gameClientModel.Message);
+
                     var shootModel = FillShootModelForSend();
+
                     var isShootResultValid = await _requestHelper.IsStatusCodeOKAfterPostShoot(shootModel);
+
                     while (!isShootResultValid)
                     {
                         gameClientModel = await _requestHelper.GetGameModelOrNull(_infoPlayerClientModel);
+
                         Console.WriteLine(gameClientModel.Message);
+
                         shootModel = FillShootModelForSend();
+
                         await Task.Delay(2000);
                         isShootResultValid = await _requestHelper.IsStatusCodeOKAfterPostShoot(shootModel);
                     }
@@ -195,11 +235,14 @@ namespace ConsoleGameForClient
                 {
                     Console.Clear();
                     ConsoleGameFiller.FillConsolePlayerAreaAndEnemyArea(gameClientModel.ClientPlayArea, gameClientModel.EnemyPlayArea);
+
                     Console.WriteLine(gameClientModel.Message);
                 }
+
                 await Task.Delay(2000);
                 gameClientModel = await _requestHelper.GetGameModelOrNull(_infoPlayerClientModel);
             }
+
             Console.WriteLine($"Game ended.\n {gameClientModel.Message}");
             await Task.Delay(10000);
         }
@@ -210,12 +253,15 @@ namespace ConsoleGameForClient
             {
                 Console.WriteLine("Enter the first coordinate");
                 int coordinateY = int.Parse(Console.ReadLine());
+
                 Console.WriteLine("Enter the second coordinate");
                 int coordinateX = int.Parse(Console.ReadLine());
+
                 if (coordinateY > 9 || coordinateY < 0 || coordinateX > 9 || coordinateX < 0)
                 {
                     throw new Exception();
                 }
+
                 var shootModel = new ShootClientModel()
                 {
                     PlayerName = _infoPlayerClientModel.PlayerName,
@@ -223,6 +269,7 @@ namespace ConsoleGameForClient
                     ShootCoordinateY = coordinateY,
                     ShootCoordinateX = coordinateX
                 };
+
                 return shootModel;
             }
             catch (Exception)

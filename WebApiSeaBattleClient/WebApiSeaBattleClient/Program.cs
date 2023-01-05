@@ -1,8 +1,4 @@
-﻿using ConsoleGameFillerForClient;
-using ConsoleGameForClient;
-using Newtonsoft.Json;
-using SeaBattle.ApiClientModels.Models;
-using System.Net.Http.Json;
+﻿using ConsoleGameForClient;
 
 class Program
 {
