@@ -34,7 +34,8 @@ namespace SeaBattle.Repository.Repositories
         public void SaveConfirmedPlayerStateModel(string name)
         {
             _confirmedPlayerModels.Add(_lastPlayerModels
-                .SingleOrDefault(p => p.NamePlayer == name) ?? throw new DirectoryNotFoundException());
+                .SingleOrDefault(p => p.NamePlayer == name)
+                ?? throw new DirectoryNotFoundException());
         }
 
         public PlayerSeaBattleStateModel GetConfirmedPlayerStateModelByName(string name)

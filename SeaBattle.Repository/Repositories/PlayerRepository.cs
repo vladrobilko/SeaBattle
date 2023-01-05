@@ -19,9 +19,9 @@ namespace SeaBattle.Repository.Repositories
             if (IsPlayerRegistered(playerRegistrationModel.NamePlayer))
                 throw new DuplicateNameException();
 
-            var player = new PlayerRegistrationDtoModel() 
-            { 
-                Name = playerRegistrationModel.NamePlayer 
+            var player = new PlayerRegistrationDtoModel()
+            {
+                Name = playerRegistrationModel.NamePlayer
             };
 
             _registeredPlayers.Add(player);

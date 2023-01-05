@@ -23,6 +23,7 @@ namespace SeaBattle.Repository.Repositories
         {
             if (IsSessionExists(hostSessionModel.NameSession))
                 throw new DuplicateNameException();
+
             _hostSessionDtoModels.Add(hostSessionModel.ConvertToHostSessionDtoModel());
         }
 
@@ -30,20 +31,25 @@ namespace SeaBattle.Repository.Repositories
         {
             if (_hostSessionDtoModels.Count == 0)
                 throw new DirectoryNotFoundException();
+
             return _hostSessionDtoModels.ConvertToListHostSessionModel();
         }
 
         public void SaveStartsSessions(JoinSessionModel joinSessionModel)
         {
             var hostSession = _hostSessionDtoModels.
-                SingleOrDefault(p => p.NameSession == joinSessionModel.NameSession) ?? throw new DirectoryNotFoundException();
+                SingleOrDefault(p => p.NameSession == joinSessionModel.NameSession)
+                ?? throw new DirectoryNotFoundException();
+
             var startSession = new StartSessionDtoModel()
             {
                 NameHostPlayer = hostSession.NameHostPlayer,
                 NameJoinPlayer = joinSessionModel.NameJoinPlayer,
                 NameSession = hostSession.NameSession
             };
+
             _startSessionDtoModels.Add(startSession);
+
             _hostSessionDtoModels.Remove(hostSession);
         }
 
@@ -57,10 +63,12 @@ namespace SeaBattle.Repository.Repositories
         {
             var startSession = _startSessionDtoModels.
                 SingleOrDefault(p => p.NameSession == nameSession);
+
             if (startSession == null)
             {
                 return null;
             }
+
             return startSession.ConvertToStartSessionModel();
         }
     }
