@@ -11,10 +11,10 @@
             for (int i = 0; i < playAreaPlayer.Length; i++)
             {
                 Console.Write(i + "|");
-                FillLine(playAreaPlayer, i);
+                FillHorizontalLine(playAreaPlayer, i);
 
                 Console.Write("|" + i + "|");
-                FillLine(playAreaEnemy, i);
+                FillHorizontalLine(playAreaEnemy, i);
 
                 Console.SetCursorPosition(0, i + 2);
             }
@@ -29,7 +29,7 @@
             for (int i = 0; i < playArea.Length; i++)
             {
                 Console.Write(i + "|");
-                FillLine(playArea, i);
+                FillHorizontalLine(playArea, i);
 
                 Console.SetCursorPosition(0, i + 2);
             }
@@ -60,7 +60,7 @@
             }
         }
 
-        private static void FillLine(string[][] playArea, int lineNumber)
+        private static void FillHorizontalLine(string[][] playArea, int lineNumber)
         {
             for (int i = 0; i < playArea.Length; i++)
             {
