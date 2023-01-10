@@ -8,9 +8,7 @@ namespace SeaBattle.Repository.Repositories
 {
     public class SeaBattleGameRepositoty : ISeaBattleGameRepository
     {
-        private readonly List<PlayerSeaBattleStateModel> _lastPlayerModels;
-
-        private readonly List<PlayerSeaBattleStateModel> _confirmedPlayerModels;
+        private readonly List<PlayerSeaBattleStateModel> _playerModels;
 
         private readonly List<GameStateDtoModel> _gameStateModels;
 
@@ -18,29 +16,21 @@ namespace SeaBattle.Repository.Repositories
 
         public SeaBattleGameRepositoty()
         {
-            _lastPlayerModels = new List<PlayerSeaBattleStateModel>();
-            _confirmedPlayerModels = new List<PlayerSeaBattleStateModel>();
+            _playerModels = new List<PlayerSeaBattleStateModel>();
             _gameStateModels = new List<GameStateDtoModel>();
             _lastValidShootModel = new List<ShootModel>();
         }
 
-        public void ResaveLastPlayerStateModel(PlayerSeaBattleStateModel playerModel)
+        public void SavePlayerStateModelOrResaveToChangePlayArea(PlayerSeaBattleStateModel playerModel)
         {
-            _lastPlayerModels.Remove(_lastPlayerModels.SingleOrDefault(p => p?.NamePlayer == playerModel.NamePlayer));
+            _playerModels.Remove(_playerModels.SingleOrDefault(p => p?.NamePlayer == playerModel.NamePlayer));
 
-            _lastPlayerModels.Add(playerModel);
-        }
-
-        public void SaveConfirmedPlayerStateModel(string name)
-        {
-            _confirmedPlayerModels.Add(_lastPlayerModels
-                .SingleOrDefault(p => p.NamePlayer == name)
-                ?? throw new DirectoryNotFoundException());
+            _playerModels.Add(playerModel);
         }
 
         public PlayerSeaBattleStateModel GetConfirmedPlayerStateModelByName(string name)
         {
-            return _confirmedPlayerModels.SingleOrDefault(p => p.NamePlayer == name);
+            return _playerModels.SingleOrDefault(p => p.NamePlayer == name);
         }
 
         public void ResaveGameStateDtoModel(GameState gameStateModel, string nameSession)
@@ -67,7 +57,6 @@ namespace SeaBattle.Repository.Repositories
             if (GetGameStateModelByNameSession(shootModel.NameSession).NamePlayerTurn == shootModel.NamePlayer)
             {
                 _lastValidShootModel.Remove(_lastValidShootModel.SingleOrDefault(p => p?.NameSession == shootModel.NameSession));
-
 
                 _lastValidShootModel.Add(shootModel);
             }
