@@ -1,8 +1,10 @@
+using Microsoft.EntityFrameworkCore;
 using SeaBattle.Api.Controllers;
 using SeaBattle.Application.Services;
 using SeaBattle.Application.Services.Intefaces;
 using SeaBattle.Application.Services.Interfaces;
 using SeaBattle.Application.Services.Interfaces.RepositoryServices;
+using SeaBattle.DataManagement.Models;
 using SeaBattle.Repository.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +21,9 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddDbContext<SeabattleContext>(options =>
+options.UseNpgsql(builder.Configuration.GetConnectionString("SeabattleContext")));
 
 var app = builder.Build();
 
