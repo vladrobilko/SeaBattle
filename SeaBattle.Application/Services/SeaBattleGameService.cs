@@ -55,9 +55,9 @@ namespace SeaBattle.Application.Services
 
             if (startSession != null)
             {
-                var player1 = _seaBattleGameRepository.GetConfirmedPlayerStateModelByName(startSession.NameHostPlayer);
+                var player1 = _seaBattleGameRepository.GetConfirmedPlayerStateModelByNameOrNull(startSession.NameHostPlayer);
 
-                var player2 = _seaBattleGameRepository.GetConfirmedPlayerStateModelByName(startSession.NameJoinPlayer);
+                var player2 = _seaBattleGameRepository.GetConfirmedPlayerStateModelByNameOrNull(startSession.NameJoinPlayer);
 
                 if (player1 != null && player2 != null)
                 {

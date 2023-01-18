@@ -7,7 +7,7 @@ namespace SeaBattle.Application.Services.Interfaces.RepositoryServices
     {
         void SavePlayerStateModelOrResaveToChangePlayArea(PlayerSeaBattleStateModel playerModel);
 
-        PlayerSeaBattleStateModel GetConfirmedPlayerStateModelByName(string name);
+        PlayerSeaBattleStateModel GetConfirmedPlayerStateModelByNameOrNull(string name);
 
         void ResaveGameStateDtoModel(GameState gameStateModel, string NameSession);
 

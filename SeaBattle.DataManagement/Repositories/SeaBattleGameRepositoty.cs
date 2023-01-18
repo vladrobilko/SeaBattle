@@ -19,7 +19,7 @@ namespace SeaBattle.DataManagement.Repositories
             _context = context;
         }
 
-        public PlayerSeaBattleStateModel GetConfirmedPlayerStateModelByName(string name)
+        public PlayerSeaBattleStateModel GetConfirmedPlayerStateModelByNameOrNull(string name)
         {
             throw new NotImplementedException();
         }
