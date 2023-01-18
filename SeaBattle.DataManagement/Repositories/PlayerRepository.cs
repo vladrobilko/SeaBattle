@@ -1,5 +1,6 @@
 ﻿using SeaBattle.Application.Models;
 using SeaBattle.Application.Services.Interfaces.RepositoryServices;
+using SeaBattle.DataManagement.Converters;
 using SeaBattle.DataManagement.Models;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,9 @@ namespace SeaBattle.DataManagement.Repositories
 
         public void Create(PlayerRegistrationModel playerRegistrationModel)
         {
-            _context.Players.Add(new Player() { Name = playerRegistrationModel.NamePlayer});//тут конвертер должен быть
+            _context
+                .Players
+                .Add(PlayerRegistrationModelConverter.ConvertToPlayer(playerRegistrationModel));
             _context.SaveChanges();
         }
     }
