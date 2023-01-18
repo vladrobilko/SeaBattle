@@ -40,7 +40,7 @@ public partial class SeabattleContext : DbContext
             entity.ToTable("app_logs");
 
             entity.Property(e => e.Id)
-                .ValueGeneratedNever()
+                .UseIdentityAlwaysColumn()
                 .HasColumnName("id");
             entity.Property(e => e.Created)
                 .HasPrecision(0)
@@ -77,7 +77,7 @@ public partial class SeabattleContext : DbContext
             entity.HasIndex(e => e.Name, "players_name_unique").IsUnique();
 
             entity.Property(e => e.Id)
-                .ValueGeneratedNever()
+                .UseIdentityAlwaysColumn()
                 .HasColumnName("id");
             entity.Property(e => e.Name)
                 .HasMaxLength(255)
@@ -93,7 +93,7 @@ public partial class SeabattleContext : DbContext
             entity.HasIndex(e => e.IdSession, "seabattle_games_id_session_unique").IsUnique();
 
             entity.Property(e => e.Id)
-                .ValueGeneratedNever()
+                .UseIdentityAlwaysColumn()
                 .HasColumnName("id");
             entity.Property(e => e.EndGame).HasColumnName("end_game");
             entity.Property(e => e.GameMessage).HasColumnName("game_message");
@@ -130,7 +130,7 @@ public partial class SeabattleContext : DbContext
             entity.HasIndex(e => e.Name, "sessions_name_unique").IsUnique();
 
             entity.Property(e => e.Id)
-                .ValueGeneratedNever()
+                .UseIdentityAlwaysColumn()
                 .HasColumnName("id");
             entity.Property(e => e.EndSession)
                 .HasPrecision(0)
@@ -163,7 +163,7 @@ public partial class SeabattleContext : DbContext
             entity.HasIndex(e => e.IdSeabattleGame, "shoots_id_seabattle_game_unique").IsUnique();
 
             entity.Property(e => e.Id)
-                .ValueGeneratedNever()
+                .UseIdentityAlwaysColumn()
                 .HasColumnName("id");
             entity.Property(e => e.IdPlayerShoot).HasColumnName("id_player_shoot");
             entity.Property(e => e.IdSeabattleGame).HasColumnName("id_seabattle_game");

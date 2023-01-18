@@ -5,17 +5,17 @@ using SeaBattle.Application.Services.Intefaces;
 using SeaBattle.Application.Services.Interfaces;
 using SeaBattle.Application.Services.Interfaces.RepositoryServices;
 using SeaBattle.DataManagement.Models;
-using SeaBattle.Repository.Repositories;
+using SeaBattle.DataManagement.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddSingleton<IPlayerService, PlayerService>();
-builder.Services.AddSingleton<IPlayerRepository, PlayerRepository>();
-builder.Services.AddSingleton<ISessionService, SessionService>();
-builder.Services.AddSingleton<ISessionRepository, SessionRepository>();
-builder.Services.AddSingleton<ISeaBattleGameService, SeaBattleGameService>();
-builder.Services.AddSingleton<ISeaBattleGameRepository, SeaBattleGameRepositoty>();
+builder.Services.AddScoped<IPlayerService, PlayerService>();
+builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
+builder.Services.AddScoped<ISessionService, SessionService>();
+builder.Services.AddScoped<ISessionRepository, SessionRepository>();
+builder.Services.AddScoped<ISeaBattleGameService, SeaBattleGameService>();
+builder.Services.AddScoped<ISeaBattleGameRepository, SeaBattleGameRepositoty>();
 
 builder.Services.AddControllers();
 

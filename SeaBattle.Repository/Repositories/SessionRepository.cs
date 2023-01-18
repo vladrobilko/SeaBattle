@@ -7,7 +7,7 @@ using System.Data;
 
 namespace SeaBattle.Repository.Repositories
 {
-    public class SessionRepository : ISessionRepository
+    /*public class SessionRepository : ISessionRepository
     {
         private readonly List<HostSessionDtoModel> _hostSessionDtoModels;
 
@@ -71,5 +71,5 @@ namespace SeaBattle.Repository.Repositories
 
             return startSession.ConvertToStartSessionModel();
         }
-    }
+    }*/
 }

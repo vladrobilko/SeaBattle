@@ -6,7 +6,7 @@ using SeaBattleApi.Models;
 
 namespace SeaBattle.Repository.Repositories
 {
-    public class SeaBattleGameRepositoty : ISeaBattleGameRepository
+    /*public class SeaBattleGameRepositoty : ISeaBattleGameRepository
     {
         private readonly List<PlayerSeaBattleStateModel> _playerModels;
 
@@ -71,5 +71,5 @@ namespace SeaBattle.Repository.Repositories
         {
             return _lastValidShootModel.SingleOrDefault(p => p?.NamePlayer == namePlayer);
         }
-    }
+    }*/
 }
