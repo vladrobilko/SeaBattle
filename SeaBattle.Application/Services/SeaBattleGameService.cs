@@ -75,7 +75,7 @@ namespace SeaBattle.Application.Services
                     true,
                     GameStateMessage.WhoShoot(player2.NamePlayer));
 
-            _seaBattleGameRepository.ResaveGameStateDtoModel(gameState, nameSession);
+            _seaBattleGameRepository.ResaveGameStateModel(gameState, nameSession);
         }
 
         public void Shoot(ShootClientModel shootPlayerClientModel)
@@ -86,7 +86,7 @@ namespace SeaBattle.Application.Services
 
             var changeGameModel = _seaBattleGameChanger.ChangeGameState(lastGameModel);
 
-            _seaBattleGameRepository.ResaveGameStateDtoModel(changeGameModel, shootPlayerClientModel.NameSession);
+            _seaBattleGameRepository.ResaveGameStateModel(changeGameModel, shootPlayerClientModel.NameSession);
         }
     }
 }

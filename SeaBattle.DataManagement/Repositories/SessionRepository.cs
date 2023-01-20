@@ -63,7 +63,7 @@ namespace SeaBattle.DataManagement.Repositories
 
             if (session == null || session.IdPlayerJoin == null)
             {
-                throw new NotImplementedException();
+                return null;
             }
 
             var playerHost = _context
@@ -85,9 +85,7 @@ namespace SeaBattle.DataManagement.Repositories
         }
         public void SaveStartsSessions(JoinSessionModel joinSessionModel)
         {
-            var session = _context
-                .Sessions
-                .FirstOrDefault(p => p.Name == joinSessionModel.NameSession);
+            var session = _context.Sessions.FirstOrDefault(p => p.Name == joinSessionModel.NameSession);
 
             if (session == null || session.IdPlayerJoin != null || session.StartSession != null)
             {

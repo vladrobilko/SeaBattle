@@ -17,7 +17,7 @@ namespace SeaBattle.Application.Converters
                 playAreaString[i] = new string[playArea.Width];
                 for (int j = 0; j < playArea.Width; j++)
                 {
-                    playAreaString[i][j] = playArea.Cells[i,j].State.ToStringForInfo();
+                    playAreaString[i][j] = playArea.Cells[i,j].State.ToStringForInfoWithoutBusyDeckNear();
                 }
             }
 
@@ -38,11 +38,25 @@ namespace SeaBattle.Application.Converters
                         playAreaString[i][j] = " ";
                         continue;                   
                     }
-                    playAreaString[i][j] = playArea.Cells[i, j].State.ToStringForInfo();
+                    playAreaString[i][j] = playArea.Cells[i, j].State.ToStringForInfoWithoutBusyDeckNear();
                 }
             }
 
             return playAreaString;
+        }
+
+        public static string ConvertToString(this PlayArea playArea)
+        {
+            var stringPlayArea = "";
+
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    stringPlayArea += playArea.Cells[i, j].State.ToStringWithAllCell();
+                }
+            }
+            return stringPlayArea;
         }
     }
 }

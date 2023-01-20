@@ -21,13 +21,6 @@ namespace SeaBattle.Repository.Repositories
             _lastValidShootModel = new List<ShootModel>();
         }
 
-        public void SavePlayerStateModelOrResaveToChangePlayArea(PlayerSeaBattleStateModel playerModel)
-        {
-            _playerModels.Remove(_playerModels.SingleOrDefault(p => p?.NamePlayer == playerModel.NamePlayer));
-
-            _playerModels.Add(playerModel);
-        }
-
         public PlayerSeaBattleStateModel GetConfirmedPlayerStateModelByName(string name)
         {
             return _playerModels.SingleOrDefault(p => p.NamePlayer == name);

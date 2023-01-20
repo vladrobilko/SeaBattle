@@ -9,7 +9,7 @@ namespace SeaBattle.Application.Services.Interfaces.RepositoryServices
 
         PlayerSeaBattleStateModel GetConfirmedPlayerStateModelByNameOrNull(string name);
 
-        void ResaveGameStateDtoModel(GameState gameStateModel, string NameSession);
+        void ResaveGameStateModel(GameState gameStateModel, string NameSession);
 
         GameState GetGameStateModelByNameSession(string nameSession);
 
