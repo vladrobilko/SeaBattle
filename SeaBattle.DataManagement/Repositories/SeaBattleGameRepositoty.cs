@@ -23,7 +23,21 @@ namespace SeaBattle.DataManagement.Repositories
             _context = context;
         }
 
-        public void SavePlayerStateModelOrResaveToChangePlayArea(PlayerSeaBattleStateModel playerModel)
+        public void ReadyToStartGame(string namePlayer)
+        {
+            var player = _context.Players.FirstOrDefault(p => p.Name == namePlayer)
+                ?? throw new NotImplementedException();
+
+            var playAreaInDb = _context.Playareas.FirstOrDefault(p => p.IdPlayer == player.Id);
+
+            playAreaInDb.ConfirmedPlayarea = DateTime.UtcNow; 
+
+            _context.Playareas.Attach(playAreaInDb);
+            _context.Entry(playAreaInDb).Property(r => r.ConfirmedPlayarea).IsModified = true;
+            _context.SaveChanges();
+        }
+
+        public void SaveOrResavePlayerStateModel(IPlayer playerModel)
         {
             var player = _context.Players.FirstOrDefault(p => p.Name == playerModel.NamePlayer)
                 ?? throw new NotImplementedException();
@@ -54,6 +68,12 @@ namespace SeaBattle.DataManagement.Repositories
             var session = _context.Sessions.FirstOrDefault(p => p.IdPlayerHost == player.Id || p.IdPlayerJoin == player.Id)
                 ?? throw new NotImplementedException();
 
+            var playAreaModel = _context.Playareas.FirstOrDefault(p => p.IdPlayer == player.Id);
+
+            if(playAreaModel.ConfirmedPlayarea == null)
+            {
+                return null;
+            }
             var playarea = _context.Playareas.FirstOrDefault(p => p.IdPlayer == player.Id)?.Playarea1.ConvertToPlayArea();
 
             var enemyPlayArea = _context.Playareas.FirstOrDefault(p => p.IdPlayer == session.IdPlayerJoin)?.Playarea1.ConvertToPlayArea();
@@ -93,14 +113,12 @@ namespace SeaBattle.DataManagement.Repositories
 
             var namePlayerTurn = _context.Players.FirstOrDefault(p => p.Id == gameStateDto.IdPlayerTurn)?.Name;
 
-            var isGameOn = gameStateDto.EndGame == null;
-
             var gameMessage = gameStateDto.GameMessage;
 
-            return new GameState(playerHostModel, playerJoinModel, namePlayerTurn, isGameOn, gameMessage);
+            var gameOn = gameStateDto.EndGame == null;
+
+            return new GameState(playerHostModel, playerJoinModel, namePlayerTurn, gameOn, gameMessage);
         }
-
-
 
         public void ResaveGameStateModel(GameState gameStateModel, string NameSession)
         {
@@ -110,35 +128,48 @@ namespace SeaBattle.DataManagement.Repositories
             var session = _context.Sessions.FirstOrDefault(p => p.Name == NameSession)
                 ?? throw new NotImplementedException();
 
-            string gameState = gameStateModel.IsGameOn.ToString();
-
             var gameMessage = gameStateModel.GameMessage;
 
-            var lastGameStateDto = _context.SeabattleGames.FirstOrDefault(p => p.IdSession == session.Id);
+            var lastGameStateFromDto = _context.SeabattleGames.FirstOrDefault(p => p.IdSession == session.Id);
 
-            if (lastGameStateDto == null)
+            var newGameStateIntoDto = new SeabattleGame();
+
+            if (lastGameStateFromDto == null)//создание игры (отдельный метод)
             {
-                var newGameStateDto = new SeabattleGame();
-                newGameStateDto.IdPlayerTurn = playerTurn.Id;
-                newGameStateDto.IdSession = session.Id;
-                newGameStateDto.GameState = gameState;
-                newGameStateDto.GameMessage = gameMessage;
-                newGameStateDto.StartGame = DateTime.UtcNow;
-                _context.SeabattleGames.Add(newGameStateDto);
+                newGameStateIntoDto.IdPlayerTurn = playerTurn.Id;
+                newGameStateIntoDto.IdSession = session.Id;
+                newGameStateIntoDto.GameMessage = gameMessage;
+                newGameStateIntoDto.StartGame = DateTime.UtcNow;
+                _context.SeabattleGames.Add(newGameStateIntoDto);
                 _context.SaveChanges();
                 return;
             }
-            else if (lastGameStateDto != null && gameStateModel.IsGameOn)
+            else if (lastGameStateFromDto != null && gameStateModel.IsGameOn) // изменить игру чтобы дальше играть
             {
-
+                newGameStateIntoDto.IdPlayerTurn = playerTurn.Id;
+                newGameStateIntoDto.GameMessage = gameMessage;
+                SaveOrResavePlayerStateModel(gameStateModel.Player1);
+                SaveOrResavePlayerStateModel(gameStateModel.Player2);
+                _context.SeabattleGames.Attach(newGameStateIntoDto);
+                _context.Entry(newGameStateIntoDto).Property(r => r.IdSession).IsModified = true;
+                _context.SaveChanges();
             }
 
-            else if (lastGameStateDto != null && !gameStateModel.IsGameOn)
+            else if (lastGameStateFromDto != null && !gameStateModel.IsGameOn) // конец игры (кто выиграл и дату окончания)
             {
+                newGameStateIntoDto.IdPlayerTurn = null;
+                newGameStateIntoDto.GameMessage = gameMessage;
+                SaveOrResavePlayerStateModel(gameStateModel.Player1);
+                SaveOrResavePlayerStateModel(gameStateModel.Player2);
+                newGameStateIntoDto.EndGame = DateTime.UtcNow;
+                _context.SeabattleGames.Attach(newGameStateIntoDto);
+                _context.Entry(newGameStateIntoDto).Property(r => r.IdSession).IsModified = true;
+                _context.SaveChanges();
+                //учитывать если игра даст что она закнчилась надо сохранить конец игры
                 return;
-                //логика для завершения игры
             }
         }
+
 
 
 

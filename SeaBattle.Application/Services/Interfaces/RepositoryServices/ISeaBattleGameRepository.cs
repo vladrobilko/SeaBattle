@@ -5,7 +5,7 @@ namespace SeaBattle.Application.Services.Interfaces.RepositoryServices
 {
     public interface ISeaBattleGameRepository
     {
-        void SavePlayerStateModelOrResaveToChangePlayArea(PlayerSeaBattleStateModel playerModel);
+        void SaveOrResavePlayerStateModel(IPlayer playerModel);
 
         PlayerSeaBattleStateModel GetConfirmedPlayerStateModelByNameOrNull(string name);
 
@@ -16,5 +16,7 @@ namespace SeaBattle.Application.Services.Interfaces.RepositoryServices
         void ResaveValidShoot(ShootModel shootModel);
 
         ShootModel GetLastShootModelOrNullByName(string namePlayer);
-    }
+
+        void ReadyToStartGame(string namePlayer);
+    }   
 }

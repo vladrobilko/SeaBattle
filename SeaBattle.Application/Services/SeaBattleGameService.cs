@@ -29,7 +29,7 @@ namespace SeaBattle.Application.Services
                 infoPlayerClientModel.PlayerName,
                 _seaBattleGameRepository);
             playerStateModel.FillShips();
-            _seaBattleGameRepository.SavePlayerStateModelOrResaveToChangePlayArea(playerStateModel);
+            _seaBattleGameRepository.SaveOrResavePlayerStateModel(playerStateModel);
 
             var gameAreaClientModel = new GameAreaClientModel();
             gameAreaClientModel.ClientPlayArea = playerStateModel.GetPlayArea().ConvertToArrayStringForClient();
@@ -46,6 +46,7 @@ namespace SeaBattle.Application.Services
 
         public void ReadyToStartGame(InfoPlayerClientModel infoPlayerClientModel)
         {
+            _seaBattleGameRepository.ReadyToStartGame(infoPlayerClientModel.PlayerName);
             TryToStartGame(infoPlayerClientModel.SessionName);
         }
 

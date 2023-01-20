@@ -65,6 +65,11 @@ public partial class SeabattleContext : DbContext
             entity.Property(e => e.IdPlayer)
                 .ValueGeneratedNever()
                 .HasColumnName("id_player");
+
+            entity.Property(e => e.ConfirmedPlayarea)
+                .HasPrecision(0)
+                .HasColumnName("confirmed_playarea");
+
             entity.Property(e => e.Playarea1).HasColumnName("playarea");
         });
 
@@ -95,11 +100,11 @@ public partial class SeabattleContext : DbContext
             entity.Property(e => e.Id)
                 .UseIdentityAlwaysColumn()
                 .HasColumnName("id");
-            entity.Property(e => e.EndGame).HasColumnName("end_game");
+            entity.Property(e => e.EndGame)
+                .HasPrecision(0)
+                .HasColumnName("end_game");
             entity.Property(e => e.GameMessage).HasColumnName("game_message");
-            entity.Property(e => e.GameState)
-                .HasMaxLength(255)
-                .HasColumnName("game_state");
+            
             entity.Property(e => e.IdPlayerTurn).HasColumnName("id_player_turn");
             entity.Property(e => e.IdPlayerWin).HasColumnName("id_player_win");
             entity.Property(e => e.IdSession).HasColumnName("id_session");

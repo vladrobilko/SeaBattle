@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using SeaBattle.DataManagement.Models;
@@ -11,9 +12,11 @@ using SeaBattle.DataManagement.Models;
 namespace SeaBattle.DataManagement.Migrations
 {
     [DbContext(typeof(SeabattleContext))]
-    partial class SeabattleContextModelSnapshot : ModelSnapshot
+    [Migration("20230120080850_1")]
+    partial class _1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

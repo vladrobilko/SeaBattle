@@ -13,13 +13,11 @@ public partial class SeabattleGame
 
     public long IdSession { get; set; }
 
-    public string GameState { get; set; } = null!;
-
     public string GameMessage { get; set; } = null!;
 
     public DateTime? StartGame { get; set; }
 
-    public long? EndGame { get; set; }
+    public DateTime? EndGame { get; set; }
 
     public virtual Player? IdPlayerTurnNavigation { get; set; }
 
