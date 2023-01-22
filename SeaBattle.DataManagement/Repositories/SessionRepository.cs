@@ -1,4 +1,5 @@
-﻿using SeaBattle.Application.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using SeaBattle.Application.Models;
 using SeaBattle.Application.Services.Interfaces.RepositoryServices;
 using SeaBattle.DataManagement.Converters;
 using SeaBattle.DataManagement.Models;
@@ -21,13 +22,21 @@ namespace SeaBattle.DataManagement.Repositories
 
         public List<HostSessionModel> GetAllHostSessions()
         {
-            var hostSessions = _context.Players
-                .Join(_context.Sessions, pl => pl.Id, ses => ses.IdPlayerHost,
-                (pl, ses) => new HostSessionModel
+            var hostSessions = _context.Players.Join(_context.Sessions,
+                pl => pl.Id, ses => ses.IdPlayerHost,
+                (pl, ses) => new
                 {
                     NameHostPlayer = pl.Name,
-                    NameSession = ses.Name
-                }).ToList();
+                    NameSession = ses.Name,
+                    TimeStart = ses.StartSession
+                })
+                .Where(t => t.TimeStart == null)
+                .Select(s => new HostSessionModel()
+                {
+                    NameHostPlayer = s.NameHostPlayer,
+                    NameSession = s.NameSession
+                })
+                .ToList();
 
             if (hostSessions.Count == 0)
             {
