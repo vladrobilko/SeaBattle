@@ -1,4 +1,5 @@
 ﻿using SeaBattle;
+using SeaBattle.Application.Services;
 using SeaBattle.Application.Services.Interfaces.RepositoryServices;
 
 namespace SeaBattleApi.Models
@@ -17,7 +18,7 @@ namespace SeaBattleApi.Models
 
         ISeaBattleGameRepository _seaBattleGameRepository;
 
-        public PlayerSeaBattleStateModel(IFillerShips filler, string name, ISeaBattleGameRepository seaBattleGameService)
+        public PlayerSeaBattleStateModel(ISeaBattleGameRepository seaBattleGameService, IFillerShips filler = null, string name = null)
         {
             PlayArea = new PlayArea();
             _filler = filler;
@@ -26,11 +27,6 @@ namespace SeaBattleApi.Models
             { new ShipConfige(1,4), new ShipConfige(2, 3), new ShipConfige(3, 2), new ShipConfige(4, 1) });
             NamePlayer = name;
             _seaBattleGameRepository = seaBattleGameService;
-        }
-
-        public PlayerSeaBattleStateModel()
-        {
-
         }
 
         public void FillShips()

@@ -25,9 +25,10 @@ namespace SeaBattle.Application.Services
         public GameAreaClientModel GetPlayArea(InfoPlayerClientModel infoPlayerClientModel)
         {
             var playerStateModel = new PlayerSeaBattleStateModel(
+                _seaBattleGameRepository,
                 new FillerRandom(),
-                infoPlayerClientModel.PlayerName,
-                _seaBattleGameRepository);
+                infoPlayerClientModel.PlayerName);
+
             playerStateModel.FillShips();
             _seaBattleGameRepository.SaveOrResavePlayerStateModel(playerStateModel);
 
