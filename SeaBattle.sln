@@ -11,9 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeaBattle.Application", "Se
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeaBattle.Domain", "SeaBattle.Domain\SeaBattle.Domain.csproj", "{E76E5798-72CC-4C66-9DCA-AA6019CC1A28}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeaBattle.Repository", "SeaBattle.Repository\SeaBattle.Repository.csproj", "{3F58A8DA-4418-4887-B583-775D7DCC086E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeaBattle.DataManagement", "SeaBattle.DataManagement\SeaBattle.DataManagement.csproj", "{A194E5E5-7553-4257-95C8-BBA52F3E9CDA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeaBattle.DataManagement", "SeaBattle.DataManagement\SeaBattle.DataManagement.csproj", "{A194E5E5-7553-4257-95C8-BBA52F3E9CDA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,10 +35,6 @@ Global
 		{E76E5798-72CC-4C66-9DCA-AA6019CC1A28}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E76E5798-72CC-4C66-9DCA-AA6019CC1A28}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E76E5798-72CC-4C66-9DCA-AA6019CC1A28}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3F58A8DA-4418-4887-B583-775D7DCC086E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3F58A8DA-4418-4887-B583-775D7DCC086E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3F58A8DA-4418-4887-B583-775D7DCC086E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3F58A8DA-4418-4887-B583-775D7DCC086E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A194E5E5-7553-4257-95C8-BBA52F3E9CDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A194E5E5-7553-4257-95C8-BBA52F3E9CDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A194E5E5-7553-4257-95C8-BBA52F3E9CDA}.Release|Any CPU.ActiveCfg = Release|Any CPU

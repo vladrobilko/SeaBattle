@@ -18,7 +18,6 @@
     <ProjectReference Include="..\SeaBattle.Application\SeaBattle.Application.csproj" />
     <ProjectReference Include="..\SeaBattle.DataManagement\SeaBattle.DataManagement.csproj" />
     <ProjectReference Include="..\SeaBattle.Domain\SeaBattle.Domain.csproj" />
-    <ProjectReference Include="..\SeaBattle.Repository\SeaBattle.Repository.csproj" />
   </ItemGroup>
 
 </Project>
