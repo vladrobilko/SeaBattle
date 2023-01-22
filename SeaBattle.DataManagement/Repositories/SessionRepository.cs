@@ -1,13 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SeaBattle.Application.Models;
+﻿using SeaBattle.Application.Models;
 using SeaBattle.Application.Services.Interfaces.RepositoryServices;
-using SeaBattle.DataManagement.Converters;
 using SeaBattle.DataManagement.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SeaBattle.DataManagement.Repositories
 {
@@ -29,14 +22,12 @@ namespace SeaBattle.DataManagement.Repositories
                     NameHostPlayer = pl.Name,
                     NameSession = ses.Name,
                     TimeStart = ses.StartSession
-                })
-                .Where(t => t.TimeStart == null)
+                }).Where(t => t.TimeStart == null)
                 .Select(s => new HostSessionModel()
                 {
                     NameHostPlayer = s.NameHostPlayer,
                     NameSession = s.NameSession
-                })
-                .ToList();
+                }).ToList();
 
             if (hostSessions.Count == 0)
             {
@@ -98,7 +89,7 @@ namespace SeaBattle.DataManagement.Repositories
             _context.SaveChanges();
         }
 
-        private Player GetPlayerByName(string  namePlayer)
+        private Player GetPlayerByName(string namePlayer)
         {
             return _context.Players.FirstOrDefault(p => p.Name == namePlayer)
                 ?? throw new NotImplementedException();
@@ -112,7 +103,7 @@ namespace SeaBattle.DataManagement.Repositories
 
         private Session GetSessionByName(string nameSession)
         {
-            return _context.Sessions.FirstOrDefault(p => p.Name == nameSession) 
+            return _context.Sessions.FirstOrDefault(p => p.Name == nameSession)
                 ?? throw new NotImplementedException();
         }
     }
