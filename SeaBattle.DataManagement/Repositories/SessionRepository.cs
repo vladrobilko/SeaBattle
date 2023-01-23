@@ -8,12 +8,9 @@ namespace SeaBattle.DataManagement.Repositories
     {
         private readonly SeabattleContext _context;
 
-        private readonly IPlayerRepository _playerRepository;
-
-        public SessionRepository(SeabattleContext context, IPlayerRepository playerRepository)
+        public SessionRepository(SeabattleContext context)
         {
             _context = context;
-            _playerRepository = playerRepository;
         }
 
         public List<HostSessionModel> GetAllHostSessions()
