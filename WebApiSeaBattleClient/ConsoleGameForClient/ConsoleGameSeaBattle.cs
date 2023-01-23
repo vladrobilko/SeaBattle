@@ -186,7 +186,7 @@ namespace ConsoleGameForClient
 
         private async Task<GameClientStateModel> WaitingStartGame()
         {
-            await Task.Delay(2000);
+            await Task.Delay(10000);
             var gameModel = await _requestHelper.GetGameModelOrNull(_infoPlayerClientModel);
 
             while (gameModel == null || !gameModel.IsGameOn)

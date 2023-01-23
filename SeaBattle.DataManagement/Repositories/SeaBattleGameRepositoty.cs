@@ -85,7 +85,7 @@ namespace SeaBattle.DataManagement.Repositories
         {
             var session = GetSessionFromDbByName(nameSession);
 
-            var gameStateDto = GetSeaBatllegameFromDbByIdSession(session.Id);
+            var gameStateDto = GetSeaBatllegameFromDbByIdSessionOrNull(session.Id);
 
             var playerHost = GetPlayerFromDbById(session.IdPlayerHost);
 
@@ -110,7 +110,7 @@ namespace SeaBattle.DataManagement.Repositories
 
             var session = GetSessionFromDbByName(NameSession);
 
-            var lastGameStateFromDto = GetSeaBatllegameFromDbByIdSession(session.Id);
+            var lastGameStateFromDto = GetSeaBatllegameFromDbByIdSessionOrNull(session.Id);
 
             var gameMessage = gameStateModel.GameMessage;
 
@@ -138,7 +138,7 @@ namespace SeaBattle.DataManagement.Repositories
         {
             var session = GetSessionFromDbByName(shootModel.NameSession);
 
-            var gameStateDto = GetSeaBatllegameFromDbByIdSession(session.Id);
+            var gameStateDto = GetSeaBatllegameFromDbByIdSessionOrNull(session.Id);
 
             var player = GetPlayerFromDbByName(shootModel.NamePlayer);
 
@@ -161,7 +161,7 @@ namespace SeaBattle.DataManagement.Repositories
 
             var session = GetSessionFromDbById(player.Id);
 
-            var gameDb = GetSeaBatllegameFromDbByIdSession(session.Id);
+            var gameDb = GetSeaBatllegameFromDbByIdSessionOrNull(session.Id);
 
             var shootDb = _context.Shoots.FirstOrDefault(p => p.IdSeabattleGame == gameDb.Id)
                 ?? throw new NotImplementedException();
@@ -248,10 +248,9 @@ namespace SeaBattle.DataManagement.Repositories
             return _context.Playareas.FirstOrDefault(p => p.IdPlayer == id);
         }
 
-        private SeabattleGame GetSeaBatllegameFromDbByIdSession(long id)
+        private SeabattleGame GetSeaBatllegameFromDbByIdSessionOrNull(long id)
         {
-            return _context.SeabattleGames.FirstOrDefault(p => p.IdSession == id)
-               ?? throw new NotImplementedException();
+            return _context.SeabattleGames.FirstOrDefault(p => p.IdSession == id);
         }
 
         private void EndSeabattleGameInDb(SeabattleGame lastGameStateFromDto, string gameMessage)
