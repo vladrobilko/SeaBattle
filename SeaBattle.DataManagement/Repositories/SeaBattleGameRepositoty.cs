@@ -4,13 +4,6 @@ using SeaBattle.Application.Services.Interfaces.RepositoryServices;
 using SeaBattle.DataManagement.Converters;
 using SeaBattle.DataManagement.Models;
 using SeaBattleApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Collections.Specialized.BitVector32;
 
 namespace SeaBattle.DataManagement.Repositories
 {
@@ -25,12 +18,11 @@ namespace SeaBattle.DataManagement.Repositories
 
         public void ReadyToStartGame(string namePlayer)
         {
-            var player = _context.Players.FirstOrDefault(p => p.Name == namePlayer)
-                ?? throw new NotImplementedException();
+            var player = GetPlayerFromDbByName(namePlayer);
 
-            var playAreaInDb = _context.Playareas.FirstOrDefault(p => p.IdPlayer == player.Id);
+            var playAreaInDb = GetPlayAreaFromDbByIdPlayerOrNull(player.Id);
 
-            playAreaInDb.ConfirmedPlayarea = DateTime.UtcNow; 
+            playAreaInDb.ConfirmedPlayarea = DateTime.UtcNow;
 
             _context.Playareas.Attach(playAreaInDb);
             _context.Entry(playAreaInDb).Property(r => r.ConfirmedPlayarea).IsModified = true;
@@ -39,44 +31,42 @@ namespace SeaBattle.DataManagement.Repositories
 
         public void SaveOrResavePlayerStateModel(IPlayer playerModel)
         {
-            var player = _context.Players.FirstOrDefault(p => p.Name == playerModel.NamePlayer)
-                ?? throw new NotImplementedException();
+            var player = GetPlayerFromDbByName(playerModel.NamePlayer);
 
             var textModel = playerModel.GetPlayArea().ConvertToString();
 
             var playArea = new Playarea() { IdPlayer = player.Id, Playarea1 = textModel };
 
-            var playAreaInDb = _context.Playareas.FirstOrDefault(p => p.IdPlayer == player.Id);
+            var playAreaInDb = GetPlayAreaFromDbByIdPlayerOrNull(player.Id);
 
             if (playAreaInDb != null)
             {
-                playAreaInDb.Playarea1 = textModel;
-                _context.Playareas.Attach(playAreaInDb);
-                _context.Entry(playAreaInDb).Property(r => r.Playarea1).IsModified= true;
-                _context.SaveChanges();
-                return;
+                ChangeGameModel(playAreaInDb, textModel);
             }
-            _context.Playareas.Add(playArea);
-            _context.SaveChanges();
+
+            else
+            {
+                _context.Playareas.Add(playArea);
+                _context.SaveChanges();
+            }
         }
 
         public PlayerSeaBattleStateModel GetConfirmedPlayerStateModelByNameOrNull(string name)
         {
-            var player = _context.Players.FirstOrDefault(p => p.Name == name)
-                ?? throw new NotImplementedException();
+            var player = GetPlayerFromDbByName(name);
 
-            var session = _context.Sessions.FirstOrDefault(p => p.IdPlayerHost == player.Id || p.IdPlayerJoin == player.Id)
-                ?? throw new NotImplementedException();
+            var session = GetSessionFromDbById(player.Id);
 
-            var playAreaModel = _context.Playareas.FirstOrDefault(p => p.IdPlayer == player.Id);
+            var playAreaModel = GetPlayAreaFromDbByIdPlayerOrNull(player.Id);
 
-            if(playAreaModel.ConfirmedPlayarea == null)
+            if (playAreaModel.ConfirmedPlayarea == null)
             {
                 return null;
             }
-            var playarea = _context.Playareas.FirstOrDefault(p => p.IdPlayer == player.Id)?.Playarea1.ConvertToPlayArea();
 
-            var enemyPlayArea = _context.Playareas.FirstOrDefault(p => p.IdPlayer == session.IdPlayerJoin)?.Playarea1.ConvertToPlayArea();
+            var playarea = GetPlayAreaFromDbByIdPlayerOrNull(player.Id).Playarea1.ConvertToPlayArea();
+
+            var enemyPlayArea = GetPlayAreaFromDbByIdPlayerOrNull(session.IdPlayerJoin).Playarea1.ConvertToPlayArea();
 
             if (playarea == null)
             {
@@ -93,23 +83,19 @@ namespace SeaBattle.DataManagement.Repositories
 
         public GameState GetGameStateModelByNameSession(string nameSession)
         {
-            var session = _context.Sessions.FirstOrDefault(p => p.Name == nameSession)
-                ?? throw new NotImplementedException();
+            var session = GetSessionFromDbByName(nameSession);
 
-            var gameStateDto = _context.SeabattleGames.FirstOrDefault(p => p.IdSession == session.Id)
-                ?? throw new NotImplementedException();
+            var gameStateDto = GetSeaBatllegameFromDbByIdSession(session.Id);
 
-            var playerHost = _context.Players.FirstOrDefault(p => p.Id == session.IdPlayerHost)
-                ?? throw new NotImplementedException();
+            var playerHost = GetPlayerFromDbById(session.IdPlayerHost);
 
-            var playerJoin = _context.Players.FirstOrDefault(p => p.Id == session.IdPlayerJoin)
-                ?? throw new NotImplementedException();
+            var playerJoin = GetPlayerFromDbById(session.IdPlayerJoin);
 
             var playerHostModel = GetConfirmedPlayerStateModelByNameOrNull(playerHost.Name);
 
             var playerJoinModel = GetConfirmedPlayerStateModelByNameOrNull(playerJoin.Name);
 
-            var namePlayerTurn = _context.Players.FirstOrDefault(p => p.Id == gameStateDto.IdPlayerTurn)?.Name;
+            var namePlayerTurn = GetPlayerFromDbById(gameStateDto.IdPlayerTurn).Name;
 
             var gameMessage = gameStateDto.GameMessage;
 
@@ -120,128 +106,178 @@ namespace SeaBattle.DataManagement.Repositories
 
         public void ResaveGameStateModel(GameState gameStateModel, string NameSession)
         {
-            var playerTurn = _context.Players.FirstOrDefault(p => p.Name == gameStateModel.NamePlayerTurn)
-                ?? throw new NotImplementedException();
+            var playerTurn = GetPlayerFromDbByName(gameStateModel.NamePlayerTurn);
 
-            var session = _context.Sessions.FirstOrDefault(p => p.Name == NameSession)
-                ?? throw new NotImplementedException();
+            var session = GetSessionFromDbByName(NameSession);
+
+            var lastGameStateFromDto = GetSeaBatllegameFromDbByIdSession(session.Id);
 
             var gameMessage = gameStateModel.GameMessage;
 
-            var lastGameStateFromDto = _context.SeabattleGames.FirstOrDefault(p => p.IdSession == session.Id);
-
-            var newGameStateIntoDto = new SeabattleGame();
-
-            if (lastGameStateFromDto == null)//создание игры (отдельный метод)
+            if (lastGameStateFromDto == null)
             {
-                newGameStateIntoDto.IdPlayerTurn = playerTurn.Id;
-                newGameStateIntoDto.IdSession = session.Id;
-                newGameStateIntoDto.GameMessage = gameMessage;
-                newGameStateIntoDto.StartGame = DateTime.UtcNow;
-                _context.SeabattleGames.Add(newGameStateIntoDto);
-                _context.SaveChanges();
-                return;
-            }
-            else if (lastGameStateFromDto != null && gameStateModel.IsGameOn) // изменить игру чтобы дальше играть
-            {
-
-                lastGameStateFromDto.IdPlayerTurn = playerTurn.Id;
-                lastGameStateFromDto.GameMessage = gameMessage;
-                SaveOrResavePlayerStateModel(gameStateModel.Player1);
-                SaveOrResavePlayerStateModel(gameStateModel.Player2);
-                _context.SeabattleGames.Attach(lastGameStateFromDto);
-                _context.Entry(lastGameStateFromDto).Property(r => r.IdPlayerTurn).IsModified = true;
-                _context.Entry(lastGameStateFromDto).Property(r => r.GameMessage).IsModified = true;
-                _context.SaveChanges();
-                return;
+                CreateSeabattleGameInDb(playerTurn.Id, session.Id, gameMessage);
             }
 
-            else if (lastGameStateFromDto != null && !gameStateModel.IsGameOn) // конец игры (кто выиграл и дату окончания)
+            else if (lastGameStateFromDto != null && gameStateModel.IsGameOn)
             {
-                lastGameStateFromDto.IdPlayerTurn = null;
-                lastGameStateFromDto.GameMessage = gameMessage;
                 SaveOrResavePlayerStateModel(gameStateModel.Player1);
                 SaveOrResavePlayerStateModel(gameStateModel.Player2);
-                lastGameStateFromDto.EndGame = DateTime.UtcNow;
-                _context.SeabattleGames.Attach(lastGameStateFromDto);
-                _context.Entry(lastGameStateFromDto).Property(r => r.IdPlayerTurn).IsModified = true;
-                _context.Entry(lastGameStateFromDto).Property(r => r.GameMessage).IsModified = true;
-                _context.Entry(lastGameStateFromDto).Property(r => r.EndGame).IsModified = true;
+                ChangeSeabattleGameInDb(lastGameStateFromDto, playerTurn.Id, gameMessage);
+            }
 
-                _context.SaveChanges();
-                //учитывать если игра даст что она закнчилась надо сохранить конец игры
-                return;
+            else if (lastGameStateFromDto != null && !gameStateModel.IsGameOn)
+            {
+                SaveOrResavePlayerStateModel(gameStateModel.Player1);
+                SaveOrResavePlayerStateModel(gameStateModel.Player2);
+                EndSeabattleGameInDb(lastGameStateFromDto, gameMessage);
             }
         }
 
         public void ResaveValidShoot(ShootModel shootModel)
         {
-            var session = _context.Sessions.FirstOrDefault(p => p.Name == shootModel.NameSession)
-             ?? throw new NotImplementedException();
+            var session = GetSessionFromDbByName(shootModel.NameSession);
 
-            var gameStateDto = _context.SeabattleGames.FirstOrDefault(p => p.IdSession == session.Id)
-                ?? throw new NotImplementedException();
+            var gameStateDto = GetSeaBatllegameFromDbByIdSession(session.Id);
 
-            var player = _context.Players.FirstOrDefault(p => p.Name == shootModel.NamePlayer)
-                ?? throw new NotImplementedException();
+            var player = GetPlayerFromDbByName(shootModel.NamePlayer);
 
-            var shootInDto = _context.Shoots.FirstOrDefault(p => p.IdSeabattleGame == gameStateDto.Id);
+            var shootInDb = _context.Shoots.FirstOrDefault(p => p.IdSeabattleGame == gameStateDto.Id);
 
-            if (shootInDto == null && gameStateDto.IdPlayerTurn == player.Id)
+            if (shootInDb == null && gameStateDto.IdPlayerTurn == player.Id)
             {
-                var shootIntoDto = new Shoot();
-                shootIntoDto.IdPlayerShoot = player.Id;
-                shootIntoDto.IdSeabattleGame = gameStateDto.Id;
-                shootIntoDto.ShootCoordinateY = shootModel.ShootCoordinateY;
-                shootIntoDto.ShootCoordinateX = shootModel.ShootCoordinateX;
-                shootIntoDto.TimeShoot = DateTime.UtcNow;
-                _context.Shoots.Add(shootIntoDto);
-                _context.SaveChanges();
-                return;
+                CreateShootInDb(player.Id, gameStateDto.Id, shootModel.ShootCoordinateY, shootModel.ShootCoordinateX);
             }
 
-            else if (shootInDto != null && gameStateDto.IdPlayerTurn == player.Id)
+            else if (shootInDb != null && gameStateDto.IdPlayerTurn == player.Id)
             {
-                shootInDto.IdPlayerShoot = player.Id;
-                shootInDto.ShootCoordinateY = shootModel.ShootCoordinateY;
-                shootInDto.ShootCoordinateX = shootModel.ShootCoordinateX;
-                shootInDto.TimeShoot = DateTime.UtcNow;
-                _context.Shoots.Attach(shootInDto);
-                _context.Entry(shootInDto).Property(r => r.IdPlayerShoot).IsModified = true;
-                _context.Entry(shootInDto).Property(r => r.ShootCoordinateY).IsModified = true;
-                _context.Entry(shootInDto).Property(r => r.ShootCoordinateX).IsModified = true;
-                _context.Entry(shootInDto).Property(r => r.TimeShoot).IsModified = true;
-                _context.SaveChanges();
-                return;
+                ChangeShootInDb(shootInDb, player.Id, shootModel.ShootCoordinateY, shootModel.ShootCoordinateX);
             }
-
-            throw new NotImplementedException();
         }
 
         public ShootModel GetLastShootModelOrNullByName(string namePlayer)
         {
-            var player = _context.Players.FirstOrDefault(p => p.Name == namePlayer)
+            var player = GetPlayerFromDbByName(namePlayer);
+
+            var session = GetSessionFromDbById(player.Id);
+
+            var gameDb = GetSeaBatllegameFromDbByIdSession(session.Id);
+
+            var shootDb = _context.Shoots.FirstOrDefault(p => p.IdSeabattleGame == gameDb.Id)
                 ?? throw new NotImplementedException();
 
-            var session = _context.Sessions.FirstOrDefault(p => p.IdPlayerHost == player.Id || p.IdPlayerJoin == player.Id)
-                ?? throw new NotImplementedException();
+            var playerShoot = GetPlayerFromDbById(shootDb.IdPlayerShoot);
 
-            var gameStateDto = _context.SeabattleGames.FirstOrDefault(p => p.IdSession == session.Id)
-                ?? throw new NotImplementedException();
-
-            var shootFromDto = _context.Shoots.FirstOrDefault(p => p.IdSeabattleGame == gameStateDto.Id)
-                ?? throw new NotImplementedException();
-
-            var playerShoot = _context.Players.FirstOrDefault(p => p.Id == shootFromDto.IdPlayerShoot)
-                ?? throw new NotImplementedException();
-
-            var shootModel = new ShootModel(
-                Convert.ToInt32(shootFromDto.ShootCoordinateY),
-                Convert.ToInt32(shootFromDto.ShootCoordinateX),
+            return new ShootModel(
+                Convert.ToInt32(shootDb.ShootCoordinateY),
+                Convert.ToInt32(shootDb.ShootCoordinateX),
                 playerShoot.Name,
                 session.Name);
+        }
 
-            return shootModel;
+
+
+        private void CreateSeabattleGameInDb(long playerTurnId, long sessionId, string gameMessage)
+        {
+            var newGameStateIntoDto = new SeabattleGame();
+            newGameStateIntoDto.IdPlayerTurn = playerTurnId;
+            newGameStateIntoDto.IdSession = sessionId;
+            newGameStateIntoDto.GameMessage = gameMessage;
+            newGameStateIntoDto.StartGame = DateTime.UtcNow;
+            _context.SeabattleGames.Add(newGameStateIntoDto);
+            _context.SaveChanges();
+        }
+
+        private void CreateShootInDb(long playerId, long gameId, long coordinateY, long coordinateX)
+        {
+            var shootIntoDto = new Shoot();
+            shootIntoDto.IdPlayerShoot = playerId;
+            shootIntoDto.IdSeabattleGame = gameId;
+            shootIntoDto.ShootCoordinateY = coordinateY;
+            shootIntoDto.ShootCoordinateX = coordinateX;
+            shootIntoDto.TimeShoot = DateTime.UtcNow;
+            _context.Shoots.Add(shootIntoDto);
+            _context.SaveChanges();
+        }
+
+        private void ChangeGameModel(Playarea playAreaInDb, string gameModel)
+        {
+            playAreaInDb.Playarea1 = gameModel;
+            _context.Playareas.Attach(playAreaInDb);
+            _context.Entry(playAreaInDb).Property(r => r.Playarea1).IsModified = true;
+            _context.SaveChanges();
+            return;
+        }
+
+        private void ChangeSeabattleGameInDb(SeabattleGame lastGameStateFromDto, long playerTurnId, string gameMessage)
+        {
+            lastGameStateFromDto.IdPlayerTurn = playerTurnId;
+            lastGameStateFromDto.GameMessage = gameMessage;
+            _context.SeabattleGames.Attach(lastGameStateFromDto);
+            _context.Entry(lastGameStateFromDto).Property(r => r.IdPlayerTurn).IsModified = true;
+            _context.Entry(lastGameStateFromDto).Property(r => r.GameMessage).IsModified = true;
+            _context.SaveChanges();
+        }
+
+        private Player GetPlayerFromDbByName(string namePlayer)
+        {
+            return _context.Players.FirstOrDefault(p => p.Name == namePlayer)
+                ?? throw new NotImplementedException();
+        }
+
+        private Player GetPlayerFromDbById(long? idPlayer)
+        {
+            return _context.Players.FirstOrDefault(p => p.Id == idPlayer)
+                ?? throw new NotImplementedException();
+        }
+
+        private Session GetSessionFromDbByName(string nameSession)
+        {
+            return _context.Sessions.FirstOrDefault(p => p.Name == nameSession)
+                ?? throw new NotImplementedException();
+        }
+
+        private Session GetSessionFromDbById(long playerId)
+        {
+            return _context.Sessions.FirstOrDefault(p => p.IdPlayerHost == playerId || p.IdPlayerJoin == playerId)
+                ?? throw new NotImplementedException();
+        }
+
+        private Playarea GetPlayAreaFromDbByIdPlayerOrNull(long? id)
+        {
+            return _context.Playareas.FirstOrDefault(p => p.IdPlayer == id);
+        }
+
+        private SeabattleGame GetSeaBatllegameFromDbByIdSession(long id)
+        {
+            return _context.SeabattleGames.FirstOrDefault(p => p.IdSession == id)
+               ?? throw new NotImplementedException();
+        }
+
+        private void EndSeabattleGameInDb(SeabattleGame lastGameStateFromDto, string gameMessage)
+        {
+            lastGameStateFromDto.IdPlayerTurn = null;
+            lastGameStateFromDto.GameMessage = gameMessage;
+            lastGameStateFromDto.EndGame = DateTime.UtcNow;
+            _context.SeabattleGames.Attach(lastGameStateFromDto);
+            _context.Entry(lastGameStateFromDto).Property(r => r.IdPlayerTurn).IsModified = true;
+            _context.Entry(lastGameStateFromDto).Property(r => r.GameMessage).IsModified = true;
+            _context.Entry(lastGameStateFromDto).Property(r => r.EndGame).IsModified = true;
+            _context.SaveChanges();
+        }
+
+        private void ChangeShootInDb(Shoot shootInDb, long playerId, long coordinateY, long coordinateX)
+        {
+            shootInDb.IdPlayerShoot = playerId;
+            shootInDb.ShootCoordinateY = coordinateY;
+            shootInDb.ShootCoordinateX = coordinateX;
+            shootInDb.TimeShoot = DateTime.UtcNow;
+            _context.Shoots.Attach(shootInDb);
+            _context.Entry(shootInDb).Property(r => r.IdPlayerShoot).IsModified = true;
+            _context.Entry(shootInDb).Property(r => r.ShootCoordinateY).IsModified = true;
+            _context.Entry(shootInDb).Property(r => r.ShootCoordinateX).IsModified = true;
+            _context.Entry(shootInDb).Property(r => r.TimeShoot).IsModified = true;
+            _context.SaveChanges();
         }
     }
 }

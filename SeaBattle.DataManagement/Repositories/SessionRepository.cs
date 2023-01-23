@@ -8,9 +8,12 @@ namespace SeaBattle.DataManagement.Repositories
     {
         private readonly SeabattleContext _context;
 
-        public SessionRepository(SeabattleContext context)
+        private readonly IPlayerRepository _playerRepository;
+
+        public SessionRepository(SeabattleContext context, IPlayerRepository playerRepository)
         {
             _context = context;
+            _playerRepository = playerRepository;
         }
 
         public List<HostSessionModel> GetAllHostSessions()
@@ -37,23 +40,9 @@ namespace SeaBattle.DataManagement.Repositories
             return hostSessions;
         }
 
-        public void SaveNewSession(HostSessionModel hostSessionModel)
-        {
-            var player = GetPlayerByName(hostSessionModel.NameHostPlayer);
-
-            var session = new Session()
-            {
-                IdPlayerHost = player.Id,
-                Name = hostSessionModel.NameSession
-            };
-
-            _context.Sessions.Add(session);
-            _context.SaveChanges();
-        }
-
         public StartSessionModel GetStartSessionByNameOrNull(string nameSession)
         {
-            var session = GetSessionByName(nameSession);
+            var session = GetSessionByNameOrNull(nameSession);
 
             if (session == null || session.IdPlayerJoin == null)
             {
@@ -75,7 +64,7 @@ namespace SeaBattle.DataManagement.Repositories
         }
         public void SaveStartsSessions(JoinSessionModel joinSessionModel)
         {
-            var session = GetSessionByName(joinSessionModel.NameSession);
+            var session = GetSessionByNameOrNull(joinSessionModel.NameSession);
 
             if (session == null || session.IdPlayerJoin != null || session.StartSession != null)
             {
@@ -89,6 +78,20 @@ namespace SeaBattle.DataManagement.Repositories
             _context.SaveChanges();
         }
 
+        public void SaveNewSession(HostSessionModel hostSessionModel)
+        {
+            var player = GetPlayerByName(hostSessionModel.NameHostPlayer);
+
+            var session = new Session()
+            {
+                IdPlayerHost = player.Id,
+                Name = hostSessionModel.NameSession
+            };
+
+            _context.Sessions.Add(session);
+            _context.SaveChanges();
+        }
+
         private Player GetPlayerByName(string namePlayer)
         {
             return _context.Players.FirstOrDefault(p => p.Name == namePlayer)
@@ -97,14 +100,12 @@ namespace SeaBattle.DataManagement.Repositories
 
         private Player GetPlayerById(long idPlayer)
         {
-            return _context.Players.FirstOrDefault(p => p.Id == idPlayer)
-                ?? throw new NotImplementedException();
+            return _context.Players.FirstOrDefault(p => p.Id == idPlayer);
         }
 
-        private Session GetSessionByName(string nameSession)
+        private Session GetSessionByNameOrNull(string nameSession)
         {
-            return _context.Sessions.FirstOrDefault(p => p.Name == nameSession)
-                ?? throw new NotImplementedException();
+            return _context.Sessions.FirstOrDefault(p => p.Name == nameSession);
         }
     }
 }
