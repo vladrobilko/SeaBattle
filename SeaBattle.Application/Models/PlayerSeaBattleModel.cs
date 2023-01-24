@@ -12,13 +12,13 @@ namespace SeaBattleApi.Models
 
         public PlayArea PlayArea { get; set; }
 
-        List<Ship> _ships;
+        public List<Ship> _ships { get; set; }
 
         public PlayArea PlayAreaEnemyForInformation { get; set; }
 
         ISeaBattleGameRepository _seaBattleGameRepository;
 
-        public PlayerSeaBattleStateModel(ISeaBattleGameRepository seaBattleGameService, IFillerShips filler = null, string name = null)
+        public PlayerSeaBattleStateModel(ISeaBattleGameRepository seaBattleGameService, IFillerShips filler, string name)
         {
             PlayArea = new PlayArea();
             _filler = filler;
@@ -26,6 +26,11 @@ namespace SeaBattleApi.Models
             _ships = ShipsCreator.CreatShips(new List<ShipConfige>()
             { new ShipConfige(1,4), new ShipConfige(2, 3), new ShipConfige(3, 2), new ShipConfige(4, 1) });
             NamePlayer = name;
+            _seaBattleGameRepository = seaBattleGameService;
+        }
+
+        public PlayerSeaBattleStateModel(ISeaBattleGameRepository seaBattleGameService)
+        {
             _seaBattleGameRepository = seaBattleGameService;
         }
 

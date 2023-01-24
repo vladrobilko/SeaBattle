@@ -58,9 +58,13 @@ public partial class SeabattleContext : DbContext
 
         modelBuilder.Entity<Playarea>(entity =>
         {
-            entity.HasKey(e => e.IdPlayer).HasName("playareas_pkey");
+            entity.HasKey(e => e.Id).HasName("playareas_pkey");
 
             entity.ToTable("playareas");
+
+            entity.Property(e => e.Id)
+                .UseIdentityAlwaysColumn()
+                .HasColumnName("id");
 
             entity.Property(e => e.IdPlayer)
                 .ValueGeneratedNever()
@@ -187,6 +191,46 @@ public partial class SeabattleContext : DbContext
                 .HasForeignKey<Shoot>(d => d.IdSeabattleGame)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("shoots_id_seabattle_game_foreign");
+        });
+
+        modelBuilder.Entity<Ship>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("ships_pkey");
+
+            entity.ToTable("ships");
+
+            entity.Property(e => e.Id)
+                 .UseIdentityAlwaysColumn()
+                 .HasColumnName("id");
+
+            entity.Property(e => e.IdPlayarea).HasColumnName("id_playarea");
+            entity.Property(e => e.Length).HasColumnName("length");
+
+            entity.HasOne(d => d.IdPlayareaNavigation).WithMany(p => p.Ships)
+                  .HasForeignKey(d => d.IdPlayarea)
+                  .OnDelete(DeleteBehavior.ClientSetNull)
+                  .HasConstraintName("ships_id_playarea");
+        });
+
+        modelBuilder.Entity<Cell>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("cells_pkey");
+
+            entity.ToTable("cells");
+
+            entity.Property(e => e.Id)
+                .UseIdentityAlwaysColumn()
+                .HasColumnName("id");
+
+            entity.Property(e => e.IdShip).HasColumnName("id_ship");
+            entity.Property(e => e.CoordinateY).HasColumnName("coordinate y");
+            entity.Property(e => e.CoordinateX).HasColumnName("coordinate x");
+            entity.Property(e => e.IsDead).HasColumnName("is dead");
+
+            entity.HasOne(d => d.IdShipNavigation).WithMany(p => p.Cells)
+                .HasForeignKey(d => d.IdShip)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+               .HasConstraintName("cells_id_ships");
         });
 
         OnModelCreatingPartial(modelBuilder);
