@@ -13,7 +13,7 @@ namespace SeaBattle
 
         PlayArea _playAreaEnemyForInformation;
 
-        List<Ship> _ships;
+        public List<Ship> _ships { get; }
 
         static Random rnd = new Random();
 

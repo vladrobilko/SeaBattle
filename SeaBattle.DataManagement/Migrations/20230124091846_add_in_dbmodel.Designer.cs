@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using SeaBattle.DataManagement.Models;
@@ -11,9 +12,11 @@ using SeaBattle.DataManagement.Models;
 namespace SeaBattle.DataManagement.Migrations
 {
     [DbContext(typeof(SeabattleContext))]
-    partial class SeabattleContextModelSnapshot : ModelSnapshot
+    [Migration("20230124091846_add_in_dbmodel")]
+    partial class addindbmodel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,7 +65,7 @@ namespace SeaBattle.DataManagement.Migrations
                     b.ToTable("app_logs", (string)null);
                 });
 
-            modelBuilder.Entity("SeaBattle.DataManagement.Models.CellDto", b =>
+            modelBuilder.Entity("SeaBattle.DataManagement.Models.Cell", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -319,7 +322,7 @@ namespace SeaBattle.DataManagement.Migrations
                     b.Navigation("IdPlayerNavigation");
                 });
 
-            modelBuilder.Entity("SeaBattle.DataManagement.Models.CellDto", b =>
+            modelBuilder.Entity("SeaBattle.DataManagement.Models.Cell", b =>
                 {
                     b.HasOne("SeaBattle.DataManagement.Models.Ship", "IdShipNavigation")
                         .WithMany("Cells")

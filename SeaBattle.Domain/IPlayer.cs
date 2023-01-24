@@ -1,8 +1,12 @@
-﻿namespace SeaBattle
+﻿using System.Collections.Generic;
+
+namespace SeaBattle
 {
     public interface IPlayer
     {
         string NamePlayer { get; }
+
+        List<Ship> _ships { get; }
 
         void FillShips();
 

@@ -79,7 +79,7 @@ namespace SeaBattle.DataManagement.Repositories
         {
             var player = GetPlayerByName(hostSessionModel.NameHostPlayer);
 
-            var session = new Session()
+            var session = new SessionDto()
             {
                 IdPlayerHost = player.Id,
                 Name = hostSessionModel.NameSession
@@ -89,18 +89,18 @@ namespace SeaBattle.DataManagement.Repositories
             _context.SaveChanges();
         }
 
-        private Player GetPlayerByName(string namePlayer)
+        private PlayerDto GetPlayerByName(string namePlayer)
         {
             return _context.Players.FirstOrDefault(p => p.Name == namePlayer)
                 ?? throw new NotImplementedException();
         }
 
-        private Player GetPlayerById(long idPlayer)
+        private PlayerDto GetPlayerById(long idPlayer)
         {
             return _context.Players.FirstOrDefault(p => p.Id == idPlayer);
         }
 
-        private Session GetSessionByNameOrNull(string nameSession)
+        private SessionDto GetSessionByNameOrNull(string nameSession)
         {
             return _context.Sessions.FirstOrDefault(p => p.Name == nameSession);
         }

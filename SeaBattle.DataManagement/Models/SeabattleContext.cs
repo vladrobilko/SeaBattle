@@ -17,15 +17,19 @@ public partial class SeabattleContext : DbContext
 
     public virtual DbSet<AppLog> AppLogs { get; set; }
 
-    public virtual DbSet<Playarea> Playareas { get; set; }
+    public virtual DbSet<PlayareaDto> Playareas { get; set; }
 
-    public virtual DbSet<Player> Players { get; set; }
+    public virtual DbSet<PlayerDto> Players { get; set; }
 
-    public virtual DbSet<SeabattleGame> SeabattleGames { get; set; }
+    public virtual DbSet<SeabattleGameDto> SeabattleGames { get; set; }
 
-    public virtual DbSet<Session> Sessions { get; set; }
+    public virtual DbSet<SessionDto> Sessions { get; set; }
 
-    public virtual DbSet<Shoot> Shoots { get; set; }
+    public virtual DbSet<ShootDto> Shoots { get; set; }
+
+    public virtual DbSet<ShipDto> Ships { get; set; }
+
+    public virtual DbSet<CellDto> Cells { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
@@ -56,7 +60,7 @@ public partial class SeabattleContext : DbContext
                 .HasConstraintName("app_logs_id_player_foreign");
         });
 
-        modelBuilder.Entity<Playarea>(entity =>
+        modelBuilder.Entity<PlayareaDto>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("playareas_pkey");
 
@@ -77,7 +81,7 @@ public partial class SeabattleContext : DbContext
             entity.Property(e => e.Playarea1).HasColumnName("playarea");
         });
 
-        modelBuilder.Entity<Player>(entity =>
+        modelBuilder.Entity<PlayerDto>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("players_pkey");
 
@@ -93,7 +97,7 @@ public partial class SeabattleContext : DbContext
                 .HasColumnName("name");
         });
 
-        modelBuilder.Entity<SeabattleGame>(entity =>
+        modelBuilder.Entity<SeabattleGameDto>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("seabattle_games_pkey");
 
@@ -125,12 +129,12 @@ public partial class SeabattleContext : DbContext
                 .HasConstraintName("seabattle_games_id_player_win_foreign");
 
             entity.HasOne(d => d.IdSessionNavigation).WithOne(p => p.SeabattleGame)
-                .HasForeignKey<SeabattleGame>(d => d.IdSession)
+                .HasForeignKey<SeabattleGameDto>(d => d.IdSession)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("seabattle_games_id_session_foreign");
         });
 
-        modelBuilder.Entity<Session>(entity =>
+        modelBuilder.Entity<SessionDto>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("sessions_pkey");
 
@@ -163,7 +167,7 @@ public partial class SeabattleContext : DbContext
                 .HasConstraintName("sessions_id_player_join_foreign");
         });
 
-        modelBuilder.Entity<Shoot>(entity =>
+        modelBuilder.Entity<ShootDto>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("shoots_pkey");
 
@@ -188,12 +192,12 @@ public partial class SeabattleContext : DbContext
                 .HasConstraintName("shoots_id_player_shoot_foreign");
 
             entity.HasOne(d => d.IdSeabattleGameNavigation).WithOne(p => p.Shoot)
-                .HasForeignKey<Shoot>(d => d.IdSeabattleGame)
+                .HasForeignKey<ShootDto>(d => d.IdSeabattleGame)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("shoots_id_seabattle_game_foreign");
         });
 
-        modelBuilder.Entity<Ship>(entity =>
+        modelBuilder.Entity<ShipDto>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("ships_pkey");
 
@@ -212,7 +216,7 @@ public partial class SeabattleContext : DbContext
                   .HasConstraintName("ships_id_playarea");
         });
 
-        modelBuilder.Entity<Cell>(entity =>
+        modelBuilder.Entity<CellDto>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("cells_pkey");
 

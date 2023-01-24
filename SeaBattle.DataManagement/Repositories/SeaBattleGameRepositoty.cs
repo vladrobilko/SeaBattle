@@ -4,6 +4,7 @@ using SeaBattle.Application.Services.Interfaces.RepositoryServices;
 using SeaBattle.DataManagement.Converters;
 using SeaBattle.DataManagement.Models;
 using SeaBattleApi.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace SeaBattle.DataManagement.Repositories
 {
@@ -35,9 +36,9 @@ namespace SeaBattle.DataManagement.Repositories
 
             var textModel = playerModel.GetPlayArea().ConvertToString();
 
-            var playArea = new Playarea() { IdPlayer = player.Id, Playarea1 = textModel };
-
             var playAreaInDb = GetPlayAreaFromDbByIdPlayerOrNull(player.Id);
+
+            //так же менять когда ресейвить буду
 
             if (playAreaInDb != null)
             {
@@ -46,8 +47,17 @@ namespace SeaBattle.DataManagement.Repositories
 
             else
             {
-                _context.Playareas.Add(playArea);
+                var listShips = playerModel._ships;//получили лист корбалей
+                // в данном случае в базе нету игровой арены, значит надо получить лист от IPlayer конверитить и сохранять в базе
+                var newPlayArea = new PlayareaDto() { IdPlayer = player.Id, Playarea1 = textModel };
+                
+                _context.Playareas.Add(newPlayArea);
                 _context.SaveChanges();
+
+                var newListForDb = new List<Ship>();
+                //newPlayArea.Id;
+
+                //теперь надо в базу засейвить
             }
         }
 
@@ -179,7 +189,7 @@ namespace SeaBattle.DataManagement.Repositories
 
         private void CreateSeabattleGameInDb(long playerTurnId, long sessionId, string gameMessage)
         {
-            var newGameStateIntoDto = new SeabattleGame();
+            var newGameStateIntoDto = new SeabattleGameDto();
             newGameStateIntoDto.IdPlayerTurn = playerTurnId;
             newGameStateIntoDto.IdSession = sessionId;
             newGameStateIntoDto.GameMessage = gameMessage;
@@ -190,7 +200,7 @@ namespace SeaBattle.DataManagement.Repositories
 
         private void CreateShootInDb(long playerId, long gameId, long coordinateY, long coordinateX)
         {
-            var shootIntoDto = new Shoot();
+            var shootIntoDto = new ShootDto();
             shootIntoDto.IdPlayerShoot = playerId;
             shootIntoDto.IdSeabattleGame = gameId;
             shootIntoDto.ShootCoordinateY = coordinateY;
@@ -200,7 +210,7 @@ namespace SeaBattle.DataManagement.Repositories
             _context.SaveChanges();
         }
 
-        private void ChangeGameModel(Playarea playAreaInDb, string gameModel)
+        private void ChangeGameModel(PlayareaDto playAreaInDb, string gameModel)
         {
             playAreaInDb.Playarea1 = gameModel;
             _context.Playareas.Attach(playAreaInDb);
@@ -209,7 +219,7 @@ namespace SeaBattle.DataManagement.Repositories
             return;
         }
 
-        private void ChangeSeabattleGameInDb(SeabattleGame lastGameStateFromDto, long playerTurnId, string gameMessage)
+        private void ChangeSeabattleGameInDb(SeabattleGameDto lastGameStateFromDto, long playerTurnId, string gameMessage)
         {
             lastGameStateFromDto.IdPlayerTurn = playerTurnId;
             lastGameStateFromDto.GameMessage = gameMessage;
@@ -219,41 +229,41 @@ namespace SeaBattle.DataManagement.Repositories
             _context.SaveChanges();
         }
 
-        private Player GetPlayerFromDbByName(string namePlayer)
+        private PlayerDto GetPlayerFromDbByName(string namePlayer)
         {
             return _context.Players.FirstOrDefault(p => p.Name == namePlayer)
                 ?? throw new NotImplementedException();
         }
 
-        private Player GetPlayerFromDbById(long? idPlayer)
+        private PlayerDto GetPlayerFromDbById(long? idPlayer)
         {
             return _context.Players.FirstOrDefault(p => p.Id == idPlayer)
                 ?? throw new NotImplementedException();
         }
 
-        private Session GetSessionFromDbByName(string nameSession)
+        private SessionDto GetSessionFromDbByName(string nameSession)
         {
             return _context.Sessions.FirstOrDefault(p => p.Name == nameSession)
                 ?? throw new NotImplementedException();
         }
 
-        private Session GetSessionFromDbById(long playerId)
+        private SessionDto GetSessionFromDbById(long playerId)
         {
             return _context.Sessions.FirstOrDefault(p => p.IdPlayerHost == playerId || p.IdPlayerJoin == playerId)
                 ?? throw new NotImplementedException();
         }
 
-        private Playarea GetPlayAreaFromDbByIdPlayerOrNull(long? id)
+        private PlayareaDto GetPlayAreaFromDbByIdPlayerOrNull(long? id)
         {
             return _context.Playareas.FirstOrDefault(p => p.IdPlayer == id);
         }
 
-        private SeabattleGame GetSeaBatllegameFromDbByIdSessionOrNull(long id)
+        private SeabattleGameDto GetSeaBatllegameFromDbByIdSessionOrNull(long id)
         {
             return _context.SeabattleGames.FirstOrDefault(p => p.IdSession == id);
         }
 
-        private void EndSeabattleGameInDb(SeabattleGame lastGameStateFromDto, string gameMessage)
+        private void EndSeabattleGameInDb(SeabattleGameDto lastGameStateFromDto, string gameMessage)
         {
             lastGameStateFromDto.IdPlayerTurn = null;
             lastGameStateFromDto.GameMessage = gameMessage;
@@ -265,7 +275,7 @@ namespace SeaBattle.DataManagement.Repositories
             _context.SaveChanges();
         }
 
-        private void ChangeShootInDb(Shoot shootInDb, long playerId, long coordinateY, long coordinateX)
+        private void ChangeShootInDb(ShootDto shootInDb, long playerId, long coordinateY, long coordinateX)
         {
             shootInDb.IdPlayerShoot = playerId;
             shootInDb.ShootCoordinateY = coordinateY;

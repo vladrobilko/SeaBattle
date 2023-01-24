@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SeaBattle.DataManagement.Models
 {
-    public partial class Cell
+    public partial class CellDto
     {
         public long Id { get; set; }
 
@@ -18,6 +18,6 @@ namespace SeaBattle.DataManagement.Models
 
         public bool IsDead { get; set; }
 
-        public virtual Ship IdShipNavigation { get; set; }
+        public virtual ShipDto IdShipNavigation { get; set; }
     }
 }

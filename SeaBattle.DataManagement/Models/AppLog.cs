@@ -17,5 +17,5 @@ public partial class AppLog
 
     public DateTime Created { get; set; }
 
-    public virtual Player IdPlayerNavigation { get; set; } = null!;
+    public virtual PlayerDto IdPlayerNavigation { get; set; } = null!;
 }

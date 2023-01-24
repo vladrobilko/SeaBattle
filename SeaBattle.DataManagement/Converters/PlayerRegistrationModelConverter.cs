@@ -5,9 +5,9 @@ namespace SeaBattle.DataManagement.Converters
 {
     public static class PlayerRegistrationModelConverter
     {
-        public static Player ConvertToPlayer(this PlayerRegistrationModel playerRegistrationModel)
+        public static PlayerDto ConvertToPlayer(this PlayerRegistrationModel playerRegistrationModel)
         {
-            return new Player() { Name = playerRegistrationModel.NamePlayer };
+            return new PlayerDto() { Name = playerRegistrationModel.NamePlayer };
         }
     }
 }

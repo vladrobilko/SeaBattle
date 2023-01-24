@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SeaBattle.DataManagement.Models;
 
-public partial class Session
+public partial class SessionDto
 {
     public long Id { get; set; }
 
@@ -17,9 +17,9 @@ public partial class Session
 
     public DateTime? EndSession { get; set; }
 
-    public virtual Player IdPlayerHostNavigation { get; set; } = null!;
+    public virtual PlayerDto IdPlayerHostNavigation { get; set; } = null!;
 
-    public virtual Player? IdPlayerJoinNavigation { get; set; }
+    public virtual PlayerDto? IdPlayerJoinNavigation { get; set; }
 
-    public virtual SeabattleGame? SeabattleGame { get; set; }
+    public virtual SeabattleGameDto? SeabattleGame { get; set; }
 }

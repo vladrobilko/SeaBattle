@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SeaBattle.DataManagement.Models;
 
-public partial class Playarea
+public partial class PlayareaDto
 {
     public long Id { get; set; }
 
@@ -13,5 +13,5 @@ public partial class Playarea
 
     public DateTime? ConfirmedPlayarea { get; set; }
 
-    public virtual ICollection<Ship> Ships { get; } = new List<Ship>();
+    public virtual ICollection<ShipDto> Ships { get; } = new List<ShipDto>();
 }

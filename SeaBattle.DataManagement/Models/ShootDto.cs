@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SeaBattle.DataManagement.Models;
 
-public partial class Shoot
+public partial class ShootDto
 {
     public long Id { get; set; }
 
@@ -17,7 +17,7 @@ public partial class Shoot
 
     public DateTime TimeShoot { get; set; }
 
-    public virtual Player IdPlayerShootNavigation { get; set; } = null!;
+    public virtual PlayerDto IdPlayerShootNavigation { get; set; } = null!;
 
-    public virtual SeabattleGame IdSeabattleGameNavigation { get; set; } = null!;
+    public virtual SeabattleGameDto IdSeabattleGameNavigation { get; set; } = null!;
 }
