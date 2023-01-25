@@ -131,6 +131,8 @@ namespace SeaBattle.DataManagement.Repositories
 
         public GameState GetGameStateModelByNameSession(string nameSession)
         {
+            Task.Delay(3000).Wait();
+            
             var session = GetSessionFromDbByName(nameSession);
 
             var gameStateDto = GetSeaBatllegameFromDbByIdSessionOrNull(session.Id);
