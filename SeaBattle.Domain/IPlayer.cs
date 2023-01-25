@@ -6,7 +6,7 @@ namespace SeaBattle
     {
         string NamePlayer { get; }
 
-        List<Ship> _ships { get; }
+        List<Ship> Ships { get; }
 
         void FillShips();
 

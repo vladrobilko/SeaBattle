@@ -12,7 +12,7 @@ namespace SeaBattleApi.Models
 
         public PlayArea PlayArea { get; set; }
 
-        public List<Ship> _ships { get; set; }
+        public List<Ship> Ships { get; set; }
 
         public PlayArea PlayAreaEnemyForInformation { get; set; }
 
@@ -23,7 +23,7 @@ namespace SeaBattleApi.Models
             PlayArea = new PlayArea();
             _filler = filler;
             PlayAreaEnemyForInformation = new PlayArea();
-            _ships = ShipsCreator.CreatShips(new List<ShipConfige>()
+            Ships = ShipsCreator.CreatShips(new List<ShipConfige>()
             { new ShipConfige(1,4), new ShipConfige(2, 3), new ShipConfige(3, 2), new ShipConfige(4, 1) });
             NamePlayer = name;
             _seaBattleGameRepository = seaBattleGameService;
@@ -36,7 +36,7 @@ namespace SeaBattleApi.Models
 
         public void FillShips()
         {
-            _filler.FillShips(PlayArea?.Cells, _ships);
+            _filler.FillShips(PlayArea?.Cells, Ships);
         }
 
         public PlayArea GetPlayArea()
@@ -55,7 +55,7 @@ namespace SeaBattleApi.Models
 
         public ShootResultType OnShoot(Point target)
         {
-            var shootResultType = Shooter.Result(_ships, target);
+            var shootResultType = Shooter.Result(Ships, target);
             PlayArea.Cells[target.Y, target.X].State = CellState.HasShooted;
             if (shootResultType == ShootResultType.Miss)
             {

@@ -5,6 +5,7 @@ using SeaBattle.DataManagement.Converters;
 using SeaBattle.DataManagement.Models;
 using SeaBattleApi.Models;
 using System.ComponentModel.DataAnnotations;
+using System.Numerics;
 
 namespace SeaBattle.DataManagement.Repositories
 {
@@ -38,26 +39,57 @@ namespace SeaBattle.DataManagement.Repositories
 
             var playAreaInDb = GetPlayAreaFromDbByIdPlayerOrNull(player.Id);
 
-            //так же менять когда ресейвить буду
+            var ships = playerModel.Ships;
 
             if (playAreaInDb != null)
             {
-                ChangeGameModel(playAreaInDb, textModel);
+                ResavePlayerStateModel(playAreaInDb, ships, textModel);
             }
 
             else
             {
-                var listShips = playerModel._ships;//получили лист корбалей
-                // в данном случае в базе нету игровой арены, значит надо получить лист от IPlayer конверитить и сохранять в базе
                 var newPlayArea = new PlayareaDto() { IdPlayer = player.Id, Playarea1 = textModel };                
                 _context.Playareas.Add(newPlayArea);
                 _context.SaveChanges();
 
-                foreach (var ship in listShips)
+                foreach (var ship in ships)
                 {
+                    var idPlayAreaForPlayer = _context.Playareas.First(p => p.IdPlayer == player.Id).Id;
+                    var shipDto = new ShipDto();
+                    shipDto.IdPlayarea = idPlayAreaForPlayer;
+                    shipDto.Length = ship.Length;
+                    shipDto.DecksJson = ship._decks.ConvertToJson();
 
+                    _context.Ships.Add(shipDto);
+                    _context.SaveChanges();
                 }
+            }
+        }
 
+        private void ResavePlayerStateModel(PlayareaDto playAreaInDb, List<Ship> shipsFromDomain, string gameModel)
+        {
+            playAreaInDb.Playarea1 = gameModel;
+            _context.Playareas.Attach(playAreaInDb);
+            _context.Entry(playAreaInDb).Property(r => r.Playarea1).IsModified = true;
+            _context.SaveChanges();
+
+            var listShipsInDto = _context.Ships.Where(p => p.IdPlayarea == playAreaInDb.Id);
+
+            foreach (var ship in listShipsInDto)
+            {
+                _context.Ships.Remove(ship);
+            }
+            _context.SaveChanges();            
+
+            foreach (var ship in shipsFromDomain)
+            {
+                var shipDto = new ShipDto();
+                shipDto.IdPlayarea = playAreaInDb.Id;
+                shipDto.Length = ship.Length;
+                shipDto.DecksJson = ship._decks.ConvertToJson();
+
+                _context.Ships.Add(shipDto);
+                _context.SaveChanges();
             }
         }
 
@@ -86,9 +118,15 @@ namespace SeaBattle.DataManagement.Repositories
             var playerStateModel = new PlayerSeaBattleStateModel(new SeaBattleGameRepositoty(_context));
             playerStateModel.NamePlayer = name;
             playerStateModel.PlayArea = playarea;
+            playerStateModel.Ships = GetShipsFromDbByPlayareaId(playAreaModel.Id).ConvertToListShip();
             playerStateModel.PlayAreaEnemyForInformation = enemyPlayArea;
 
             return playerStateModel;
+        }
+
+        private List<ShipDto> GetShipsFromDbByPlayareaId(long idPlayarea)
+        {
+            return _context.Ships.Where(p => p.IdPlayarea == idPlayarea).ToList();
         }
 
         public GameState GetGameStateModelByNameSession(string nameSession)
@@ -208,15 +246,6 @@ namespace SeaBattle.DataManagement.Repositories
             shootIntoDto.TimeShoot = DateTime.UtcNow;
             _context.Shoots.Add(shootIntoDto);
             _context.SaveChanges();
-        }
-
-        private void ChangeGameModel(PlayareaDto playAreaInDb, string gameModel)
-        {
-            playAreaInDb.Playarea1 = gameModel;
-            _context.Playareas.Attach(playAreaInDb);
-            _context.Entry(playAreaInDb).Property(r => r.Playarea1).IsModified = true;
-            _context.SaveChanges();
-            return;
         }
 
         private void ChangeSeabattleGameInDb(SeabattleGameDto lastGameStateFromDto, long playerTurnId, string gameMessage)
