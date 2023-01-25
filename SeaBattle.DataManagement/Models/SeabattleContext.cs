@@ -29,8 +29,6 @@ public partial class SeabattleContext : DbContext
 
     public virtual DbSet<ShipDto> Ships { get; set; }
 
-    public virtual DbSet<CellDto> Cells { get; set; }
-
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseNpgsql("Host=localhost;Database=seabattle;Username=postgres;Password=734911");
@@ -209,33 +207,13 @@ public partial class SeabattleContext : DbContext
 
             entity.Property(e => e.IdPlayarea).HasColumnName("id_playarea");
             entity.Property(e => e.Length).HasColumnName("length");
+            entity.Property(e => e.DecksJson).HasColumnName("decks_json");
 
             entity.HasOne(d => d.IdPlayareaNavigation).WithMany(p => p.Ships)
                   .HasForeignKey(d => d.IdPlayarea)
                   .OnDelete(DeleteBehavior.ClientSetNull)
                   .HasConstraintName("ships_id_playarea");
-        });
-
-        modelBuilder.Entity<CellDto>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("cells_pkey");
-
-            entity.ToTable("cells");
-
-            entity.Property(e => e.Id)
-                .UseIdentityAlwaysColumn()
-                .HasColumnName("id");
-
-            entity.Property(e => e.IdShip).HasColumnName("id_ship");
-            entity.Property(e => e.CoordinateY).HasColumnName("coordinate y");
-            entity.Property(e => e.CoordinateX).HasColumnName("coordinate x");
-            entity.Property(e => e.IsDead).HasColumnName("is dead");
-
-            entity.HasOne(d => d.IdShipNavigation).WithMany(p => p.Cells)
-                .HasForeignKey(d => d.IdShip)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-               .HasConstraintName("cells_id_ships");
-        });
+        });       
 
         OnModelCreatingPartial(modelBuilder);
     }

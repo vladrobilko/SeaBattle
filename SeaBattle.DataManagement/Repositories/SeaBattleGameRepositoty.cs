@@ -49,15 +49,15 @@ namespace SeaBattle.DataManagement.Repositories
             {
                 var listShips = playerModel._ships;//получили лист корбалей
                 // в данном случае в базе нету игровой арены, значит надо получить лист от IPlayer конверитить и сохранять в базе
-                var newPlayArea = new PlayareaDto() { IdPlayer = player.Id, Playarea1 = textModel };
-                
+                var newPlayArea = new PlayareaDto() { IdPlayer = player.Id, Playarea1 = textModel };                
                 _context.Playareas.Add(newPlayArea);
                 _context.SaveChanges();
 
-                var newListForDb = new List<Ship>();
-                //newPlayArea.Id;
+                foreach (var ship in listShips)
+                {
 
-                //теперь надо в базу засейвить
+                }
+
             }
         }
 

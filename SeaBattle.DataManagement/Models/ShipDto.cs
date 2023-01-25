@@ -14,8 +14,8 @@ namespace SeaBattle.DataManagement.Models
 
         public long Length { get; set; }
 
-        public virtual PlayareaDto IdPlayareaNavigation { get; set; }
+        public string DecksJson { get; set; }
 
-        public virtual ICollection<CellDto> Cells { get; } = new List<CellDto>();
+        public virtual PlayareaDto IdPlayareaNavigation { get; set; }
     }
 }
