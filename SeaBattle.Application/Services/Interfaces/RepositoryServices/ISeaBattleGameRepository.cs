@@ -13,10 +13,10 @@ namespace SeaBattle.Application.Services.Interfaces.RepositoryServices
 
         GameState GetGameStateModelByNameSession(string nameSession);
 
+        void ReadyToStartGame(string namePlayer);
+
         void ResaveValidShoot(ShootModel shootModel);
 
         ShootModel GetLastShootModelOrNullByName(string namePlayer);
-
-        void ReadyToStartGame(string namePlayer);
     }   
 }

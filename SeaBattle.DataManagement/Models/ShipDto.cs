@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SeaBattle.DataManagement.Models
+﻿namespace SeaBattle.DataManagement.Models
 {
     public partial class ShipDto
     {

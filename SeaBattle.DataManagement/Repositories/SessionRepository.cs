@@ -46,9 +46,8 @@ namespace SeaBattle.DataManagement.Repositories
                 return null;
             }
 
-            var playerHost = GetPlayerById(session.IdPlayerHost);
-
-            var playerJoin = GetPlayerById(session.IdPlayerHost);
+            var playerHost = GetPlayerByIdOrNull(session.IdPlayerHost);
+            var playerJoin = GetPlayerByIdOrNull(session.IdPlayerHost);
 
             var startSessionModel = new StartSessionModel()
             {
@@ -95,7 +94,7 @@ namespace SeaBattle.DataManagement.Repositories
                 ?? throw new NotImplementedException();
         }
 
-        private PlayerDto GetPlayerById(long idPlayer)
+        private PlayerDto GetPlayerByIdOrNull(long idPlayer)
         {
             return _context.Players.FirstOrDefault(p => p.Id == idPlayer);
         }

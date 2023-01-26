@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace SeaBattle.DataManagement.Models;
+﻿namespace SeaBattle.DataManagement.Models;
 
 public partial class PlayareaDto
 {
