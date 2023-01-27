@@ -34,7 +34,7 @@ namespace SeaBattle
 
         private static Ship KillDeck(Ship ship, Point point)
         {
-            for (int i = 0; i < ship.Length; i++)
+            for (int i = 0; i < ship._decks.Count; i++)
             {
                 if (ship._decks[i] != null && ship._decks[i].Point.Y == point.Y && ship._decks[i].Point.X == point.X)
                     ship._decks[i] = null;
