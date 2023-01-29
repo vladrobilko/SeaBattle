@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeaBattle.Domain", "SeaBatt
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeaBattle.DataManagement", "SeaBattle.DataManagement\SeaBattle.DataManagement.csproj", "{A194E5E5-7553-4257-95C8-BBA52F3E9CDA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeaBattle.UnitTests", "SeaBattle.UnitTests\SeaBattle.UnitTests.csproj", "{3495F31C-E625-4E6E-9CDB-65FFFAC55EA5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{A194E5E5-7553-4257-95C8-BBA52F3E9CDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A194E5E5-7553-4257-95C8-BBA52F3E9CDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A194E5E5-7553-4257-95C8-BBA52F3E9CDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3495F31C-E625-4E6E-9CDB-65FFFAC55EA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3495F31C-E625-4E6E-9CDB-65FFFAC55EA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3495F31C-E625-4E6E-9CDB-65FFFAC55EA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3495F31C-E625-4E6E-9CDB-65FFFAC55EA5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
