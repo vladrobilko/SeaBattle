@@ -13,7 +13,7 @@ namespace SeaBattle.Application.Services
 
         private readonly ISessionRepository _sessionRepository;
 
-        SeaBattleGameStateChanger _seaBattleGameChanger;
+        private readonly SeaBattleGameStateChanger _seaBattleGameChanger;
 
         public SeaBattleGameService(ISeaBattleGameRepository seaBattleGameService, ISessionRepository sessionRepository)
         {
