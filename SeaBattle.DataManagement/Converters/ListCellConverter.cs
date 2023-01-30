@@ -6,16 +6,16 @@ namespace SeaBattle.DataManagement.Converters
     {
         public static string ConvertToJson(this List<Cell> cells)
         {
-            var listCellJson = new List<CellJson>();
+            var listCellJson = new List<CellDto>();
             foreach (var cell in cells)
             {
                 if (cell != null)
                 {
-                    listCellJson.Add(new CellJson() { IsDead = false, Y = cell.Point.Y, X = cell.Point.X });
+                    listCellJson.Add(new CellDto() { IsDead = false, Y = cell.Point.Y, X = cell.Point.X });
                 }
                 else
                 {
-                    listCellJson.Add(new CellJson() { IsDead = true });
+                    listCellJson.Add(new CellDto() { IsDead = true });
                 }
             }
 

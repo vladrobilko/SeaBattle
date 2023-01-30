@@ -9,7 +9,7 @@ namespace SeaBattle.DataManagement.Converters
         {
             var ship = new Ship(Convert.ToInt32(shipDto.Length));
 
-            var decks = JsonConvert.DeserializeObject<List<CellJson>>(shipDto.DecksJson);
+            var decks = JsonConvert.DeserializeObject<List<CellDto>>(shipDto.DecksJson);
 
             foreach (var deck in decks)
             {

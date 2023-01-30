@@ -1,6 +1,6 @@
 ﻿namespace SeaBattle.DataManagement.Converters
 {
-    public class CellJson
+    public class CellDto
     {
         public bool IsDead { get; set; }
 
