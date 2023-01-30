@@ -19,7 +19,7 @@ namespace SeaBattle.DataManagement.Repositories
         public void SaveOrResavePlayerStateModel(IPlayer playerModel)
         {
             var player = GetPlayerFromDbByName(playerModel.NamePlayer);
-            var textModel = playerModel.GetPlayArea().ConvertToString();
+            var textModel = PlayAreaConverter.ToString(playerModel.GetPlayArea());
             var playAreaInDb = GetPlayAreaFromDbByIdPlayerOrNull(player.Id);
 
             var ships = playerModel.Ships;

@@ -8,7 +8,7 @@ namespace SeaBattle.Application.Converters
 {
     public static class PlayAreaConverter
     {
-        public static string[][] ConvertToArrayStringForClient(this PlayArea playArea)
+        public static string[][] ToStringsForClient(this PlayArea playArea)
         {
             string[][] playAreaString = new string[playArea.Height][];
 
@@ -24,7 +24,7 @@ namespace SeaBattle.Application.Converters
             return playAreaString;
         }
 
-        public static string[][] ConvertToArrayStringForClientEnemyPlayArea(this PlayArea playArea)
+        public static string[][] ToStringsForClientEnemyPlayArea(this PlayArea playArea)
         {
             string[][] playAreaString = new string[playArea.Height][];
 
@@ -45,7 +45,7 @@ namespace SeaBattle.Application.Converters
             return playAreaString;
         }
 
-        public static string ConvertToString(this PlayArea playArea)
+        public static string ToString(this PlayArea playArea)
         {
             return string.Join("", playArea.Select(p => p.State.ToStringWithAllCell()));
         }

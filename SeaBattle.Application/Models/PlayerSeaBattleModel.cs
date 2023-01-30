@@ -16,7 +16,7 @@ namespace SeaBattleApi.Models
 
         public PlayArea PlayAreaEnemyForInformation { get; set; }
 
-        ISeaBattleGameRepository _seaBattleGameRepository;
+        private ISeaBattleGameRepository _seaBattleGameRepository;
 
         public PlayerSeaBattleStateModel(ISeaBattleGameRepository seaBattleGameService, IFillerShips filler, string name)
         {

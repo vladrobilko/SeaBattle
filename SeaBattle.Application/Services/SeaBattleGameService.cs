@@ -33,7 +33,7 @@ namespace SeaBattle.Application.Services
             _seaBattleGameRepository.SaveOrResavePlayerStateModel(playerStateModel);
 
             var gameAreaClientModel = new GameAreaClientModel();
-            gameAreaClientModel.ClientPlayArea = playerStateModel.GetPlayArea().ConvertToArrayStringForClient();
+            gameAreaClientModel.ClientPlayArea = playerStateModel.GetPlayArea().ToStringsForClient();
 
             return gameAreaClientModel;
         }
