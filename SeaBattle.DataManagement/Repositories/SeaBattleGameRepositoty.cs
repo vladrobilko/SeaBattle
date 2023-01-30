@@ -90,8 +90,8 @@ namespace SeaBattle.DataManagement.Repositories
                 return null;
             }
 
-            var playarea = ReadPlayareaByIdPlayer(player.Id).Playarea1.ConvertToPlayArea();
-            var enemyPlayArea = ReadPlayareaByIdPlayer(session.IdPlayerJoin).Playarea1.ConvertToPlayArea();
+            var playarea = ReadPlayareaByIdPlayer(player.Id).Playarea1.ToPlayArea();
+            var enemyPlayArea = ReadPlayareaByIdPlayer(session.IdPlayerJoin).Playarea1.ToPlayArea();
 
             if (playarea == null)
             {
@@ -101,7 +101,7 @@ namespace SeaBattle.DataManagement.Repositories
             var playerStateModel = new PlayerSeaBattleStateModel(new SeaBattleGameRepositoty(_context));
             playerStateModel.NamePlayer = name;
             playerStateModel.PlayArea = playarea;
-            playerStateModel.Ships = ReadShipsByPlayareaId(playAreaModel.Id).ConvertToListShip();
+            playerStateModel.Ships = ReadShipsByPlayareaId(playAreaModel.Id).ToListShips();
             playerStateModel.EnemyPlayArea = enemyPlayArea;
 
             return playerStateModel;

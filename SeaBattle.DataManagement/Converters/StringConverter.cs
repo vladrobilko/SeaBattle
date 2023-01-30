@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace SeaBattle.DataManagement.Converters
 {
-    public static class PostgresTextConverter
+    public static class StringConverter
     {
-        public static PlayArea ConvertToPlayArea(this string playAreaFromPostgers)
+        public static PlayArea ToPlayArea(this string playAreaFromPostgers)
         {
             var playArea = new PlayArea();
 
@@ -16,14 +16,14 @@ namespace SeaBattle.DataManagement.Converters
             {
                 for (int j = 0; j < 10; j++)
                 {
-                    playArea.Cells[i, j].State = playAreaFromPostgers[(i * 10) + j].ConvertStringToCellState();
+                    playArea.Cells[i, j].State = playAreaFromPostgers[(i * 10) + j].ToCellState();
                 }
             }
 
             return playArea;
         }
 
-        private static CellState ConvertStringToCellState(this char cell)
+        private static CellState ToCellState(this char cell)
         {
             switch (cell)
             {

@@ -5,7 +5,7 @@ namespace SeaBattle.DataManagement.Converters
 {
     public static class ShipDtoConverter
     {
-        public static Ship ConvertToShip(this ShipDto shipDto)
+        public static Ship ToShip(this ShipDto shipDto)
         {
             var ship = new Ship(Convert.ToInt32(shipDto.Length));
 
@@ -21,13 +21,13 @@ namespace SeaBattle.DataManagement.Converters
 
             return ship;
         }
-        public static List<Ship> ConvertToListShip(this List<ShipDto> shipsFromDto)
+        public static List<Ship> ToListShips(this List<ShipDto> shipsFromDto)
         {
             var shipsDomain = new List<Ship>();
 
             foreach (var ship in shipsFromDto)
             {
-                shipsDomain.Add(ship.ConvertToShip());
+                shipsDomain.Add(ship.ToShip());
             }
 
             return shipsDomain;
