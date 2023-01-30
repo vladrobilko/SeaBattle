@@ -101,7 +101,7 @@ namespace SeaBattle.DataManagement.Repositories
             var playerStateModel = new PlayerSeaBattleStateModel(new SeaBattleGameRepositoty(_context));
             playerStateModel.NamePlayer = name;
             playerStateModel.PlayArea = playarea;
-            playerStateModel.Ships = ReadShipsByPlayareaId(playAreaModel.Id).ToListShips();
+            playerStateModel.Ships = ReadShipsByPlayareaId(playAreaModel.Id).ToShips();
             playerStateModel.EnemyPlayArea = enemyPlayArea;
 
             return playerStateModel;

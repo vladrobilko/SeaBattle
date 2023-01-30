@@ -21,16 +21,10 @@ namespace SeaBattle.DataManagement.Converters
 
             return ship;
         }
-        public static List<Ship> ToListShips(this List<ShipDto> shipsFromDto)
+
+        public static List<Ship> ToShips(this List<ShipDto> shipsFromDto)
         {
-            var shipsDomain = new List<Ship>();
-
-            foreach (var ship in shipsFromDto)
-            {
-                shipsDomain.Add(ship.ToShip());
-            }
-
-            return shipsDomain;
+            return shipsFromDto.Select(p => p.ToShip()).ToList(); ;
         }
     }
 }
