@@ -13,7 +13,7 @@ namespace SeaBattle.DataManagement.Converters
 
             foreach (var deck in decks)
             {
-                if (deck.IsDead == false)
+                if (!deck.IsDead)
                 {
                     ship.PutDeck(deck.Y, deck.X);
                 }
