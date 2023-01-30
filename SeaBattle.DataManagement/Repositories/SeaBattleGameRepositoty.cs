@@ -102,7 +102,7 @@ namespace SeaBattle.DataManagement.Repositories
             playerStateModel.NamePlayer = name;
             playerStateModel.PlayArea = playarea;
             playerStateModel.Ships = GetShipsFromDbByPlayareaId(playAreaModel.Id).ConvertToListShip();
-            playerStateModel.PlayAreaEnemyForInformation = enemyPlayArea;
+            playerStateModel.EnemyPlayArea = enemyPlayArea;
 
             return playerStateModel;
         }

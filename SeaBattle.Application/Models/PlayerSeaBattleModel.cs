@@ -14,7 +14,7 @@ namespace SeaBattleApi.Models
 
         public List<Ship> Ships { get; set; }
 
-        public PlayArea PlayAreaEnemyForInformation { get; set; }
+        public PlayArea EnemyPlayArea { get; set; }
 
         private ISeaBattleGameRepository _seaBattleGameRepository;
 
@@ -22,7 +22,7 @@ namespace SeaBattleApi.Models
         {
             PlayArea = new PlayArea();
             _filler = filler;
-            PlayAreaEnemyForInformation = new PlayArea();
+            EnemyPlayArea = new PlayArea();
             Ships = ShipsCreator.CreatShips();
             NamePlayer = name;
             _seaBattleGameRepository = seaBattleGameService;
@@ -46,9 +46,9 @@ namespace SeaBattleApi.Models
         public Point GetNextValidShootTarget()
         {
             var shoot = _seaBattleGameRepository.GetLastShootModelOrNullByName(NamePlayer) ?? throw new NullReferenceException();
-            if (PlayAreaEnemyForInformation.Cells[shoot.ShootCoordinateY, shoot.ShootCoordinateX].State == CellState.HasShooted)
+            if (EnemyPlayArea.Cells[shoot.ShootCoordinateY, shoot.ShootCoordinateX].State == CellState.HasShooted)
                 throw new NotFiniteNumberException();
-            PlayAreaEnemyForInformation.Cells[shoot.ShootCoordinateY, shoot.ShootCoordinateX].State = CellState.HasShooted;
+            EnemyPlayArea.Cells[shoot.ShootCoordinateY, shoot.ShootCoordinateX].State = CellState.HasShooted;
             return new Point(shoot.ShootCoordinateY, shoot.ShootCoordinateX);
         }
 
