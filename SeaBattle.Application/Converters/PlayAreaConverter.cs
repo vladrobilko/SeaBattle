@@ -47,16 +47,7 @@ namespace SeaBattle.Application.Converters
 
         public static string ConvertToString(this PlayArea playArea)
         {
-            var stringPlayArea = "";
-
-            for (int i = 0; i < 10; i++)
-            {
-                for (int j = 0; j < 10; j++)
-                {
-                    stringPlayArea += playArea.Cells[i, j].State.ToStringWithAllCell();
-                }
-            }
-            return stringPlayArea;
+            return string.Join("", playArea.Select(p => p.State.ToStringWithAllCell()));
         }
     }
 }
