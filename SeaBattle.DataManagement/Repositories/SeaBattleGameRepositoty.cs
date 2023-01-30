@@ -16,26 +16,26 @@ namespace SeaBattle.DataManagement.Repositories
             _context = context;
         }
 
-        public void SaveOrResavePlayerStateModel(IPlayer playerModel)
+        public void CreateOrUpdatePlayerStateModel(IPlayer playerModel)
         {
-            var player = GetPlayerFromDbByName(playerModel.NamePlayer);
+            var player = ReadPlayerByName(playerModel.NamePlayer);
             var textModel = PlayAreaConverter.ToString(playerModel.GetPlayArea());
-            var playAreaInDb = GetPlayAreaFromDbByIdPlayerOrNull(player.Id);
+            var playAreaInDb = ReadPlayareaByIdPlayer(player.Id);
 
             var ships = playerModel.Ships;
 
             if (playAreaInDb != null)
             {
-                ChangePlayerStateModelInDb(playAreaInDb, ships, textModel);
+                UpdatePlayerStateModel(playAreaInDb, ships, textModel);
             }
 
             else
             {
-                CreatePlayerStateModelInDb(ships, player.Id, textModel);
+                CreatePlayerStateModel(ships, player.Id, textModel);
             }
         }
 
-        private void ChangePlayerStateModelInDb(PlayareaDto playAreaInDb, List<Ship> shipsFromDomain, string gameModel)
+        private void UpdatePlayerStateModel(PlayareaDto playAreaInDb, List<Ship> shipsFromDomain, string gameModel)
         {
             playAreaInDb.Playarea1 = gameModel;
             _context.Playareas.Attach(playAreaInDb);
@@ -52,11 +52,11 @@ namespace SeaBattle.DataManagement.Repositories
 
             foreach (var ship in shipsFromDomain)
             {
-                AddShipsInDb(ship, null, playAreaInDb.Id);
+                CreateShips(ship, null, playAreaInDb.Id);
             }
         }
 
-        private void CreatePlayerStateModelInDb(List<Ship> ships, long idPlayer, string playArea)
+        private void CreatePlayerStateModel(List<Ship> ships, long idPlayer, string playArea)
         {
             var newPlayArea = new PlayareaDto() { IdPlayer = idPlayer, Playarea1 = playArea };
             _context.Playareas.Add(newPlayArea);
@@ -64,11 +64,11 @@ namespace SeaBattle.DataManagement.Repositories
 
             foreach (var ship in ships)
             {
-                AddShipsInDb(ship, idPlayer, null);
+                CreateShips(ship, idPlayer, null);
             }
         }
 
-        private void AddShipsInDb(Ship ship, long? idPlayer = null, long? idPlaeArea = null)
+        private void CreateShips(Ship ship, long? idPlayer = null, long? idPlaeArea = null)
         {
             var idPlayAreaForPlayer = idPlaeArea ?? _context.Playareas.First(p => p.IdPlayer == idPlayer).Id;
             var shipDto = new ShipDto();
@@ -79,19 +79,19 @@ namespace SeaBattle.DataManagement.Repositories
             _context.SaveChanges();
         }
 
-        public PlayerSeaBattleStateModel GetConfirmedPlayerStateModelByNameOrNull(string name)
+        public PlayerSeaBattleStateModel ReadConfirmedPlayerStateModelByName(string name)
         {
-            var player = GetPlayerFromDbByName(name);
-            var session = GetSessionFromDbById(player.Id);
-            var playAreaModel = GetPlayAreaFromDbByIdPlayerOrNull(player.Id);
+            var player = ReadPlayerByName(name);
+            var session = ReadSessionById(player.Id);
+            var playAreaModel = ReadPlayareaByIdPlayer(player.Id);
 
             if (playAreaModel.ConfirmedPlayarea == null)
             {
                 return null;
             }
 
-            var playarea = GetPlayAreaFromDbByIdPlayerOrNull(player.Id).Playarea1.ConvertToPlayArea();
-            var enemyPlayArea = GetPlayAreaFromDbByIdPlayerOrNull(session.IdPlayerJoin).Playarea1.ConvertToPlayArea();
+            var playarea = ReadPlayareaByIdPlayer(player.Id).Playarea1.ConvertToPlayArea();
+            var enemyPlayArea = ReadPlayareaByIdPlayer(session.IdPlayerJoin).Playarea1.ConvertToPlayArea();
 
             if (playarea == null)
             {
@@ -101,21 +101,21 @@ namespace SeaBattle.DataManagement.Repositories
             var playerStateModel = new PlayerSeaBattleStateModel(new SeaBattleGameRepositoty(_context));
             playerStateModel.NamePlayer = name;
             playerStateModel.PlayArea = playarea;
-            playerStateModel.Ships = GetShipsFromDbByPlayareaId(playAreaModel.Id).ConvertToListShip();
+            playerStateModel.Ships = ReadShipsByPlayareaId(playAreaModel.Id).ConvertToListShip();
             playerStateModel.EnemyPlayArea = enemyPlayArea;
 
             return playerStateModel;
         }
 
-        public GameState GetGameStateModelByNameSession(string nameSession)
+        public GameState ReadGameStateModelByNameSession(string nameSession)
         {
-            var session = GetSessionFromDbByName(nameSession);
-            var gameStateDto = GetSeaBatllegameFromDbByIdSessionOrNull(session.Id);
-            var playerHost = GetPlayerFromDbById(session.IdPlayerHost);
-            var playerJoin = GetPlayerFromDbById(session.IdPlayerJoin);
-            var playerHostModel = GetConfirmedPlayerStateModelByNameOrNull(playerHost.Name);
-            var playerJoinModel = GetConfirmedPlayerStateModelByNameOrNull(playerJoin.Name);
-            var namePlayerTurn = GetPlayerFromDbById(gameStateDto.IdPlayerTurn).Name;
+            var session = ReadSessionByName(nameSession);
+            var gameStateDto = ReadSeaBatllegameByIdSession(session.Id);
+            var playerHost = ReadPlayerById(session.IdPlayerHost);
+            var playerJoin = ReadPlayerById(session.IdPlayerJoin);
+            var playerHostModel = ReadConfirmedPlayerStateModelByName(playerHost.Name);
+            var playerJoinModel = ReadConfirmedPlayerStateModelByName(playerJoin.Name);
+            var namePlayerTurn = ReadPlayerById(gameStateDto.IdPlayerTurn).Name;
 
             var gameMessage = gameStateDto.GameMessage;
 
@@ -124,10 +124,10 @@ namespace SeaBattle.DataManagement.Repositories
             return new GameState(playerHostModel, playerJoinModel, namePlayerTurn, gameOn, gameMessage);
         }
 
-        public void ReadyToStartGame(string namePlayer)
+        public void UpdatePlayareaToReadyForGame(string namePlayer)
         {
-            var player = GetPlayerFromDbByName(namePlayer);
-            var playAreaInDb = GetPlayAreaFromDbByIdPlayerOrNull(player.Id);
+            var player = ReadPlayerByName(namePlayer);
+            var playAreaInDb = ReadPlayareaByIdPlayer(player.Id);
 
             playAreaInDb.ConfirmedPlayarea = DateTime.UtcNow;
 
@@ -136,35 +136,35 @@ namespace SeaBattle.DataManagement.Repositories
             _context.SaveChanges();
         }
 
-        public void ResaveGameStateModel(GameState gameStateModel, string NameSession)
+        public void UpdateGameStateModel(GameState gameStateModel, string NameSession)
         {
-            var playerTurn = GetPlayerFromDbByName(gameStateModel.NamePlayerTurn);
-            var session = GetSessionFromDbByName(NameSession);
-            var lastGameStateFromDto = GetSeaBatllegameFromDbByIdSessionOrNull(session.Id);
+            var playerTurn = ReadPlayerByName(gameStateModel.NamePlayerTurn);
+            var session = ReadSessionByName(NameSession);
+            var lastGameStateFromDto = ReadSeaBatllegameByIdSession(session.Id);
 
             var gameMessage = gameStateModel.GameMessage;
 
             if (lastGameStateFromDto == null)
             {
-                CreateSeabattleGameInDb(playerTurn.Id, session.Id, gameMessage);
+                CreateSeabattleGame(playerTurn.Id, session.Id, gameMessage);
             }
 
             else if (lastGameStateFromDto != null && gameStateModel.IsGameOn)
             {
-                SaveOrResavePlayerStateModel(gameStateModel.Player1);
-                SaveOrResavePlayerStateModel(gameStateModel.Player2);
-                ChangeSeabattleGameInDb(lastGameStateFromDto, playerTurn.Id, gameMessage);
+                CreateOrUpdatePlayerStateModel(gameStateModel.Player1);
+                CreateOrUpdatePlayerStateModel(gameStateModel.Player2);
+                UpdateSeabattleGame(lastGameStateFromDto, playerTurn.Id, gameMessage);
             }
 
             else if (lastGameStateFromDto != null && !gameStateModel.IsGameOn)
             {
-                SaveOrResavePlayerStateModel(gameStateModel.Player1);
-                SaveOrResavePlayerStateModel(gameStateModel.Player2);
-                EndSeabattleGameInDb(lastGameStateFromDto, gameMessage);
+                CreateOrUpdatePlayerStateModel(gameStateModel.Player1);
+                CreateOrUpdatePlayerStateModel(gameStateModel.Player2);
+                UpdateSeabattleGameForEndGame(lastGameStateFromDto, gameMessage);
             }
         }
 
-        private void ChangeSeabattleGameInDb(SeabattleGameDto lastGameStateFromDto, long playerTurnId, string gameMessage)
+        private void UpdateSeabattleGame(SeabattleGameDto lastGameStateFromDto, long playerTurnId, string gameMessage)
         {
             lastGameStateFromDto.IdPlayerTurn = playerTurnId;
             lastGameStateFromDto.GameMessage = gameMessage;
@@ -174,7 +174,7 @@ namespace SeaBattle.DataManagement.Repositories
             _context.SaveChanges();
         }
 
-        private void CreateSeabattleGameInDb(long playerTurnId, long sessionId, string gameMessage)
+        private void CreateSeabattleGame(long playerTurnId, long sessionId, string gameMessage)
         {
             var newGameStateIntoDto = new SeabattleGameDto();
             newGameStateIntoDto.IdPlayerTurn = playerTurnId;
@@ -185,7 +185,7 @@ namespace SeaBattle.DataManagement.Repositories
             _context.SaveChanges();
         }
 
-        private void EndSeabattleGameInDb(SeabattleGameDto lastGameStateFromDto, string gameMessage)
+        private void UpdateSeabattleGameForEndGame(SeabattleGameDto lastGameStateFromDto, string gameMessage)
         {
             lastGameStateFromDto.IdPlayerTurn = null;
             lastGameStateFromDto.GameMessage = gameMessage;
@@ -197,26 +197,26 @@ namespace SeaBattle.DataManagement.Repositories
             _context.SaveChanges();
         }
 
-        public void ResaveValidShoot(ShootModel shootModel)
+        public void CreateOrUpdateValidShoot(ShootModel shootModel)
         {
-            var session = GetSessionFromDbByName(shootModel.NameSession);
-            var gameStateDto = GetSeaBatllegameFromDbByIdSessionOrNull(session.Id);
-            var player = GetPlayerFromDbByName(shootModel.NamePlayer);
+            var session = ReadSessionByName(shootModel.NameSession);
+            var gameStateDto = ReadSeaBatllegameByIdSession(session.Id);
+            var player = ReadPlayerByName(shootModel.NamePlayer);
 
             var shootInDb = _context.Shoots.FirstOrDefault(p => p.IdSeabattleGame == gameStateDto.Id);
 
             if (shootInDb == null && gameStateDto.IdPlayerTurn == player.Id)
             {
-                CreateShootInDb(player.Id, gameStateDto.Id, shootModel.ShootCoordinateY, shootModel.ShootCoordinateX);
+                CreateShoot(player.Id, gameStateDto.Id, shootModel.ShootCoordinateY, shootModel.ShootCoordinateX);
             }
 
             else if (shootInDb != null && gameStateDto.IdPlayerTurn == player.Id)
             {
-                ChangeShootInDb(shootInDb, player.Id, shootModel.ShootCoordinateY, shootModel.ShootCoordinateX);
+                UpdateShoot(shootInDb, player.Id, shootModel.ShootCoordinateY, shootModel.ShootCoordinateX);
             }
         }
 
-        private void CreateShootInDb(long playerId, long gameId, long coordinateY, long coordinateX)
+        private void CreateShoot(long playerId, long gameId, long coordinateY, long coordinateX)
         {
             var shootIntoDto = new ShootDto();
             shootIntoDto.IdPlayerShoot = playerId;
@@ -228,7 +228,7 @@ namespace SeaBattle.DataManagement.Repositories
             _context.SaveChanges();
         }
 
-        private void ChangeShootInDb(ShootDto shootInDb, long playerId, long coordinateY, long coordinateX)
+        private void UpdateShoot(ShootDto shootInDb, long playerId, long coordinateY, long coordinateX)
         {
             shootInDb.IdPlayerShoot = playerId;
             shootInDb.ShootCoordinateY = coordinateY;
@@ -242,16 +242,16 @@ namespace SeaBattle.DataManagement.Repositories
             _context.SaveChanges();
         }
 
-        public ShootModel GetLastShootModelOrNullByName(string namePlayer)
+        public ShootModel ReadLastShootModelByName(string namePlayer)
         {
-            var player = GetPlayerFromDbByName(namePlayer);
-            var session = GetSessionFromDbById(player.Id);
-            var gameDb = GetSeaBatllegameFromDbByIdSessionOrNull(session.Id);
+            var player = ReadPlayerByName(namePlayer);
+            var session = ReadSessionById(player.Id);
+            var gameDb = ReadSeaBatllegameByIdSession(session.Id);
 
             var shootDb = _context.Shoots.FirstOrDefault(p => p.IdSeabattleGame == gameDb.Id)
                 ?? throw new NotImplementedException();
 
-            var playerShoot = GetPlayerFromDbById(shootDb.IdPlayerShoot);
+            var playerShoot = ReadPlayerById(shootDb.IdPlayerShoot);
 
             return new ShootModel(
                 Convert.ToInt32(shootDb.ShootCoordinateY),
@@ -260,41 +260,41 @@ namespace SeaBattle.DataManagement.Repositories
                 session.Name);
         }
 
-        private List<ShipDto> GetShipsFromDbByPlayareaId(long idPlayarea)
+        private List<ShipDto> ReadShipsByPlayareaId(long idPlayarea)
         {
             return _context.Ships.Where(p => p.IdPlayarea == idPlayarea).ToList();
         }
 
-        private PlayerDto GetPlayerFromDbByName(string namePlayer)
+        private PlayerDto ReadPlayerByName(string namePlayer)
         {
             return _context.Players.FirstOrDefault(p => p.Name == namePlayer)
                 ?? throw new NotImplementedException();
         }
 
-        private PlayerDto GetPlayerFromDbById(long? idPlayer)
+        private PlayerDto ReadPlayerById(long? idPlayer)
         {
             return _context.Players.FirstOrDefault(p => p.Id == idPlayer)
                 ?? throw new NotImplementedException();
         }
 
-        private SessionDto GetSessionFromDbByName(string nameSession)
+        private SessionDto ReadSessionByName(string nameSession)
         {
             return _context.Sessions.FirstOrDefault(p => p.Name == nameSession)
                 ?? throw new NotImplementedException();
         }
 
-        private SessionDto GetSessionFromDbById(long playerId)
+        private SessionDto ReadSessionById(long playerId)
         {
             return _context.Sessions.FirstOrDefault(p => p.IdPlayerHost == playerId || p.IdPlayerJoin == playerId)
                 ?? throw new NotImplementedException();
         }
 
-        private PlayareaDto GetPlayAreaFromDbByIdPlayerOrNull(long? id)
+        private PlayareaDto ReadPlayareaByIdPlayer(long? id)
         {
             return _context.Playareas.FirstOrDefault(p => p.IdPlayer == id);
         }
 
-        private SeabattleGameDto GetSeaBatllegameFromDbByIdSessionOrNull(long id)
+        private SeabattleGameDto ReadSeaBatllegameByIdSession(long id)
         {
             return _context.SeabattleGames.FirstOrDefault(p => p.IdSession == id);
         }

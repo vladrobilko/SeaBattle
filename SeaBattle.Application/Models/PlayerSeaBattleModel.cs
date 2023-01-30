@@ -45,7 +45,7 @@ namespace SeaBattleApi.Models
 
         public Point GetNextValidShootTarget()
         {
-            var shoot = _seaBattleGameRepository.GetLastShootModelOrNullByName(NamePlayer) ?? throw new NullReferenceException();
+            var shoot = _seaBattleGameRepository.ReadLastShootModelByName(NamePlayer) ?? throw new NullReferenceException();
             if (EnemyPlayArea.Cells[shoot.ShootCoordinateY, shoot.ShootCoordinateX].State == CellState.HasShooted)
                 throw new NotFiniteNumberException();
             EnemyPlayArea.Cells[shoot.ShootCoordinateY, shoot.ShootCoordinateX].State = CellState.HasShooted;
