@@ -5,7 +5,7 @@ namespace SeaBattle.Application.Converters
 {
     public static class JoinSessionClientModelConverter
     {
-        public static JoinSessionModel ConvertJoinSessionModel(this JoinSessionClientModel joinSessionClientModel)
+        public static JoinSessionModel ToJoinSessionModel(this JoinSessionClientModel joinSessionClientModel)
         {
             return new JoinSessionModel()
             { 

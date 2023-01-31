@@ -4,7 +4,7 @@ namespace SeaBattle.DataManagement.Converters
 {
     public static class ShipConverter
     {
-        public static string ConvertToJson(this List<Cell> cells)
+        public static string ToJson(this List<Cell> cells)
         {
             var listCellJson = new List<CellDto>();
             foreach (var cell in cells)

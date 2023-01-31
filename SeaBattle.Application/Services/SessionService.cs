@@ -31,7 +31,7 @@ namespace SeaBattle.Application.Services
         {
             _sessionRepository
                 .SaveStartsSessions
-                (joinSessionClient.ConvertJoinSessionModel());
+                (joinSessionClient.ToJoinSessionModel());
         }
     }
 }

@@ -1,16 +1,11 @@
 ﻿using SeaBattle.ApiClientModels.Models;
 using SeaBattle.Application.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SeaBattle.Application.Converters
 {
     public static class ShootPlayerClientModelConverter
     {
-        public static ShootModel ConvertToShootModel(this ShootClientModel shootPlayerClientModel)
+        public static ShootModel ToShootModel(this ShootClientModel shootPlayerClientModel)
         {
             return new ShootModel(
                 shootPlayerClientModel.ShootCoordinateY,

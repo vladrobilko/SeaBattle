@@ -93,7 +93,7 @@ namespace SeaBattle.Application.Services
 
         private void ResaveValidShoot(ShootClientModel shootPlayerClientModel)
         {
-            _seaBattleGameRepository.CreateOrUpdateValidShoot(shootPlayerClientModel.ConvertToShootModel());
+            _seaBattleGameRepository.CreateOrUpdateValidShoot(shootPlayerClientModel.ToShootModel());
         }
 
         private GameState ChangeGameState(GameState gameState)

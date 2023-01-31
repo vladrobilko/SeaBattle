@@ -74,7 +74,7 @@ namespace SeaBattle.DataManagement.Repositories
             var shipDto = new ShipDto();
             shipDto.IdPlayarea = idPlayAreaForPlayer;
             shipDto.Length = ship.Length;
-            shipDto.DecksJson = ship._decks.ConvertToJson();
+            shipDto.DecksJson = ship._decks.ToJson();
             _context.Ships.Add(shipDto);
             _context.SaveChanges();
         }

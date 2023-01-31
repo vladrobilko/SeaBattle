@@ -16,7 +16,7 @@ namespace SeaBattle.DataManagement.Repositories
 
         public void Create(PlayerRegistrationModel playerRegistrationModel)
         {
-            _context.Players.Add(PlayerRegistrationModelConverter.ConvertToPlayer(playerRegistrationModel));
+            _context.Players.Add(PlayerRegistrationModelConverter.ToPlayerDto(playerRegistrationModel));
             _context.SaveChanges();
         }
     }

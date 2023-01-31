@@ -5,7 +5,7 @@ namespace SeaBattle.Application.Converters
 {
     public static class PlayerRegistrationClientModelConverter
     {
-        public static PlayerRegistrationModel ConvertToPlayerRegistrationModel(this PlayerRegistrationClientModel playerRegistrationClientModel)
+        public static PlayerRegistrationModel ToPlayerRegistrationModel(this PlayerRegistrationClientModel playerRegistrationClientModel)
         {
             return new PlayerRegistrationModel()
             { 
