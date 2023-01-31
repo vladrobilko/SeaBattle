@@ -6,20 +6,15 @@ namespace SeaBattle.DataManagement.Converters
     {
         public static string ToJson(this List<Cell> cells)
         {
-            var listCellJson = new List<CellDto>();
-            foreach (var cell in cells)
-            {
-                if (cell != null)
+            return JsonConvert.SerializeObject(cells
+                .Where(c => c != null)
+                .Select(c => new CellDto()
                 {
-                    listCellJson.Add(new CellDto() { IsDead = false, Y = cell.Point.Y, X = cell.Point.X });
-                }
-                else
-                {
-                    listCellJson.Add(new CellDto() { IsDead = true });
-                }
-            }
-
-            return JsonConvert.SerializeObject(listCellJson);
+                    IsDead = false,
+                    Y = c.Point.Y,
+                    X = c.Point.X
+                })
+                .ToList());
         }
     }
 }
