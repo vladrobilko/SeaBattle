@@ -42,7 +42,7 @@ namespace SeaBattle.Application.Services
         {
             return _seaBattleGameRepository
                 .ReadGameStateModelByNameSession(infoPlayerClientModel.SessionName)
-                .ConvertToGameClientModel(infoPlayerClientModel.PlayerName);
+                .ToGameClientModel(infoPlayerClientModel.PlayerName);
         }
 
         public void ReadyToStartGame(InfoPlayerClientModel infoPlayerClientModel)

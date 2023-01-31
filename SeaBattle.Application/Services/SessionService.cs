@@ -17,14 +17,14 @@ namespace SeaBattle.Application.Services
         public void CreateNewSession(HostSessionClientModel newSessionClient)
         {
             _sessionRepository
-                .SaveNewSession(newSessionClient.ConvertToHostSessionModel());
+                .SaveNewSession(newSessionClient.ToHostSessionModel());
         }
 
         public List<HostSessionClientModel> GetAllHostSessions()
         {
             return _sessionRepository
                 .GetAllHostSessions()
-                .ConvertToListHostSessionClientModel();
+                .ToListHostSessionClientModel();
         }
 
         public void JoinToSession(JoinSessionClientModel joinSessionClient)

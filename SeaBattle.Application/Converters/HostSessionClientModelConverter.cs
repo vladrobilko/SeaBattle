@@ -5,7 +5,7 @@ namespace SeaBattle.Application.Converters
 {
     public static class HostSessionClientModelConverter
     {
-        public static HostSessionModel ConvertToHostSessionModel(this HostSessionClientModel hostSessionClientModel)
+        public static HostSessionModel ToHostSessionModel(this HostSessionClientModel hostSessionClientModel)
         {
             return new HostSessionModel() 
             { 
