@@ -52,7 +52,7 @@ namespace SeaBattle.DataManagement.Repositories
 
             foreach (var ship in shipsFromDomain)
             {
-                CreateShips(ship, null, playAreaInDb.Id);
+                CreateShips(playAreaInDb.Id, ship);
             }
         }
 
@@ -64,13 +64,23 @@ namespace SeaBattle.DataManagement.Repositories
 
             foreach (var ship in ships)
             {
-                CreateShips(ship, idPlayer, null);
+                CreateShips(ship, idPlayer);
             }
         }
 
-        private void CreateShips(Ship ship, long? idPlayer = null, long? idPlaeArea = null)
+        private void CreateShips(long? idPlaeArea, Ship ship)
         {
-            var idPlayAreaForPlayer = idPlaeArea ?? _context.Playareas.First(p => p.IdPlayer == idPlayer).Id;
+            var shipDto = new ShipDto();
+            shipDto.IdPlayarea = (long)idPlaeArea;
+            shipDto.Length = ship.Length;
+            shipDto.DecksJson = ship._decks.ToJson();
+            _context.Ships.Add(shipDto);
+            _context.SaveChanges();
+        }
+
+        private void CreateShips(Ship ship, long? idPlayer)
+        {
+            var idPlayAreaForPlayer =_context.Playareas.First(p => p.IdPlayer == idPlayer).Id;
             var shipDto = new ShipDto();
             shipDto.IdPlayarea = idPlayAreaForPlayer;
             shipDto.Length = ship.Length;
