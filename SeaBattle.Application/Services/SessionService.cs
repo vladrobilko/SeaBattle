@@ -24,7 +24,7 @@ namespace SeaBattle.Application.Services
         {
             return _sessionRepository
                 .GetAllHostSessions()
-                .ToListHostSessionClientModel();
+                .ToHostSessionClientModels();
         }
 
         public void JoinToSession(JoinSessionClientModel joinSessionClient)
