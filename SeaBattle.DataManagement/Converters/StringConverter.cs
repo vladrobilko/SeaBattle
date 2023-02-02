@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,16 +9,13 @@ namespace SeaBattle.DataManagement.Converters
 {
     public static class StringConverter
     {
-        public static PlayArea ToPlayArea(this string playAreaFromPostgers)
+        public static PlayArea ToPlayArea(this string stringPlayArea)
         {
             var playArea = new PlayArea();
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < stringPlayArea.Length; i++)
             {
-                for (int j = 0; j < 10; j++)
-                {
-                    playArea.Cells[i, j].State = playAreaFromPostgers[(i * 10) + j].ToCellState();
-                }
+                playArea[i].State = stringPlayArea[i].ToCellState();
             }
 
             return playArea;
@@ -39,7 +37,6 @@ namespace SeaBattle.DataManagement.Converters
                     return CellState.HasHit;
                 default: return CellState.Empty;
             }
-
         }
     }
 }

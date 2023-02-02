@@ -9,7 +9,12 @@ namespace SeaBattle
 
         public int Width { get; set; }
 
-        public Cell[,] Cells { get; set; }        
+        public Cell[,] Cells { get; set; }
+
+        public Cell this[int index]
+        {
+            get => Cells[index / Width, index % Width];
+        }
 
         public PlayArea(int height = 10, int width = 10)
         {
