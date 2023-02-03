@@ -243,6 +243,7 @@ namespace ConsoleGameForClient
                 gameClientModel = await _requestHelper.GetGameModelOrNull(_infoPlayerClientModel);
             }
 
+            Console.Clear();
             Console.WriteLine($"Game ended.\n {gameClientModel.Message}");
             await Task.Delay(10000);
         }

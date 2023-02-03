@@ -121,6 +121,12 @@ namespace SeaBattle.DataManagement.Repositories
         {
             var session = ReadSessionByName(nameSession);
             var gameStateDto = ReadSeaBatllegameByIdSession(session.Id);
+
+            if (gameStateDto.EndGame != null)
+            {
+                return ReadGameStateForEndGame(session, gameStateDto.GameMessage);
+            }
+
             var playerHost = ReadPlayerById(session.IdPlayerHost);
             var playerJoin = ReadPlayerById(session.IdPlayerJoin);
             var playerHostModel = ReadConfirmedPlayerStateModelByName(playerHost.Name);
@@ -132,6 +138,15 @@ namespace SeaBattle.DataManagement.Repositories
             var gameOn = gameStateDto.EndGame == null;
 
             return new GameState(playerHostModel, playerJoinModel, namePlayerTurn, gameOn, gameMessage);
+        }
+
+        private GameState ReadGameStateForEndGame(SessionDto session, string gameMessage)
+        {
+            var playerHost = ReadPlayerById(session.IdPlayerHost);
+            var playerJoin = ReadPlayerById(session.IdPlayerJoin);
+            var playerHostModel = ReadConfirmedPlayerStateModelByName(playerHost.Name);
+            var playerJoinModel = ReadConfirmedPlayerStateModelByName(playerJoin.Name);
+            return new GameState(playerHostModel, playerJoinModel, null, false, gameMessage);
         }
 
         public void UpdatePlayareaToReadyForGame(string namePlayer)
