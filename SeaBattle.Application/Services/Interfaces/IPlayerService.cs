@@ -4,6 +4,6 @@ namespace SeaBattle.Api.Controllers
 {
     public interface IPlayerService
     {
-        void CreateNewPlayer(PlayerRegistrationClientModel playerRegistrationClientModel);
+        void CreatePlayer(PlayerRegistrationClientModel playerRegistrationClientModel);
     }
 }

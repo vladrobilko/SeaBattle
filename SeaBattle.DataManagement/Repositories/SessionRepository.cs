@@ -13,7 +13,7 @@ namespace SeaBattle.DataManagement.Repositories
             _context = context;
         }
 
-        public List<HostSessionModel> GetAllHostSessions()
+        public List<HostSessionModel> ReadAllHostSessions()
         {
             var hostSessions = _context.Players.Join(_context.Sessions,
                 pl => pl.Id, ses => ses.IdPlayerHost,
@@ -27,27 +27,22 @@ namespace SeaBattle.DataManagement.Repositories
                 {
                     NameHostPlayer = s.NameHostPlayer,
                     NameSession = s.NameSession
-                }).ToList();
-
-            if (hostSessions.Count == 0)
-            {
-                throw new NotImplementedException();
-            }
+                }).ToList() ?? throw new NotImplementedException();
 
             return hostSessions;
         }
 
-        public StartSessionModel GetStartSessionByNameOrNull(string nameSession)
+        public StartSessionModel ReadStartSessionByName(string nameSession)
         {
-            var session = GetSessionByNameOrNull(nameSession);
+            var session = ReadSessionByName(nameSession);
 
             if (session == null || session.IdPlayerJoin == null)
             {
                 return null;
             }
 
-            var playerHost = GetPlayerByIdOrNull(session.IdPlayerHost);
-            var playerJoin = GetPlayerByIdOrNull(session.IdPlayerHost);
+            var playerHost = ReadPlayerById(session.IdPlayerHost);
+            var playerJoin = ReadPlayerById(session.IdPlayerHost);
 
             var startSessionModel = new StartSessionModel()
             {
@@ -58,9 +53,10 @@ namespace SeaBattle.DataManagement.Repositories
 
             return startSessionModel;
         }
-        public void SaveStartsSessions(JoinSessionModel joinSessionModel)
+
+        public void UpdateStartSession(JoinSessionModel joinSessionModel)
         {
-            var session = GetSessionByNameOrNull(joinSessionModel.NameSession);
+            var session = ReadSessionByName(joinSessionModel.NameSession);
 
             if (session == null || session.IdPlayerJoin != null || session.StartSession != null)
             {
@@ -68,15 +64,15 @@ namespace SeaBattle.DataManagement.Repositories
             }
 
             session.StartSession = DateTime.UtcNow;
-            session.IdPlayerJoin = GetPlayerByName(joinSessionModel.NameJoinPlayer).Id;
+            session.IdPlayerJoin = ReadPlayerByName(joinSessionModel.NameJoinPlayer).Id;
 
             _context.Sessions.Update(session);
             _context.SaveChanges();
         }
 
-        public void SaveNewSession(HostSessionModel hostSessionModel)
+        public void CreateSession(HostSessionModel hostSessionModel)
         {
-            var player = GetPlayerByName(hostSessionModel.NameHostPlayer);
+            var player = ReadPlayerByName(hostSessionModel.NameHostPlayer);
 
             var session = new SessionDto()
             {
@@ -88,18 +84,18 @@ namespace SeaBattle.DataManagement.Repositories
             _context.SaveChanges();
         }
 
-        private PlayerDto GetPlayerByName(string namePlayer)
+        private PlayerDto ReadPlayerByName(string namePlayer)
         {
             return _context.Players.FirstOrDefault(p => p.Name == namePlayer)
                 ?? throw new NotImplementedException();
         }
 
-        private PlayerDto GetPlayerByIdOrNull(long idPlayer)
+        private PlayerDto ReadPlayerById(long idPlayer)
         {
             return _context.Players.FirstOrDefault(p => p.Id == idPlayer);
         }
 
-        private SessionDto GetSessionByNameOrNull(string nameSession)
+        private SessionDto ReadSessionByName(string nameSession)
         {
             return _context.Sessions.FirstOrDefault(p => p.Name == nameSession);
         }
