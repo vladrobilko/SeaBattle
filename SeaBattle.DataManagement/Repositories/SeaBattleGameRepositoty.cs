@@ -207,7 +207,7 @@ namespace SeaBattle.DataManagement.Repositories
 
         private void UpdateSeabattleGameForEndGame(SeabattleGameDto lastGameStateFromDto, string gameMessage)
         {
-            lastGameStateFromDto.IdPlayerTurn = null;
+            lastGameStateFromDto.IdPlayerWin = lastGameStateFromDto.IdPlayerTurn;
             lastGameStateFromDto.GameMessage = gameMessage;
             lastGameStateFromDto.EndGame = DateTime.UtcNow;
             _context.SeabattleGames.Attach(lastGameStateFromDto);
