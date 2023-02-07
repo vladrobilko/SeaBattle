@@ -1,9 +1,11 @@
-﻿using SeaBattle.Application.Converters;
+﻿using Microsoft.EntityFrameworkCore;
+using SeaBattle.Application.Converters;
 using SeaBattle.Application.Models;
 using SeaBattle.Application.Services.Interfaces.RepositoryServices;
 using SeaBattle.DataManagement.Converters;
 using SeaBattle.DataManagement.Models;
 using SeaBattleApi.Models;
+using System.Data;
 
 namespace SeaBattle.DataManagement.Repositories
 {
@@ -91,27 +93,19 @@ namespace SeaBattle.DataManagement.Repositories
 
         public PlayerSeaBattleStateModel ReadConfirmedPlayerStateModelByName(string name)
         {
+            var playerStateModel = new PlayerSeaBattleStateModel(new SeaBattleGameRepositoty(_context));
+
+            using var transaction = _context.Database.BeginTransaction(IsolationLevel.Serializable);
             var player = ReadPlayerByName(name);
             var session = ReadSessionById(player.Id);
             var playAreaModel = ReadPlayareaByIdPlayer(player.Id);
-
-            if (playAreaModel.ConfirmedPlayarea == null)
-            {
-                return null;
-            }
-
             var playarea = ReadPlayareaByIdPlayer(player.Id).Playarea1.ToPlayArea();
             var enemyPlayArea = ReadPlayareaByIdPlayer(session.IdPlayerJoin).Playarea1.ToPlayArea();
+            playerStateModel.Ships = ReadShipsByPlayareaId(playAreaModel.Id).ToShips();
+            transaction.Commit();
 
-            if (playarea == null)
-            {
-                return null;
-            }
-
-            var playerStateModel = new PlayerSeaBattleStateModel(new SeaBattleGameRepositoty(_context));
             playerStateModel.NamePlayer = name;
             playerStateModel.PlayArea = playarea;
-            playerStateModel.Ships = ReadShipsByPlayareaId(playAreaModel.Id).ToShips();
             playerStateModel.EnemyPlayArea = enemyPlayArea;
 
             return playerStateModel;
@@ -129,9 +123,10 @@ namespace SeaBattle.DataManagement.Repositories
 
             var playerHost = ReadPlayerById(session.IdPlayerHost);
             var playerJoin = ReadPlayerById(session.IdPlayerJoin);
+            var namePlayerTurn = ReadPlayerById(gameStateDto.IdPlayerTurn).Name;
+
             var playerHostModel = ReadConfirmedPlayerStateModelByName(playerHost.Name);
             var playerJoinModel = ReadConfirmedPlayerStateModelByName(playerJoin.Name);
-            var namePlayerTurn = ReadPlayerById(gameStateDto.IdPlayerTurn).Name;
 
             var gameMessage = gameStateDto.GameMessage;
 
