@@ -1,6 +1,7 @@
 ﻿using SeaBattle.Application.Models;
 using SeaBattle.Application.Services.Interfaces.RepositoryServices;
 using SeaBattle.DataManagement.Models;
+using System.Numerics;
 
 namespace SeaBattle.DataManagement.Repositories
 {
@@ -82,6 +83,19 @@ namespace SeaBattle.DataManagement.Repositories
 
             _context.Sessions.Add(session);
             _context.SaveChanges();
+
+            Task.Run(() => EndSessionIfNoJoinPlayer(hostSessionModel.NameSession));
+        }
+
+        private async Task EndSessionIfNoJoinPlayer(string nameSession)
+        {
+            await Task.Delay(15000);
+            var anotherThreadContext = new SeabattleContext();
+            var session = anotherThreadContext.Sessions.FirstOrDefault(p => p.Name == nameSession);
+            session.EndSession = DateTime.UtcNow;
+
+            anotherThreadContext.Sessions.Update(session);
+            anotherThreadContext.SaveChanges();
         }
 
         private PlayerDto ReadPlayerByName(string namePlayer)

@@ -14,16 +14,16 @@ namespace SeaBattle.Repository.Converters
                 Message = gameStateModel.GameMessage
             };
 
-            if (gameStateModel.Player1.NamePlayer == nameClient)
+            if (gameStateModel.Player1?.NamePlayer == nameClient)
             {
-                gameClientModel.ClientPlayArea = gameStateModel.Player1.GetPlayArea().ToStringsForClient();
-                gameClientModel.EnemyPlayArea = gameStateModel.Player2.GetPlayArea().ToStringsForClientEnemyPlayArea();
+                gameClientModel.ClientPlayArea = gameStateModel.Player1?.GetPlayArea().ToStringsForClient();
+                gameClientModel.EnemyPlayArea = gameStateModel.Player2?.GetPlayArea().ToStringsForClientEnemyPlayArea();
             }
 
             else
             {
-                gameClientModel.ClientPlayArea = gameStateModel.Player2.GetPlayArea().ToStringsForClient();
-                gameClientModel.EnemyPlayArea = gameStateModel.Player1.GetPlayArea().ToStringsForClientEnemyPlayArea();
+                gameClientModel.ClientPlayArea = gameStateModel.Player2?.GetPlayArea().ToStringsForClient();
+                gameClientModel.EnemyPlayArea = gameStateModel.Player1?.GetPlayArea().ToStringsForClientEnemyPlayArea();
             }
 
             return gameClientModel;

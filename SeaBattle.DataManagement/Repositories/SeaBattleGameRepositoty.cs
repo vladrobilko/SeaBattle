@@ -116,9 +116,14 @@ namespace SeaBattle.DataManagement.Repositories
             var session = ReadSessionByName(nameSession);
             var gameStateDto = ReadSeaBatllegameByIdSession(session.Id);
 
-            if (gameStateDto.EndGame != null)
+            if (gameStateDto?.EndGame != null)
             {
                 return ReadGameStateForEndGame(session, gameStateDto.GameMessage);
+            }
+
+            else if (gameStateDto == null && session?.EndSession !=null)
+            {
+                return new GameState(null, null, null, true, "Session ends. No join player.");
             }
 
             var playerHost = ReadPlayerById(session.IdPlayerHost);
