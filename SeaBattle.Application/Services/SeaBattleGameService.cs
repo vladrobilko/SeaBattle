@@ -82,7 +82,7 @@ namespace SeaBattle.Application.Services
 
         public void Shoot(ShootClientModel shootPlayerClientModel)
         {
-            _seaBattleGameRepository.CreateOrUpdateValidShoot(shootPlayerClientModel);
+            _seaBattleGameRepository.CreateOrUpdateValidShoot(shootPlayerClientModel.ToShootModel());
 
             var lastGameModel = _seaBattleGameRepository.ReadGameStateModelByNameSession(shootPlayerClientModel.NameSession);
 
