@@ -6,6 +6,7 @@ using SeaBattle.DataManagement.Converters;
 using SeaBattle.DataManagement.Models;
 using SeaBattleApi.Models;
 using System.Data;
+using System.Net.Sockets;
 
 namespace SeaBattle.DataManagement.Repositories
 {
@@ -21,6 +22,11 @@ namespace SeaBattle.DataManagement.Repositories
         public void CreateOrUpdatePlayerStateModel(IPlayer playerModel)
         {
             var player = ReadPlayerByName(playerModel.NamePlayer);
+            var session = ReadSessionById(player.Id);
+            if (session.EndSession != null)
+            {
+                throw new NotImplementedException();
+            }
             var textModel = PlayAreaConverter.ToString(playerModel.GetPlayArea());
             var playAreaInDb = ReadPlayareaByIdPlayer(player.Id);
 
@@ -34,6 +40,23 @@ namespace SeaBattle.DataManagement.Repositories
             else
             {
                 CreatePlayerStateModel(ships, player.Id, textModel);
+                Task.Run(() => EndSessionIfPlayerNotChoosePlayarea(player.Id));
+            }
+        }
+
+        private void EndSessionIfPlayerNotChoosePlayarea(long? idPlayer)
+        {
+            Thread.Sleep(200000);
+            var anotherThreadContext = new SeabattleContext();
+            var playArea = anotherThreadContext.Playareas.FirstOrDefault(p => p.IdPlayer == idPlayer);
+
+            if (playArea.ConfirmedPlayarea == null)
+            {
+                var session = anotherThreadContext.Sessions.FirstOrDefault(p => p.IdPlayerHost == idPlayer || p.IdPlayerJoin == idPlayer);
+                session.EndSession = DateTime.UtcNow;
+
+                anotherThreadContext.Sessions.Update(session);
+                anotherThreadContext.SaveChanges();
             }
         }
 
@@ -152,8 +175,15 @@ namespace SeaBattle.DataManagement.Repositories
         public void UpdatePlayareaToReadyForGame(string namePlayer)
         {
             var player = ReadPlayerByName(namePlayer);
-            var playAreaInDb = ReadPlayareaByIdPlayer(player.Id);
 
+            var session = ReadSessionById(player.Id);
+
+            if (session.EndSession != null)
+            {
+                throw new NotImplementedException();
+            }
+
+            var playAreaInDb = ReadPlayareaByIdPlayer(player.Id);
             playAreaInDb.ConfirmedPlayarea = DateTime.UtcNow;
 
             _context.Playareas.Attach(playAreaInDb);

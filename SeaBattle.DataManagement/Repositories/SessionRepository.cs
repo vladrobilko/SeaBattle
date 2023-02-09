@@ -87,9 +87,9 @@ namespace SeaBattle.DataManagement.Repositories
             Task.Run(() => EndSessionIfNoJoinPlayer(hostSessionModel.NameSession));
         }
 
-        private async Task EndSessionIfNoJoinPlayer(string nameSession)
+        private void EndSessionIfNoJoinPlayer(string nameSession)
         {
-            await Task.Delay(200000);
+            Thread.Sleep(200000);
             var anotherThreadContext = new SeabattleContext();
             var session = anotherThreadContext.Sessions.FirstOrDefault(p => p.Name == nameSession);
             session.EndSession = DateTime.UtcNow;
