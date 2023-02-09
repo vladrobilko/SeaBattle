@@ -20,10 +20,12 @@ namespace SeaBattle.DataManagement.Repositories
                 pl => pl.Id, ses => ses.IdPlayerHost,
                 (pl, ses) => new
                 {
-                    NameHostPlayer = pl.Name,
+                    NameHostPlayer = pl.Name,     
+                    IdPlayerJoin = ses.IdPlayerJoin,
                     NameSession = ses.Name,
-                    TimeStart = ses.StartSession
-                }).Where(t => t.TimeStart == null)
+                    TimeStart = ses.StartSession,
+                    TimeEnd = ses.EndSession
+                }).Where(t => t.TimeStart == null && t.TimeEnd == null && t.IdPlayerJoin == null)
                 .Select(s => new HostSessionModel()
                 {
                     NameHostPlayer = s.NameHostPlayer,
