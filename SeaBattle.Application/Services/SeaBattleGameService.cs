@@ -77,33 +77,18 @@ namespace SeaBattle.Application.Services
                     true,
                     GameStateMessage.WhoShoot(player2.NamePlayer));
 
-            ResaveGameStateModel(gameState, nameSession);
+            _seaBattleGameRepository.UpdateGameStateModel(gameState, nameSession);
         }
 
         public void Shoot(ShootClientModel shootPlayerClientModel)
         {
-            ResaveValidShoot(shootPlayerClientModel);
+            _seaBattleGameRepository.CreateOrUpdateValidShoot(shootPlayerClientModel);
 
             var lastGameModel = _seaBattleGameRepository.ReadGameStateModelByNameSession(shootPlayerClientModel.NameSession);
 
-            var changeGameModel = ChangeGameState(lastGameModel);
+            var changeGameModel = _seaBattleGameChanger.ChangeGameState(lastGameModel);
 
-            ResaveGameStateModel(changeGameModel, shootPlayerClientModel.NameSession);
-        }
-
-        private void ResaveValidShoot(ShootClientModel shootPlayerClientModel)
-        {
-            _seaBattleGameRepository.CreateOrUpdateValidShoot(shootPlayerClientModel.ToShootModel());
-        }
-
-        private GameState ChangeGameState(GameState gameState)
-        {
-            return _seaBattleGameChanger.ChangeGameState(gameState);
-        }
-
-        private void ResaveGameStateModel(GameState gameState, string nameSession)
-        {
-            _seaBattleGameRepository.UpdateGameStateModel(gameState, nameSession);
+            _seaBattleGameRepository.UpdateGameStateModel(changeGameModel, shootPlayerClientModel.NameSession);
         }
     }
 }
