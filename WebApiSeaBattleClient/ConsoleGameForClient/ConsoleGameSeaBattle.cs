@@ -186,14 +186,13 @@ namespace ConsoleGameForClient
 
         private async Task<GameClientStateModel> WaitingStartGame()
         {
-            await Task.Delay(5000);
-            var gameModel = await _requestHelper.GetGameModelOrNull(_infoPlayerClientModel);
+            GameClientStateModel gameModel = null;
 
-            while (gameModel == null || !gameModel.IsGameOn)
+            do
             {
                 await Task.Delay(5000);
                 gameModel = await _requestHelper.GetGameModelOrNull(_infoPlayerClientModel);
-            }
+            } while (gameModel == null || !gameModel.IsGameOn);
 
             if (gameModel.ClientPlayArea == null)
             {
@@ -238,7 +237,6 @@ namespace ConsoleGameForClient
 
                         shootModel = FillShootModelForSend();
 
-                        await Task.Delay(2000);
                         isShootResultValid = await _requestHelper.IsStatusCodeOKAfterPostShoot(shootModel);
                     }
                 }
@@ -250,7 +248,10 @@ namespace ConsoleGameForClient
                     Console.WriteLine(gameClientModel.Message);
                 }
 
-                await Task.Delay(2000);
+                if (gameClientModel.NamePlayerTurn != _infoPlayerClientModel.PlayerName)
+                {
+                    await Task.Delay(3000);
+                }
                 gameClientModel = await _requestHelper.GetGameModelOrNull(_infoPlayerClientModel);
             }
 
