@@ -105,7 +105,7 @@ namespace SeaBattle.DataManagement.Repositories
 
         private void CreateShips(Ship ship, long? idPlayer)
         {
-            var idPlayAreaForPlayer =_context.Playareas.First(p => p.IdPlayer == idPlayer).Id;
+            var idPlayAreaForPlayer = _context.Playareas.First(p => p.IdPlayer == idPlayer).Id;
             var shipDto = new ShipDto();
             shipDto.IdPlayarea = idPlayAreaForPlayer;
             shipDto.Length = ship.Length;
@@ -144,7 +144,7 @@ namespace SeaBattle.DataManagement.Repositories
                 return ReadGameStateForEndGame(session, gameStateDto.GameMessage);
             }
 
-            else if (gameStateDto == null && session?.EndSession !=null)
+            else if (gameStateDto == null && session?.EndSession != null)
             {
                 return new GameState(null, null, null, true, "Session ends. No join player.");
             }
@@ -201,6 +201,7 @@ namespace SeaBattle.DataManagement.Repositories
 
             if (lastGameStateFromDto == null)
             {
+                Task.Run(() => EndSessionIfPlayerNotShooted(session.Id));
                 CreateSeabattleGame(playerTurn.Id, session.Id, gameMessage);
             }
 
@@ -216,6 +217,31 @@ namespace SeaBattle.DataManagement.Repositories
                 CreateOrUpdatePlayerStateModel(gameStateModel.Player1);
                 CreateOrUpdatePlayerStateModel(gameStateModel.Player2);
                 UpdateSeabattleGameForEndGame(lastGameStateFromDto, gameMessage);
+            }
+        }
+
+        private void EndSessionIfPlayerNotShooted(long? idSession)
+        {
+            int timeForShootMilliseconds = 20000;
+            Thread.Sleep(timeForShootMilliseconds);
+            var anotherThreadContext = new SeabattleContext();
+            var game = anotherThreadContext.SeabattleGames.FirstOrDefault(x => x.IdSession == idSession);
+            var shoot = anotherThreadContext.Shoots.FirstOrDefault(x => x.IdSeabattleGame == game.Id);
+
+            if (shoot == null)
+            {
+                game.EndGame = DateTime.UtcNow;
+                game.GameMessage = "Time to shoot is over";
+                anotherThreadContext.SeabattleGames.Update(game);
+                anotherThreadContext.SaveChanges();
+
+            }
+            else if ((int)DateTime.UtcNow.Subtract(shoot.TimeShoot).TotalMilliseconds > timeForShootMilliseconds)
+            {
+                game.EndGame = DateTime.UtcNow;
+                game.GameMessage = "Time to shoot is over";
+                anotherThreadContext.SeabattleGames.Update(game);
+                anotherThreadContext.SaveChanges();
             }
         }
 
@@ -268,6 +294,7 @@ namespace SeaBattle.DataManagement.Repositories
             else if (shootInDb != null && gameStateDto.IdPlayerTurn == player.Id)
             {
                 UpdateShoot(shootInDb, player.Id, shootModel.ShootCoordinateY, shootModel.ShootCoordinateX);
+                Task.Run(() => EndSessionIfPlayerNotShooted(session.Id));
             }
         }
 

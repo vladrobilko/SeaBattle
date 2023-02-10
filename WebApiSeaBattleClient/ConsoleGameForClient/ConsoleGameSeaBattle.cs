@@ -233,6 +233,9 @@ namespace ConsoleGameForClient
 
                         Console.WriteLine(gameClientModel.Message);
 
+                        if (!gameClientModel.IsGameOn)
+                            break;
+
                         shootModel = FillShootModelForSend();
 
                         await Task.Delay(2000);
