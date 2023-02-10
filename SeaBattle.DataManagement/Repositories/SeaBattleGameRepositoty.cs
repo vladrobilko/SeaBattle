@@ -46,7 +46,8 @@ namespace SeaBattle.DataManagement.Repositories
 
         private void EndSessionIfPlayerNotChoosePlayarea(long? idPlayer)
         {
-            Thread.Sleep(200000);
+            int timeOutMinutes = 3;
+            Thread.Sleep(timeOutMinutes.ToMilliseconds());
             var anotherThreadContext = new SeabattleContext();
             var playArea = anotherThreadContext.Playareas.FirstOrDefault(p => p.IdPlayer == idPlayer);
 
@@ -201,7 +202,7 @@ namespace SeaBattle.DataManagement.Repositories
 
             if (lastGameStateFromDto == null)
             {
-                Task.Run(() => EndSessionIfPlayerNotShooted(session.Id));
+                Task.Run(() => EndGameIfPlayerNotShooted(session.Id, default(DateTime)));
                 CreateSeabattleGame(playerTurn.Id, session.Id, gameMessage);
             }
 
@@ -220,23 +221,15 @@ namespace SeaBattle.DataManagement.Repositories
             }
         }
 
-        private void EndSessionIfPlayerNotShooted(long? idSession)
+        private void EndGameIfPlayerNotShooted(long? idSession, DateTime firstTimeShoot)
         {
-            int timeForShootMilliseconds = 20000;
-            Thread.Sleep(timeForShootMilliseconds);
+            int timeForShootMinutes = 3;
+            Thread.Sleep(timeForShootMinutes.ToMilliseconds());
             var anotherThreadContext = new SeabattleContext();
             var game = anotherThreadContext.SeabattleGames.FirstOrDefault(x => x.IdSession == idSession);
             var shoot = anotherThreadContext.Shoots.FirstOrDefault(x => x.IdSeabattleGame == game.Id);
 
-            if (shoot == null)
-            {
-                game.EndGame = DateTime.UtcNow;
-                game.GameMessage = "Time to shoot is over";
-                anotherThreadContext.SeabattleGames.Update(game);
-                anotherThreadContext.SaveChanges();
-
-            }
-            else if ((int)DateTime.UtcNow.Subtract(shoot.TimeShoot).TotalMilliseconds > timeForShootMilliseconds)
+            if (shoot == null || firstTimeShoot >= shoot.TimeShoot)
             {
                 game.EndGame = DateTime.UtcNow;
                 game.GameMessage = "Time to shoot is over";
@@ -293,8 +286,7 @@ namespace SeaBattle.DataManagement.Repositories
 
             else if (shootInDb != null && gameStateDto.IdPlayerTurn == player.Id)
             {
-                UpdateShoot(shootInDb, player.Id, shootModel.ShootCoordinateY, shootModel.ShootCoordinateX);
-                Task.Run(() => EndSessionIfPlayerNotShooted(session.Id));
+                UpdateShoot(shootInDb, player.Id, shootModel.ShootCoordinateY, shootModel.ShootCoordinateX, session.Id);
             }
         }
 
@@ -310,7 +302,7 @@ namespace SeaBattle.DataManagement.Repositories
             _context.SaveChanges();
         }
 
-        private void UpdateShoot(ShootDto shootInDb, long playerId, long coordinateY, long coordinateX)
+        private void UpdateShoot(ShootDto shootInDb, long playerId, long coordinateY, long coordinateX, long idSession)
         {
             shootInDb.IdPlayerShoot = playerId;
             shootInDb.ShootCoordinateY = coordinateY;
@@ -322,6 +314,7 @@ namespace SeaBattle.DataManagement.Repositories
             _context.Entry(shootInDb).Property(r => r.ShootCoordinateX).IsModified = true;
             _context.Entry(shootInDb).Property(r => r.TimeShoot).IsModified = true;
             _context.SaveChanges();
+            Task.Run(() => EndGameIfPlayerNotShooted(idSession, shootInDb.TimeShoot));
         }
 
         public ShootModel ReadLastShootModelByName(string namePlayer)
