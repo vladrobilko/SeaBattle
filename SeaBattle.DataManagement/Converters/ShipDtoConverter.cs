@@ -11,13 +11,7 @@ namespace SeaBattle.DataManagement.Converters
 
             var decks = JsonConvert.DeserializeObject<List<CellDto>>(shipDto.DecksJson);
 
-            foreach (var deck in decks)
-            {
-                if (!deck.IsDead)
-                {
-                    ship.PutDeck(deck.Y, deck.X);
-                }
-            }
+            decks.Where(d => !d.IsDead).ToList().ForEach(d => ship.PutDeck(d.Y,d.X));
 
             return ship;
         }
