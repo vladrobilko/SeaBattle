@@ -14,9 +14,9 @@ namespace SeaBattle.Application.Services
             _playerRepository = playerRepository;
         }
 
-        public void CreateNewPlayer(PlayerRegistrationClientModel playerRegistrationClientModel)
+        public void CreatePlayer(PlayerRegistrationClientModel playerRegistrationClientModel)
         {
-            _playerRepository.SaveNewPlayer(playerRegistrationClientModel.ConvertToPlayerRegistrationModel());
+            _playerRepository.Create(playerRegistrationClientModel.ToPlayerRegistrationModel());
         }
     }
 }

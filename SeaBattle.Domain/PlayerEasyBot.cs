@@ -13,7 +13,7 @@ namespace SeaBattle
 
         PlayArea _playAreaEnemyForInformation;
 
-        List<Ship> _ships;
+        public List<Ship> Ships { get; }
 
         static Random rnd = new Random();
 
@@ -22,13 +22,13 @@ namespace SeaBattle
             _playArea = new PlayArea();
             _playAreaEnemyForInformation = new PlayArea();
             _filler = filler;
-            _ships = ShipsCreator.CreatShips(new List<ShipConfige>()
+            Ships = ShipsCreator.CreatShips(new List<ShipConfige>()
             { new ShipConfige(1,4), new ShipConfige(2, 3), new ShipConfige(3, 2), new ShipConfige(4, 1) });       
         }
 
         public void FillShips()
         {
-            _filler.FillShips(_playArea.Cells, _ships);
+            _filler.FillShips(_playArea.Cells, Ships);
         }
 
         public Point GetNextValidShootTarget()
@@ -46,7 +46,7 @@ namespace SeaBattle
 
         public ShootResultType OnShoot(Point target)
         {
-            ShootResultType shootResultType = Shooter.Result(_ships, target);
+            ShootResultType shootResultType = Shooter.Result(Ships, target);
             _playArea.Cells[target.Y, target.X].State = CellState.HasShooted;
             if (shootResultType == ShootResultType.Miss)
             {

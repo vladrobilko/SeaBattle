@@ -186,13 +186,21 @@ namespace ConsoleGameForClient
 
         private async Task<GameClientStateModel> WaitingStartGame()
         {
-            await Task.Delay(2000);
+            await Task.Delay(5000);
             var gameModel = await _requestHelper.GetGameModelOrNull(_infoPlayerClientModel);
 
             while (gameModel == null || !gameModel.IsGameOn)
             {
-                await Task.Delay(10000);
+                await Task.Delay(5000);
                 gameModel = await _requestHelper.GetGameModelOrNull(_infoPlayerClientModel);
+            }
+
+            if (gameModel.ClientPlayArea == null)
+            {
+                Console.Clear();
+                Console.WriteLine(gameModel.Message);
+                await Task.Delay(5000);
+                Environment.Exit(0);
             }
 
             Console.WriteLine("The game has started");
@@ -225,6 +233,9 @@ namespace ConsoleGameForClient
 
                         Console.WriteLine(gameClientModel.Message);
 
+                        if (!gameClientModel.IsGameOn)
+                            break;
+
                         shootModel = FillShootModelForSend();
 
                         await Task.Delay(2000);
@@ -243,6 +254,7 @@ namespace ConsoleGameForClient
                 gameClientModel = await _requestHelper.GetGameModelOrNull(_infoPlayerClientModel);
             }
 
+            Console.Clear();
             Console.WriteLine($"Game ended.\n {gameClientModel.Message}");
             await Task.Delay(10000);
         }

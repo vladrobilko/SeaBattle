@@ -5,16 +5,18 @@ namespace SeaBattle.Application.Services.Interfaces.RepositoryServices
 {
     public interface ISeaBattleGameRepository
     {
-        void SavePlayerStateModelOrResaveToChangePlayArea(PlayerSeaBattleStateModel playerModel);
+        void CreateOrUpdatePlayerStateModel(IPlayer playerModel);
 
-        PlayerSeaBattleStateModel GetConfirmedPlayerStateModelByName(string name);
+        PlayerSeaBattleStateModel ReadConfirmedPlayerStateModelByName(string name);
 
-        void ResaveGameStateDtoModel(GameState gameStateModel, string NameSession);
+        void UpdateGameStateModel(GameState gameStateModel, string NameSession);
 
-        GameState GetGameStateModelByNameSession(string nameSession);
+        GameState ReadGameStateModelByNameSession(string nameSession);
 
-        void ResaveValidShoot(ShootModel shootModel);
+        void UpdatePlayareaToReadyForGame(string namePlayer);
 
-        ShootModel GetLastShootModelOrNullByName(string namePlayer);
-    }
+        void CreateOrUpdateValidShoot(ShootModel shootModel);
+
+        ShootModel ReadLastShootModelByName(string namePlayer);
+    }   
 }

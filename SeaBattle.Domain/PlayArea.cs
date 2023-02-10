@@ -1,12 +1,20 @@
-﻿namespace SeaBattle
+﻿using System.Collections;
+using System.Collections.Generic;
+
+namespace SeaBattle
 {
-    public class PlayArea
+    public class PlayArea : IEnumerable<Cell>
     {
         public int Height { get; set; }
 
         public int Width { get; set; }
 
-        public Cell[,] Cells { get; set; }        
+        public Cell[,] Cells { get; set; }
+
+        public Cell this[int index]
+        {
+            get => Cells[index / Width, index % Width];
+        }
 
         public PlayArea(int height = 10, int width = 10)
         {
@@ -33,9 +41,17 @@
                 }
             }
         }
+
+        public IEnumerator<Cell> GetEnumerator()
+        {
+            for (int i = 0; i < Height; i++)
+                for (int j = 0; j < Width; j++)
+                    yield return Cells[i, j];
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
     }
-
-
-
-
 }

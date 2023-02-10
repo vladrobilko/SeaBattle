@@ -5,7 +5,7 @@ namespace SeaBattle.Repository.Converters
 {
     public static class GameStateModelConverter
     {
-        public static GameClientStateModel ConvertToGameClientModel(this GameState gameStateModel, string nameClient)
+        public static GameClientStateModel ToGameClientModel(this GameState gameStateModel, string nameClient)
         {
             var gameClientModel = new GameClientStateModel()
             {
@@ -14,16 +14,16 @@ namespace SeaBattle.Repository.Converters
                 Message = gameStateModel.GameMessage
             };
 
-            if (gameStateModel.Player1.NamePlayer == nameClient)
+            if (gameStateModel.Player1?.NamePlayer == nameClient)
             {
-                gameClientModel.ClientPlayArea = gameStateModel.Player1.GetPlayArea().ConvertToArrayStringForClient();
-                gameClientModel.EnemyPlayArea = gameStateModel.Player2.GetPlayArea().ConvertToArrayStringForClientEnemyPlayArea();
+                gameClientModel.ClientPlayArea = gameStateModel.Player1?.GetPlayArea().ToStringsForClient();
+                gameClientModel.EnemyPlayArea = gameStateModel.Player2?.GetPlayArea().ToStringsForClientEnemyPlayArea();
             }
 
             else
             {
-                gameClientModel.ClientPlayArea = gameStateModel.Player2.GetPlayArea().ConvertToArrayStringForClient();
-                gameClientModel.EnemyPlayArea = gameStateModel.Player1.GetPlayArea().ConvertToArrayStringForClientEnemyPlayArea();
+                gameClientModel.ClientPlayArea = gameStateModel.Player2?.GetPlayArea().ToStringsForClient();
+                gameClientModel.EnemyPlayArea = gameStateModel.Player1?.GetPlayArea().ToStringsForClientEnemyPlayArea();
             }
 
             return gameClientModel;

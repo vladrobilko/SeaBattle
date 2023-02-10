@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SeaBattle.Application.Converters
+﻿namespace SeaBattle.Application.Converters
 {
     public static class PlayAreaConverter
     {
-        public static string[][] ConvertToArrayStringForClient(this PlayArea playArea)
+        public static string[][] ToStringsForClient(this PlayArea playArea)
         {
             string[][] playAreaString = new string[playArea.Height][];
 
@@ -17,14 +11,14 @@ namespace SeaBattle.Application.Converters
                 playAreaString[i] = new string[playArea.Width];
                 for (int j = 0; j < playArea.Width; j++)
                 {
-                    playAreaString[i][j] = playArea.Cells[i,j].State.ToStringForInfo();
+                    playAreaString[i][j] = playArea.Cells[i,j].State.ToStringForInfoWithoutBusyDeckNear();
                 }
             }
 
             return playAreaString;
         }
 
-        public static string[][] ConvertToArrayStringForClientEnemyPlayArea(this PlayArea playArea)
+        public static string[][] ToStringsForClientEnemyPlayArea(this PlayArea playArea)
         {
             string[][] playAreaString = new string[playArea.Height][];
 
@@ -38,11 +32,16 @@ namespace SeaBattle.Application.Converters
                         playAreaString[i][j] = " ";
                         continue;                   
                     }
-                    playAreaString[i][j] = playArea.Cells[i, j].State.ToStringForInfo();
+                    playAreaString[i][j] = playArea.Cells[i, j].State.ToStringForInfoWithoutBusyDeckNear();
                 }
             }
 
             return playAreaString;
+        }
+
+        public static string ToString(this PlayArea playArea)
+        {
+            return string.Join("", playArea.Select(p => p.State.ToStringWithAllCell()));
         }
     }
 }
