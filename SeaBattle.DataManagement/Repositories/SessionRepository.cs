@@ -1,4 +1,5 @@
-﻿using SeaBattle.Application.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using SeaBattle.Application.Models;
 using SeaBattle.Application.Services.Interfaces.RepositoryServices;
 using SeaBattle.DataManagement.Converters;
 using SeaBattle.DataManagement.Models;
@@ -17,23 +18,15 @@ namespace SeaBattle.DataManagement.Repositories
 
         public List<HostSessionModel> ReadAllHostSessions()
         {
-            var hostSessions = _context.Players.Join(_context.Sessions,
-                pl => pl.Id, ses => ses.IdPlayerHost,
-                (pl, ses) => new
-                {
-                    NameHostPlayer = pl.Name,     
-                    IdPlayerJoin = ses.IdPlayerJoin,
-                    NameSession = ses.Name,
-                    TimeStart = ses.StartSession,
-                    TimeEnd = ses.EndSession
-                }).Where(t => t.TimeStart == null && t.TimeEnd == null && t.IdPlayerJoin == null)
-                .Select(s => new HostSessionModel()
-                {
-                    NameHostPlayer = s.NameHostPlayer,
-                    NameSession = s.NameSession
-                }).ToList() ?? throw new NotImplementedException();
+            var list = _context.Sessions.Include(s => s.IdPlayerHostNavigation)
+            .Where(s => s.StartSession == null && s.EndSession == null && s.IdPlayerJoin == null)
+            .Select(p => new HostSessionModel()
+            {
+                NameHostPlayer = p.IdPlayerHostNavigation.Name,
+                NameSession = p.Name
+            }).ToList();
 
-            return hostSessions;
+            return list;
         }
 
         public StartSessionModel ReadStartSessionByName(string nameSession)
