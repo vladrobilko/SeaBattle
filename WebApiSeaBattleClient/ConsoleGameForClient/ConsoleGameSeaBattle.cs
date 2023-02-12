@@ -208,52 +208,50 @@ namespace ConsoleGameForClient
 
         private async Task PlayGame(GameClientStateModel gameClientModel)
         {
-            Console.Clear();
-            ConsoleGameFiller.FillConsolePlayerAreaAndEnemyArea(gameClientModel.ClientPlayArea, gameClientModel.EnemyPlayArea);
-
             while (gameClientModel.IsGameOn)
             {
+                gameClientModel = await _requestHelper.GetGameModelOrNull(_infoPlayerClientModel);
                 if (gameClientModel.NamePlayerTurn == _infoPlayerClientModel.PlayerName)
                 {
                     ViewGameInConsole(gameClientModel);
-
-                    var shootModel = FillShootModelForSend();
-
-                    var isShootResultValid = await _requestHelper.IsStatusCodeOKAfterPostShoot(shootModel);
-
-                    while (!isShootResultValid)
-                    {
-                        gameClientModel = await _requestHelper.GetGameModelOrNull(_infoPlayerClientModel);
-
-                        Console.WriteLine(gameClientModel.Message);
-
-                        if (!gameClientModel.IsGameOn)
-                            break;
-
-                        shootModel = FillShootModelForSend();
-
-                        isShootResultValid = await _requestHelper.IsStatusCodeOKAfterPostShoot(shootModel);
-                    }
-                }
-                else
-                {
+                    await Shoot(gameClientModel);
+                    gameClientModel = await _requestHelper.GetGameModelOrNull(_infoPlayerClientModel);
                     ViewGameInConsole(gameClientModel);
                 }
 
                 if (gameClientModel.NamePlayerTurn != _infoPlayerClientModel.PlayerName)
                 {
                     await Task.Delay(3000);
+                    gameClientModel = await _requestHelper.GetGameModelOrNull(_infoPlayerClientModel);
+                    ViewGameInConsole(gameClientModel);
                 }
-                gameClientModel = await _requestHelper.GetGameModelOrNull(_infoPlayerClientModel);
             }
 
             Console.Clear();
             Console.WriteLine($"Game ended.\n {gameClientModel.Message}");
             await Task.Delay(10000);
         }
-        private bool IsShootCompleted(GameClientStateModel gameClientStateModel)
+        private async Task Shoot(GameClientStateModel gameClientStateModel)
         {
-            return false;
+            var shootModel = FillShootModelForSend();
+
+            var isShootResultValid = await _requestHelper.IsStatusCodeOKAfterPostShoot(shootModel);
+
+            while (!isShootResultValid)
+            {
+                gameClientStateModel = await _requestHelper.GetGameModelOrNull(_infoPlayerClientModel);
+
+                Console.WriteLine(gameClientStateModel.Message);
+
+                if (!gameClientStateModel.IsGameOn)
+                {
+                    return;
+                }
+
+                shootModel = FillShootModelForSend();
+
+                isShootResultValid = await _requestHelper.IsStatusCodeOKAfterPostShoot(shootModel);
+            }
         }
 
         private void ViewGameInConsole(GameClientStateModel gameClientStateModel)

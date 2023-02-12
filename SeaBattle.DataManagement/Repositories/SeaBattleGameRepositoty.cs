@@ -204,7 +204,7 @@ namespace SeaBattle.DataManagement.Repositories
 
         public void EndGameIfPlayerNotShooted(string nameSession)
         {
-            var timeOut = new TimeSpan(0, 0, 30);
+            var timeOut = new TimeSpan(0, 3, 0);
             Thread.Sleep(timeOut);
             var context = new SeabattleContext();
             var idSession = context.Sessions.Single(s => s.Name == nameSession).Id;
