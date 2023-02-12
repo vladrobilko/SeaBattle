@@ -323,8 +323,7 @@ namespace SeaBattle.DataManagement.Repositories
             var session = ReadSessionById(player.Id);
             var gameDb = ReadSeaBatllegameByIdSession(session.Id);
 
-            var shootDb = _context.Shoots.FirstOrDefault(p => p.IdSeabattleGame == gameDb.Id)
-                ?? throw new NotImplementedException();
+            var shootDb = _context.Shoots.First(p => p.IdSeabattleGame == gameDb.Id);
 
             var playerShoot = ReadPlayerById(shootDb.IdPlayerShoot);
 
@@ -342,36 +341,32 @@ namespace SeaBattle.DataManagement.Repositories
 
         private PlayerDto ReadPlayerByName(string namePlayer)
         {
-            return _context.Players.FirstOrDefault(p => p.Name == namePlayer)
-                ?? throw new NotImplementedException();
+            return _context.Players.Single(p => p.Name == namePlayer);
         }
 
         private PlayerDto ReadPlayerById(long? idPlayer)
         {
-            return _context.Players.FirstOrDefault(p => p.Id == idPlayer)
-                ?? throw new NotImplementedException();
+            return _context.Players.Single(p => p.Id == idPlayer);
         }
 
         private SessionDto ReadSessionByName(string nameSession)
         {
-            return _context.Sessions.FirstOrDefault(p => p.Name == nameSession)
-                ?? throw new NotImplementedException();
+            return _context.Sessions.SingleOrDefault(p => p.Name == nameSession);
         }
 
         private SessionDto ReadSessionById(long playerId)
         {
-            return _context.Sessions.FirstOrDefault(p => p.IdPlayerHost == playerId || p.IdPlayerJoin == playerId)
-                ?? throw new NotImplementedException();
+            return _context.Sessions.SingleOrDefault(p => p.IdPlayerHost == playerId || p.IdPlayerJoin == playerId);
         }
 
         private PlayareaDto ReadPlayareaByIdPlayer(long? id)
         {
-            return _context.Playareas.FirstOrDefault(p => p.IdPlayer == id);
+            return _context.Playareas.SingleOrDefault(p => p.IdPlayer == id);
         }
 
         private SeabattleGameDto ReadSeaBatllegameByIdSession(long id)
         {
-            return _context.SeabattleGames.FirstOrDefault(p => p.IdSession == id);
+            return _context.SeabattleGames.SingleOrDefault(p => p.IdSession == id);
         }
     }
 }

@@ -95,7 +95,7 @@ namespace SeaBattle.DataManagement.Repositories
             int timeOutMinutes = 3;
             Thread.Sleep(timeOutMinutes.ToMilliseconds());
             var context = new SeabattleContext();
-            var session = context.Sessions.FirstOrDefault(p => p.Name == nameSession);
+            var session = context.Sessions.First(p => p.Name == nameSession);
             if (session.IdPlayerJoin == null)
             {
                 session.EndSession = DateTime.UtcNow;
@@ -106,18 +106,17 @@ namespace SeaBattle.DataManagement.Repositories
 
         private PlayerDto ReadPlayerByName(string namePlayer)
         {
-            return _context.Players.FirstOrDefault(p => p.Name == namePlayer)
-                ?? throw new NotImplementedException();
+            return _context.Players.Single(p => p.Name == namePlayer);
         }
 
         private PlayerDto ReadPlayerById(long idPlayer)
         {
-            return _context.Players.FirstOrDefault(p => p.Id == idPlayer);
+            return _context.Players.Single(p => p.Id == idPlayer);
         }
 
         private SessionDto ReadSessionByName(string nameSession)
         {
-            return _context.Sessions.FirstOrDefault(p => p.Name == nameSession);
+            return _context.Sessions.SingleOrDefault(p => p.Name == nameSession);
         }
     }
 }
