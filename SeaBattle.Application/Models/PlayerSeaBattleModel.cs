@@ -23,7 +23,7 @@ namespace SeaBattleApi.Models
             PlayArea = new PlayArea();
             _filler = filler;
             EnemyPlayArea = new PlayArea();
-            Ships = ShipsCreator.CreatShips();
+            Ships = ShipsCreator.CreateShipsForDefaultGame();
             NamePlayer = name;
             _seaBattleGameRepository = seaBattleGameService;
         }
