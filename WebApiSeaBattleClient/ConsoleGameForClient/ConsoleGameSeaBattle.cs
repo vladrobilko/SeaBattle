@@ -69,13 +69,11 @@ namespace ConsoleGameForClient
                 if (key == ConsoleKey.F1)
                 {
                     await HostSession();
-                    return;
                 }
 
                 else if (key == ConsoleKey.F2)
                 {
                     await JoinSession();
-                    return;
                 }
             }
         }
@@ -83,15 +81,15 @@ namespace ConsoleGameForClient
         private async Task HostSession()
         {
             Console.WriteLine("Host Session.\n Write new host name to start the session");
-            string message = Console.ReadLine();
+            string? sessionName = Console.ReadLine();
 
-            if (await _requestHelper.IsStatusCodeOKAfterPostHostSessionPlayer(_infoPlayerClientModel.PlayerName, message))
+            if (await _requestHelper.IsStatusCodeOKAfterPostHostSessionPlayer(_infoPlayerClientModel.PlayerName, sessionName))
             {
-                SetNameSessionInClientsModels(message);
+                SetNameSessionInClientsModels(sessionName);
 
                 Console.Clear();
                 Console.WriteLine($"The session was created." +
-                    $"\n Your name of session: {message}." +
+                    $"\n Your name of session: {sessionName}." +
                     $"\n Your name: {_infoPlayerClientModel.PlayerName}");
 
                 return;
@@ -113,15 +111,15 @@ namespace ConsoleGameForClient
                 Console.WriteLine(
                     "\nWrite the session name to connect." +
                     "\nOr press another button to return back and host game");
-                string? message = Console.ReadLine();
+                string? sessionName = Console.ReadLine();
 
-                if (await _requestHelper.IsStatusCodeOKAfterPostJoinSessionPlayer(_infoPlayerClientModel.PlayerName, message))
+                if (await _requestHelper.IsStatusCodeOKAfterPostJoinSessionPlayer(_infoPlayerClientModel.PlayerName, sessionName))
                 {
-                    SetNameSessionInClientsModels(message);
+                    SetNameSessionInClientsModels(sessionName);
 
                     Console.Clear();
                     Console.WriteLine($"You have connected to the session." +
-                        $"\n Your name of session: <<{message}>>." +
+                        $"\n Your name of session: <<{sessionName}>>." +
                         $"\n Your name: <<{_infoPlayerClientModel.PlayerName}>>");
 
                     return;
@@ -186,7 +184,7 @@ namespace ConsoleGameForClient
 
         private async Task<GameClientStateModel> WaitingStartGame()
         {
-            GameClientStateModel gameModel = null;
+            GameClientStateModel? gameModel;
 
             do
             {
@@ -217,10 +215,7 @@ namespace ConsoleGameForClient
             {
                 if (gameClientModel.NamePlayerTurn == _infoPlayerClientModel.PlayerName)
                 {
-                    Console.Clear();
-                    ConsoleGameFiller.FillConsolePlayerAreaAndEnemyArea(gameClientModel.ClientPlayArea, gameClientModel.EnemyPlayArea);
-
-                    Console.WriteLine(gameClientModel.Message);
+                    ViewGameInConsole(gameClientModel);
 
                     var shootModel = FillShootModelForSend();
 
@@ -242,10 +237,7 @@ namespace ConsoleGameForClient
                 }
                 else
                 {
-                    Console.Clear();
-                    ConsoleGameFiller.FillConsolePlayerAreaAndEnemyArea(gameClientModel.ClientPlayArea, gameClientModel.EnemyPlayArea);
-
-                    Console.WriteLine(gameClientModel.Message);
+                    ViewGameInConsole(gameClientModel);
                 }
 
                 if (gameClientModel.NamePlayerTurn != _infoPlayerClientModel.PlayerName)
@@ -258,6 +250,17 @@ namespace ConsoleGameForClient
             Console.Clear();
             Console.WriteLine($"Game ended.\n {gameClientModel.Message}");
             await Task.Delay(10000);
+        }
+        private bool IsShootCompleted(GameClientStateModel gameClientStateModel)
+        {
+            return false;
+        }
+
+        private void ViewGameInConsole(GameClientStateModel gameClientStateModel)
+        {
+            Console.Clear();
+            ConsoleGameFiller.FillConsolePlayerAreaAndEnemyArea(gameClientStateModel.ClientPlayArea, gameClientStateModel.EnemyPlayArea);
+            Console.WriteLine(gameClientStateModel.Message);
         }
 
         private ShootClientModel FillShootModelForSend()
