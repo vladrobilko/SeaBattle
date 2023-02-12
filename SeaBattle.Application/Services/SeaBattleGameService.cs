@@ -79,6 +79,8 @@ namespace SeaBattle.Application.Services
                     GameStateMessage.WhoShoot(player2.NamePlayer));
 
             _seaBattleGameRepository.UpdateGameStateModel(gameState, nameSession);
+
+            Task.Run(() => _seaBattleGameRepository.EndGameIfPlayerNotShooted(nameSession));
         }
 
         public void Shoot(ShootClientModel shootPlayerClientModel)
@@ -90,6 +92,8 @@ namespace SeaBattle.Application.Services
             var changeGameModel = _seaBattleGameChanger.ChangeGameState(lastGameModel);
 
             _seaBattleGameRepository.UpdateGameStateModel(changeGameModel, shootPlayerClientModel.NameSession);
+
+            Task.Run(() => _seaBattleGameRepository.EndGameIfPlayerNotShooted(shootPlayerClientModel.NameSession));
         }
     }
 }

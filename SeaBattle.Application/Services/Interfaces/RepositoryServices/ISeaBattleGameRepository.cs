@@ -18,5 +18,7 @@ namespace SeaBattle.Application.Services.Interfaces.RepositoryServices
         void CreateOrUpdateValidShoot(ShootModel shootModel);
 
         ShootModel ReadLastShootModelByName(string namePlayer);
+
+        void EndGameIfPlayerNotShooted(string nameSession);
     }   
 }

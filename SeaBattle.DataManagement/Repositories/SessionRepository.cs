@@ -83,7 +83,7 @@ namespace SeaBattle.DataManagement.Repositories
 
         public void EndSessionIfNoJoinPlayer(string nameSession)
         {
-            Thread.Sleep(new TimeSpan(0, 3, 0));
+            Thread.Sleep(new TimeSpan(0, 5, 0));
             var context = new SeabattleContext();
             var session = context.Sessions.First(p => p.Name == nameSession);
             if (session.IdPlayerJoin == null)
@@ -101,7 +101,7 @@ namespace SeaBattle.DataManagement.Repositories
             var idPlayer = context.Players.First(p => p.Name == namePlayer).Id;
             var playArea = context.Playareas.FirstOrDefault(p => p.IdPlayer == idPlayer);
 
-            if (playArea.ConfirmedPlayarea == null)
+            if (playArea?.ConfirmedPlayarea == null)
             {
                 var session = context.Sessions.First(p => p.IdPlayerHost == idPlayer || p.IdPlayerJoin == idPlayer);
                 session.EndSession = DateTime.UtcNow;

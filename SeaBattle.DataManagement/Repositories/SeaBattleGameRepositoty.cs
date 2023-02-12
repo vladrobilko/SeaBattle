@@ -184,7 +184,6 @@ namespace SeaBattle.DataManagement.Repositories
 
             if (lastGameStateFromDto == null)
             {
-                Task.Run(() => EndGameIfPlayerNotShooted(session.Id, default(DateTime)));
                 CreateSeabattleGame(playerTurn.Id, session.Id, gameMessage);
             }
 
@@ -203,14 +202,16 @@ namespace SeaBattle.DataManagement.Repositories
             }
         }
 
-        private void EndGameIfPlayerNotShooted(long? idSession, DateTime lastShoot)
+        public void EndGameIfPlayerNotShooted(string nameSession)
         {
-            Thread.Sleep(new TimeSpan(0, 3, 0));
+            var timeOut = new TimeSpan(0, 0, 30);
+            Thread.Sleep(timeOut);
             var context = new SeabattleContext();
-            var game = context.SeabattleGames.Single(x => x.IdSession == idSession);
-            var shoot = context.Shoots.FirstOrDefault(x => x.IdSeabattleGame == game.Id);
+            var idSession = context.Sessions.Single(s => s.Name == nameSession).Id;
+            var game = context.SeabattleGames.Single(g => g.IdSession == idSession);
+            var shoot = context.Shoots.FirstOrDefault(s => s.IdSeabattleGame == game.Id);
 
-            if (shoot == null || lastShoot >= shoot.TimeShoot)
+            if (shoot == null || (DateTime.UtcNow - shoot.TimeShoot) > timeOut / 2)
             {
                 game.EndGame = DateTime.UtcNow;
                 game.GameMessage = "Time to shoot is over";
@@ -267,7 +268,7 @@ namespace SeaBattle.DataManagement.Repositories
 
             else if (shootInDb != null && gameStateDto.IdPlayerTurn == player.Id)
             {
-                UpdateShoot(shootInDb, player.Id, shootModel.ShootCoordinateY, shootModel.ShootCoordinateX, session.Id);
+                UpdateShoot(shootInDb, player.Id, shootModel.ShootCoordinateY, shootModel.ShootCoordinateX, session.Name);
             }
         }
 
@@ -283,7 +284,7 @@ namespace SeaBattle.DataManagement.Repositories
             _context.SaveChanges();
         }
 
-        private void UpdateShoot(ShootDto shootInDb, long playerId, long coordinateY, long coordinateX, long idSession)
+        private void UpdateShoot(ShootDto shootInDb, long playerId, long coordinateY, long coordinateX, string nameSession)
         {
             shootInDb.IdPlayerShoot = playerId;
             shootInDb.ShootCoordinateY = coordinateY;
@@ -295,7 +296,6 @@ namespace SeaBattle.DataManagement.Repositories
             _context.Entry(shootInDb).Property(r => r.ShootCoordinateX).IsModified = true;
             _context.Entry(shootInDb).Property(r => r.TimeShoot).IsModified = true;
             _context.SaveChanges();
-            Task.Run(() => EndGameIfPlayerNotShooted(idSession, shootInDb.TimeShoot));
         }
 
         public ShootModel ReadLastShootModelByName(string namePlayer)
