@@ -79,11 +79,9 @@ namespace SeaBattle.DataManagement.Repositories
 
             _context.Sessions.Add(session);
             _context.SaveChanges();
-
-            Task.Run(() => EndSessionIfNoJoinPlayer(hostSessionModel.NameSession));
         }
 
-        private void EndSessionIfNoJoinPlayer(string nameSession)
+        public void EndSessionIfNoJoinPlayer(string nameSession)
         {
             Thread.Sleep(new TimeSpan(0, 3, 0));
             var context = new SeabattleContext();
@@ -91,6 +89,23 @@ namespace SeaBattle.DataManagement.Repositories
             if (session.IdPlayerJoin == null)
             {
                 session.EndSession = DateTime.UtcNow;
+                context.Sessions.Update(session);
+                context.SaveChanges();
+            }
+        }
+
+        public void EndSessionIfPlayerNotConfirmedPlayarea(string namePlayer)
+        {
+            Thread.Sleep(new TimeSpan(0, 3, 0));
+            var context = new SeabattleContext();
+            var idPlayer = context.Players.First(p => p.Name == namePlayer).Id;
+            var playArea = context.Playareas.FirstOrDefault(p => p.IdPlayer == idPlayer);
+
+            if (playArea.ConfirmedPlayarea == null)
+            {
+                var session = context.Sessions.First(p => p.IdPlayerHost == idPlayer || p.IdPlayerJoin == idPlayer);
+                session.EndSession = DateTime.UtcNow;
+
                 context.Sessions.Update(session);
                 context.SaveChanges();
             }

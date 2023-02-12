@@ -40,23 +40,6 @@ namespace SeaBattle.DataManagement.Repositories
             else
             {
                 CreatePlayerStateModel(ships, player.Id, textModel);
-                Task.Run(() => EndSessionIfPlayerNotChoosePlayarea(player.Id));
-            }
-        }
-
-        private void EndSessionIfPlayerNotChoosePlayarea(long? idPlayer)
-        {
-            Thread.Sleep(new TimeSpan(0, 3, 0));
-            var context = new SeabattleContext();
-            var playArea = context.Playareas.FirstOrDefault(p => p.IdPlayer == idPlayer);
-
-            if (playArea.ConfirmedPlayarea == null)
-            {
-                var session = context.Sessions.FirstOrDefault(p => p.IdPlayerHost == idPlayer || p.IdPlayerJoin == idPlayer);
-                session.EndSession = DateTime.UtcNow;
-
-                context.Sessions.Update(session);
-                context.SaveChanges();
             }
         }
 

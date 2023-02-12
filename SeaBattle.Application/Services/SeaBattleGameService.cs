@@ -4,6 +4,7 @@ using SeaBattle.Application.Services.Interfaces;
 using SeaBattle.Application.Services.Interfaces.RepositoryServices;
 using SeaBattle.Repository.Converters;
 using SeaBattleApi.Models;
+using System.Numerics;
 
 namespace SeaBattle.Application.Services
 {

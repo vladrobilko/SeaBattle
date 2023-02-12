@@ -11,5 +11,9 @@ namespace SeaBattle.Application.Services.Interfaces.RepositoryServices
         StartSessionModel ReadStartSessionByName(string nameSession);
 
         List<HostSessionModel> ReadAllHostSessions();
+
+        void EndSessionIfNoJoinPlayer(string nameSession);
+
+        void EndSessionIfPlayerNotConfirmedPlayarea(string namePlayer);
     }
 }
