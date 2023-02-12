@@ -46,8 +46,7 @@ namespace SeaBattle.DataManagement.Repositories
 
         private void EndSessionIfPlayerNotChoosePlayarea(long? idPlayer)
         {
-            int timeOutMinutes = 3;
-            Thread.Sleep(timeOutMinutes.ToMilliseconds());
+            Thread.Sleep(new TimeSpan(0, 3, 0));
             var context = new SeabattleContext();
             var playArea = context.Playareas.FirstOrDefault(p => p.IdPlayer == idPlayer);
 
@@ -221,15 +220,14 @@ namespace SeaBattle.DataManagement.Repositories
             }
         }
 
-        private void EndGameIfPlayerNotShooted(long? idSession, DateTime firstTimeShoot)
+        private void EndGameIfPlayerNotShooted(long? idSession, DateTime lastShoot)
         {
-            int timeForShootMinutes = 3;
-            Thread.Sleep(timeForShootMinutes.ToMilliseconds());
+            Thread.Sleep(new TimeSpan(0, 3, 0));
             var context = new SeabattleContext();
-            var game = context.SeabattleGames.FirstOrDefault(x => x.IdSession == idSession);
+            var game = context.SeabattleGames.Single(x => x.IdSession == idSession);
             var shoot = context.Shoots.FirstOrDefault(x => x.IdSeabattleGame == game.Id);
 
-            if (shoot == null || firstTimeShoot >= shoot.TimeShoot)
+            if (shoot == null || lastShoot >= shoot.TimeShoot)
             {
                 game.EndGame = DateTime.UtcNow;
                 game.GameMessage = "Time to shoot is over";

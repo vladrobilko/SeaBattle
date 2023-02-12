@@ -85,8 +85,7 @@ namespace SeaBattle.DataManagement.Repositories
 
         private void EndSessionIfNoJoinPlayer(string nameSession)
         {
-            int timeOutMinutes = 3;
-            Thread.Sleep(timeOutMinutes.ToMilliseconds());
+            Thread.Sleep(new TimeSpan(0, 3, 0));
             var context = new SeabattleContext();
             var session = context.Sessions.First(p => p.Name == nameSession);
             if (session.IdPlayerJoin == null)
