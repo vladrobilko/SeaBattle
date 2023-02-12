@@ -94,13 +94,13 @@ namespace SeaBattle.DataManagement.Repositories
         {
             int timeOutMinutes = 3;
             Thread.Sleep(timeOutMinutes.ToMilliseconds());
-            var anotherThreadContext = new SeabattleContext();
-            var session = anotherThreadContext.Sessions.FirstOrDefault(p => p.Name == nameSession);
+            var context = new SeabattleContext();
+            var session = context.Sessions.FirstOrDefault(p => p.Name == nameSession);
             if (session.IdPlayerJoin == null)
             {
                 session.EndSession = DateTime.UtcNow;
-                anotherThreadContext.Sessions.Update(session);
-                anotherThreadContext.SaveChanges();
+                context.Sessions.Update(session);
+                context.SaveChanges();
             }
         }
 

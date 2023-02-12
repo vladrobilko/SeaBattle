@@ -48,16 +48,16 @@ namespace SeaBattle.DataManagement.Repositories
         {
             int timeOutMinutes = 3;
             Thread.Sleep(timeOutMinutes.ToMilliseconds());
-            var anotherThreadContext = new SeabattleContext();
-            var playArea = anotherThreadContext.Playareas.FirstOrDefault(p => p.IdPlayer == idPlayer);
+            var context = new SeabattleContext();
+            var playArea = context.Playareas.FirstOrDefault(p => p.IdPlayer == idPlayer);
 
             if (playArea.ConfirmedPlayarea == null)
             {
-                var session = anotherThreadContext.Sessions.FirstOrDefault(p => p.IdPlayerHost == idPlayer || p.IdPlayerJoin == idPlayer);
+                var session = context.Sessions.FirstOrDefault(p => p.IdPlayerHost == idPlayer || p.IdPlayerJoin == idPlayer);
                 session.EndSession = DateTime.UtcNow;
 
-                anotherThreadContext.Sessions.Update(session);
-                anotherThreadContext.SaveChanges();
+                context.Sessions.Update(session);
+                context.SaveChanges();
             }
         }
 
@@ -225,16 +225,16 @@ namespace SeaBattle.DataManagement.Repositories
         {
             int timeForShootMinutes = 3;
             Thread.Sleep(timeForShootMinutes.ToMilliseconds());
-            var anotherThreadContext = new SeabattleContext();
-            var game = anotherThreadContext.SeabattleGames.FirstOrDefault(x => x.IdSession == idSession);
-            var shoot = anotherThreadContext.Shoots.FirstOrDefault(x => x.IdSeabattleGame == game.Id);
+            var context = new SeabattleContext();
+            var game = context.SeabattleGames.FirstOrDefault(x => x.IdSession == idSession);
+            var shoot = context.Shoots.FirstOrDefault(x => x.IdSeabattleGame == game.Id);
 
             if (shoot == null || firstTimeShoot >= shoot.TimeShoot)
             {
                 game.EndGame = DateTime.UtcNow;
                 game.GameMessage = "Time to shoot is over";
-                anotherThreadContext.SeabattleGames.Update(game);
-                anotherThreadContext.SaveChanges();
+                context.SeabattleGames.Update(game);
+                context.SaveChanges();
             }
         }
 
