@@ -11,9 +11,9 @@ namespace SeaBattle.ApiClientModels.Models
         public int ShootCoordinateX { get; set; }
 
         [Required]
-        public string PlayerName { get; set; }
+        public string? PlayerName { get; set; }
 
         [Required]
-        public string NameSession { get; set; }
+        public string? NameSession { get; set; }
     }
 }

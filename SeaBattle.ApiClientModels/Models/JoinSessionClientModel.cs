@@ -5,9 +5,9 @@ namespace SeaBattle.ApiClientModels.Models
     public class JoinSessionClientModel
     {
         [Required]
-        public string NameJoinPlayer { get; set; }
+        public string? NameJoinPlayer { get; set; }
 
         [Required]
-        public string NameSession { get; set; }
+        public string? NameSession { get; set; }
     }
 }

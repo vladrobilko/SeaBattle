@@ -6,7 +6,7 @@ namespace ConsoleGameForClient
 {
     public class RequestToSeaBattleApiHelper
     {
-        private HttpClient _client = new HttpClient();
+        private readonly HttpClient _client = new();
 
         private string pathPostRegisterPlayer = "https://localhost:7109/api/Player/Register";
 
@@ -19,14 +19,14 @@ namespace ConsoleGameForClient
         private string pathPostGetGameModel = "https://localhost:7109/api/SeaBattleGame/GetGameModel";
         private string pathPostShoot = "https://localhost:7109/api/SeaBattleGame/Shoot";
 
-        public async Task<bool> IsStatusCodeOKAfterPostRegisterPlayer(PlayerRegistrationClientModel playerRegistrationClientModel)
+        public async Task<bool> IsStatusCodeOkAfterPostRegisterPlayer(PlayerRegistrationClientModel playerRegistrationClientModel)
         {
             var responseRegisterPlayer = await _client.PostAsJsonAsync(pathPostRegisterPlayer, playerRegistrationClientModel);
 
             return responseRegisterPlayer.StatusCode == System.Net.HttpStatusCode.OK;
         }
 
-        public async Task<List<HostSessionClientModel>> GetAllWaitingSessionsOrNull()
+        public async Task<List<HostSessionClientModel?>?>? GetAllWaitingSessionsOrNull()
         {
             var responseGetAllSessions = await _client.GetAsync(pathGetGetAllWaitingSessions);
 
@@ -34,12 +34,12 @@ namespace ConsoleGameForClient
                 return null;
 
             var json = await responseGetAllSessions.Content.ReadAsStringAsync();
-            var listWaitingSessions = JsonConvert.DeserializeObject<List<HostSessionClientModel>>(json);
+            var listWaitingSessions = JsonConvert.DeserializeObject<List<HostSessionClientModel?>>(json);
 
             return listWaitingSessions;
         }
 
-        public async Task<bool> IsStatusCodeOKAfterPostHostSessionPlayer(string playerHostName, string sessionName)
+        public async Task<bool> IsStatusCodeOkAfterPostHostSessionPlayer(string? playerHostName, string? sessionName)
         {
             var responseHostSession = await _client.PostAsJsonAsync(pathPostHostSession,
                     new HostSessionClientModel()
@@ -51,7 +51,7 @@ namespace ConsoleGameForClient
             return responseHostSession.StatusCode == System.Net.HttpStatusCode.OK;
         }
 
-        public async Task<GameAreaClientModel> GetPlayAreaOrNull(InfoPlayerClientModel infoPlayerClientModel)
+        public async Task<GameAreaClientModel?> GetPlayAreaOrNull(InfoPlayerClientModel infoPlayerClientModel)
         {
             var responseGetPlayArea = await _client.PostAsJsonAsync(pathPostGetPlayArea, infoPlayerClientModel);
 
@@ -66,7 +66,7 @@ namespace ConsoleGameForClient
             return gameArea;
         }
 
-        public async Task<bool> IsStatusCodeOKAfterPostJoinSessionPlayer(string playerHostName, string sessionName)
+        public async Task<bool> IsStatusCodeOkAfterPostJoinSessionPlayer(string? playerHostName, string? sessionName)
         {
             var responseJoinSession = await _client.PostAsJsonAsync(pathPostJoinSession,
                 new JoinSessionClientModel()
@@ -78,14 +78,14 @@ namespace ConsoleGameForClient
             return responseJoinSession.StatusCode == System.Net.HttpStatusCode.OK;
         }
 
-        public async Task<bool> IsStatusCodeOKAfterPostReadyToStartGame(InfoPlayerClientModel infoPlayerClientModel)
+        public async Task<bool> IsStatusCodeOkAfterPostReadyToStartGame(InfoPlayerClientModel infoPlayerClientModel)
         {
             var responseReadyToStartGame = await _client.PostAsJsonAsync(pathPostReadyToStartGame, infoPlayerClientModel);
 
             return responseReadyToStartGame.StatusCode == System.Net.HttpStatusCode.OK;
         }
 
-        public async Task<GameClientStateModel> GetGameModelOrNull(InfoPlayerClientModel infoPlayerClientModel)
+        public async Task<GameClientStateModel?> GetGameModelOrNull(InfoPlayerClientModel infoPlayerClientModel)
         {
             var responseGetGameModel = await _client.PostAsJsonAsync(pathPostGetGameModel, infoPlayerClientModel);
 
@@ -100,7 +100,7 @@ namespace ConsoleGameForClient
             return gameModel;
         }
 
-        public async Task<bool> IsStatusCodeOKAfterPostShoot(ShootClientModel shootPlayerClientModel)
+        public async Task<bool> IsStatusCodeOkAfterPostShoot(ShootClientModel shootPlayerClientModel)
         {
             var responseShoot = await _client.PostAsJsonAsync(pathPostShoot, shootPlayerClientModel);
 

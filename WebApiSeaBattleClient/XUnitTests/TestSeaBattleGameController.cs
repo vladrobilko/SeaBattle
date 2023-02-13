@@ -2,7 +2,6 @@
 using System.Net.Http.Json;
 using Xunit;
 using Newtonsoft.Json;
-using System.Text.Json.Nodes;
 
 namespace XUnitTests
 {
@@ -10,7 +9,6 @@ namespace XUnitTests
     {
         string pathGetPlayArea = "https://localhost:7109/api/SeaBattleGame/GetPlayArea";
         string pathChangePlayArea = "https://localhost:7109/api/SeaBattleGame/ChangePlayArea";
-        string pathReadyToStartGame = "https://localhost:7109/api/SeaBattleGame/ReadyToStartGame";
         string pathGetGameModel = "https://localhost:7109/api/SeaBattleGame/GetGameModel";
         string pathShoot = "https://localhost:7109/api/SeaBattleGame/Shoot";
 

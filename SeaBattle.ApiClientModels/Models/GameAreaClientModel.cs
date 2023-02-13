@@ -3,6 +3,6 @@
 {
     public class GameAreaClientModel
     {
-        public string[][] ClientPlayArea { get; set; }
+        public string[][]? ClientPlayArea { get; set; }
     }
 }
