@@ -2,8 +2,8 @@
 {
     public class HostSessionModel
     {
-        public string NameHostPlayer { get; set; }
+        public string? NameHostPlayer { get; set; }
 
-        public string NameSession { get; set; }
+        public string? NameSession { get; set; }
     }
 }

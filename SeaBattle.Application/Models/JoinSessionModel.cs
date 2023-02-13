@@ -2,8 +2,8 @@
 {
     public class JoinSessionModel
     {
-        public string NameJoinPlayer { get; set; }
+        public string? NameJoinPlayer { get; set; }
 
-        public string NameSession { get; set; }
+        public string? NameSession { get; set; }
     }
 }

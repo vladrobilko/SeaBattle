@@ -4,12 +4,12 @@
     {
         public static string[][] ToStringsForClient(this PlayArea playArea)
         {
-            string[][] playAreaString = new string[playArea.Height][];
+            var playAreaString = new string[playArea.Height][];
 
-            for (int i = 0; i < playArea.Height; i++)
+            for (var i = 0; i < playArea.Height; i++)
             {
                 playAreaString[i] = new string[playArea.Width];
-                for (int j = 0; j < playArea.Width; j++)
+                for (var j = 0; j < playArea.Width; j++)
                 {
                     playAreaString[i][j] = playArea.Cells[i,j].State.ToStringForInfoWithoutBusyDeckNear();
                 }
@@ -20,12 +20,12 @@
 
         public static string[][] ToStringsForClientEnemyPlayArea(this PlayArea playArea)
         {
-            string[][] playAreaString = new string[playArea.Height][];
+            var playAreaString = new string[playArea.Height][];
 
-            for (int i = 0; i < playArea.Height; i++)
+            for (var i = 0; i < playArea.Height; i++)
             {
                 playAreaString[i] = new string[playArea.Width];
-                for (int j = 0; j < playArea.Width; j++)
+                for (var j = 0; j < playArea.Width; j++)
                 {
                     if (playArea.Cells[i, j].State == CellState.BusyDeckNearby || playArea.Cells[i, j].State == CellState.BusyDeck)
                     {

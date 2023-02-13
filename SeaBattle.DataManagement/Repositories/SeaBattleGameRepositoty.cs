@@ -4,7 +4,6 @@ using SeaBattle.Application.Models;
 using SeaBattle.Application.Services.Interfaces.RepositoryServices;
 using SeaBattle.DataManagement.Converters;
 using SeaBattle.DataManagement.Models;
-using SeaBattleApi.Models;
 using System.Data;
 using System.Net.Sockets;
 
@@ -97,7 +96,7 @@ namespace SeaBattle.DataManagement.Repositories
             _context.SaveChanges();
         }
 
-        public PlayerSeaBattleStateModel ReadConfirmedPlayerStateModelByName(string name)
+        public PlayerSeaBattleStateModel ReadConfirmedPlayerStateModelByName(string? name)
         {
             var playerStateModel = new PlayerSeaBattleStateModel(new SeaBattleGameRepositoty(_context));
 
@@ -155,7 +154,7 @@ namespace SeaBattle.DataManagement.Repositories
             return new GameState(playerHostModel, playerJoinModel, null, false, gameMessage);
         }
 
-        public void UpdatePlayareaToReadyForGame(string namePlayer)
+        public void UpdatePlayareaToReadyForGame(string? namePlayer)
         {
             var player = ReadPlayerByName(namePlayer);
 
@@ -298,7 +297,7 @@ namespace SeaBattle.DataManagement.Repositories
             _context.SaveChanges();
         }
 
-        public ShootModel ReadLastShootModelByName(string namePlayer)
+        public ShootModel ReadLastShootModelByName(string? namePlayer)
         {
             var player = ReadPlayerByName(namePlayer);
             var session = ReadSessionById(player.Id);
@@ -320,7 +319,7 @@ namespace SeaBattle.DataManagement.Repositories
             return _context.Ships.Where(p => p.IdPlayarea == idPlayarea).ToList();
         }
 
-        private PlayerDto ReadPlayerByName(string namePlayer)
+        private PlayerDto ReadPlayerByName(string? namePlayer)
         {
             return _context.Players.Single(p => p.Name == namePlayer);
         }

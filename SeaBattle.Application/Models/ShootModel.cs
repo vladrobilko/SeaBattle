@@ -6,11 +6,11 @@
 
         public int ShootCoordinateX { get; set; }
 
-        public string NamePlayer { get; set; }
+        public string? NamePlayer { get; set; }
 
-        public string NameSession { get; set; }
+        public string? NameSession { get; set; }
 
-        public ShootModel(int shootCoordinateY, int shootCoordinateX, string playerName, string sessionName)
+        public ShootModel(int shootCoordinateY, int shootCoordinateX, string? playerName, string? sessionName)
         {
             ShootCoordinateY = shootCoordinateY;
             ShootCoordinateX = shootCoordinateX;

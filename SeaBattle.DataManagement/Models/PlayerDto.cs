@@ -4,7 +4,7 @@ public partial class PlayerDto
 {
     public long Id { get; set; }
 
-    public string Name { get; set; } = null!;
+    public string? Name { get; set; } = null!;
 
     public virtual ICollection<AppLog> AppLogs { get; } = new List<AppLog>();
 

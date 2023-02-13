@@ -16,7 +16,7 @@ namespace SeaBattle.DataManagement.Converters
             return ship;
         }
 
-        public static List<Ship> ToShips(this List<ShipDto> shipsFromDto)
+        public static List<Ship>? ToShips(this List<ShipDto> shipsFromDto)
         {
             return shipsFromDto.Select(p => p.ToShip()).ToList();
         }

@@ -2,6 +2,6 @@
 {
     public class PlayerRegistrationModel
     {
-        public string NamePlayer { get; set; }
+        public string? NamePlayer { get; set; }
     }
 }

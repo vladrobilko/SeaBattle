@@ -1,7 +1,6 @@
 ﻿using SeaBattle.ApiClientModels.Models;
-using SeaBattle.Application.Converters;
 
-namespace SeaBattle.Repository.Converters
+namespace SeaBattle.Application.Converters
 {
     public static class GameStateModelConverter
     {
