@@ -22,7 +22,7 @@ namespace SeaBattle
             _playArea = new PlayArea();
             _playAreaEnemyForInformation = new PlayArea();
             _filler = filler;
-            Ships = ShipsCreator.CreatShips(new List<ShipConfige>()
+            Ships = ShipsCreator.CreateShips(new List<ShipConfige>()
             { new ShipConfige(1,4), new ShipConfige(2, 3), new ShipConfige(3, 2), new ShipConfige(4, 1) });       
         }
 

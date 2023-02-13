@@ -4,37 +4,26 @@ namespace SeaBattle
 {
     public class ShipsCreator
     {
-        public static List<Ship> CreatShips(List<ShipConfige> configeShips)
+        public static List<Ship> CreateShips(List<ShipConfige> configureShips)
         {
-            var _ships = new List<Ship>();
+            var ships = new List<Ship>();
 
-            for (int i = 0; i < configeShips.Count; i++)
+            for (int i = 0; i < configureShips.Count; i++)
             {
-                for (int j = 0; j < configeShips[i].CountShip; j++)
+                for (int j = 0; j < configureShips[i].CountShip; j++)
                 {
-                    _ships.Add(new Ship(configeShips[i].LengthShip));
+                    ships.Add(new Ship(configureShips[i].LengthShip));
                 }
             }
-            return _ships;
+            return ships;
         }
 
         public static List<Ship> CreateShipsForDefaultGame()
         {
-            var configeShips = GetConfigs();
-
-            var _ships = new List<Ship>();
-
-            for (int i = 0; i < configeShips.Count; i++)
-            {
-                for (int j = 0; j < configeShips[i].CountShip; j++)
-                {
-                    _ships.Add(new Ship(configeShips[i].LengthShip));
-                }
-            }
-            return _ships;
+            return CreateShips(GetConfigureShips());
         }
 
-        private static List<ShipConfige> GetConfigs()
+        private static List<ShipConfige> GetConfigureShips()
         {
             return new List<ShipConfige>() {
                 new ShipConfige(1, 4),
