@@ -1,6 +1,6 @@
 ﻿using SeaBattle.ApiClientModels.Models;
 
-namespace SeaBattle.Api.Controllers
+namespace SeaBattle.Application.Services.Interfaces
 {
     public interface IPlayerService
     {

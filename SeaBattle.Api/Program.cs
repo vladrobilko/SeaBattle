@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SeaBattle.Api.Controllers;
 using SeaBattle.Application.Services;
-using SeaBattle.Application.Services.Intefaces;
 using SeaBattle.Application.Services.Interfaces;
 using SeaBattle.Application.Services.Interfaces.RepositoryServices;
 using SeaBattle.DataManagement.Models;

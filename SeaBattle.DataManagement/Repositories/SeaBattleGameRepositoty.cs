@@ -201,7 +201,7 @@ namespace SeaBattle.DataManagement.Repositories
             }
         }
 
-        public void EndGameIfPlayerNotShooted(string nameSession)
+        public void EndGameIfPlayerNotShot(string nameSession)
         {
             var timeOut = TimeSpan.FromMinutes(3);
             Thread.Sleep(timeOut);

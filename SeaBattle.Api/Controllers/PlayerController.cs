@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SeaBattle.ApiClientModels.Models;
+using SeaBattle.Application.Services.Interfaces;
 
 namespace SeaBattle.Api.Controllers
 {

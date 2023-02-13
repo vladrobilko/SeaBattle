@@ -94,7 +94,7 @@ namespace SeaBattle.DataManagement.Repositories
             }
         }
 
-        public void EndSessionIfPlayerNotConfirmedPlayarea(string namePlayer)
+        public void EndSessionIfPlayerNotConfirmedPlayArea(string namePlayer)
         {
             Thread.Sleep(new TimeSpan(0, 3, 0));
             var context = new SeabattleContext();

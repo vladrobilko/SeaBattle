@@ -1,6 +1,6 @@
 ﻿using SeaBattle.ApiClientModels.Models;
 
-namespace SeaBattle.Application.Services.Intefaces
+namespace SeaBattle.Application.Services.Interfaces
 {
     public interface ISessionService
     {

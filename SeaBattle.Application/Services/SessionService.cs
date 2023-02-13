@@ -1,7 +1,6 @@
 ﻿using SeaBattle.ApiClientModels.Models;
 using SeaBattle.Application.Converters;
-using SeaBattle.Application.Models;
-using SeaBattle.Application.Services.Intefaces;
+using SeaBattle.Application.Services.Interfaces;
 using SeaBattle.Application.Services.Interfaces.RepositoryServices;
 
 namespace SeaBattle.Application.Services
@@ -22,7 +21,7 @@ namespace SeaBattle.Application.Services
 
             Task.Run(() => _sessionRepository.EndSessionIfNoJoinPlayer(newSessionClient.SessionName));
 
-            Task.Run(() => _sessionRepository.EndSessionIfPlayerNotConfirmedPlayarea(newSessionClient.HostPlayerName));
+            Task.Run(() => _sessionRepository.EndSessionIfPlayerNotConfirmedPlayArea(newSessionClient.HostPlayerName));
         }
 
         public List<HostSessionClientModel> GetAllHostSessions()
@@ -38,7 +37,7 @@ namespace SeaBattle.Application.Services
                 .UpdateStartSession
                 (joinSessionClient.ToJoinSessionModel());
 
-            Task.Run(() => _sessionRepository.EndSessionIfPlayerNotConfirmedPlayarea(joinSessionClient.NameJoinPlayer));
+            Task.Run(() => _sessionRepository.EndSessionIfPlayerNotConfirmedPlayArea(joinSessionClient.NameJoinPlayer));
         }
     }
 }

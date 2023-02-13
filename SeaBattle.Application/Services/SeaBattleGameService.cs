@@ -2,7 +2,6 @@
 using SeaBattle.Application.Converters;
 using SeaBattle.Application.Services.Interfaces;
 using SeaBattle.Application.Services.Interfaces.RepositoryServices;
-using System.Numerics;
 using SeaBattle.Application.Models;
 
 namespace SeaBattle.Application.Services
@@ -32,28 +31,30 @@ namespace SeaBattle.Application.Services
             playerStateModel.FillShips();
             _seaBattleGameRepository.CreateOrUpdatePlayerStateModel(playerStateModel);
 
-            var gameAreaClientModel = new GameAreaClientModel();
-            gameAreaClientModel.ClientPlayArea = playerStateModel.GetPlayArea().ToStringsForClient();
+            var gameAreaClientModel = new GameAreaClientModel
+            {
+                ClientPlayArea = playerStateModel.GetPlayArea().ToStringsForClient()
+            };
 
             return gameAreaClientModel;
         }
 
-        public GameClientStateModel GetGameModel(InfoPlayerClientModel infoPlayerClientModel)
+        public GameClientStateModel GetGameModel(InfoPlayerClientModel? infoPlayerClientModel)
         {
             return _seaBattleGameRepository
-                .ReadGameStateModelByNameSession(infoPlayerClientModel.SessionName)
+                .ReadGameStateModelByNameSession(infoPlayerClientModel!.SessionName)
                 .ToGameClientModel(infoPlayerClientModel.PlayerName);
         }
 
-        public void ReadyToStartGame(InfoPlayerClientModel infoPlayerClientModel)
+        public void ReadyToStartGame(InfoPlayerClientModel? infoPlayerClientModel)
         {
-            _seaBattleGameRepository.UpdatePlayareaToReadyForGame(infoPlayerClientModel.PlayerName);
+            _seaBattleGameRepository.UpdatePlayareaToReadyForGame(infoPlayerClientModel!.PlayerName);
             TryToStartGame(infoPlayerClientModel.SessionName);
         }
 
-        private void TryToStartGame(string nameSession)
+        private void TryToStartGame(string? nameSession)
         {
-            var startSession = _sessionRepository.ReadStartSessionByName(nameSession);
+            var startSession = _sessionRepository.ReadStartSessionByName(nameSession!);
 
             if (startSession != null)
             {
@@ -68,7 +69,7 @@ namespace SeaBattle.Application.Services
             }
         }
 
-        private void StartGame(IPlayer player1, IPlayer player2, string nameSession)
+        private void StartGame(IPlayer player1, IPlayer player2, string? nameSession)
         {
             var gameState = new GameState(
                     player1,
@@ -79,20 +80,20 @@ namespace SeaBattle.Application.Services
 
             _seaBattleGameRepository.UpdateGameStateModel(gameState, nameSession);
 
-            Task.Run(() => _seaBattleGameRepository.EndGameIfPlayerNotShooted(nameSession));
+            Task.Run(() => _seaBattleGameRepository.EndGameIfPlayerNotShot(nameSession));
         }
 
-        public void Shoot(ShootClientModel shootPlayerClientModel)
+        public void Shoot(ShootClientModel? shootPlayerClientModel)
         {
-            _seaBattleGameRepository.CreateOrUpdateValidShoot(shootPlayerClientModel.ToShootModel());
+            _seaBattleGameRepository.CreateOrUpdateValidShoot(shootPlayerClientModel!.ToShootModel());
 
-            var lastGameModel = _seaBattleGameRepository.ReadGameStateModelByNameSession(shootPlayerClientModel.NameSession);
+            var lastGameModel = _seaBattleGameRepository.ReadGameStateModelByNameSession(shootPlayerClientModel?.NameSession);
 
             var changeGameModel = _seaBattleGameChanger.ChangeGameState(lastGameModel);
 
-            _seaBattleGameRepository.UpdateGameStateModel(changeGameModel, shootPlayerClientModel.NameSession);
+            _seaBattleGameRepository.UpdateGameStateModel(changeGameModel, shootPlayerClientModel?.NameSession);
 
-            Task.Run(() => _seaBattleGameRepository.EndGameIfPlayerNotShooted(shootPlayerClientModel.NameSession));
+            Task.Run(() => _seaBattleGameRepository.EndGameIfPlayerNotShot(shootPlayerClientModel!.NameSession));
         }
     }
 }

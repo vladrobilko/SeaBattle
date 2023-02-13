@@ -8,12 +8,12 @@ namespace SeaBattle.Application.Services.Interfaces.RepositoryServices
 
         void UpdateStartSession(JoinSessionModel joinSessionModel);
 
-        StartSessionModel ReadStartSessionByName(string nameSession);
+        StartSessionModel? ReadStartSessionByName(string? nameSession);
 
         List<HostSessionModel> ReadAllHostSessions();
 
-        void EndSessionIfNoJoinPlayer(string nameSession);
+        void EndSessionIfNoJoinPlayer(string? nameSession);
 
-        void EndSessionIfPlayerNotConfirmedPlayarea(string namePlayer);
+        void EndSessionIfPlayerNotConfirmedPlayArea(string? namePlayer);
     }
 }

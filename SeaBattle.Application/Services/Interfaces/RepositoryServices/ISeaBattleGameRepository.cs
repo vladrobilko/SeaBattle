@@ -6,11 +6,11 @@ namespace SeaBattle.Application.Services.Interfaces.RepositoryServices
     {
         void CreateOrUpdatePlayerStateModel(IPlayer playerModel);
 
-        PlayerSeaBattleStateModel ReadConfirmedPlayerStateModelByName(string? name);
+        PlayerSeaBattleStateModel? ReadConfirmedPlayerStateModelByName(string? name);
 
-        void UpdateGameStateModel(GameState gameStateModel, string NameSession);
+        void UpdateGameStateModel(GameState gameStateModel, string? nameSession);
 
-        GameState ReadGameStateModelByNameSession(string nameSession);
+        GameState ReadGameStateModelByNameSession(string? nameSession);
 
         void UpdatePlayareaToReadyForGame(string? namePlayer);
 
@@ -18,6 +18,6 @@ namespace SeaBattle.Application.Services.Interfaces.RepositoryServices
 
         ShootModel ReadLastShootModelByName(string? namePlayer);
 
-        void EndGameIfPlayerNotShooted(string nameSession);
+        void EndGameIfPlayerNotShot(string? nameSession);
     }   
 }

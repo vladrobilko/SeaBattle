@@ -4,7 +4,7 @@ namespace SeaBattle.Application.Converters
 {
     public static class GameStateModelConverter
     {
-        public static GameClientStateModel ToGameClientModel(this GameState gameStateModel, string nameClient)
+        public static GameClientStateModel ToGameClientModel(this GameState gameStateModel, string? nameClient)
         {
             var gameClientModel = new GameClientStateModel()
             {

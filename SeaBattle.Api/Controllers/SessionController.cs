@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SeaBattle.ApiClientModels.Models;
-using SeaBattle.Application.Services.Intefaces;
+using SeaBattle.Application.Services.Interfaces;
 
 namespace SeaBattle.Api.Controllers
 {

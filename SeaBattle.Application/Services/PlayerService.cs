@@ -1,6 +1,6 @@
-﻿using SeaBattle.Api.Controllers;
-using SeaBattle.ApiClientModels.Models;
+﻿using SeaBattle.ApiClientModels.Models;
 using SeaBattle.Application.Converters;
+using SeaBattle.Application.Services.Interfaces;
 using SeaBattle.Application.Services.Interfaces.RepositoryServices;
 
 namespace SeaBattle.Application.Services

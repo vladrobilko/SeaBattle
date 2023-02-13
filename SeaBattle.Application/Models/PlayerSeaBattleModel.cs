@@ -14,16 +14,16 @@ namespace SeaBattle.Application.Models
 
         public PlayArea? EnemyPlayArea { get; set; }
 
-        private readonly ISeaBattleGameRepository _seaBattleGameRepository;
+        private readonly ISeaBattleGameRepository? _seaBattleGameRepository;
 
-        public PlayerSeaBattleStateModel(ISeaBattleGameRepository seaBattleGameService, IFillerShips? filler, string? name)
+        public PlayerSeaBattleStateModel(ISeaBattleGameRepository battleGameRepository, IFillerShips? filler, string? name)
         {
             PlayArea = new PlayArea();
             _filler = filler;
             EnemyPlayArea = new PlayArea();
             Ships = ShipsCreator.CreateShipsForDefaultGame();
             NamePlayer = name;
-            _seaBattleGameRepository = seaBattleGameService;
+            _seaBattleGameRepository = battleGameRepository;
         }
 
         public PlayerSeaBattleStateModel(ISeaBattleGameRepository seaBattleGameService)
