@@ -11,12 +11,12 @@ namespace SeaBattle.DataManagement.Converters
 
             var decks = JsonConvert.DeserializeObject<List<CellDto>>(shipDto.DecksJson);
 
-            decks.Where(d => !d.IsDead).ToList().ForEach(d => ship.PutDeck(d.Y,d.X));
+            decks?.Where(d => !d.IsDead).ToList().ForEach(d => ship.PutDeck(d.Y,d.X));
 
             return ship;
         }
 
-        public static List<Ship>? ToShips(this List<ShipDto> shipsFromDto)
+        public static List<Ship> ToShips(this List<ShipDto> shipsFromDto)
         {
             return shipsFromDto.Select(p => p.ToShip()).ToList();
         }

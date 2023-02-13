@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace SeaBattle
 {
@@ -23,7 +22,7 @@ namespace SeaBattle
         {
             foreach (var ship in ships)
             {
-                foreach (var deck in ship._decks)
+                foreach (var deck in ship.Decks)
                 {
                     if (deck != null && deck.Point.Y == point.Y && deck.Point.X == point.X)
                         return ship;
@@ -34,10 +33,10 @@ namespace SeaBattle
 
         private static Ship KillDeck(Ship ship, Point point)
         {
-            for (int i = 0; i < ship._decks.Count; i++)
+            for (var i = 0; i < ship.Decks.Count; i++)
             {
-                if (ship._decks[i] != null && ship._decks[i].Point.Y == point.Y && ship._decks[i].Point.X == point.X)
-                    ship._decks[i] = null;
+                if (ship.Decks[i] != null && ship.Decks[i].Point.Y == point.Y && ship.Decks[i].Point.X == point.X)
+                    ship.Decks[i] = null;
             }
             return ship;
         }
@@ -54,7 +53,7 @@ namespace SeaBattle
 
         private static bool IsShipDead(Ship ship)
         {
-            foreach (var deck in ship._decks)
+            foreach (var deck in ship.Decks)
             {
                 if (deck != null)
                     return false;

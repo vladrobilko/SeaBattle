@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using SeaBattle.Api.Controllers;
 using SeaBattle.Application.Services;
 using SeaBattle.Application.Services.Interfaces;
 using SeaBattle.Application.Services.Interfaces.RepositoryServices;
@@ -14,7 +13,7 @@ builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
 builder.Services.AddScoped<ISessionService, SessionService>();
 builder.Services.AddScoped<ISessionRepository, SessionRepository>();
 builder.Services.AddScoped<ISeaBattleGameService, SeaBattleGameService>();
-builder.Services.AddScoped<ISeaBattleGameRepository, SeaBattleGameRepositoty>();
+builder.Services.AddScoped<ISeaBattleGameRepository, SeaBattleGameRepository>();
 
 builder.Services.AddControllers();
 

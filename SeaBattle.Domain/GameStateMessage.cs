@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace SeaBattle
 {
     public static class GameStateMessage
@@ -27,6 +22,7 @@ namespace SeaBattle
         {
             return $"{namePlayer} kill the ship.\n" + WhoShoot(namePlayer);
         }
+
         public static string WhoShootSameCellAndWhoShoot(string namePlayer)
         {
             return $"{namePlayer} already shot this area.\n" + WhoShoot(namePlayer);

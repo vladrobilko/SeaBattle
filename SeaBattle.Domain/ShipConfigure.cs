@@ -1,20 +1,15 @@
 ﻿namespace SeaBattle
 {
-    public class ShipConfige
+    public class ShipConfigure
     {
         public int CountShip { get; set; }
 
         public int LengthShip { get; set; }
 
-        public ShipConfige(int count, int length)
+        public ShipConfigure(int count, int length)
         {
             CountShip = count;
             LengthShip = length;
         }
     }
 }
-
-
-
-
-

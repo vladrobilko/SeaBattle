@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SeaBattle.Application.Models;
 using SeaBattle.Application.Services.Interfaces.RepositoryServices;
-using SeaBattle.DataManagement.Converters;
 using SeaBattle.DataManagement.Models;
-using System.Numerics;
 
 namespace SeaBattle.DataManagement.Repositories
 {
@@ -29,7 +27,7 @@ namespace SeaBattle.DataManagement.Repositories
             return list;
         }
 
-        public StartSessionModel ReadStartSessionByName(string nameSession)
+        public StartSessionModel ReadStartSessionByName(string? nameSession)
         {
             var session = ReadSessionByName(nameSession);
 
@@ -81,7 +79,7 @@ namespace SeaBattle.DataManagement.Repositories
             _context.SaveChanges();
         }
 
-        public void EndSessionIfNoJoinPlayer(string nameSession)
+        public void EndSessionIfNoJoinPlayer(string? nameSession)
         {
             Thread.Sleep(new TimeSpan(0, 5, 0));
             var context = new SeabattleContext();
@@ -94,7 +92,7 @@ namespace SeaBattle.DataManagement.Repositories
             }
         }
 
-        public void EndSessionIfPlayerNotConfirmedPlayArea(string namePlayer)
+        public void EndSessionIfPlayerNotConfirmedPlayArea(string? namePlayer)
         {
             Thread.Sleep(new TimeSpan(0, 3, 0));
             var context = new SeabattleContext();
@@ -111,7 +109,7 @@ namespace SeaBattle.DataManagement.Repositories
             }
         }
 
-        private PlayerDto ReadPlayerByName(string namePlayer)
+        private PlayerDto ReadPlayerByName(string? namePlayer)
         {
             return _context.Players.Single(p => p.Name == namePlayer);
         }
@@ -121,7 +119,7 @@ namespace SeaBattle.DataManagement.Repositories
             return _context.Players.Single(p => p.Id == idPlayer);
         }
 
-        private SessionDto ReadSessionByName(string nameSession)
+        private SessionDto? ReadSessionByName(string? nameSession)
         {
             return _context.Sessions.SingleOrDefault(p => p.Name == nameSession);
         }

@@ -4,13 +4,13 @@ namespace SeaBattle
 {
     public class ShipsCreator
     {
-        public static List<Ship> CreateShips(List<ShipConfige> configureShips)
+        public static List<Ship> CreateShips(List<ShipConfigure> configureShips)
         {
             var ships = new List<Ship>();
 
-            for (int i = 0; i < configureShips.Count; i++)
+            for (var i = 0; i < configureShips.Count; i++)
             {
-                for (int j = 0; j < configureShips[i].CountShip; j++)
+                for (var j = 0; j < configureShips[i].CountShip; j++)
                 {
                     ships.Add(new Ship(configureShips[i].LengthShip));
                 }
@@ -23,13 +23,13 @@ namespace SeaBattle
             return CreateShips(GetConfigureShips());
         }
 
-        private static List<ShipConfige> GetConfigureShips()
+        private static List<ShipConfigure> GetConfigureShips()
         {
-            return new List<ShipConfige>() {
-                new ShipConfige(1, 4),
-                new ShipConfige(2, 3),
-                new ShipConfige(3, 2),
-                new ShipConfige(4, 1)
+            return new List<ShipConfigure>() {
+                new ShipConfigure(1, 4),
+                new ShipConfigure(2, 3),
+                new ShipConfigure(3, 2),
+                new ShipConfigure(4, 1)
             };
         }
     }

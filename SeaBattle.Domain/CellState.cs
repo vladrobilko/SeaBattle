@@ -5,7 +5,7 @@
         Empty,
         BusyDeck,
         BusyDeckNearby,
-        HasShooted,
+        HasShot,
         HasMiss,
         HasHit
     }

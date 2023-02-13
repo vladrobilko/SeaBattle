@@ -2,9 +2,9 @@
 
 namespace SeaBattle
 {
-    public class FillerRandomShipLenghtOneOnlyBorders
+    public class FillerRandomShipLengthOneOnlyBorders
     {
-        static Random rnd = new Random();
+        private static readonly Random Random = new Random();
 
         public static Cell[,] FillShips(Cell[,] cells, Ship ship)
         {
@@ -12,19 +12,19 @@ namespace SeaBattle
 
             while (firstCoordinate < 9)
             {
-                if (CanFillUpHorizontalLine(cells, firstCoordinate) && rnd.Next(4) == 0)
+                if (CanFillUpHorizontalLine(cells, firstCoordinate) && Random.Next(4) == 0)
                 {
                     FillUpHorizontalLine(cells, ship, firstCoordinate); break;
                 }
-                if (CanFillDownHorizontallLine(cells, firstCoordinate) && rnd.Next(4) == 1)
+                if (CanFillDownHorizontalLine(cells, firstCoordinate) && Random.Next(4) == 1)
                 {
-                    FillDownHorizontallLine(cells, ship, firstCoordinate); break;
+                    FillDownHorizontalLine(cells, ship, firstCoordinate); break;
                 }
-                if (CanFillLeftVerticalLine(cells, firstCoordinate) && rnd.Next(4) == 2)
+                if (CanFillLeftVerticalLine(cells, firstCoordinate) && Random.Next(4) == 2)
                 {
                     FillLeftVerticalLine(cells, ship, firstCoordinate); break;
                 }
-                if (CanFillRightVerticalLine(cells, firstCoordinate) && rnd.Next(4) == 3)
+                if (CanFillRightVerticalLine(cells, firstCoordinate) && Random.Next(4) == 3)
                 {
                     FillRightVerticalLine(cells, ship, firstCoordinate); break;
                 }
@@ -55,7 +55,7 @@ namespace SeaBattle
                    (cells[1, countCoordinateX + 1].State != CellState.BusyDeck);
         }
 
-        private static void FillDownHorizontallLine(Cell[,] cells, Ship ship, int countCoordinateX)
+        private static void FillDownHorizontalLine(Cell[,] cells, Ship ship, int countCoordinateX)
         {
             cells[cells.GetLength(0) - 1, countCoordinateX - 1].State = CellState.BusyDeckNearby;
             cells[cells.GetLength(0) - 1, countCoordinateX + 1].State = CellState.BusyDeckNearby;
@@ -63,7 +63,7 @@ namespace SeaBattle
             ship.PutDeck(cells.GetLength(0) - 1, countCoordinateX);
         }
 
-        private static bool CanFillDownHorizontallLine(Cell[,] cells, int countCoordinateX)
+        private static bool CanFillDownHorizontalLine(Cell[,] cells, int countCoordinateX)
         {
             return (cells[cells.GetLength(0) - 1, countCoordinateX].State == CellState.Empty) &&                
                    (cells[cells.GetLength(0) - 2, countCoordinateX - 1].State != CellState.BusyDeck) &&

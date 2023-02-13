@@ -4,19 +4,19 @@ namespace SeaBattle
 {
     public class Ship
     {
-        public List<Cell> _decks { get; set; }
+        public List<Cell> Decks { get; set; }
 
         public int Length { get; set; }
 
         public Ship(int length)
         {
-            _decks = new List<Cell>();
+            Decks = new List<Cell>();
             Length = length;
         }
 
-        public void PutDeck(int Y, int X)
+        public void PutDeck(int y, int x)
         {
-            _decks.Add(new Cell(Y, X));
+            Decks.Add(new Cell(y, x));
         }
     }
 }

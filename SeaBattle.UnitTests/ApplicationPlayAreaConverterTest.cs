@@ -1,7 +1,3 @@
-using Microsoft.Extensions.Options;
-using SeaBattle.Application.Converters;
-using System.Linq;
-using System.Text;
 
 namespace SeaBattle.UnitTests
 {
@@ -10,9 +6,9 @@ namespace SeaBattle.UnitTests
         private string ConvertPlayAreaToString(PlayArea playArea)
         {
             var stringPlayArea = "";
-            for (int i = 0; i < playArea.Height; i++)
+            for (var i = 0; i < playArea.Height; i++)
             {
-                for (int j = 0; j < playArea.Width; j++)
+                for (var j = 0; j < playArea.Width; j++)
                 {
                     stringPlayArea += playArea.Cells[i, j].State.ToStringWithAllCell();
                 }
@@ -48,12 +44,10 @@ namespace SeaBattle.UnitTests
             //Act
             var stringPlayArea = ConvertPlayAreaToString(playArea);
 
-            var enumerStr =  new StringBuilder("");
-
-            var stringi = string.Join("", playArea.Select(p => p.State.ToStringWithAllCell()));
+            var result = string.Join("", playArea.Select(p => p.State.ToStringWithAllCell()));
 
             //Test
-            Assert.AreEqual(stringPlayArea, stringi);
+            Assert.AreEqual(stringPlayArea, result);
         }
     }
 }

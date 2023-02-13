@@ -7,23 +7,23 @@ namespace SeaBattle
     {
         public string NamePlayer { get; set; } = "Easy bot";
 
-        IFillerShips _filler;
+        private readonly IFillerShips _filler;
 
-        PlayArea _playArea;
+        private readonly PlayArea _playArea;
 
-        PlayArea _playAreaEnemyForInformation;
+        private readonly PlayArea _playAreaEnemyForInformation;
 
         public List<Ship> Ships { get; }
 
-        static Random rnd = new Random();
+        private static readonly  Random Random = new Random();
 
         public PlayerEasyBot(IFillerShips filler)
         {
             _playArea = new PlayArea();
             _playAreaEnemyForInformation = new PlayArea();
             _filler = filler;
-            Ships = ShipsCreator.CreateShips(new List<ShipConfige>()
-            { new ShipConfige(1,4), new ShipConfige(2, 3), new ShipConfige(3, 2), new ShipConfige(4, 1) });       
+            Ships = ShipsCreator.CreateShips(new List<ShipConfigure>()
+            { new ShipConfigure(1,4), new ShipConfigure(2, 3), new ShipConfigure(3, 2), new ShipConfigure(4, 1) });       
         }
 
         public void FillShips()
@@ -33,21 +33,21 @@ namespace SeaBattle
 
         public Point GetNextValidShootTarget()
         {
-            int Y = rnd.Next(10);
-            int X = rnd.Next(10);
-            while (_playAreaEnemyForInformation.Cells[Y, X].State != CellState.HasShooted)
+            var y = Random.Next(10);
+            var x = Random.Next(10);
+            while (_playAreaEnemyForInformation.Cells[y, x].State != CellState.HasShot)
             {
-                _playAreaEnemyForInformation.Cells[Y, X].State = CellState.HasShooted;
+                _playAreaEnemyForInformation.Cells[y, x].State = CellState.HasShot;
                 
-                return new Point(Y, X);
+                return new Point(y, x);
             }
             return GetNextValidShootTarget();
         }
 
         public ShootResultType OnShoot(Point target)
         {
-            ShootResultType shootResultType = Shooter.Result(Ships, target);
-            _playArea.Cells[target.Y, target.X].State = CellState.HasShooted;
+            var shootResultType = Shooter.Result(Ships, target);
+            _playArea.Cells[target.Y, target.X].State = CellState.HasShot;
             if (shootResultType == ShootResultType.Miss)
             {
                 _playArea.Cells[target.Y, target.X].State = CellState.HasMiss;
