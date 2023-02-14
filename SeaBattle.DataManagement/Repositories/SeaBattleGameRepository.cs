@@ -122,7 +122,7 @@ namespace SeaBattle.DataManagement.Repositories
             var session = ReadSessionByName(nameSession);
             var gameStateDto = ReadSeaBattleGameByIdSession(session.Id);
 
-            if (gameStateDto?.EndGame != null)
+            if (gameStateDto.EndGame != null)
             {
                 return ReadGameStateForEndGame(session, gameStateDto.GameMessage);
             }
@@ -139,9 +139,9 @@ namespace SeaBattle.DataManagement.Repositories
             var playerHostModel = ReadConfirmedPlayerStateModelByName(playerHost.Name);
             var playerJoinModel = ReadConfirmedPlayerStateModelByName(playerJoin.Name);
 
-            var gameMessage = gameStateDto?.GameMessage;
+            var gameMessage = gameStateDto.GameMessage;
 
-            var gameOn = gameStateDto?.EndGame == null;
+            var gameOn = gameStateDto.EndGame == null;
 
             return new GameState(playerHostModel, playerJoinModel, namePlayerTurn, gameOn, gameMessage);
         }
