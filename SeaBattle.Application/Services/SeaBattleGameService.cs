@@ -54,7 +54,7 @@ namespace SeaBattle.Application.Services
 
         private void TryToStartGame(string? nameSession)
         {
-            var startSession = _sessionRepository.ReadStartSessionByName(nameSession!);
+            var startSession = _sessionRepository.ReadStartSessionByName(nameSession);
 
             if (startSession != null)
             {

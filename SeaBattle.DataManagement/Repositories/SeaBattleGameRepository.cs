@@ -105,14 +105,19 @@ namespace SeaBattle.DataManagement.Repositories
             var player = ReadPlayerByName(name);
             var session = ReadSessionById(player.Id);
             var playAreaModel = ReadPlayAreaByIdPlayer(player.Id);
-            var playArea = ReadPlayAreaByIdPlayer(player.Id)?.Playarea1.ToPlayArea();
-            var enemyPlayArea = ReadPlayAreaByIdPlayer(session.IdPlayerJoin)?.Playarea1.ToPlayArea();
+            var playArea = ReadPlayAreaByIdPlayer(player.Id);
+            var enemyPlayArea = ReadPlayAreaByIdPlayer(session.IdPlayerJoin);
             playerStateModel.Ships = ReadShipsByPlayAreaId(playAreaModel.Id).ToShips();
             transaction.Commit();
 
+            if (enemyPlayArea.ConfirmedPlayarea == null)
+            {
+                return null;
+            }
+
             playerStateModel.NamePlayer = name;
-            playerStateModel.PlayArea = playArea;
-            playerStateModel.EnemyPlayArea = enemyPlayArea;
+            playerStateModel.PlayArea = playArea.Playarea1.ToPlayArea();
+            playerStateModel.EnemyPlayArea = enemyPlayArea.Playarea1.ToPlayArea();
 
             return playerStateModel;
         }
