@@ -6,7 +6,7 @@ namespace SeaBattle.Application.Services.Interfaces.RepositoryServices
     {
         void CreateOrUpdatePlayerStateModel(IPlayer playerModel);
 
-        PlayerSeaBattleStateModel? ReadConfirmedPlayerStateModelByName(string? name);
+        PlayerSeaBattleStateModel ReadConfirmedPlayerStateModelByName(string? name);
 
         void UpdateGameStateModel(GameState gameStateModel, string? nameSession);
 

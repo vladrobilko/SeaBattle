@@ -105,8 +105,8 @@ namespace SeaBattle.DataManagement.Repositories
             var player = ReadPlayerByName(name);
             var session = ReadSessionById(player.Id);
             var playAreaModel = ReadPlayAreaByIdPlayer(player.Id);
-            var playArea = ReadPlayAreaByIdPlayer(player.Id)?.Playarea1?.ToPlayArea();
-            var enemyPlayArea = ReadPlayAreaByIdPlayer(session.IdPlayerJoin)?.Playarea1?.ToPlayArea();
+            var playArea = ReadPlayAreaByIdPlayer(player.Id)?.Playarea1.ToPlayArea();
+            var enemyPlayArea = ReadPlayAreaByIdPlayer(session.IdPlayerJoin)?.Playarea1.ToPlayArea();
             playerStateModel.Ships = ReadShipsByPlayAreaId(playAreaModel.Id).ToShips();
             transaction.Commit();
 
