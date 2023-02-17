@@ -36,14 +36,21 @@ namespace SeaBattle
 
         private static bool CanFillShipRight(Cell[,] cells, int shipLength, int y, int x)
         {
-            if ((x + shipLength >= cells.GetLength(0) - 1) || IsCellInSideLine(cells, y, x) || !CanFillAroundShipRight(cells, shipLength, y, x)) return false;
+            var areaSize = cells.GetLength(0) - 1;
+
+            if (x + shipLength >= areaSize || IsCellInSideLine(cells, y, x) || !CanFillAroundShipRight(cells, shipLength, y, x))
+            {
+                return false;
+            }
+
             for (var i = 0; i < shipLength; i++)
             {
-                if ((cells[y, x + i].State != CellState.Empty))
+                if (cells[y, x + i].State != CellState.Empty)
                 {
                     return false;
                 }
             }
+
             return true;
         }
 
@@ -54,6 +61,7 @@ namespace SeaBattle
             var posX = x - 1;
             cells[y, posX].State = CellState.BusyDeckNearby;
             cells[y, posX + shipLength + 1].State = CellState.BusyDeckNearby;
+
             for (var i = 0; i < shipLength + 2; i++)
             {
                 cells[upPosY, posX].State = CellState.BusyDeckNearby;
@@ -64,12 +72,21 @@ namespace SeaBattle
 
         private static bool CanFillAroundShipRight(Cell[,] cells, int shipLength, int y, int x)
         {
-            if (IsCellLeftOfShipAndRightOfShipBusyDeck(cells, shipLength, y, x)) return false;
+            if (IsCellLeftOfShipAndRightOfShipBusyDeck(cells, shipLength, y, x))
+            {
+                return false;
+            }
+
             x--;
+
             for (var i = 0; i < shipLength + 2; i++)
             {
-                if (IsCellUpAndDownBusyDeck(cells, y, x + i)) return false;
+                if (IsCellUpAndDownBusyDeck(cells, y, x + i))
+                {
+                    return false;
+                }
             }
+
             return true;
         }
 
@@ -88,6 +105,7 @@ namespace SeaBattle
         private static void FillShipUp(Cell[,] cells, Ship ship, int y, int x)
         {
             FillAroundShipUp(cells, ship.Length, y, x);
+
             for (var i = 0; i < ship.Length; i++)
             {
                 cells[y - i, x].State = CellState.BusyDeck;
@@ -97,7 +115,11 @@ namespace SeaBattle
 
         private static bool CanFillShipUp(Cell[,] cells, int shipLength, int y, int x)
         {
-            if ((y - shipLength <= 0) || IsCellInSideLine(cells, y, x) || !CanFillAroundShipUp(cells, shipLength, y, x)) return false;
+            if (y - shipLength <= 0 || IsCellInSideLine(cells, y, x) || !CanFillAroundShipUp(cells, shipLength, y, x))
+            {
+                return false;
+            }
+
             for (var i = 0; i < shipLength; i++)
             {
                 if (cells[y - i, x].State != CellState.Empty)
@@ -105,6 +127,7 @@ namespace SeaBattle
                     return false;
                 }
             }
+
             return true;
         }
 
@@ -115,6 +138,7 @@ namespace SeaBattle
             var posY = y + 1;
             cells[posY, x].State = CellState.BusyDeckNearby;
             cells[posY - (shipLength + 1), x].State = CellState.BusyDeckNearby;
+
             for (var i = 0; i < shipLength + 2; i++)
             {
                 cells[posY, rightPosX].State = CellState.BusyDeckNearby;
@@ -125,12 +149,21 @@ namespace SeaBattle
 
         private static bool CanFillAroundShipUp(Cell[,] cells, int shipLength, int y, int x)
         {
-            if (IsCellUpOfShipAndDownOfShipBusyDeck(cells, shipLength, y, x)) return false;
+            if (IsCellUpOfShipAndDownOfShipBusyDeck(cells, shipLength, y, x))
+            {
+                return false;
+            }
+
             y++;
+
             for (var i = 0; i > shipLength + 2; i++)
             {
-                if (IsCellRightAndLeftBusyDeck(cells, y - i, x)) return false;
+                if (IsCellRightAndLeftBusyDeck(cells, y - i, x))
+                {
+                    return false;
+                }
             }
+
             return true;
         }
 

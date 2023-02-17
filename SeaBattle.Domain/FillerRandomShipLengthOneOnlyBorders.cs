@@ -8,7 +8,7 @@ namespace SeaBattle
 
         public static Cell[,] FillShips(Cell[,] cells, Ship ship)
         {
-            int firstCoordinate = 1;
+            var firstCoordinate = 1;
 
             while (firstCoordinate < 9)
             {
@@ -39,7 +39,6 @@ namespace SeaBattle
 
         private static void FillUpHorizontalLine(Cell[,] cells, Ship ship, int countCoordinateX)
         {
-            
             cells[0, countCoordinateX + 1].State = CellState.BusyDeckNearby;
             cells[0, countCoordinateX - 1].State = CellState.BusyDeckNearby;
             cells[0, countCoordinateX].State = CellState.BusyDeck;
